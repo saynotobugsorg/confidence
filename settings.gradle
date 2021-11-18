@@ -1,0 +1,5 @@
+rootProject.name = 'confidence'
+include 'confidence-core'
+include 'confidence-mockito4'
+include 'confidence-rxjava3'
+include 'confidence-test'

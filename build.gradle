@@ -1,0 +1,42 @@
+plugins {
+    id 'org.dmfs.gitversion' version '0.5.0'
+}
+
+gitVersion {
+    githubRepo "saynotobugsorg/confidence"
+    changes {
+        are major when {
+            commitMessage contains("(?i)#major\\b")
+        }
+        are major when {
+            commitMessage contains("(?i)#break\\b")
+        }
+        are minor when {
+            commitMessage referencesGithubIssue { issue -> issue.labels?.every { it.name != "bug" } }
+        }
+        are patch when {
+            commitMessage referencesGithubIssue { issue -> issue.labels?.any { it.name == "bug" } }
+        }
+        are minor when {
+            commitMessage contains("#feature\\b")
+        }
+        are minor when {
+            commitMessage contains("(?i)\\b(implement(s|ed)?|close[sd]?) #\\d+\\b")
+        }
+        are patch when {
+            commitMessage contains("(?i)\\b(fix(e[sd])?|resolve[sd]?) #\\d+\\b")
+        }
+        otherwise patch
+    }
+    releaseBranchPattern ~/main$/
+}
+
+
+allprojects {
+    group 'org.saynotobugs'
+    repositories {
+        mavenCentral()
+        mavenLocal()
+        google()
+    }
+}
