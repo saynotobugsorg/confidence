@@ -26,10 +26,10 @@ class HasEntryTest
         assertThat(new HasEntry<>("k1", "v1"),
             new AllOf<>(
                 new Passes<>(map1),
-                new Fails<>(new HashMap<String, String>(), "{  } did not contain Entry { \"k1\": \"v1\" }"),
-                new Fails<>(map2, "{ \"k2\": \"v2\" } did not contain Entry { \"k1\": \"v1\" }"),
+                new Fails<>(new HashMap<String, String>(), "{  } did not contain { Entry ( \"k1\": \"v1\" ) }"),
+                new Fails<>(map2, "{ \"k2\": \"v2\" } did not contain { Entry ( \"k1\": \"v1\" ) }"),
                 //  new Fails<>(Map.of("k2", "v2"), new DescribesAs("")),
-                new HasDescription("contains Entry { \"k1\": \"v1\" }")
+                new HasDescription("contains { Entry ( \"k1\": \"v1\" ) }")
             ));
 
     }

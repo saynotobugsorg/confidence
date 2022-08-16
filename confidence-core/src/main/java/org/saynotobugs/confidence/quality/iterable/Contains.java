@@ -20,57 +20,29 @@ package org.saynotobugs.confidence.quality.iterable;
 
 import org.dmfs.jems2.iterable.Mapped;
 import org.dmfs.jems2.iterable.Seq;
-import org.dmfs.jems2.optional.First;
-import org.dmfs.jems2.single.Backed;
+import org.dmfs.jems2.iterable.Sieved;
+import org.dmfs.jems2.single.Collected;
+import org.dmfs.jems2.single.Reduced;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.Fail;
+import org.saynotobugs.confidence.assessment.Pass;
 import org.saynotobugs.confidence.description.Delimited;
-import org.saynotobugs.confidence.description.Indented;
+import org.saynotobugs.confidence.description.StructuredDescription;
 import org.saynotobugs.confidence.description.TextDescription;
 import org.saynotobugs.confidence.description.ValueDescription;
-import org.saynotobugs.confidence.quality.composite.AllOf;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 import org.saynotobugs.confidence.quality.object.EqualTo;
+
+import java.util.ArrayList;
+
+import static org.saynotobugs.confidence.description.LiteralDescription.COMMA_NEW_LINE;
 
 
 @StaticFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality")
 public final class Contains<T> extends QualityComposition<Iterable<T>>
 {
-
-    /**
-     * Creates a {@link Quality} that checks if the {@link Iterable} under test contains at least one element that equals the given value.
-     * <p>
-     * Example
-     * <pre>
-     * assertThat(asList("foo", "bar", "baz"), contains("bar"));
-     * </pre>
-     */
-    public Contains(T value)
-    {
-        this(new EqualTo<>(value));
-    }
-
-
-    /**
-     * Creates a {@link Quality} that checks if the {@link Iterable} under test contains at least one element that matches the given {@link Quality}.
-     * <p>
-     * Example
-     * <pre>
-     * assertThat(asList("foo", "bar", "baz"), contains(equalTo("bar")));
-     * </pre>
-     */
-    public Contains(Quality<? super T> delegate)
-    {
-        super(actual -> new Backed<>(
-                new First<>(Assessment::isSuccess, new Mapped<>(delegate::assessmentOf, actual)),
-                new Fail(new Delimited(new ValueDescription(actual), new TextDescription("did not contain"), new Indented(delegate.description()))))
-                .value(),
-            new Delimited(new TextDescription("contains"), new Indented(delegate.description())));
-    }
-
-
     /**
      * Creates a {@link Quality} that, for each given values, checks if the {@link Iterable} under test contains at least one element that equals that value.
      * <p>
@@ -95,7 +67,39 @@ public final class Contains<T> extends QualityComposition<Iterable<T>>
 
     public Contains(Iterable<? extends Quality<? super T>> delegates)
     {
-        super(new AllOf<>(new Mapped<>(Contains::new, delegates)));
+        super(actual -> assess(actual, delegates),
+            new Delimited(
+                new TextDescription("contains {"),
+                new StructuredDescription(COMMA_NEW_LINE, new Mapped<>(Quality::description, delegates)),
+                new TextDescription("}")));
+    }
+
+
+    private static <T> Assessment assess(Iterable<T> actual, Iterable<? extends Quality<? super T>> delegates)
+    {
+        Iterable<? extends Quality<? super T>> missing = missing(actual, delegates);
+        if (missing.iterator().hasNext())
+        {
+            return new Fail(
+                new Delimited(
+                    new ValueDescription(actual),
+                    new TextDescription("did not contain {"),
+                    new StructuredDescription(COMMA_NEW_LINE, new Mapped<>(Quality::description, missing)),
+                    new TextDescription("}")));
+        }
+        return new Pass();
+    }
+
+
+    private static <T> Iterable<? extends Quality<? super T>> missing(Iterable<T> actual, Iterable<? extends Quality<? super T>> delegates)
+    {
+        return new Reduced<T, Iterable<? extends Quality<? super T>>>(
+            () -> delegates,
+            (missing, value) -> new Collected<>(
+                ArrayList::new,
+                new Sieved<>(delegate -> !delegate.assessmentOf(value).isSuccess(), missing)).value(),
+            actual)
+            .value();
     }
 
 }
