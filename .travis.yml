@@ -1,7 +1,10 @@
 language: java
 
+install:
+  - ./gradlew assemble -P GITHUB_API_TOKEN=${GITHUB_API_TOKEN}
+
 script:
-  - ./gradlew check javadoc
+  - ./gradlew check javadoc -P GITHUB_API_TOKEN=${GITHUB_API_TOKEN}
 
 # upload JaCoCo report to codecov
 after_success:

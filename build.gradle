@@ -1,9 +1,14 @@
 plugins {
-    id 'org.dmfs.gitversion' version '0.5.0'
+    id 'org.dmfs.gitversion' version '0.7.0'
 }
 
 gitVersion {
-    githubRepo "saynotobugsorg/confidence"
+    issueTracker GitHub {
+        repo = "saynotobugsorg/confidence"
+        if (project.hasProperty("GITHUB_API_TOKEN")) {
+            accessToken = GITHUB_API_TOKEN
+        }
+    }
     changes {
         are major when {
             commitMessage contains("(?i)#major\\b")
@@ -12,10 +17,10 @@ gitVersion {
             commitMessage contains("(?i)#break\\b")
         }
         are minor when {
-            commitMessage referencesGithubIssue { issue -> issue.labels?.every { it.name != "bug" } }
+            commitMessage containsIssue { issue -> issue.labels?.every { it.name != "bug" } }
         }
         are patch when {
-            commitMessage referencesGithubIssue { issue -> issue.labels?.any { it.name == "bug" } }
+            commitMessage containsIssue { issue -> issue.labels?.any { it.name == "bug" } }
         }
         are minor when {
             commitMessage contains("#feature\\b")
