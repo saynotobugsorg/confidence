@@ -27,7 +27,7 @@ import java.util.Optional;
 
 
 @StaticFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality")
-public final class Absent<T> extends QualityComposition<Optional<T>>
+public final class Absent extends QualityComposition<Optional<?>>
 {
     /**
      * Matches empty {@link Optional}s.
@@ -36,6 +36,6 @@ public final class Absent<T> extends QualityComposition<Optional<T>>
     {
         super(new Satisfies<>(
             actual -> !actual.isPresent(),
-            new TextDescription("<empty> optional")));
+            new TextDescription("<absent>")));
     }
 }

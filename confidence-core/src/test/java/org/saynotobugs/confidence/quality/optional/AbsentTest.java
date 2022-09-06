@@ -17,11 +17,11 @@ class AbsentTest
     @Test
     void test()
     {
-        assertThat(new Absent<>(),
+        assertThat(new Absent(),
             new AllOf<>(
                 new Passes<Optional<Integer>>(Optional.empty()),
                 new Fails<>(Optional.of(123), "<present <123>>"),
-                new HasDescription("<empty> optional")
+                new HasDescription("<absent>")
             ));
     }
 
