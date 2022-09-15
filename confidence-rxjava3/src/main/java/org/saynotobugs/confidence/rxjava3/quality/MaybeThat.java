@@ -31,7 +31,7 @@ import io.reactivex.rxjava3.schedulers.TestScheduler;
 
 
 @StaticFactories(value = "RxJava3", packageName = "org.saynotobugs.confidence.rxjava3")
-public final class MaybeThat<T> extends QualityComposition<Function<? super TestScheduler, ? extends MaybeSource<T>>>
+public final class MaybeThat<T> extends QualityComposition<Function<? super TestScheduler, ? extends MaybeSource<? extends T>>>
 {
     @SafeVarargs
     public MaybeThat(RxExpectation<T>... events)
