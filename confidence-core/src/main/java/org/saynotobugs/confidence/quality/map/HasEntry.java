@@ -40,7 +40,7 @@ public final class HasEntry<K, V> extends QualityComposition<Map<K, V>>
 
     public HasEntry(Quality<? super K> key)
     {
-        this(new EqualTo<>(key), new Anything());
+        this(key, new Anything());
     }
 
 
