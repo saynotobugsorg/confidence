@@ -31,7 +31,7 @@ import io.reactivex.rxjava3.schedulers.TestScheduler;
 
 
 @StaticFactories(value = "RxJava3", packageName = "org.saynotobugs.confidence.rxjava3")
-public final class PublisherThat<T> extends QualityComposition<Function<? super TestScheduler, ? extends Publisher<T>>>
+public final class PublisherThat<T> extends QualityComposition<Function<? super TestScheduler, ? extends Publisher<? extends T>>>
 {
 
     @SafeVarargs
@@ -45,9 +45,9 @@ public final class PublisherThat<T> extends QualityComposition<Function<? super 
     {
         super(new RxWithSchedulerThat<>(
             new TextDescription("Publisher that"),
-            singleSource -> {
+            publisher -> {
                 RxTestSubscriber<T> testObserver = new RxTestSubscriber<>();
-                singleSource.subscribe(testObserver);
+                publisher.subscribe(testObserver);
                 return testObserver;
             },
             events));

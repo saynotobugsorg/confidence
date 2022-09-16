@@ -31,7 +31,7 @@ import io.reactivex.rxjava3.schedulers.TestScheduler;
 
 
 @StaticFactories(value = "RxJava3", packageName = "org.saynotobugs.confidence.rxjava3")
-public final class ObservableThat<T> extends QualityComposition<Function<? super TestScheduler, ? extends ObservableSource<T>>>
+public final class ObservableThat<T> extends QualityComposition<Function<? super TestScheduler, ? extends ObservableSource<? extends T>>>
 {
     @SafeVarargs
     public ObservableThat(RxExpectation<T>... events)

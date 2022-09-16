@@ -31,7 +31,7 @@ import io.reactivex.rxjava3.schedulers.TestScheduler;
 
 
 @StaticFactories(value = "RxJava3", packageName = "org.saynotobugs.confidence.rxjava3")
-public final class SingleThat<T> extends QualityComposition<Function<? super TestScheduler, ? extends SingleSource<T>>>
+public final class SingleThat<T> extends QualityComposition<Function<? super TestScheduler, ? extends SingleSource<? extends T>>>
 {
     @SafeVarargs
     public SingleThat(RxExpectation<T>... events)
