@@ -36,6 +36,6 @@ public final class Errors<T> extends QualityComposition<RxTestAdapter<T>>
 
     public Errors(Quality<? super Throwable> errorQuality)
     {
-        super(new Has<>("error", RxTestAdapter::errors, new Iterates<>(errorQuality)));
+        super(new Has<>("errors that", RxTestAdapter::errors, new Iterates<>(errorQuality)));
     }
 }

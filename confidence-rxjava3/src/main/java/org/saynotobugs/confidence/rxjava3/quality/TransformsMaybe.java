@@ -25,7 +25,8 @@ import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.Quality;
-import org.saynotobugs.confidence.description.Delimited;
+import org.saynotobugs.confidence.description.Composite;
+import org.saynotobugs.confidence.description.Indented;
 import org.saynotobugs.confidence.description.TextDescription;
 import org.saynotobugs.confidence.quality.composite.AllOfFailingFast;
 import org.saynotobugs.confidence.quality.composite.DescribedAs;
@@ -36,6 +37,9 @@ import org.saynotobugs.confidence.rxjava3.adapters.RxTestObserver;
 import io.reactivex.rxjava3.core.MaybeTransformer;
 import io.reactivex.rxjava3.schedulers.TestScheduler;
 import io.reactivex.rxjava3.subjects.MaybeSubject;
+
+import static org.saynotobugs.confidence.description.LiteralDescription.COMMA_NEW_LINE;
+import static org.saynotobugs.confidence.description.LiteralDescription.NEW_LINE;
 
 
 @StaticFactories(value = "RxJava3", packageName = "org.saynotobugs.confidence.rxjava3")
@@ -64,7 +68,7 @@ public final class TransformsMaybe<Up, Down> implements Quality<Function<? super
         RxTestObserver<Down> testAdapter = new RxTestObserver<>();
         MaybeSubject<Up> upstream = MaybeSubject.create();
         candidate.value(t).apply(upstream.hide()).subscribe(testAdapter);
-        return new AllOfFailingFast<>(
+        return new AllOfFailingFast<RxTestObserver<Down>>(COMMA_NEW_LINE,
             new Expanded<>(e -> e.qualities(t, new MaybeSubjectAdapter<>(upstream)), mEvents)
         ).assessmentOf(testAdapter);
     }
@@ -75,8 +79,9 @@ public final class TransformsMaybe<Up, Down> implements Quality<Function<? super
     {
         TestScheduler t = new TestScheduler();
         MaybeSubject<Up> upstream = MaybeSubject.create();
-        return new DescribedAs<>(orig -> new Delimited(new TextDescription("MaybeTransformer that"), orig), new AllOfFailingFast<>(
-            new Expanded<>(e -> e.qualities(t, new MaybeSubjectAdapter<>(upstream)), mEvents)
-        )).description();
+        return new DescribedAs<>(orig -> new Composite(new TextDescription("MaybeTransformer that transforms"), new Indented(new Composite(NEW_LINE, orig))),
+            new AllOfFailingFast<>(COMMA_NEW_LINE,
+                new Expanded<>(e -> e.qualities(t, new MaybeSubjectAdapter<>(upstream)), mEvents)
+            )).description();
     }
 }

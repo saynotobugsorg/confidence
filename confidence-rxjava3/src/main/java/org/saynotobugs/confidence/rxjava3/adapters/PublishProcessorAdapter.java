@@ -28,10 +28,10 @@ import io.reactivex.rxjava3.processors.PublishProcessor;
  */
 public final class PublishProcessorAdapter<T> implements RxSubjectAdapter<T>
 {
-    private final PublishProcessor<T> mDelegate;
+    private final PublishProcessor<? super T> mDelegate;
 
 
-    public PublishProcessorAdapter(PublishProcessor<T> delegate)
+    public PublishProcessorAdapter(PublishProcessor<? super T> delegate)
     {
         mDelegate = delegate;
     }

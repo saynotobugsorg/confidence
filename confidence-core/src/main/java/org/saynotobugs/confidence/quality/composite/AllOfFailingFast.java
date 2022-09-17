@@ -26,6 +26,7 @@ import org.dmfs.jems2.predicate.Not;
 import org.dmfs.jems2.single.Backed;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Assessment;
+import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.FailPrepended;
 import org.saynotobugs.confidence.assessment.Pass;
@@ -41,8 +42,10 @@ import static org.saynotobugs.confidence.description.LiteralDescription.NEW_LINE
 public final class AllOfFailingFast<T> extends QualityComposition<T>
 {
     /**
-     * Creates a Matcher that passes if all the given {@link Quality}s match or if no {@link Quality} was given.
-     * In contrast to {@link AllOf} this Matcher stops evaluating matchers when the first {@link Quality} mismatches.
+     * Creates a {@link Quality} that passes if all the given {@link Quality}s match or if no {@link Quality} was given.
+     * In contrast to {@link AllOf} this {@link Quality} stops evaluating delegates when the first {@link Quality} mismatches.
+     * <p>
+     * The delegates' descriptions are delimited with "\nand\n"
      */
     @SafeVarargs
     public AllOfFailingFast(Quality<? super T>... delegates)
@@ -52,10 +55,37 @@ public final class AllOfFailingFast<T> extends QualityComposition<T>
 
 
     /**
+     * Creates a {@link Quality} that passes if all the given {@link Quality}s match or if no {@link Quality} was given.
+     * In contrast to {@link AllOf} this {@link Quality} stops evaluating delegates when the first {@link Quality} mismatches.
+     * <p>
+     * The delegates' descriptions are delimited with the given {@link Description}
+     */
+    @SafeVarargs
+    public AllOfFailingFast(Description delimiter, Quality<? super T>... delegates)
+    {
+        this(delimiter, new Seq<>(delegates));
+    }
+
+
+    /**
      * Matches if all the given {@link Quality}s match or if no {@link Quality} was given.
-     * In contrast to {@link AllOf} this Matcher stops evaluating matchers when the first {@link Quality} mismatches.
+     * In contrast to {@link AllOf} this Matcher stops evaluating delegates when the first {@link Quality} mismatches.
+     * <p>
+     * The delegates' descriptions are delimited with "\nand\n"
      */
     public AllOfFailingFast(Iterable<? extends Quality<? super T>> delegates)
+    {
+        this(new Composite(NEW_LINE, new TextDescription("and"), NEW_LINE), delegates);
+    }
+
+
+    /**
+     * Matches if all the given {@link Quality}s match or if no {@link Quality} was given.
+     * In contrast to {@link AllOf} this Matcher stops evaluating delegates when the first {@link Quality} mismatches.
+     * <p>
+     * The delegates' descriptions are delimited with the given {@link Description}
+     */
+    public AllOfFailingFast(Description delimiter, Iterable<? extends Quality<? super T>> delegates)
     {
         super(actual ->
                 new Backed<>(
@@ -65,7 +95,7 @@ public final class AllOfFailingFast<T> extends QualityComposition<T>
                             new Numbered<>(delegates))),
                     new Pass()).value(),
             new StructuredDescription(
-                new Composite(NEW_LINE, new TextDescription("and"), NEW_LINE),
+                delimiter,
                 new org.saynotobugs.confidence.description.iterable.Numbered((i, d) -> new Delimited(new TextDescription("(" + i + ")"), d),
                     new Mapped<>(Quality::description, delegates))));
     }

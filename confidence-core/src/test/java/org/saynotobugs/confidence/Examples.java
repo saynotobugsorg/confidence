@@ -88,7 +88,7 @@ public final class Examples
     @Test
     void testIterable()
     {
-        assertThat(asList(1,2,3,4,5,6,7), new Iterates<>(1,2,5,6,8,9));
+        assertThat(asList(1, 2, 3, 4, 5, 6, 7), new Iterates<>(1, 2, 5, 6, 8, 9));
     }
 
 

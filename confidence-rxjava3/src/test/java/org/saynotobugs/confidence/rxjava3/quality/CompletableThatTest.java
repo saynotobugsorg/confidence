@@ -29,6 +29,7 @@ class CompletableThatTest
             ));
     }
 
+
     @Test
     void testNever()
     {

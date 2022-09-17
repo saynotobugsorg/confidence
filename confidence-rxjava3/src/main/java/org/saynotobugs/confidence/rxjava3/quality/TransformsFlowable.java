@@ -25,7 +25,8 @@ import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.Quality;
-import org.saynotobugs.confidence.description.Delimited;
+import org.saynotobugs.confidence.description.Composite;
+import org.saynotobugs.confidence.description.Indented;
 import org.saynotobugs.confidence.description.TextDescription;
 import org.saynotobugs.confidence.quality.composite.AllOfFailingFast;
 import org.saynotobugs.confidence.quality.composite.DescribedAs;
@@ -36,6 +37,9 @@ import org.saynotobugs.confidence.rxjava3.adapters.RxTestSubscriber;
 import io.reactivex.rxjava3.core.FlowableTransformer;
 import io.reactivex.rxjava3.processors.PublishProcessor;
 import io.reactivex.rxjava3.schedulers.TestScheduler;
+
+import static org.saynotobugs.confidence.description.LiteralDescription.COMMA_NEW_LINE;
+import static org.saynotobugs.confidence.description.LiteralDescription.NEW_LINE;
 
 
 @StaticFactories(value = "RxJava3", packageName = "org.saynotobugs.confidence.rxjava3")
@@ -64,7 +68,7 @@ public final class TransformsFlowable<Up, Down> implements Quality<Function<? su
         RxTestSubscriber<Down> testAdapter = new RxTestSubscriber<>();
         PublishProcessor<Up> upstream = PublishProcessor.create();
         candidate.value(t).apply(upstream.hide()).subscribe(testAdapter);
-        return new AllOfFailingFast<>(
+        return new AllOfFailingFast<RxTestSubscriber<Down>>(COMMA_NEW_LINE,
             new Expanded<>(e -> e.qualities(t, new PublishProcessorAdapter<>(upstream)), mEvents)
         ).assessmentOf(testAdapter);
     }
@@ -75,8 +79,9 @@ public final class TransformsFlowable<Up, Down> implements Quality<Function<? su
     {
         TestScheduler t = new TestScheduler();
         PublishProcessor<Up> upstream = PublishProcessor.create();
-        return new DescribedAs<>(orig -> new Delimited(new TextDescription("FlowableTransformer that"), orig), new AllOfFailingFast<>(
-            new Expanded<>(e -> e.qualities(t, new PublishProcessorAdapter<>(upstream)), mEvents)
-        )).description();
+        return new DescribedAs<>(orig -> new Composite(new TextDescription("FlowableTransformer that transforms"), new Indented(new Composite(NEW_LINE, orig))),
+            new AllOfFailingFast<>(COMMA_NEW_LINE,
+                new Expanded<>(e -> e.qualities(t, new PublishProcessorAdapter<>(upstream)), mEvents)
+            )).description();
     }
 }

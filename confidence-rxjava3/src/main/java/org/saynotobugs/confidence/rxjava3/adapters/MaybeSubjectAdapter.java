@@ -25,10 +25,10 @@ import io.reactivex.rxjava3.subjects.MaybeSubject;
 
 public final class MaybeSubjectAdapter<T> implements RxSubjectAdapter<T>
 {
-    private final MaybeSubject<T> mDelegate;
+    private final MaybeSubject<? super T> mDelegate;
 
 
-    public MaybeSubjectAdapter(MaybeSubject<T> delegate)
+    public MaybeSubjectAdapter(MaybeSubject<? super T> delegate)
     {
         mDelegate = delegate;
     }

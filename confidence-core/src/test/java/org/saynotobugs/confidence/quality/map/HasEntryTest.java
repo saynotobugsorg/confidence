@@ -35,6 +35,7 @@ class HasEntryTest
 
     }
 
+
     @Test
     void testKeyQuality()
     {

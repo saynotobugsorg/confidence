@@ -18,18 +18,20 @@
 
 package org.saynotobugs.confidence.rxjava3.procedure;
 
-import org.dmfs.jems2.Procedure;
 import org.dmfs.jems2.Single;
+import org.dmfs.jems2.procedure.ForEach;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
+import org.saynotobugs.confidence.description.Delimited;
+import org.saynotobugs.confidence.description.TextDescription;
+import org.saynotobugs.confidence.description.ValueDescription;
+import org.saynotobugs.confidence.quality.composite.QualityComposition;
+import org.saynotobugs.confidence.quality.object.Successfully;
 import org.saynotobugs.confidence.rxjava3.RxSubjectAdapter;
 
 
 @StaticFactories(value = "RxJava3", packageName = "org.saynotobugs.confidence.rxjava3")
-public final class Error<Up> implements Procedure<RxSubjectAdapter<Up>>
+public final class Error extends QualityComposition<RxSubjectAdapter<?>>
 {
-    private final Single<Throwable> error;
-
-
     public Error(Throwable error)
     {
         this(() -> error);
@@ -38,13 +40,10 @@ public final class Error<Up> implements Procedure<RxSubjectAdapter<Up>>
 
     public Error(Single<Throwable> error)
     {
-        this.error = error;
+        super(new Successfully<>(
+            new Delimited(new TextDescription("error"), new ValueDescription(error.value())),
+            new TextDescription("error failed with"),
+            rxSubjectAdapter -> new ForEach<>(error).process(rxSubjectAdapter::onError)));
     }
 
-
-    @Override
-    public void process(RxSubjectAdapter<Up> arg)
-    {
-        arg.onError(error.value());
-    }
 }

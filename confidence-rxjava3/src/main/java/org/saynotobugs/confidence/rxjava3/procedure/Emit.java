@@ -19,9 +19,16 @@
 package org.saynotobugs.confidence.rxjava3.procedure;
 
 import org.dmfs.jems2.Procedure;
+import org.dmfs.jems2.iterable.Mapped;
 import org.dmfs.jems2.iterable.Seq;
 import org.dmfs.jems2.procedure.Batch;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
+import org.saynotobugs.confidence.description.Delimited;
+import org.saynotobugs.confidence.description.StructuredDescription;
+import org.saynotobugs.confidence.description.TextDescription;
+import org.saynotobugs.confidence.description.ValueDescription;
+import org.saynotobugs.confidence.quality.composite.QualityComposition;
+import org.saynotobugs.confidence.quality.object.Successfully;
 import org.saynotobugs.confidence.rxjava3.RxSubjectAdapter;
 
 import io.reactivex.rxjava3.core.CompletableSource;
@@ -30,10 +37,8 @@ import io.reactivex.rxjava3.core.SingleSource;
 
 
 @StaticFactories(value = "RxJava3", packageName = "org.saynotobugs.confidence.rxjava3")
-public final class Emit<Up> implements Procedure<RxSubjectAdapter<Up>>
+public final class Emit<Up> extends QualityComposition<RxSubjectAdapter<? super Up>>
 {
-    private final Iterable<Up> mEmissions;
-
 
     /**
      * Creates a {@link Procedure} causes the upstream subject to emit the given value(s).
@@ -62,13 +67,11 @@ public final class Emit<Up> implements Procedure<RxSubjectAdapter<Up>>
      */
     public Emit(Iterable<Up> emissions)
     {
-        mEmissions = emissions;
-    }
-
-
-    @Override
-    public void process(RxSubjectAdapter<Up> arg)
-    {
-        new Batch<>(arg::onNext).process(mEmissions);
+        super(new Successfully<>(
+            new Delimited(new TextDescription("emissions"), new StructuredDescription("[", ",", "]", new Mapped<>(ValueDescription::new, emissions))),
+            new Delimited(new TextDescription("emissions"),
+                new StructuredDescription("[", ",", "]", new Mapped<>(ValueDescription::new, emissions)),
+                new TextDescription("failed with")),
+            rxSubjectAdapter -> new Batch<>(rxSubjectAdapter::onNext).process(emissions)));
     }
 }
