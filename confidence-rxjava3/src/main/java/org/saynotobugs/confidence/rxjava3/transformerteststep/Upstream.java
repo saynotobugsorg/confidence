@@ -18,43 +18,46 @@
 
 package org.saynotobugs.confidence.rxjava3.transformerteststep;
 
-import org.dmfs.jems2.Procedure;
+import org.dmfs.jems2.iterable.Just;
 import org.dmfs.jems2.iterable.Seq;
-import org.dmfs.jems2.procedure.Composite;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Quality;
+import org.saynotobugs.confidence.description.Delimited;
+import org.saynotobugs.confidence.description.TextDescription;
+import org.saynotobugs.confidence.quality.composite.AllOf;
+import org.saynotobugs.confidence.quality.composite.DescribedAs;
+import org.saynotobugs.confidence.quality.object.Satisfies;
 import org.saynotobugs.confidence.rxjava3.RxSubjectAdapter;
 import org.saynotobugs.confidence.rxjava3.RxTestAdapter;
 import org.saynotobugs.confidence.rxjava3.TransformerTestStep;
 
 import io.reactivex.rxjava3.schedulers.TestScheduler;
 
-import static org.dmfs.jems2.iterable.EmptyIterable.emptyIterable;
-
 
 @StaticFactories(value = "RxJava3", packageName = "org.saynotobugs.confidence.rxjava3")
 public final class Upstream<Up, Down> implements TransformerTestStep<Up, Down>
 {
-    private final Iterable<Procedure<RxSubjectAdapter<Up>>> mEvents;
+    private final Iterable<Quality<? super RxSubjectAdapter<? super Up>>> mEvents;
 
 
     @SafeVarargs
-    public Upstream(Procedure<RxSubjectAdapter<Up>>... events)
+    public Upstream(Quality<? super RxSubjectAdapter<? super Up>>... events)
     {
         this(new Seq<>(events));
     }
 
 
-    public Upstream(Iterable<Procedure<RxSubjectAdapter<Up>>> events)
+    public Upstream(Iterable<Quality<? super RxSubjectAdapter<? super Up>>> events)
     {
         mEvents = events;
     }
 
 
     @Override
-    public Iterable<Quality<RxTestAdapter<Down>>> qualities(TestScheduler scheduler, RxSubjectAdapter<Up> upstream)
+    public Iterable<Quality<RxTestAdapter<Down>>> qualities(TestScheduler scheduler, RxSubjectAdapter<? super Up> upstream)
     {
-        new Composite<>(mEvents).process(upstream);
-        return emptyIterable();
+        return new Just<>(
+            new DescribedAs<>(orig -> new Delimited(new TextDescription("upstream"), orig),
+                new Satisfies<>(testadapter -> new AllOf<>(mEvents).assessmentOf(upstream).isSuccess(), new AllOf<>(mEvents).description())));
     }
 }

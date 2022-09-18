@@ -177,7 +177,6 @@ public final class Examples
     }
 
 
-
     @Test
     void testCompletableTransformer()
     {

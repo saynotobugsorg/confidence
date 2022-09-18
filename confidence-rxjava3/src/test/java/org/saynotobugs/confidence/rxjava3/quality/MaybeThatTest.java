@@ -32,6 +32,7 @@ class MaybeThatTest
             ));
     }
 
+
     @Test
     void testEmpty()
     {

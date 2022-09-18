@@ -30,10 +30,10 @@ import io.reactivex.rxjava3.subjects.SingleSubject;
  */
 public final class SingleSubjectAdapter<T> implements RxSubjectAdapter<T>
 {
-    private final SingleSubject<T> mDelegate;
+    private final SingleSubject<? super T> mDelegate;
 
 
-    public SingleSubjectAdapter(SingleSubject<T> delegate)
+    public SingleSubjectAdapter(SingleSubject<? super T> delegate)
     {
         mDelegate = delegate;
     }

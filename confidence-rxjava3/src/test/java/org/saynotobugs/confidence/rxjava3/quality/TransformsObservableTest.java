@@ -42,12 +42,13 @@ class TransformsObservableTest
     @Test
     void test()
     {
-        assertThat(new TransformsObservable<>(new Upstream<>(new Complete<>()), new Downstream<>(new Completes<>())),
+        assertThat(new TransformsObservable<>(new Upstream<>(new Complete()), new Downstream<>(new Completes<>())),
             new AllOf<>(
                 new Passes<>(scheduler -> Observable::hide),
-                new Fails<>(scheduler -> upsteam -> upsteam.ambWith(Observable.error(new IOException())), "(0) { completed <0> times\n  ... }"),
-                new Fails<>(scheduler -> upsteam -> upsteam.delay(10, TimeUnit.SECONDS), "(0) { completed <0> times\n  ... }"),
-                new HasDescription("ObservableTransformer that (0) completes exactly once\n    and\n    emits nothing")
+                new Fails<>(scheduler -> upsteam -> upsteam.ambWith(Observable.error(new IOException())), "(1) to downstream { completed <0> times\n  ... }"),
+                new Fails<>(scheduler -> upsteam -> upsteam.delay(10, TimeUnit.SECONDS), "(1) to downstream { completed <0> times\n  ... }"),
+                new HasDescription(
+                    "ObservableTransformer that transforms\n  (0) upstream completion,\n    (1) to downstream completes exactly once\n      and\n      emits nothing")
             ));
     }
 }

@@ -18,13 +18,12 @@
 
 package org.saynotobugs.confidence.rxjava3.quality;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.saynotobugs.confidence.Assertion.assertThat;
-
 import org.junit.jupiter.api.Test;
 import org.saynotobugs.confidence.quality.composite.AllOf;
 import org.saynotobugs.confidence.rxjava3.procedure.Complete;
+import org.saynotobugs.confidence.rxjava3.procedure.Emit;
 import org.saynotobugs.confidence.rxjava3.rxexpectation.Completes;
+import org.saynotobugs.confidence.rxjava3.rxexpectation.Emits;
 import org.saynotobugs.confidence.rxjava3.transformerteststep.Downstream;
 import org.saynotobugs.confidence.rxjava3.transformerteststep.Upstream;
 import org.saynotobugs.confidence.test.quality.Fails;
@@ -34,8 +33,9 @@ import org.saynotobugs.confidence.test.quality.Passes;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Flowable;
+
+import static org.saynotobugs.confidence.Assertion.assertThat;
 
 
 class TransformsFlowableTest
@@ -44,12 +44,50 @@ class TransformsFlowableTest
     @Test
     void test()
     {
-        assertThat(new TransformsFlowable<>(new Upstream<>(new Complete<>()), new Downstream<>(new Completes<>())),
+        assertThat(new TransformsFlowable<>(new Upstream<>(new Complete()), new Downstream<>(new Completes<>())),
             new AllOf<>(
                 new Passes<>(scheduler -> Flowable::hide),
-                new Fails<>(scheduler -> upsteam -> upsteam.ambWith(Flowable.error(new IOException())), "(0) { completed <0> times\n  ... }"),
-                new Fails<>(scheduler -> upsteam -> upsteam.delay(10, TimeUnit.SECONDS), "(0) { completed <0> times\n  ... }"),
-                new HasDescription("FlowableTransformer that (0) completes exactly once\n    and\n    emits nothing")
+                new Fails<>(scheduler -> upsteam -> upsteam.ambWith(Flowable.error(new IOException())), "(1) to downstream { completed <0> times\n  ... }"),
+                new Fails<>(scheduler -> upsteam -> upsteam.delay(10, TimeUnit.SECONDS), "(1) to downstream { completed <0> times\n  ... }"),
+                new HasDescription(
+                    "FlowableTransformer that transforms\n" +
+                        "  (0) upstream completion,\n" +
+                        "    (1) to downstream completes exactly once\n" +
+                        "      and\n" +
+                        "      emits nothing")
+            ));
+    }
+
+
+    @Test
+    void testMultipleSteps()
+    {
+        assertThat(new TransformsFlowable<>(
+                new Upstream<>(new Emit<>(123)),
+                new Downstream<>(new Emits<>(246)),
+                new Upstream<>(new Emit<>(200)),
+                new Downstream<>(new Emits<>(400)),
+                new Upstream<>(new Complete()),
+                new Downstream<>(new Completes<>())),
+            new AllOf<>(
+                new Passes<>(scheduler -> upstream -> upstream.map(i -> i * 2)),
+                new Fails<>(scheduler -> upsteam -> upsteam.map(i -> i * 3),
+                    "(1) to downstream emitted <1> items that iterated [ 0: <369> ]"),
+                new Fails<>(scheduler -> upsteam -> upsteam.ambWith(Flowable.error(new IOException())),
+                    "(1) to downstream emitted <0> items that iterated [ 0: missing <246> ]"),
+                new Fails<>(scheduler -> upsteam -> upsteam.delay(10, TimeUnit.SECONDS, scheduler),
+                    "(1) to downstream emitted <0> items that iterated [ 0: missing <246> ]"),
+                new HasDescription(
+                    "FlowableTransformer that transforms\n" +
+                        "  (0) upstream emissions [<123>],\n" +
+                        "    (1) to downstream emits <1> items that iterates [ 0: <246> ],\n" +
+                        "    (2) upstream emissions [<200>],\n" +
+                        "    (3) to downstream emits <1> items that iterates [ 0: <400> ],\n" +
+                        "    (4) upstream completion,\n" +
+                        "    (5) to downstream completes exactly once\n" +
+                        "      and\n" +
+                        "      emits nothing"
+                )
             ));
     }
 }

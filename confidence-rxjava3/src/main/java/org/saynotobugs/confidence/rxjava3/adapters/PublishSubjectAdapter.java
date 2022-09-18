@@ -25,10 +25,10 @@ import io.reactivex.rxjava3.subjects.PublishSubject;
 
 public final class PublishSubjectAdapter<T> implements RxSubjectAdapter<T>
 {
-    private final PublishSubject<T> mDelegate;
+    private final PublishSubject<? super T> mDelegate;
 
 
-    public PublishSubjectAdapter(PublishSubject<T> delegate)
+    public PublishSubjectAdapter(PublishSubject<? super T> delegate)
     {
         mDelegate = delegate;
     }
