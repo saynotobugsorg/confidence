@@ -41,12 +41,6 @@ public final class EntryOf<K, V> extends QualityComposition<Map.Entry<K, V>>
     }
 
 
-    public EntryOf(Quality<? super K> key)
-    {
-        this(new EqualTo<>(key), new Anything());
-    }
-
-
     public EntryOf(K key, V value)
     {
         this(new EqualTo<>(key), new EqualTo<>(value));
