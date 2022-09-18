@@ -30,33 +30,33 @@ import java.util.Map;
 
 
 @StaticFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality")
-public final class HasEntry<K, V> extends QualityComposition<Map<K, V>>
+public final class ContainsEntry<K, V> extends QualityComposition<Map<K, V>>
 {
-    public HasEntry(K key)
+    public ContainsEntry(K key)
     {
         this(new EqualTo<>(key));
     }
 
 
-    public HasEntry(Quality<? super K> key)
+    public ContainsEntry(Quality<? super K> key)
     {
         this(key, new Anything());
     }
 
 
-    public HasEntry(K key, V value)
+    public ContainsEntry(K key, V value)
     {
         this(new EqualTo<>(key), new EqualTo<>(value));
     }
 
 
-    public HasEntry(K key, Quality<? super V> valueQuality)
+    public ContainsEntry(K key, Quality<? super V> valueQuality)
     {
         this(new EqualTo<>(key), valueQuality);
     }
 
 
-    public HasEntry(Quality<? super K> keyQuality, Quality<? super V> valueQuality)
+    public ContainsEntry(Quality<? super K> keyQuality, Quality<? super V> valueQuality)
     {
         super(new Has<>(Map::entrySet, new Contains<>(new EntryOf<>(keyQuality, valueQuality))));
     }
