@@ -16,13 +16,49 @@ class EntryOfTest
 {
 
     @Test
-    void test()
+    void testKeyQualityAndValueQuality()
     {
         assertThat(new EntryOf<>(new EqualTo<>(12), new EqualTo<>("abc")),
             new AllOf<>(
                 new Passes<>(entry(12, "abc")),
                 new Fails<>(entry(13, "ab"), "Entry ( <12>: \"abc\" )"),
                 new HasDescription("Entry ( <12>: \"abc\" )")
+            ));
+    }
+
+
+    @Test
+    void testKeyAndValue()
+    {
+        assertThat(new EntryOf<>(12, "abc"),
+            new AllOf<>(
+                new Passes<>(entry(12, "abc")),
+                new Fails<>(entry(13, "ab"), "Entry ( <12>: \"abc\" )"),
+                new HasDescription("Entry ( <12>: \"abc\" )")
+            ));
+    }
+
+
+    @Test
+    void testKeyAndValueQuality()
+    {
+        assertThat(new EntryOf<>(12, new EqualTo<>("abc")),
+            new AllOf<>(
+                new Passes<>(entry(12, "abc")),
+                new Fails<>(entry(13, "ab"), "Entry ( <12>: \"abc\" )"),
+                new HasDescription("Entry ( <12>: \"abc\" )")
+            ));
+    }
+
+
+    @Test
+    void testKeyOnly()
+    {
+        assertThat(new EntryOf<>(12),
+            new AllOf<>(
+                new Passes<>(entry(12, "abc")),
+                new Fails<>(entry(13, "ab"), "Entry ( <12>: <anything> )"),
+                new HasDescription("Entry ( <12>: <anything> )")
             ));
     }
 
