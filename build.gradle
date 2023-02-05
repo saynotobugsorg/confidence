@@ -1,5 +1,5 @@
 plugins {
-    id 'org.dmfs.gitversion' version '0.7.0'
+    id 'org.dmfs.gitversion' version '0.14.1'
 }
 
 gitVersion {
@@ -10,28 +10,30 @@ gitVersion {
         }
     }
     changes {
-        are major when {
-            commitMessage contains("(?i)#major\\b")
+        are none when {
+            affects only(matches(~/.*\.md/))
         }
         are major when {
-            commitMessage contains("(?i)#break\\b")
+            commitMessage contains(~/(?i)#(major|break(ing)?)\b/)
         }
         are minor when {
-            commitMessage containsIssue { issue -> issue.labels?.every { it.name != "bug" } }
+            commitMessage contains(~/(?i)#(?<issue>\d+)\b/) {
+                where("issue") { isIssue { labeled "enhancement" } }
+            }
         }
         are patch when {
-            commitMessage containsIssue { issue -> issue.labels?.any { it.name == "bug" } }
+            commitMessage contains(~/(?i)#(?<issue>\d+)\b/) {
+                where("issue") { isIssue { labeled "bug" } }
+            }
         }
         are minor when {
             commitMessage contains("#feature\\b")
         }
-        are minor when {
-            commitMessage contains("(?i)\\b(implement(s|ed)?|close[sd]?) #\\d+\\b")
-        }
-        are patch when {
-            commitMessage contains("(?i)\\b(fix(e[sd])?|resolve[sd]?) #\\d+\\b")
-        }
         otherwise patch
+    }
+    preReleases {
+        on ~/main/ use { "beta" }
+        on ~/(.*\/)?(?<name>.*)/ use { "alpha-${group('name')}.1" }
     }
     releaseBranchPattern ~/main$/
 }
