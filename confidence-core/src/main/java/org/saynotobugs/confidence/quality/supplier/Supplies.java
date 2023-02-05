@@ -20,9 +20,8 @@ package org.saynotobugs.confidence.quality.supplier;
 
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Quality;
-import org.saynotobugs.confidence.assessment.FailPrepended;
-import org.saynotobugs.confidence.description.Delimited;
 import org.saynotobugs.confidence.description.TextDescription;
+import org.saynotobugs.confidence.quality.composite.Has;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 import org.saynotobugs.confidence.quality.object.EqualTo;
 
@@ -46,7 +45,6 @@ public final class Supplies<T> extends QualityComposition<Supplier<T>>
      */
     public Supplies(Quality<? super T> delegate)
     {
-        super(actual -> new FailPrepended(new TextDescription("supplied"), delegate.assessmentOf(actual.get())),
-            new Delimited(new TextDescription("supplies"), delegate.description()));
+        super(new Has<>(new TextDescription("supplies"), new TextDescription("supplied"), Supplier::get, delegate));
     }
 }

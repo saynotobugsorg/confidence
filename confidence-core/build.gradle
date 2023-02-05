@@ -11,10 +11,10 @@ dependencies {
     compileOnly 'org.dmfs:srcless-annotations:0.1.0'
     annotationProcessor 'org.dmfs:srcless-processors:0.1.0'
     compileOnly 'org.hamcrest:hamcrest:2.2'
-    implementation 'org.dmfs:jems2:2.8.0'
+    implementation 'org.dmfs:jems2:2.14.0'
 
     testImplementation project(':confidence-test')
-    testImplementation 'org.dmfs:jems2-testing:2.8.0'
+    testImplementation 'org.dmfs:jems2-testing:2.14.0'
     testImplementation 'org.hamcrest:hamcrest:2.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
