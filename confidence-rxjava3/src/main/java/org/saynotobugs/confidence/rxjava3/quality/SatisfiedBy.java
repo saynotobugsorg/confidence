@@ -16,7 +16,7 @@
  *
  */
 
-package org.saynotobugs.confidence.quality.predicate;
+package org.saynotobugs.confidence.rxjava3.quality;
 
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Description;
@@ -27,10 +27,10 @@ import org.saynotobugs.confidence.quality.composite.Has;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 import org.saynotobugs.confidence.quality.object.EqualTo;
 
-import java.util.function.Predicate;
+import io.reactivex.rxjava3.functions.Predicate;
 
 
-@StaticFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality")
+@StaticFactories(value = "RxJava3", packageName = "org.saynotobugs.confidence.rxjava3")
 public final class SatisfiedBy<T> extends QualityComposition<Predicate<T>>
 {
     public SatisfiedBy(T testee)
@@ -39,6 +39,7 @@ public final class SatisfiedBy<T> extends QualityComposition<Predicate<T>>
             (Description orig) -> new Delimited(new TextDescription("satisfied by"), new ValueDescription(testee)),
             orig -> new Delimited(new TextDescription("not satisfied by"), new ValueDescription(testee)),
             actual -> actual.test(testee),
-            new EqualTo<>(true)));
+            new EqualTo<>(true))
+        );
     }
 }
