@@ -18,6 +18,7 @@
 
 package org.saynotobugs.confidence.description;
 
+import org.eclipse.jdt.annotation.Nullable;
 import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.Scribe;
 import org.saynotobugs.confidence.utils.ArrayIterable;
@@ -35,10 +36,11 @@ import static org.saynotobugs.confidence.description.LiteralDescription.NULL;
  */
 public final class ValueDescription implements Description
 {
+    @Nullable
     private final Object value;
 
 
-    public ValueDescription(Object value)
+    public ValueDescription(@Nullable Object value)
     {
         this.value = value;
     }
