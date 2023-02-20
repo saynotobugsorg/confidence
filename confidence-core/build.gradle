@@ -8,11 +8,12 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
 dependencies {
-    compileOnly 'org.dmfs:srcless-annotations:0.1.0'
-    annotationProcessor 'org.dmfs:srcless-processors:0.1.0'
+    compileOnly 'org.eclipse.jdt:org.eclipse.jdt.annotation:2.2.600'
+    compileOnly 'org.dmfs:srcless-annotations:0.3.0'
+    annotationProcessor 'org.dmfs:srcless-processors:0.3.0'
+    annotationProcessor 'org.dmfs:nullless-processors:0.3.0'
     compileOnly 'org.hamcrest:hamcrest:2.2'
     implementation 'org.dmfs:jems2:2.14.0'
-
     testImplementation project(':confidence-test')
     testImplementation 'org.dmfs:jems2-testing:2.14.0'
     testImplementation 'org.hamcrest:hamcrest:2.2'
