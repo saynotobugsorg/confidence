@@ -22,7 +22,7 @@ import org.dmfs.jems2.iterable.Just;
 import org.dmfs.jems2.iterable.Seq;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Quality;
-import org.saynotobugs.confidence.description.Delimited;
+import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.TextDescription;
 import org.saynotobugs.confidence.quality.composite.AllOf;
 import org.saynotobugs.confidence.quality.composite.DescribedAs;
@@ -57,7 +57,7 @@ public final class Upstream<Up, Down> implements TransformerTestStep<Up, Down>
     public Iterable<Quality<RxTestAdapter<Down>>> qualities(TestScheduler scheduler, RxSubjectAdapter<? super Up> upstream)
     {
         return new Just<>(
-            new DescribedAs<>(orig -> new Delimited(new TextDescription("upstream"), orig),
+            new DescribedAs<>(orig -> new Spaced(new TextDescription("upstream"), orig),
                 new Satisfies<>(testadapter -> new AllOf<>(mEvents).assessmentOf(upstream).isSuccess(), new AllOf<>(mEvents).description())));
     }
 }

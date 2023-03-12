@@ -2,7 +2,7 @@ package org.saynotobugs.confidence.quality.composite;
 
 import org.junit.jupiter.api.Test;
 import org.saynotobugs.confidence.Description;
-import org.saynotobugs.confidence.description.Delimited;
+import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.TextDescription;
 import org.saynotobugs.confidence.quality.object.EqualTo;
 import org.saynotobugs.confidence.test.quality.Fails;
@@ -39,8 +39,8 @@ class HasTest
     @Test
     void testWithDescriptionFunction()
     {
-        assertThat(new Has<>((Description pass) -> new Delimited(pass, new TextDescription("pass")),
-                (Description fail) -> new Delimited(fail, new TextDescription("fail")),
+        assertThat(new Has<>((Description pass) -> new Spaced(pass, new TextDescription("pass")),
+                (Description fail) -> new Spaced(fail, new TextDescription("fail")),
                 Object::toString,
                 new EqualTo<>("123")),
             new AllOf<>(

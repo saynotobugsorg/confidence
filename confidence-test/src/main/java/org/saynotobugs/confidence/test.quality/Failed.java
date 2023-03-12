@@ -24,7 +24,7 @@ import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.Fail;
 import org.saynotobugs.confidence.assessment.FailPrepended;
-import org.saynotobugs.confidence.description.Delimited;
+import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.TextDescription;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 
@@ -37,6 +37,6 @@ public final class Failed extends QualityComposition<Assessment>
         super(actual -> actual.isSuccess()
                 ? new Fail(new TextDescription("passed"))
                 : new FailPrepended(new TextDescription("failed with description"), mismatchDescription.assessmentOf(actual.description())),
-            new Delimited(new TextDescription("failed with"), mismatchDescription.description()));
+            new Spaced(new TextDescription("failed with"), mismatchDescription.description()));
     }
 }

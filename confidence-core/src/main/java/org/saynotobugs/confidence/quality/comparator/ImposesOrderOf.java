@@ -31,7 +31,7 @@ import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.AllPassed;
 import org.saynotobugs.confidence.assessment.PassIf;
-import org.saynotobugs.confidence.description.Delimited;
+import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.StructuredDescription;
 import org.saynotobugs.confidence.description.TextDescription;
 import org.saynotobugs.confidence.description.ValueDescription;
@@ -103,7 +103,7 @@ public final class ImposesOrderOf<T> implements Quality<Comparator<T>>
     private Assessment testPair(Comparator<? super T> actual, Predicate<Integer> comparator, Pair<Integer, ? extends T> left, Pair<Integer, ? extends T> right)
     {
         int result = actual.compare(left.right(), right.right());
-        return new PassIf(comparator.satisfiedBy(result), new Delimited(
+        return new PassIf(comparator.satisfiedBy(result), new Spaced(
             new TextDescription("compared elements"),
             new ValueDescription(left.right()),
             new TextDescription("at index " + left.left() + " and"),

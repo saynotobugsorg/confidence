@@ -20,7 +20,7 @@ package org.saynotobugs.confidence.quality.function;
 
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Quality;
-import org.saynotobugs.confidence.description.Delimited;
+import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.TextDescription;
 import org.saynotobugs.confidence.description.ValueDescription;
 import org.saynotobugs.confidence.quality.composite.Has;
@@ -46,8 +46,8 @@ public final class Assigns<Argument, Result> extends QualityComposition<Function
     public Assigns(Argument argument, Quality<? super Result> resultQuality)
     {
         super(new Has<>(
-            new Delimited(new TextDescription("assigns"), new ValueDescription(argument)),
-            new Delimited(new TextDescription("assigned"), new ValueDescription(argument)),
+            new Spaced(new TextDescription("assigns"), new ValueDescription(argument)),
+            new Spaced(new TextDescription("assigned"), new ValueDescription(argument)),
             candidate -> candidate.apply(argument),
             resultQuality
         ));

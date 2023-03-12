@@ -23,7 +23,7 @@ import org.dmfs.jems2.iterable.Mapped;
 import org.dmfs.jems2.iterable.Seq;
 import org.dmfs.jems2.procedure.Batch;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
-import org.saynotobugs.confidence.description.Delimited;
+import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.StructuredDescription;
 import org.saynotobugs.confidence.description.TextDescription;
 import org.saynotobugs.confidence.description.ValueDescription;
@@ -68,8 +68,8 @@ public final class Emit<Up> extends QualityComposition<RxSubjectAdapter<? super 
     public Emit(Iterable<Up> emissions)
     {
         super(new Successfully<>(
-            new Delimited(new TextDescription("emissions"), new StructuredDescription("[", ",", "]", new Mapped<>(ValueDescription::new, emissions))),
-            new Delimited(new TextDescription("emissions"),
+            new Spaced(new TextDescription("emissions"), new StructuredDescription("[", ",", "]", new Mapped<>(ValueDescription::new, emissions))),
+            new Spaced(new TextDescription("emissions"),
                 new StructuredDescription("[", ",", "]", new Mapped<>(ValueDescription::new, emissions)),
                 new TextDescription("failed with")),
             rxSubjectAdapter -> new Batch<>(rxSubjectAdapter::onNext).process(emissions)));

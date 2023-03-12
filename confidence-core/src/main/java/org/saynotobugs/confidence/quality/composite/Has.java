@@ -25,7 +25,7 @@ import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.Fail;
 import org.saynotobugs.confidence.assessment.FailUpdated;
-import org.saynotobugs.confidence.description.Delimited;
+import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.TextDescription;
 import org.saynotobugs.confidence.description.ValueDescription;
 import org.saynotobugs.confidence.utils.FailSafe;
@@ -46,8 +46,8 @@ public final class Has<T, V> extends QualityComposition<T>
 
     public Has(String featureName, ThrowingFunction<? super T, ? extends V> featureFunction, Quality<? super V> delegate)
     {
-        this(new Delimited(new TextDescription("has"), new TextDescription(featureName)),
-            new Delimited(new TextDescription("had"), new TextDescription(featureName)),
+        this(new Spaced(new TextDescription("has"), new TextDescription(featureName)),
+            new Spaced(new TextDescription("had"), new TextDescription(featureName)),
             featureFunction,
             delegate);
     }
@@ -58,8 +58,8 @@ public final class Has<T, V> extends QualityComposition<T>
         ThrowingFunction<? super T, ? extends V> featureFunction,
         Quality<? super V> delegate)
     {
-        this((Function<Description, Description>) delegateFeatureDescription -> new Delimited(featureDescription, delegateFeatureDescription),
-            mismatchDescription -> new Delimited(featureMismatchDescription, mismatchDescription),
+        this((Function<Description, Description>) delegateFeatureDescription -> new Spaced(featureDescription, delegateFeatureDescription),
+            mismatchDescription -> new Spaced(featureMismatchDescription, mismatchDescription),
             featureFunction,
             delegate
         );
@@ -72,7 +72,7 @@ public final class Has<T, V> extends QualityComposition<T>
         Quality<? super V> delegate)
     {
         super(new FailSafe<>(
-                throwable -> new Fail(new Delimited(new TextDescription("threw"), new ValueDescription(throwable))),
+                throwable -> new Fail(new Spaced(new TextDescription("threw"), new ValueDescription(throwable))),
                 actual -> new FailUpdated(featureMismatchDescription, delegate.assessmentOf(featureFunction.value(actual)))),
             featureDescription.value(delegate.description()));
     }

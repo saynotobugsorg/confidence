@@ -19,7 +19,6 @@
 package org.saynotobugs.confidence.quality.composite;
 
 import org.junit.jupiter.api.Test;
-import org.saynotobugs.confidence.description.TextDescription;
 import org.saynotobugs.confidence.quality.comparable.LessThan;
 import org.saynotobugs.confidence.test.quality.Fails;
 import org.saynotobugs.confidence.test.quality.HasDescription;

@@ -24,7 +24,7 @@ import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.Fail;
 import org.saynotobugs.confidence.assessment.FailUpdated;
-import org.saynotobugs.confidence.description.Delimited;
+import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.TextDescription;
 import org.saynotobugs.confidence.description.ValueDescription;
 import org.saynotobugs.confidence.quality.trivial.Anything;
@@ -62,12 +62,12 @@ public final class Fails<T> implements Quality<Quality<? super T>>
         Assessment matcherAssessment = candidate.assessmentOf(mMismatchingValue);
         return matcherAssessment.isSuccess()
             ? new Fail(
-            new Delimited(
+            new Spaced(
                 new ValueDescription(mMismatchingValue),
                 new TextDescription("matched"),
                 candidate.description()))
             : new FailUpdated(
-                orig -> new Delimited(
+                orig -> new Spaced(
                     new ValueDescription(mMismatchingValue),
                     new TextDescription("mismatched with diff"),
                     orig),
@@ -78,7 +78,7 @@ public final class Fails<T> implements Quality<Quality<? super T>>
     @Override
     public Description description()
     {
-        return new Delimited(
+        return new Spaced(
             new TextDescription("mismatches"),
             new ValueDescription(mMismatchingValue),
             new TextDescription("with diff"),

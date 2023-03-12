@@ -2,7 +2,7 @@ package org.saynotobugs.confidence.description.iterable;
 
 import org.dmfs.jems2.iterable.Seq;
 import org.junit.jupiter.api.Test;
-import org.saynotobugs.confidence.description.Delimited;
+import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.TextDescription;
 import org.saynotobugs.confidence.quality.iterable.Iterates;
 import org.saynotobugs.confidence.test.quality.DescribesAs;
@@ -43,7 +43,7 @@ class NumberedTest
     @Test
     void testEmptyWithFunction()
     {
-        assertThat(new Numbered((idx, desc) -> new Delimited(desc, new TextDescription("(" + idx + ")")), emptyIterable()),
+        assertThat(new Numbered((idx, desc) -> new Spaced(desc, new TextDescription("(" + idx + ")")), emptyIterable()),
             new Iterates<>(/*nothing*/));
     }
 
@@ -51,7 +51,7 @@ class NumberedTest
     @Test
     void testOneElementWithFunction()
     {
-        assertThat(new Numbered((idx, desc) -> new Delimited(desc, new TextDescription("(" + idx + ")")), new Seq<>(new TextDescription("a"))),
+        assertThat(new Numbered((idx, desc) -> new Spaced(desc, new TextDescription("(" + idx + ")")), new Seq<>(new TextDescription("a"))),
             new Iterates<>(new DescribesAs("a (0)")));
     }
 
@@ -59,7 +59,7 @@ class NumberedTest
     @Test
     void testMultipleElementsWithFunction()
     {
-        assertThat(new Numbered((idx, desc) -> new Delimited(desc, new TextDescription("(" + idx + ")")),
+        assertThat(new Numbered((idx, desc) -> new Spaced(desc, new TextDescription("(" + idx + ")")),
                 new Seq<>(new TextDescription("a"), new TextDescription("b"), new TextDescription("c"))),
             new Iterates<>(new DescribesAs("a (0)"),
                 new DescribesAs("b (1)"),
