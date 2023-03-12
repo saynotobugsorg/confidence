@@ -20,7 +20,7 @@ package org.saynotobugs.confidence.quality.number;
 
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.description.Composite;
-import org.saynotobugs.confidence.description.Delimited;
+import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.TextDescription;
 import org.saynotobugs.confidence.description.ValueDescription;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
@@ -42,7 +42,7 @@ public final class CloseTo extends QualityComposition<Number>
     {
         super(new Satisfies<>(
             actual -> expectation.subtract(new BigDecimal(actual.toString())).abs().compareTo(epsilon) <= 0,
-            actual -> new Delimited(
+            actual -> new Spaced(
                 new ValueDescription(actual),
                 new TextDescription("differs from"),
                 new ValueDescription(expectation),
@@ -51,7 +51,7 @@ public final class CloseTo extends QualityComposition<Number>
                     new ValueDescription(expectation.subtract(new BigDecimal(actual.toString())).abs()),
                     new TextDescription(", which is more than the allowed")),
                 new ValueDescription(epsilon)),
-            new Delimited(
+            new Spaced(
                 new TextDescription("differs from"),
                 new ValueDescription(expectation),
                 new TextDescription("by no more than"),

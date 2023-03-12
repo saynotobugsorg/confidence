@@ -37,7 +37,10 @@ public final class Delimited implements Description
 
     /**
      * Creates a {@link Description} of the sequence of the given {@link Description}s separated with a {@link LiteralDescription#SPACE}.
+     *
+     * @deprecated in favour of {@link Spaced}
      */
+    @Deprecated
     public Delimited(Description... descriptions)
     {
         this(SPACE, new Seq<>(descriptions));

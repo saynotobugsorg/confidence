@@ -24,7 +24,7 @@ import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.Quality;
-import org.saynotobugs.confidence.description.Delimited;
+import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.quality.composite.AllOfFailingFast;
 import org.saynotobugs.confidence.quality.composite.DescribedAs;
 import org.saynotobugs.confidence.rxjava3.RxExpectation;
@@ -46,7 +46,7 @@ public final class RxWithSchedulerThat<T, RxType> implements Quality<Function<? 
     {
         mTestAdapterFunction = testAdapterFunction;
         mDelegate = scheduler -> new DescribedAs<>(
-            orig -> new Delimited(description, orig),
+            orig -> new Spaced(description, orig),
             new AllOfFailingFast<>(new Mapped<>(event -> new ActionTriggering<>(event).quality(scheduler), events)));
     }
 

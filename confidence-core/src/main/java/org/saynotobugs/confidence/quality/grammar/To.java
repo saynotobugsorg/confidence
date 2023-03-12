@@ -20,7 +20,7 @@ package org.saynotobugs.confidence.quality.grammar;
 
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Quality;
-import org.saynotobugs.confidence.description.Delimited;
+import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.TextDescription;
 import org.saynotobugs.confidence.quality.composite.DescribedAs;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
@@ -38,6 +38,6 @@ public final class To<T> extends QualityComposition<T>
 
     public To(Quality<T> delegate)
     {
-        super(new DescribedAs<>(d -> new Delimited(new TextDescription("to"), d), d -> new Delimited(new TextDescription("to"), d), delegate));
+        super(new DescribedAs<>(d -> new Spaced(new TextDescription("to"), d), d -> new Spaced(new TextDescription("to"), d), delegate));
     }
 }

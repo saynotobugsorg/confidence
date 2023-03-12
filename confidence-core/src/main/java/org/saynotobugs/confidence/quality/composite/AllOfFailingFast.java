@@ -31,7 +31,7 @@ import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.FailPrepended;
 import org.saynotobugs.confidence.assessment.Pass;
 import org.saynotobugs.confidence.description.Composite;
-import org.saynotobugs.confidence.description.Delimited;
+import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.StructuredDescription;
 import org.saynotobugs.confidence.description.TextDescription;
 
@@ -96,7 +96,7 @@ public final class AllOfFailingFast<T> extends QualityComposition<T>
                     new Pass()).value(),
             new StructuredDescription(
                 delimiter,
-                new org.saynotobugs.confidence.description.iterable.Numbered((i, d) -> new Delimited(new TextDescription("(" + i + ")"), d),
+                new org.saynotobugs.confidence.description.iterable.Numbered((i, d) -> new Spaced(new TextDescription("(" + i + ")"), d),
                     new Mapped<>(Quality::description, delegates))));
     }
 }

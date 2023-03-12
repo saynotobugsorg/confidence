@@ -26,7 +26,7 @@ import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.AllPassed;
 import org.saynotobugs.confidence.assessment.Fail;
 import org.saynotobugs.confidence.description.Composite;
-import org.saynotobugs.confidence.description.Delimited;
+import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.TextDescription;
 import org.saynotobugs.confidence.quality.grammar.Is;
 import org.saynotobugs.confidence.quality.object.Successfully;
@@ -93,6 +93,6 @@ public final class WithFinalizer<T> implements Quality<T>
     @Override
     public Description description()
     {
-        return new Delimited(mDescription, mDelegate.description(), new TextDescription("and"), mFinalQuality.description());
+        return new Spaced(mDescription, mDelegate.description(), new TextDescription("and"), mFinalQuality.description());
     }
 }

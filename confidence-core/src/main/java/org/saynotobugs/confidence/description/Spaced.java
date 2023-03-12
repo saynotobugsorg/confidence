@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 dmfs GmbH
+ * Copyright 2023 dmfs GmbH
  *
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,20 +16,27 @@
  *
  */
 
-package org.saynotobugs.confidence.assessment;
+package org.saynotobugs.confidence.description;
 
-import org.saynotobugs.confidence.Assessment;
+import org.dmfs.jems2.iterable.Seq;
 import org.saynotobugs.confidence.Description;
-import org.saynotobugs.confidence.description.Spaced;
+
+import static org.saynotobugs.confidence.description.LiteralDescription.SPACE;
 
 
 /**
- * A {@link Assessment} that prepends any mismatch {@link Description}.
+ * A {@link Description} that contains other {@link Description}s joined with a single {@link LiteralDescription#SPACE}.
  */
-public final class FailPrepended extends AssessmentComposition
+public final class Spaced extends DescriptionComposition
 {
-    public FailPrepended(Description prefix, Assessment delegate)
+    public Spaced(Description... descriptions)
     {
-        super(new FailUpdated(original -> new Spaced(prefix, original), delegate));
+        this(new Seq<>(descriptions));
+    }
+
+
+    public Spaced(Iterable<Description> descriptions)
+    {
+        super(new Delimited(SPACE, descriptions));
     }
 }

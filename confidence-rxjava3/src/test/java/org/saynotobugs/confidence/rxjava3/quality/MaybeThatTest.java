@@ -12,7 +12,6 @@ import org.saynotobugs.confidence.test.quality.Passes;
 import java.io.IOException;
 
 import io.reactivex.rxjava3.core.Maybe;
-import io.reactivex.rxjava3.core.Single;
 
 import static org.saynotobugs.confidence.Assertion.assertThat;
 

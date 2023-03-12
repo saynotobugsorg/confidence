@@ -28,7 +28,7 @@ import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.AllPassed;
 import org.saynotobugs.confidence.assessment.Fail;
 import org.saynotobugs.confidence.assessment.FailPrepended;
-import org.saynotobugs.confidence.description.Delimited;
+import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.TextDescription;
 import org.saynotobugs.confidence.description.ValueDescription;
 
@@ -80,7 +80,7 @@ public final class Parallel<T> implements Quality<T>
                         }
                         catch (Exception e)
                         {
-                            results.set(i, new Fail(new Delimited(new TextDescription("#" + i + " in thread " + Thread.currentThread().getName()),
+                            results.set(i, new Fail(new Spaced(new TextDescription("#" + i + " in thread " + Thread.currentThread().getName()),
                                 new ValueDescription(e))));
                         }
                     });
@@ -106,6 +106,6 @@ public final class Parallel<T> implements Quality<T>
     @Override
     public Description description()
     {
-        return new Delimited(new TextDescription("running " + mThreadCount + " parallel execution, each"), mDelegate.description());
+        return new Spaced(new TextDescription("running " + mThreadCount + " parallel execution, each"), mDelegate.description());
     }
 }

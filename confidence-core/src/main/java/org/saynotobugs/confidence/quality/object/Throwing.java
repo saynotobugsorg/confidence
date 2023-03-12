@@ -24,7 +24,7 @@ import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.Fail;
 import org.saynotobugs.confidence.assessment.FailPrepended;
-import org.saynotobugs.confidence.description.Delimited;
+import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.TextDescription;
 
 
@@ -58,7 +58,7 @@ public final class Throwing implements Quality<Throwing.Breakable>
         try
         {
             candidate.run();
-            return new Fail(new Delimited(new TextDescription("not throwing"), mDelegate.description()));
+            return new Fail(new Spaced(new TextDescription("not throwing"), mDelegate.description()));
         }
         catch (Throwable e)
         {
@@ -70,6 +70,6 @@ public final class Throwing implements Quality<Throwing.Breakable>
     @Override
     public Description description()
     {
-        return new Delimited(new TextDescription("throwing"), mDelegate.description());
+        return new Spaced(new TextDescription("throwing"), mDelegate.description());
     }
 }

@@ -5,8 +5,8 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.saynotobugs.confidence.assessment.PassIf;
-import org.saynotobugs.confidence.description.Delimited;
 import org.saynotobugs.confidence.description.NumberDescription;
+import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.TextDescription;
 import org.saynotobugs.confidence.quality.comparable.GreaterThan;
 import org.saynotobugs.confidence.quality.comparable.LessThan;
@@ -24,7 +24,6 @@ import org.saynotobugs.confidence.quality.supplier.Supplies;
 import org.saynotobugs.confidence.test.quality.Fails;
 import org.saynotobugs.confidence.test.quality.Passes;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -192,7 +191,7 @@ public final class Examples
             @Override
             public Assessment assessmentOf(String candidate)
             {
-                return new PassIf(candidate.length() == 3, new Delimited(
+                return new PassIf(candidate.length() == 3, new Spaced(
                     new TextDescription("String length was"),
                     new NumberDescription(candidate.length())));
             }
@@ -220,7 +219,7 @@ public final class Examples
                        @Override
                        public Assessment assessmentOf(String candidate)
                        {
-                           return new PassIf(candidate.length() == 3, new Delimited(
+                           return new PassIf(candidate.length() == 3, new Spaced(
                                new TextDescription("String length was"),
                                new NumberDescription(candidate.length())));
                        }

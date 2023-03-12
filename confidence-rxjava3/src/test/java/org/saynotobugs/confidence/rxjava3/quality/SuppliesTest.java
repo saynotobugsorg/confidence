@@ -40,7 +40,7 @@ class SuppliesTest
                 new Passes<>(() -> 123),
                 new Fails<>(() -> null, "supplied <null>"),
                 new Fails<>(() -> 1234, "supplied <1234>"),
-                new Fails<>(() ->{ throw new IOException("fail");}, "threw <java.io.IOException: fail>"),
+                new Fails<>(() -> {throw new IOException("fail");}, "threw <java.io.IOException: fail>"),
                 new HasDescription("supplies <123>")
             ));
     }

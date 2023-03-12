@@ -21,7 +21,7 @@ package org.saynotobugs.confidence.mockito4.quality;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.mockito.ArgumentMatcher;
 import org.saynotobugs.confidence.Quality;
-import org.saynotobugs.confidence.description.Delimited;
+import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.TextDescription;
 import org.saynotobugs.confidence.description.ValueDescription;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
@@ -37,6 +37,6 @@ public final class Matches<T> extends QualityComposition<ArgumentMatcher<T>>
     public Matches(T argument)
     {
         super(new Satisfies<>(argumentMatcher -> argumentMatcher.matches(argument),
-            new Delimited(new TextDescription("matches"), new ValueDescription(argument))));
+            new Spaced(new TextDescription("matches"), new ValueDescription(argument))));
     }
 }

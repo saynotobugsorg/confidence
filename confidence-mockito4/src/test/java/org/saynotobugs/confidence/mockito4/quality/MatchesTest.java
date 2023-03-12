@@ -1,7 +1,6 @@
 package org.saynotobugs.confidence.mockito4.quality;
 
 import org.junit.jupiter.api.Test;
-import org.saynotobugs.confidence.mockito4.quality.Matches;
 import org.saynotobugs.confidence.quality.composite.AllOf;
 import org.saynotobugs.confidence.test.quality.Fails;
 import org.saynotobugs.confidence.test.quality.HasDescription;

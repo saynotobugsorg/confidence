@@ -23,7 +23,7 @@ import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.FailPrepended;
-import org.saynotobugs.confidence.description.Delimited;
+import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.TextDescription;
 import org.saynotobugs.confidence.description.ValueDescription;
 import org.saynotobugs.confidence.quality.Core;
@@ -65,7 +65,7 @@ public final class ConsumerThatAffects<T> implements Quality<Consumer<T>>
      */
     public ConsumerThatAffects(Supplier<T> valueSupplier, Quality<? super T> valueQuality)
     {
-        this(new Delimited(new TextDescription("affects"), new ValueDescription(valueSupplier.get())), valueSupplier, valueQuality);
+        this(new Spaced(new TextDescription("affects"), new ValueDescription(valueSupplier.get())), valueSupplier, valueQuality);
     }
 
 
@@ -74,7 +74,7 @@ public final class ConsumerThatAffects<T> implements Quality<Consumer<T>>
     {
         T value = mValueSupplier.get();
         candidate.accept(value);
-        return new FailPrepended(new Delimited(new TextDescription("Consumer that"), mValueDescription),
+        return new FailPrepended(new Spaced(new TextDescription("Consumer that"), mValueDescription),
             mValueQuality.assessmentOf(value));
     }
 
@@ -82,6 +82,6 @@ public final class ConsumerThatAffects<T> implements Quality<Consumer<T>>
     @Override
     public Description description()
     {
-        return new Delimited(new TextDescription("Consumer that"), mValueDescription, mValueQuality.description());
+        return new Spaced(new TextDescription("Consumer that"), mValueDescription, mValueQuality.description());
     }
 }

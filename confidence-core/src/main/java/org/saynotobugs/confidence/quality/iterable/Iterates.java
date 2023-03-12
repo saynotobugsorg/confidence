@@ -30,7 +30,7 @@ import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.AllPassed;
 import org.saynotobugs.confidence.assessment.Fail;
 import org.saynotobugs.confidence.assessment.iterable.Numbered;
-import org.saynotobugs.confidence.description.Delimited;
+import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.StructuredDescription;
 import org.saynotobugs.confidence.description.TextDescription;
 import org.saynotobugs.confidence.description.ValueDescription;
@@ -75,8 +75,8 @@ public final class Iterates<T> implements Quality<Iterable<T>>
                     candidate,
                     (left, right) -> new Backed<>(new Zipped<>(left, right, Quality::assessmentOf),
                         () -> new Fail(left.isPresent()
-                            ? new Delimited(new TextDescription("missing"), left.value().description())
-                            : new Delimited(new TextDescription("additional"), new ValueDescription(right.value())))).value()
+                            ? new Spaced(new TextDescription("missing"), left.value().description())
+                            : new Spaced(new TextDescription("additional"), new ValueDescription(right.value())))).value()
                 )));
     }
 

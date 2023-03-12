@@ -22,7 +22,7 @@ import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.Fail;
 import org.saynotobugs.confidence.assessment.FailPrepended;
-import org.saynotobugs.confidence.description.Delimited;
+import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.TextDescription;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 import org.saynotobugs.confidence.quality.object.EqualTo;
@@ -60,6 +60,6 @@ public final class Present<T> extends QualityComposition<Optional<T>>
         super(actual -> actual.isPresent()
                 ? new FailPrepended(new TextDescription("present"), delegate.assessmentOf(actual.get()))
                 : new Fail(new TextDescription("absent")),
-            new Delimited(new TextDescription("present"), delegate.description()));
+            new Spaced(new TextDescription("present"), delegate.description()));
     }
 }

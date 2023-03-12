@@ -57,7 +57,7 @@ public final class Passes<T> implements Quality<Quality<? super T>>
         return new AllPassed(new TextDescription("matched"), new Composite(NEW_LINE, new TextDescription("and"), NEW_LINE), EMPTY,
             new Mapped<>(
                 value -> new FailUpdated(
-                    orig -> new Delimited(new ValueDescription(value), new TextDescription("mismatched with"), new DescriptionDescription(orig)),
+                    orig -> new Spaced(new ValueDescription(value), new TextDescription("mismatched with"), new DescriptionDescription(orig)),
                     candidate.assessmentOf(value)),
                 mMatchingValues
             ));

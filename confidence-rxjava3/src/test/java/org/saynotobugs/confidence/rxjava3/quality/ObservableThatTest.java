@@ -11,7 +11,6 @@ import org.saynotobugs.confidence.test.quality.Passes;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
-import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.core.Observable;
 
 import static org.saynotobugs.confidence.Assertion.assertThat;

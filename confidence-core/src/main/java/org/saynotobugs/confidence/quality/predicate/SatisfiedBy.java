@@ -20,7 +20,7 @@ package org.saynotobugs.confidence.quality.predicate;
 
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Description;
-import org.saynotobugs.confidence.description.Delimited;
+import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.TextDescription;
 import org.saynotobugs.confidence.description.ValueDescription;
 import org.saynotobugs.confidence.quality.composite.Has;
@@ -36,8 +36,8 @@ public final class SatisfiedBy<T> extends QualityComposition<Predicate<T>>
     public SatisfiedBy(T testee)
     {
         super(new Has<>(
-            (Description orig) -> new Delimited(new TextDescription("satisfied by"), new ValueDescription(testee)),
-            orig -> new Delimited(new TextDescription("not satisfied by"), new ValueDescription(testee)),
+            (Description orig) -> new Spaced(new TextDescription("satisfied by"), new ValueDescription(testee)),
+            orig -> new Spaced(new TextDescription("not satisfied by"), new ValueDescription(testee)),
             actual -> actual.test(testee),
             new EqualTo<>(true)));
     }
