@@ -30,24 +30,20 @@ import org.saynotobugs.confidence.quality.object.EqualTo;
 import java.util.function.Function;
 
 
-/**
- * @deprecated in favour of {@link Maps}. This Quality has it reversed, in terms of what a function assigns to what.
- */
-@Deprecated
 @StaticFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality")
-public final class Assigns<Argument, Result> extends QualityComposition<Function<Argument, Result>>
+public final class Maps<Argument, Result> extends QualityComposition<Function<Argument, Result>>
 {
-    public Assigns(Argument argument, Result result)
+    public Maps(Argument argument, Result result)
     {
         this(argument, new EqualTo<>(result));
     }
 
 
-    public Assigns(Argument argument, Quality<? super Result> resultQuality)
+    public Maps(Argument argument, Quality<? super Result> resultQuality)
     {
         super(new Has<>(
-            new Delimited(new TextDescription("assigns"), new ValueDescription(argument)),
-            new Delimited(new TextDescription("assigned"), new ValueDescription(argument)),
+            new Delimited(new TextDescription("maps"), new ValueDescription(argument)),
+            new Delimited(new TextDescription("mapped"), new ValueDescription(argument)),
             candidate -> candidate.apply(argument),
             resultQuality
         ));
