@@ -18,13 +18,17 @@
 
 package org.saynotobugs.confidence.junit5.engine.testengine;
 
-import org.junit.platform.commons.support.AnnotationSupport;
 import org.junit.platform.engine.*;
 import org.junit.platform.engine.discovery.ClassSelector;
 import org.junit.platform.engine.support.descriptor.EngineDescriptor;
+import org.saynotobugs.confidence.junit5.engine.Confidence;
 import org.saynotobugs.confidence.junit5.engine.Testable;
 import org.saynotobugs.confidence.junit5.engine.Verifiable;
+import org.saynotobugs.confidence.junit5.engine.VerifiableGroup;
 import org.saynotobugs.confidence.junit5.engine.testdescriptor.ClassTestDescriptor;
+
+import java.lang.reflect.Array;
+import java.util.Arrays;
 
 
 public final class ConfidenceEngine implements TestEngine
@@ -43,10 +47,16 @@ public final class ConfidenceEngine implements TestEngine
         TestDescriptor testDescriptor = new EngineDescriptor(uniqueId, "Test with Confidence");
 
         request.getSelectorsByType(ClassSelector.class)
-            .forEach(selector -> AnnotationSupport.findAnnotatedFields(selector.getJavaClass(), Verifiable.class)
-                .stream()
-                .findFirst()
-                .ifPresent(field -> testDescriptor.addChild(new ClassTestDescriptor(uniqueId, selector.getJavaClass()))));
+            .stream().filter(
+                classSelector -> classSelector.getJavaClass().isAnnotationPresent(Confidence.class)
+            )
+            .forEach(selector ->
+                Arrays.stream(selector.getJavaClass().getDeclaredFields())
+                    .filter(field -> Verifiable.class.isAssignableFrom(field.getType())
+                        || Array.newInstance(Verifiable.class, 0).getClass().isAssignableFrom(field.getType())
+                        || VerifiableGroup.class.isAssignableFrom(field.getType()))
+                    .findFirst()
+                    .ifPresent(field -> testDescriptor.addChild(new ClassTestDescriptor(uniqueId, selector.getJavaClass()))));
         return testDescriptor;
     }
 

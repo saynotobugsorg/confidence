@@ -18,19 +18,18 @@
 
 package org.saynotobugs.confidence.junit5.engine.testdescriptor;
 
-import org.junit.platform.commons.support.AnnotationSupport;
-import org.junit.platform.commons.support.HierarchyTraversalMode;
 import org.junit.platform.engine.EngineExecutionListener;
 import org.junit.platform.engine.TestDescriptor;
 import org.junit.platform.engine.TestExecutionResult;
 import org.junit.platform.engine.UniqueId;
 import org.junit.platform.engine.support.descriptor.AbstractTestDescriptor;
 import org.junit.platform.engine.support.descriptor.ClassSource;
-import org.saynotobugs.confidence.junit5.engine.Assertion;
 import org.saynotobugs.confidence.junit5.engine.Testable;
 import org.saynotobugs.confidence.junit5.engine.Verifiable;
+import org.saynotobugs.confidence.junit5.engine.VerifiableGroup;
 
 import java.lang.reflect.Array;
+import java.util.Arrays;
 
 
 /**
@@ -44,20 +43,19 @@ public final class ClassTestDescriptor extends AbstractTestDescriptor implements
             javaClass.getSimpleName(),
             ClassSource.from(javaClass));
 
-        AnnotationSupport.findAnnotatedFields(javaClass,
-                Verifiable.class,
-                field -> Assertion.class.isAssignableFrom(field.getType()),
-                HierarchyTraversalMode.TOP_DOWN)
-            .stream()
+        Arrays.stream(javaClass.getDeclaredFields())
+            .filter(field -> Verifiable.class.isAssignableFrom(field.getType()))
             .map(field -> new FieldTestDescriptor(getUniqueId(), javaClass, field))
             .forEach(this::addChild);
 
-        AnnotationSupport.findAnnotatedFields(javaClass,
-                Verifiable.class,
-                field -> Array.newInstance(Assertion.class, 0).getClass().isAssignableFrom(field.getType()),
-                HierarchyTraversalMode.TOP_DOWN)
-            .stream()
+        Arrays.stream(javaClass.getDeclaredFields())
+            .filter(field -> Array.newInstance(Verifiable.class, 0).getClass().isAssignableFrom(field.getType()))
             .map(field -> new AssertionArrayTestDescriptor(getUniqueId(), javaClass, field))
+            .forEach(this::addChild);
+
+        Arrays.stream(javaClass.getDeclaredFields())
+            .filter(field -> VerifiableGroup.class.isAssignableFrom(field.getType()))
+            .map(field -> new VerifiableGroupTestDescriptor(getUniqueId(), javaClass, field))
             .forEach(this::addChild);
     }
 

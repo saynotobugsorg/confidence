@@ -23,7 +23,7 @@ import org.junit.platform.engine.TestDescriptor;
 import org.junit.platform.engine.UniqueId;
 import org.junit.platform.engine.support.descriptor.AbstractTestDescriptor;
 import org.junit.platform.engine.support.descriptor.ClassSource;
-import org.saynotobugs.confidence.junit5.engine.Assertion;
+import org.saynotobugs.confidence.junit5.engine.Verifiable;
 import org.saynotobugs.confidence.junit5.engine.Testable;
 
 import java.lang.reflect.Constructor;
@@ -57,7 +57,7 @@ public final class FieldTestDescriptor extends AbstractTestDescriptor implements
     }
 
 
-    private static Assertion assertion(Class<?> javaClass, Field javaField)
+    private static Verifiable assertion(Class<?> javaClass, Field javaField)
     {
         try
         {
@@ -65,7 +65,7 @@ public final class FieldTestDescriptor extends AbstractTestDescriptor implements
             constructor.setAccessible(true);
             Object instance = constructor.newInstance();
             javaField.setAccessible(true);
-            return ((Assertion) javaField.get(instance));
+            return ((Verifiable) javaField.get(instance));
         }
         catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e)
         {

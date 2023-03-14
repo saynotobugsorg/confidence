@@ -18,40 +18,40 @@
 
 package org.saynotobugs.confidence.junit5.engine.testdescriptor;
 
+import org.dmfs.jems2.iterable.Mapped;
+import org.dmfs.jems2.procedure.ForEach;
 import org.junit.platform.engine.EngineExecutionListener;
 import org.junit.platform.engine.TestDescriptor;
 import org.junit.platform.engine.TestExecutionResult;
 import org.junit.platform.engine.UniqueId;
 import org.junit.platform.engine.support.descriptor.AbstractTestDescriptor;
 import org.junit.platform.engine.support.descriptor.ClassSource;
-import org.saynotobugs.confidence.junit5.engine.Verifiable;
 import org.saynotobugs.confidence.junit5.engine.Testable;
+import org.saynotobugs.confidence.junit5.engine.VerifiableGroup;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
 import java.util.Optional;
 
 
 /**
  * A {@link TestDescriptor} for {@link Field}s.
  */
-public final class AssertionArrayTestDescriptor extends AbstractTestDescriptor implements Testable
+public final class VerifiableGroupTestDescriptor extends AbstractTestDescriptor implements Testable
 {
     private final Class<?> javaClass;
     private final Field javaField;
 
 
-    public AssertionArrayTestDescriptor(UniqueId uniqueId, Class<?> javaClass, Field javaField)
+    public VerifiableGroupTestDescriptor(UniqueId uniqueId, Class<?> javaClass, Field javaField)
     {
         super(uniqueId.append("field", javaField.getName()),
             Optional.of(javaField.getName().replace("_", " ")).map(String::trim).filter(s -> s.length() > 0).orElse("TestGroup"),
             ClassSource.from(javaClass));
 
-        Arrays.stream(assertions(javaClass, javaField))
-            .map(assertion -> new AssertionTestDescriptor(uniqueId, getDisplayName(), assertion))
-            .forEach(this::addChild);
+        new ForEach<>(new Mapped<>(assertion -> new AssertionTestDescriptor(uniqueId, getDisplayName(), assertion), assertions(javaClass, javaField)))
+            .process(this::addChild);
 
         this.javaClass = javaClass;
         this.javaField = javaField;
@@ -78,7 +78,7 @@ public final class AssertionArrayTestDescriptor extends AbstractTestDescriptor i
     }
 
 
-    private static Verifiable[] assertions(Class<?> javaClass, Field javaField)
+    private static VerifiableGroup assertions(Class<?> javaClass, Field javaField)
     {
         try
         {
@@ -86,7 +86,7 @@ public final class AssertionArrayTestDescriptor extends AbstractTestDescriptor i
             constructor.setAccessible(true);
             Object instance = constructor.newInstance();
             javaField.setAccessible(true);
-            return ((Verifiable[]) javaField.get(instance));
+            return ((VerifiableGroup) javaField.get(instance));
         }
         catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e)
         {

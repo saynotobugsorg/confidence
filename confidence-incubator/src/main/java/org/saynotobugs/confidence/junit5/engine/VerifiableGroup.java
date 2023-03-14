@@ -18,9 +18,6 @@
 
 package org.saynotobugs.confidence.junit5.engine;
 
-public interface Verifiable
+public interface VerifiableGroup extends Iterable<Verifiable>
 {
-    void verify();
-
-    String name();
 }

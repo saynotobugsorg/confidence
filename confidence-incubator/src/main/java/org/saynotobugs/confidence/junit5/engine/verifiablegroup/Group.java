@@ -16,11 +16,18 @@
  *
  */
 
-package org.saynotobugs.confidence.junit5.engine;
+package org.saynotobugs.confidence.junit5.engine.verifiablegroup;
 
-public interface Assertion
+import org.dmfs.jems2.iterable.DelegatingIterable;
+import org.dmfs.jems2.iterable.Seq;
+import org.saynotobugs.confidence.junit5.engine.Verifiable;
+import org.saynotobugs.confidence.junit5.engine.VerifiableGroup;
+
+
+public final class Group extends DelegatingIterable<Verifiable> implements VerifiableGroup
 {
-    void verify();
-
-    String name();
+    public Group(Verifiable... delegates)
+    {
+        super(new Seq<>(delegates));
+    }
 }

@@ -18,13 +18,9 @@
 
 package org.saynotobugs.confidence.incubator.jupiter;
 
-import org.saynotobugs.confidence.description.Spaced;
-import org.saynotobugs.confidence.description.TextDescription;
-import org.saynotobugs.confidence.description.ValueDescription;
 import org.saynotobugs.confidence.junit5.engine.Confidence;
-import org.saynotobugs.confidence.junit5.engine.Verifiable;
-import org.saynotobugs.confidence.junit5.engine.environment.TempDir;
-import org.saynotobugs.confidence.junit5.engine.verifiable.Given;
+import org.saynotobugs.confidence.junit5.engine.VerifiableGroup;
+import org.saynotobugs.confidence.junit5.engine.verifiablegroup.Group;
 import org.saynotobugs.confidence.quality.composite.AllOf;
 import org.saynotobugs.confidence.quality.object.EqualTo;
 import org.saynotobugs.confidence.quality.optional.Present;
@@ -32,17 +28,15 @@ import org.saynotobugs.confidence.test.quality.Fails;
 import org.saynotobugs.confidence.test.quality.HasDescription;
 import org.saynotobugs.confidence.test.quality.Passes;
 
-import java.io.File;
 import java.util.Optional;
 
 import static org.saynotobugs.confidence.junit5.engine.Assertions.assertThat;
-import static org.saynotobugs.confidence.quality.Core.satisfies;
 
 
 @Confidence
-class OtherTest
+class GroupTest
 {
-    Verifiable[] Present = {
+    VerifiableGroup Present = new Group(
         assertThat("without value",
             new Present<>(),
             new AllOf<>(
@@ -65,13 +59,6 @@ class OtherTest
                 new Fails<>(Optional.of(1234), "present <1234>"),
                 new Fails<Optional<Integer>>(Optional.empty(), "absent"),
                 new HasDescription("present <123>")))
-    };
-
-    Verifiable with_temp_dir = new Given(new TempDir(), new TempDir(),
-        (dir, dir2) ->
-            assertThat(dir,
-                satisfies(File::exists,
-                    new Spaced(new TextDescription("dir"), new ValueDescription(dir), new TextDescription(" "),
-                        new ValueDescription(dir), new TextDescription("exists")))));
+    );
 
 }

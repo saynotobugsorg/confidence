@@ -20,14 +20,12 @@ package org.saynotobugs.confidence.junit5.engine.testdescriptor;
 
 import org.junit.platform.engine.EngineExecutionListener;
 import org.junit.platform.engine.TestDescriptor;
-import org.junit.platform.engine.TestSource;
 import org.junit.platform.engine.UniqueId;
 import org.junit.platform.engine.support.descriptor.AbstractTestDescriptor;
-import org.saynotobugs.confidence.junit5.engine.Assertion;
+import org.saynotobugs.confidence.junit5.engine.Verifiable;
 import org.saynotobugs.confidence.junit5.engine.Testable;
 
 import java.lang.reflect.Field;
-import java.util.Optional;
 
 
 /**
@@ -35,21 +33,21 @@ import java.util.Optional;
  */
 public final class AssertionTestDescriptor extends AbstractTestDescriptor implements Testable
 {
-    private final Assertion mAssertion;
+    private final Verifiable mVerifiable;
 
 
-    public AssertionTestDescriptor(UniqueId uniqueId, String nameBase, Assertion assertion)
+    public AssertionTestDescriptor(UniqueId uniqueId, String nameBase, Verifiable verifiable)
     {
-        super(uniqueId.append("assertion", String.valueOf(assertion.hashCode())),
-            nameBase + " " + assertion.name().trim());
-        this.mAssertion = assertion;
+        super(uniqueId.append("assertion", String.valueOf(verifiable.hashCode())),
+            nameBase + " " + verifiable.name().trim());
+        this.mVerifiable = verifiable;
     }
 
 
     @Override
     public void test(EngineExecutionListener listener)
     {
-        mAssertion.verify();
+        mVerifiable.verify();
     }
 
 
