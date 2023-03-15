@@ -64,16 +64,13 @@ public final class ConfidenceEngine implements TestEngine
     @Override
     public void execute(ExecutionRequest request)
     {
-        TestDescriptor engineDescriptor = request.getRootTestDescriptor();
         EngineExecutionListener listener = request.getEngineExecutionListener();
-        for (TestDescriptor testDescriptor : engineDescriptor.getChildren())
+        for (TestDescriptor testDescriptor : request.getRootTestDescriptor().getChildren())
         {
             if (testDescriptor instanceof Testable)
             {
-                // cast it to our own class
                 Testable descriptor = (Testable) testDescriptor;
                 listener.executionStarted(testDescriptor);
-                // here you would add your super-complicated logic of how to actually run the test
                 try
                 {
                     descriptor.test(listener);

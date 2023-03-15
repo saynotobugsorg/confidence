@@ -25,6 +25,9 @@ import org.dmfs.jems2.Single;
 import org.saynotobugs.confidence.junit5.engine.Verifiable;
 
 
+/**
+ * A {@link Verifiable} that provides a certain environment to another {@link Verifiable}.
+ */
 public final class Given implements Verifiable
 {
     public interface Resource<T> extends Single<T>, AutoCloseable

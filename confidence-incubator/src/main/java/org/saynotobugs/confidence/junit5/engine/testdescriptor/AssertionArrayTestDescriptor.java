@@ -24,8 +24,8 @@ import org.junit.platform.engine.TestExecutionResult;
 import org.junit.platform.engine.UniqueId;
 import org.junit.platform.engine.support.descriptor.AbstractTestDescriptor;
 import org.junit.platform.engine.support.descriptor.ClassSource;
-import org.saynotobugs.confidence.junit5.engine.Verifiable;
 import org.saynotobugs.confidence.junit5.engine.Testable;
+import org.saynotobugs.confidence.junit5.engine.Verifiable;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -39,10 +39,6 @@ import java.util.Optional;
  */
 public final class AssertionArrayTestDescriptor extends AbstractTestDescriptor implements Testable
 {
-    private final Class<?> javaClass;
-    private final Field javaField;
-
-
     public AssertionArrayTestDescriptor(UniqueId uniqueId, Class<?> javaClass, Field javaField)
     {
         super(uniqueId.append("field", javaField.getName()),
@@ -52,9 +48,6 @@ public final class AssertionArrayTestDescriptor extends AbstractTestDescriptor i
         Arrays.stream(assertions(javaClass, javaField))
             .map(assertion -> new AssertionTestDescriptor(uniqueId, getDisplayName(), assertion))
             .forEach(this::addChild);
-
-        this.javaClass = javaClass;
-        this.javaField = javaField;
     }
 
 

@@ -72,6 +72,6 @@ class OtherTest
             assertThat(dir,
                 satisfies(File::exists,
                     new Spaced(new TextDescription("dir"), new ValueDescription(dir), new TextDescription(" "),
-                        new ValueDescription(dir), new TextDescription("exists")))));
+                        new ValueDescription(dir2), new TextDescription("exists")))));
 
 }

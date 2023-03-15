@@ -40,10 +40,6 @@ import java.util.Optional;
  */
 public final class VerifiableGroupTestDescriptor extends AbstractTestDescriptor implements Testable
 {
-    private final Class<?> javaClass;
-    private final Field javaField;
-
-
     public VerifiableGroupTestDescriptor(UniqueId uniqueId, Class<?> javaClass, Field javaField)
     {
         super(uniqueId.append("field", javaField.getName()),
@@ -52,9 +48,6 @@ public final class VerifiableGroupTestDescriptor extends AbstractTestDescriptor 
 
         new ForEach<>(new Mapped<>(assertion -> new AssertionTestDescriptor(uniqueId, getDisplayName(), assertion), assertions(javaClass, javaField)))
             .process(this::addChild);
-
-        this.javaClass = javaClass;
-        this.javaField = javaField;
     }
 
 
