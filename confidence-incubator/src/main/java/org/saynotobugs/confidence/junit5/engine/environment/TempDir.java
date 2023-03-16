@@ -19,12 +19,14 @@
 package org.saynotobugs.confidence.junit5.engine.environment;
 
 import org.dmfs.jems2.Fragile;
+import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.junit5.engine.verifiable.Given;
 
 import java.io.File;
 import java.nio.file.Files;
 
 
+@StaticFactories(value = "Engine", packageName = "org.saynotobugs.confidence.junit5.engine")
 public final class TempDir implements Fragile<Given.Resource<File>, Exception>
 {
     @Override

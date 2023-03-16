@@ -22,12 +22,14 @@ import org.dmfs.jems2.BiFunction;
 import org.dmfs.jems2.Fragile;
 import org.dmfs.jems2.Function;
 import org.dmfs.jems2.Single;
+import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.junit5.engine.Verifiable;
 
 
 /**
  * A {@link Verifiable} that provides a certain environment to another {@link Verifiable}.
  */
+@StaticFactories(value = "Engine", packageName = "org.saynotobugs.confidence.junit5.engine")
 public final class Given implements Verifiable
 {
     public interface Resource<T> extends Single<T>, AutoCloseable

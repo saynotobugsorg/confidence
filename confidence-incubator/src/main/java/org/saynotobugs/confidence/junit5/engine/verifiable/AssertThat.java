@@ -25,7 +25,7 @@ import org.saynotobugs.confidence.junit5.engine.Verifiable;
 import static org.saynotobugs.confidence.Assertion.assertThat;
 
 
-@StaticFactories(value = "Assertions", packageName = "org.saynotobugs.confidence.junit5.engine")
+@StaticFactories(value = "Engine", packageName = "org.saynotobugs.confidence.junit5.engine")
 public final class AssertThat<T> implements Verifiable
 {
     private final String mName;

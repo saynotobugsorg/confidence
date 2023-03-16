@@ -21,9 +21,11 @@ package org.saynotobugs.confidence.junit5.engine.verifiable;
 import org.dmfs.jems2.BiFunction;
 import org.dmfs.jems2.Function;
 import org.dmfs.jems2.Generator;
+import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.junit5.engine.Verifiable;
 
 
+@StaticFactories(value = "Engine", packageName = "org.saynotobugs.confidence.junit5.engine")
 public final class Using implements Verifiable
 {
     private final Runnable mDelegate;
