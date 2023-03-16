@@ -23,7 +23,7 @@ import org.saynotobugs.confidence.junit5.engine.Verifiable;
 import org.saynotobugs.confidence.junit5.engine.VerifiableGroup;
 import org.saynotobugs.confidence.junit5.engine.verifiablegroup.Group;
 
-import static org.saynotobugs.confidence.junit5.engine.Assertions.assertThat;
+import static org.saynotobugs.confidence.junit5.engine.Engine.assertThat;
 import static org.saynotobugs.confidence.quality.Core.hasToString;
 import static org.saynotobugs.confidence.quality.Core.supplies;
 

@@ -29,7 +29,7 @@ import org.saynotobugs.confidence.test.quality.Passes;
 
 import java.util.Optional;
 
-import static org.saynotobugs.confidence.junit5.engine.Assertions.assertThat;
+import static org.saynotobugs.confidence.junit5.engine.Engine.assertThat;
 
 
 @Confidence
