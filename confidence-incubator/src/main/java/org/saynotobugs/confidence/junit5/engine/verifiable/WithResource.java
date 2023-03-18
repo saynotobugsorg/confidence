@@ -18,11 +18,9 @@
 
 package org.saynotobugs.confidence.junit5.engine.verifiable;
 
-import org.dmfs.jems2.BiFunction;
-import org.dmfs.jems2.Fragile;
-import org.dmfs.jems2.Function;
-import org.dmfs.jems2.Single;
+import org.dmfs.jems2.*;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
+import org.dmfs.srcless.annotations.staticfactory.StaticFactory;
 import org.saynotobugs.confidence.junit5.engine.Verifiable;
 
 
@@ -30,7 +28,7 @@ import org.saynotobugs.confidence.junit5.engine.Verifiable;
  * A {@link Verifiable} that provides a certain environment to another {@link Verifiable}.
  */
 @StaticFactories(value = "ConfidenceEngine", packageName = "org.saynotobugs.confidence.junit5.engine")
-public final class Given implements Verifiable
+public final class WithResource implements Verifiable
 {
     public interface Resource<T> extends Single<T>, AutoCloseable
     {
@@ -41,16 +39,16 @@ public final class Given implements Verifiable
     private final String mName;
 
 
-    public <T> Given(Fragile<Resource<T>, Exception> environment, Function<T, Verifiable> delegate)
+    public <T> WithResource(Fragile<Resource<T>, Exception> res, Function<T, Verifiable> delegate)
     {
-        this("", environment, delegate);
+        this("", res, delegate);
     }
 
 
-    public <T> Given(String name, Fragile<Resource<T>, Exception> environment, Function<T, Verifiable> delegate)
+    public <T> WithResource(String name, Fragile<Resource<T>, Exception> res, Function<T, Verifiable> delegate)
     {
         this(name, () -> {
-            try (Resource<T> resource = environment.value())
+            try (Resource<T> resource = res.value())
             {
                 delegate.value(resource.value()).verify();
             }
@@ -62,18 +60,30 @@ public final class Given implements Verifiable
     }
 
 
-    public <T, V> Given(Fragile<Resource<T>, Exception> env1, Fragile<Resource<V>, Exception> env2, BiFunction<T, V, Verifiable> delegate)
+    @StaticFactory(value = "ConfidenceEngine", packageName = "org.saynotobugs.confidence.junit5.engine", methodName = "withResources")
+    public <T, V> WithResource(Fragile<Resource<T>, Exception> res1, Fragile<Resource<V>, Exception> res2, BiFunction<T, V, Verifiable> delegate)
     {
-        this("", env1, env2, delegate);
+        this("", res1, res2, delegate);
     }
 
 
-    public <T, V> Given(String name, Fragile<Resource<T>, Exception> env1, Fragile<Resource<V>, Exception> env2, BiFunction<T, V, Verifiable> delegate)
+    @StaticFactory(value = "ConfidenceEngine", packageName = "org.saynotobugs.confidence.junit5.engine", methodName = "withResources")
+    public <T, V> WithResource(String name, Fragile<Resource<T>, Exception> res1, Fragile<Resource<V>, Exception> res2, BiFunction<T, V, Verifiable> delegate)
+    {
+        this(name, res1, ignored -> res2.value(), delegate);
+    }
+
+
+    @StaticFactory(value = "ConfidenceEngine", packageName = "org.saynotobugs.confidence.junit5.engine", methodName = "withResources")
+    public <T, V> WithResource(String name,
+        Fragile<Resource<T>, Exception> res1,
+        FragileFunction<T, Resource<V>, Exception> res2,
+        BiFunction<T, V, Verifiable> delegate)
     {
         this(name, () -> {
-            try (Resource<T> resource = env1.value(); Resource<V> resource2 = env2.value())
+            try (Resource<T> resource1 = res1.value(); Resource<V> resource2 = res2.value(resource1.value()))
             {
-                delegate.value(resource.value(), resource2.value()).verify();
+                delegate.value(resource1.value(), resource2.value()).verify();
             }
             catch (Exception e)
             {
@@ -83,7 +93,7 @@ public final class Given implements Verifiable
     }
 
 
-    private Given(String name, Runnable delegate)
+    private WithResource(String name, Runnable delegate)
     {
         mName = name;
         mDelegate = delegate;

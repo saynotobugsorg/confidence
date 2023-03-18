@@ -37,17 +37,17 @@ import static org.mockito.Mockito.verify;
 import static org.saynotobugs.confidence.Assertion.assertThat;
 
 
-class GivenTest
+class WithResourceTest
 {
     @Test
     void testPassSingleResource() throws Exception
     {
         Object resourceDummy = new Object();
-        Given.Resource<Object> mockResource = mock(Given.Resource.class,
-            with(Given.Resource::value, returning(resourceDummy)),
-            withVoid(Given.Resource::close, doingNothing()));
+        WithResource.Resource<Object> mockResource = mock(WithResource.Resource.class,
+            with(WithResource.Resource::value, returning(resourceDummy)),
+            withVoid(WithResource.Resource::close, doingNothing()));
 
-        assertThat(new Given(() -> mockResource,
+        assertThat(new WithResource(() -> mockResource,
                 mock(Function.class,
                     with(f -> f.value(resourceDummy), returning(mock(Verifiable.class,
                         withVoid(Verifiable::verify, doingNothing())))))),
@@ -65,11 +65,11 @@ class GivenTest
     void testFailSingleResource() throws Exception
     {
         Object resourceDummy = new Object();
-        Given.Resource<Object> mockResource = mock(Given.Resource.class,
-            with(Given.Resource::value, returning(resourceDummy)),
-            withVoid(Given.Resource::close, doingNothing()));
+        WithResource.Resource<Object> mockResource = mock(WithResource.Resource.class,
+            with(WithResource.Resource::value, returning(resourceDummy)),
+            withVoid(WithResource.Resource::close, doingNothing()));
 
-        assertThat(new Given(() -> mockResource,
+        assertThat(new WithResource(() -> mockResource,
                 mock(Function.class,
                     with(f -> f.value(any()), returning(mock(Verifiable.class,
                         withVoid(Verifiable::verify, doingNothing())))),
@@ -88,7 +88,7 @@ class GivenTest
     @Test
     void testFailToCreateResource() throws Exception
     {
-        assertThat(new Given(() -> {throw new IOException();},
+        assertThat(new WithResource(() -> {throw new IOException();},
                 mock(Function.class,
                     with(f -> f.value(any()), returning(mock(Verifiable.class,
                         withVoid(Verifiable::verify, doingNothing())))))),
@@ -105,14 +105,14 @@ class GivenTest
     {
         Object resourceDummy1 = new Object();
         Object resourceDummy2 = new Object();
-        Given.Resource<Object> mockResource1 = mock(Given.Resource.class,
-            with(Given.Resource::value, returning(resourceDummy1)),
-            withVoid(Given.Resource::close, doingNothing()));
-        Given.Resource<Object> mockResource2 = mock(Given.Resource.class,
-            with(Given.Resource::value, returning(resourceDummy2)),
-            withVoid(Given.Resource::close, doingNothing()));
+        WithResource.Resource<Object> mockResource1 = mock(WithResource.Resource.class,
+            with(WithResource.Resource::value, returning(resourceDummy1)),
+            withVoid(WithResource.Resource::close, doingNothing()));
+        WithResource.Resource<Object> mockResource2 = mock(WithResource.Resource.class,
+            with(WithResource.Resource::value, returning(resourceDummy2)),
+            withVoid(WithResource.Resource::close, doingNothing()));
 
-        assertThat(new Given(() -> mockResource1, () -> mockResource2,
+        assertThat(new WithResource(() -> mockResource1, () -> mockResource2,
                 mock(BiFunction.class,
                     with(f -> f.value(resourceDummy1, resourceDummy2), returning(mock(Verifiable.class,
                         withVoid(Verifiable::verify, doingNothing())))))),
@@ -132,14 +132,14 @@ class GivenTest
     {
         Object resourceDummy1 = new Object();
         Object resourceDummy2 = new Object();
-        Given.Resource<Object> mockResource1 = mock(Given.Resource.class,
-            with(Given.Resource::value, returning(resourceDummy1)),
-            withVoid(Given.Resource::close, doingNothing()));
-        Given.Resource<Object> mockResource2 = mock(Given.Resource.class,
-            with(Given.Resource::value, returning(resourceDummy2)),
-            withVoid(Given.Resource::close, doingNothing()));
+        WithResource.Resource<Object> mockResource1 = mock(WithResource.Resource.class,
+            with(WithResource.Resource::value, returning(resourceDummy1)),
+            withVoid(WithResource.Resource::close, doingNothing()));
+        WithResource.Resource<Object> mockResource2 = mock(WithResource.Resource.class,
+            with(WithResource.Resource::value, returning(resourceDummy2)),
+            withVoid(WithResource.Resource::close, doingNothing()));
 
-        assertThat(new Given(() -> mockResource1, () -> mockResource2,
+        assertThat(new WithResource(() -> mockResource1, () -> mockResource2,
                 mock(BiFunction.class,
                     with(f -> f.value(any(), any()), returning(mock(Verifiable.class,
                         withVoid(Verifiable::verify, doingNothing())))),
@@ -160,11 +160,11 @@ class GivenTest
     void testFailToCreateDoubleResource() throws Exception
     {
         Object resourceDummy1 = new Object();
-        Given.Resource<Object> mockResource1 = mock(Given.Resource.class,
-            with(Given.Resource::value, returning(resourceDummy1)),
-            withVoid(Given.Resource::close, doingNothing()));
+        WithResource.Resource<Object> mockResource1 = mock(WithResource.Resource.class,
+            with(WithResource.Resource::value, returning(resourceDummy1)),
+            withVoid(WithResource.Resource::close, doingNothing()));
 
-        assertThat(new Given(() -> mockResource1, () -> {throw new IOException();},
+        assertThat(new WithResource(() -> mockResource1, () -> {throw new IOException();},
                 mock(BiFunction.class,
                     with(f -> f.value(any(), any()), returning(mock(Verifiable.class,
                         withVoid(Verifiable::verify, doingNothing())))))),
