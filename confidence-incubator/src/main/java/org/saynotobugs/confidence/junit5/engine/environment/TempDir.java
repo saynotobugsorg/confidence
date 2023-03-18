@@ -23,6 +23,7 @@ import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.junit5.engine.verifiable.Given;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 
 
@@ -52,9 +53,9 @@ public final class TempDir implements Fragile<Given.Resource<File>, Exception>
         return new Given.Resource<File>()
         {
             @Override
-            public void close()
+            public void close() throws IOException
             {
-                dir.delete();
+                delete(dir);
             }
 
 
@@ -63,6 +64,21 @@ public final class TempDir implements Fragile<Given.Resource<File>, Exception>
             {
                 return dir;
             }
+
         };
+    }
+
+
+    private static void delete(File file) throws IOException
+    {
+        File[] files = file.listFiles();
+        if (files != null)
+        {
+            for (File f : files)
+            {
+                delete(f);
+            }
+        }
+        Files.deleteIfExists(file.toPath());
     }
 }

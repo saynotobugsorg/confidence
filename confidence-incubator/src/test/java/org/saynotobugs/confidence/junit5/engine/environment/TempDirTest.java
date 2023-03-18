@@ -31,12 +31,30 @@ import static org.saynotobugs.confidence.quality.Core.*;
 class TempDirTest
 {
     @Test
-    void test()
+    void testEmpty()
     {
         assertThat(new TempDir(),
             // todo: create and use Resource Quality to test the resource for correct cleanup
             hasValue(
                 allOf(
+                    autoClosableThat(hasValue(satisfies(File::isDirectory, new TextDescription("is Directory")))),
+                    hasValue(not(satisfies(File::exists, new TextDescription("exists"))))))
+        );
+    }
+
+
+    @Test
+    void testWithContent()
+    {
+        assertThat(new TempDir(),
+            // todo: create and use Resource Quality to test the resource for correct cleanup
+            hasValue(
+                allOf(
+                    hasValue(has("file abc", f -> {
+                        File x = new File(f, "abc");
+                        x.createNewFile();
+                        return x;
+                    }, satisfies(File::isFile, new TextDescription("is file")))),
                     autoClosableThat(hasValue(satisfies(File::isDirectory, new TextDescription("is Directory")))),
                     hasValue(not(satisfies(File::exists, new TextDescription("exists"))))))
         );
