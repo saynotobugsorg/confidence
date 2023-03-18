@@ -13,8 +13,8 @@ dependencies {
     annotationProcessor 'org.dmfs:srcless-processors:0.3.0'
     annotationProcessor 'org.dmfs:nullless-processors:0.3.0'
     implementation project(':confidence-core')
-    implementation 'org.dmfs:jems2:2.14.0'
-    testImplementation 'org.dmfs:jems2-testing:2.14.0'
+    implementation 'org.dmfs:jems2:2.17.0'
+    testImplementation 'org.dmfs:jems2-testing:2.17.0'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
 }
