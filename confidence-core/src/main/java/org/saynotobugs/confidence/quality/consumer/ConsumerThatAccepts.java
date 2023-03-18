@@ -18,39 +18,28 @@
 
 package org.saynotobugs.confidence.quality.consumer;
 
+import org.dmfs.jems2.FragileFunction;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
-import org.saynotobugs.confidence.Description;
+import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.TextDescription;
 import org.saynotobugs.confidence.description.ValueDescription;
+import org.saynotobugs.confidence.quality.composite.Has;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
-import org.saynotobugs.confidence.quality.object.Successfully;
 
 import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 
 @StaticFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality")
-public final class ConsumerThatAccepts<T> extends QualityComposition<Consumer<T>>
+public final class ConsumerThatAccepts<T, C> extends QualityComposition<FragileFunction<T, Consumer<C>, ?>>
 {
-    public ConsumerThatAccepts(Description successdescription, Description faildescription, Supplier<T> valueSupplier)
+    public ConsumerThatAccepts(T value, Quality<Consumer<C>> delegate)
     {
-        super(new Successfully<>(successdescription, faildescription, consumer -> consumer.accept(valueSupplier.get())));
+        super(new Has<>(
+            new Spaced(new TextDescription("Consumer that accepts"), new ValueDescription(value)),
+            new Spaced(new TextDescription("Consumer that accepted"), new ValueDescription(value)),
+            f -> f.value(value),
+            delegate));
     }
 
-
-    public ConsumerThatAccepts(Supplier<T> valueSupplier)
-    {
-        this(new Spaced(new TextDescription("Consumer that accepts"), new ValueDescription(valueSupplier.get())),
-            new Spaced(new TextDescription("Consumer that accepts"), new ValueDescription(valueSupplier.get()), new TextDescription("threw")),
-            valueSupplier);
-    }
-
-
-    public ConsumerThatAccepts(T value)
-    {
-        this(new Spaced(new TextDescription("Consumer that accepts"), new ValueDescription(value)),
-            new Spaced(new TextDescription("Consumer that accepts"), new ValueDescription(value), new TextDescription("threw")),
-            () -> value);
-    }
 }

@@ -18,8 +18,6 @@
 
 package org.saynotobugs.confidence;
 
-import org.dmfs.jems2.Fragile;
-import org.dmfs.jems2.Procedure;
 import org.saynotobugs.confidence.scribe.StringBuilderScribe;
 
 
@@ -40,23 +38,4 @@ public final class Assertion
                     "Actual:   " + System.lineSeparator() + System.lineSeparator() + diff + System.lineSeparator());
         }
     }
-
-    public static <Env extends AutoCloseable> void given(Fragile<Env, Exception> environment, Procedure<Env> assertion)
-    {
-        try(Env env = environment.value())
-        {
-            assertion.process(env);
-        }
-        catch (Exception e)
-        {
-            throw new RuntimeException(e);
-        }
-    }
 }
-/*
-
-given(()->new File(), file-> assertThat(new Testee())).is(...);
-
-
-
- */

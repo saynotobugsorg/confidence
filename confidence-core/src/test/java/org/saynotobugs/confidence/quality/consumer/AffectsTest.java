@@ -33,18 +33,18 @@ import java.util.ArrayList;
 import static org.saynotobugs.confidence.Assertion.assertThat;
 
 
-class ConsumerThatAffectsTest
+class AffectsTest
 {
 
     @Test
     void testWithDescription()
     {
-        assertThat(new ConsumerThatAffects<>(
+        assertThat(new Affects<>(
                 new Spaced(new TextDescription("adds <a> to list")), ArrayList::new, new SoIt<>(new Contains<>("a"))),
             new AllOf<>(
                 new Passes<>(l -> l.add("a")),
-                new Fails<>(l -> l.add("b"), "Consumer that adds <a> to list but [ \"b\" ] did not contain { \"a\" }"),
-                new HasDescription("Consumer that adds <a> to list so it contains { \"a\" }")
+                new Fails<>(l -> l.add("b"), "adds <a> to list but [ \"b\" ] did not contain { \"a\" }"),
+                new HasDescription("adds <a> to list so it contains { \"a\" }")
             ));
     }
 
@@ -52,11 +52,11 @@ class ConsumerThatAffectsTest
     @Test
     void testWithoutDescription()
     {
-        assertThat(new ConsumerThatAffects<>(ArrayList::new, new SoIt<>(new Contains<>("a"))),
+        assertThat(new Affects<>(ArrayList::new, new SoIt<>(new Contains<>("a"))),
             new AllOf<>(
                 new Passes<>(l -> l.add("a")),
-                new Fails<>(l -> l.add("b"), "Consumer that affects [  ] but [ \"b\" ] did not contain { \"a\" }"),
-                new HasDescription("Consumer that affects [  ] so it contains { \"a\" }")
+                new Fails<>(l -> l.add("b"), "affects [  ] but [ \"b\" ] did not contain { \"a\" }"),
+                new HasDescription("affects [  ] so it contains { \"a\" }")
             ));
     }
 

@@ -19,11 +19,13 @@
 package org.saynotobugs.confidence.quality.consumer;
 
 import org.junit.jupiter.api.Test;
-import org.saynotobugs.confidence.description.TextDescription;
 import org.saynotobugs.confidence.quality.composite.AllOf;
-import org.saynotobugs.confidence.test.quality.Fails;
+import org.saynotobugs.confidence.quality.grammar.SoIt;
+import org.saynotobugs.confidence.quality.iterable.Contains;
 import org.saynotobugs.confidence.test.quality.HasDescription;
 import org.saynotobugs.confidence.test.quality.Passes;
+
+import java.util.ArrayList;
 
 import static org.saynotobugs.confidence.Assertion.assertThat;
 
@@ -34,35 +36,10 @@ class ConsumerThatAcceptsTest
     @Test
     void testDirectValue()
     {
-        assertThat(new ConsumerThatAccepts<>("a"),
+        assertThat(new ConsumerThatAccepts<>("a", new SoIt<>(new Affects<>(ArrayList::new, new SoIt<>(new Contains<>("a"))))),
             new AllOf<>(
-                new Passes<>(x -> {}),
-                new Fails<>(x -> {throw new RuntimeException();}, "Consumer that accepts \"a\" threw <java.lang.RuntimeException>"),
-                new HasDescription("Consumer that accepts \"a\"")
-            ));
-    }
-
-
-    @Test
-    void testSuppliedValue()
-    {
-        assertThat(new ConsumerThatAccepts<>(() -> "a"),
-            new AllOf<>(
-                new Passes<>(x -> {}),
-                new Fails<>(x -> {throw new RuntimeException();}, "Consumer that accepts \"a\" threw <java.lang.RuntimeException>"),
-                new HasDescription("Consumer that accepts \"a\"")
-            ));
-    }
-
-
-    @Test
-    void testSuppliedValueWithDescription()
-    {
-        assertThat(new ConsumerThatAccepts<>(new TextDescription("Pass"), new TextDescription("Fail"), () -> "a"),
-            new AllOf<>(
-                new Passes<>(x -> {}),
-                new Fails<>(x -> {throw new RuntimeException();}, "Fail <java.lang.RuntimeException>"),
-                new HasDescription("Pass")
+                new Passes<>(x -> (ArrayList<String> list) -> list.add(x)),
+                new HasDescription("Consumer that accepts \"a\" so it affects [  ] so it contains { \"a\" }")
             ));
     }
 }

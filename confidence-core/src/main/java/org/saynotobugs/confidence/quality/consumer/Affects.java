@@ -34,7 +34,7 @@ import java.util.function.Supplier;
 
 
 @StaticFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality")
-public final class ConsumerThatAffects<T> implements Quality<Consumer<T>>
+public final class Affects<T> implements Quality<Consumer<T>>
 {
     private final Description mValueDescription;
     private final Supplier<T> mValueSupplier;
@@ -48,7 +48,7 @@ public final class ConsumerThatAffects<T> implements Quality<Consumer<T>>
      * <p>
      * For best results, decorate the value{@link Quality} with {@link SoIt} or {@link Core#soIt(Quality)}.
      */
-    public ConsumerThatAffects(Description valueDescription, Supplier<T> valueSupplier, Quality<? super T> valueQuality)
+    public Affects(Description valueDescription, Supplier<T> valueSupplier, Quality<? super T> valueQuality)
     {
         mValueDescription = valueDescription;
         mValueSupplier = valueSupplier;
@@ -63,7 +63,7 @@ public final class ConsumerThatAffects<T> implements Quality<Consumer<T>>
      * <p>
      * For best results, decorate the value{@link Quality} with {@link SoIt} or {@link Core#soIt(Quality)}.
      */
-    public ConsumerThatAffects(Supplier<T> valueSupplier, Quality<? super T> valueQuality)
+    public Affects(Supplier<T> valueSupplier, Quality<? super T> valueQuality)
     {
         this(new Spaced(new TextDescription("affects"), new ValueDescription(valueSupplier.get())), valueSupplier, valueQuality);
     }
@@ -74,7 +74,7 @@ public final class ConsumerThatAffects<T> implements Quality<Consumer<T>>
     {
         T value = mValueSupplier.get();
         candidate.accept(value);
-        return new FailPrepended(new Spaced(new TextDescription("Consumer that"), mValueDescription),
+        return new FailPrepended(mValueDescription,
             mValueQuality.assessmentOf(value));
     }
 
@@ -82,6 +82,6 @@ public final class ConsumerThatAffects<T> implements Quality<Consumer<T>>
     @Override
     public Description description()
     {
-        return new Spaced(new TextDescription("Consumer that"), mValueDescription, mValueQuality.description());
+        return new Spaced(mValueDescription, mValueQuality.description());
     }
 }
