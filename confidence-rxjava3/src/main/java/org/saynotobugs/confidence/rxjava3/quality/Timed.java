@@ -19,6 +19,7 @@
 package org.saynotobugs.confidence.rxjava3.quality;
 
 import org.dmfs.jems2.Function;
+import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.description.Spaced;
@@ -33,6 +34,7 @@ import java.time.Instant;
 import java.util.concurrent.TimeUnit;
 
 
+@StaticFactories(value = "RxJava3", packageName = "org.saynotobugs.confidence.rxjava3")
 public final class Timed<T> extends QualityComposition<io.reactivex.rxjava3.schedulers.Timed<T>>
 {
     public Timed(long millis, T value)
