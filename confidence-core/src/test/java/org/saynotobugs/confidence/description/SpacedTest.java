@@ -12,8 +12,8 @@ class SpacedTest
     void testDefaultDelimiter()
     {
         assertThat(new Spaced(), new DescribesAs(""));
-        assertThat(new Spaced(new TextDescription("a")), new DescribesAs("a"));
-        assertThat(new Spaced(new TextDescription("a"), new TextDescription("b"), new TextDescription("c")), new DescribesAs("a b c"));
+        assertThat(new Spaced(new Text("a")), new DescribesAs("a"));
+        assertThat(new Spaced(new Text("a"), new Text("b"), new Text("c")), new DescribesAs("a b c"));
     }
 
 }

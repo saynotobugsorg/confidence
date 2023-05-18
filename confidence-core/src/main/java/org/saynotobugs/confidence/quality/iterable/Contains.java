@@ -29,9 +29,9 @@ import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.Fail;
 import org.saynotobugs.confidence.assessment.Pass;
 import org.saynotobugs.confidence.description.Spaced;
-import org.saynotobugs.confidence.description.StructuredDescription;
-import org.saynotobugs.confidence.description.TextDescription;
-import org.saynotobugs.confidence.description.ValueDescription;
+import org.saynotobugs.confidence.description.Structured;
+import org.saynotobugs.confidence.description.Text;
+import org.saynotobugs.confidence.description.Value;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 import org.saynotobugs.confidence.quality.object.EqualTo;
 
@@ -69,9 +69,9 @@ public final class Contains<T> extends QualityComposition<Iterable<T>>
     {
         super(actual -> assess(actual, delegates),
             new Spaced(
-                new TextDescription("contains {"),
-                new StructuredDescription(COMMA_NEW_LINE, new Mapped<>(Quality::description, delegates)),
-                new TextDescription("}")));
+                new Text("contains {"),
+                new Structured(COMMA_NEW_LINE, new Mapped<>(Quality::description, delegates)),
+                new Text("}")));
     }
 
 
@@ -82,10 +82,10 @@ public final class Contains<T> extends QualityComposition<Iterable<T>>
         {
             return new Fail(
                 new Spaced(
-                    new ValueDescription(actual),
-                    new TextDescription("did not contain {"),
-                    new StructuredDescription(COMMA_NEW_LINE, new Mapped<>(Quality::description, missing)),
-                    new TextDescription("}")));
+                    new Value(actual),
+                    new Text("did not contain {"),
+                    new Structured(COMMA_NEW_LINE, new Mapped<>(Quality::description, missing)),
+                    new Text("}")));
         }
         return new Pass();
     }

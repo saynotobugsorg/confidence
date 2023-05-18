@@ -20,7 +20,7 @@ package org.saynotobugs.confidence.quality.consumer;
 
 import org.junit.jupiter.api.Test;
 import org.saynotobugs.confidence.description.Spaced;
-import org.saynotobugs.confidence.description.TextDescription;
+import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.quality.composite.AllOf;
 import org.saynotobugs.confidence.quality.grammar.SoIt;
 import org.saynotobugs.confidence.quality.iterable.Contains;
@@ -40,7 +40,7 @@ class ConsumerThatAffectsTest
     void testWithDescription()
     {
         assertThat(new ConsumerThatAffects<>(
-                new Spaced(new TextDescription("adds <a> to list")), ArrayList::new, new SoIt<>(new Contains<>("a"))),
+                new Spaced(new Text("adds <a> to list")), ArrayList::new, new SoIt<>(new Contains<>("a"))),
             new AllOf<>(
                 new Passes<>(l -> l.add("a")),
                 new Fails<>(l -> l.add("b"), "Consumer that adds <a> to list but [ \"b\" ] did not contain { \"a\" }"),

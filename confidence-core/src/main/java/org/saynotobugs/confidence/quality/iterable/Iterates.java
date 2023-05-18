@@ -31,9 +31,9 @@ import org.saynotobugs.confidence.assessment.AllPassed;
 import org.saynotobugs.confidence.assessment.Fail;
 import org.saynotobugs.confidence.assessment.iterable.Numbered;
 import org.saynotobugs.confidence.description.Spaced;
-import org.saynotobugs.confidence.description.StructuredDescription;
-import org.saynotobugs.confidence.description.TextDescription;
-import org.saynotobugs.confidence.description.ValueDescription;
+import org.saynotobugs.confidence.description.Structured;
+import org.saynotobugs.confidence.description.Text;
+import org.saynotobugs.confidence.description.Value;
 import org.saynotobugs.confidence.quality.object.EqualTo;
 
 import static org.saynotobugs.confidence.description.LiteralDescription.COMMA_NEW_LINE;
@@ -68,15 +68,15 @@ public final class Iterates<T> implements Quality<Iterable<T>>
     @Override
     public Assessment assessmentOf(Iterable<T> candidate)
     {
-        return new AllPassed(new TextDescription("iterated [ "), COMMA_NEW_LINE, new TextDescription(" ]"),
+        return new AllPassed(new Text("iterated [ "), COMMA_NEW_LINE, new Text(" ]"),
             new Numbered(
                 new OuterZipped<>(
                     mDelegates,
                     candidate,
                     (left, right) -> new Backed<>(new Zipped<>(left, right, Quality::assessmentOf),
                         () -> new Fail(left.isPresent()
-                            ? new Spaced(new TextDescription("missing"), left.value().description())
-                            : new Spaced(new TextDescription("additional"), new ValueDescription(right.value())))).value()
+                            ? new Spaced(new Text("missing"), left.value().description())
+                            : new Spaced(new Text("additional"), new Value(right.value())))).value()
                 )));
     }
 
@@ -84,10 +84,10 @@ public final class Iterates<T> implements Quality<Iterable<T>>
     @Override
     public Description description()
     {
-        return new StructuredDescription(
-            new TextDescription("iterates [ "),
+        return new Structured(
+            new Text("iterates [ "),
             COMMA_NEW_LINE,
-            new TextDescription(" ]"),
+            new Text(" ]"),
             new org.saynotobugs.confidence.description.iterable.Numbered(new Mapped<>(Quality::description, mDelegates)));
     }
 }

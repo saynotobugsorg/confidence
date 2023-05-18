@@ -54,10 +54,10 @@ public final class Passes<T> implements Quality<Quality<? super T>>
     @Override
     public Assessment assessmentOf(Quality<? super T> candidate)
     {
-        return new AllPassed(new TextDescription("matched"), new Composite(NEW_LINE, new TextDescription("and"), NEW_LINE), EMPTY,
+        return new AllPassed(new Text("matched"), new Composite(NEW_LINE, new Text("and"), NEW_LINE), EMPTY,
             new Mapped<>(
                 value -> new FailUpdated(
-                    orig -> new Spaced(new ValueDescription(value), new TextDescription("mismatched with"), new DescriptionDescription(orig)),
+                    orig -> new Spaced(new Value(value), new Text("mismatched with"), new DescriptionDescription(orig)),
                     candidate.assessmentOf(value)),
                 mMatchingValues
             ));
@@ -67,7 +67,7 @@ public final class Passes<T> implements Quality<Quality<? super T>>
     @Override
     public Description description()
     {
-        return new StructuredDescription(new TextDescription("matches "), new Composite(NEW_LINE, new TextDescription("and"), NEW_LINE), EMPTY,
-            new Mapped<>(ValueDescription::new, mMatchingValues));
+        return new Structured(new Text("matches "), new Composite(NEW_LINE, new Text("and"), NEW_LINE), EMPTY,
+            new Mapped<>(Value::new, mMatchingValues));
     }
 }

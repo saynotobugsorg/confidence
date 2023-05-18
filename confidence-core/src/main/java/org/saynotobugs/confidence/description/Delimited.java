@@ -61,7 +61,7 @@ public final class Delimited implements Description
      */
     public Delimited(CharSequence delimiter, Iterable<? extends Description> descriptions)
     {
-        this(new TextDescription(delimiter), descriptions);
+        this(new Text(delimiter), descriptions);
     }
 
 

@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.saynotobugs.confidence.assessment.PassIf;
 import org.saynotobugs.confidence.description.NumberDescription;
 import org.saynotobugs.confidence.description.Spaced;
-import org.saynotobugs.confidence.description.TextDescription;
+import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.quality.comparable.GreaterThan;
 import org.saynotobugs.confidence.quality.comparable.LessThan;
 import org.saynotobugs.confidence.quality.compat.Hamcrest;
@@ -165,7 +165,7 @@ public final class Examples
     @Test
     void testHaving2()
     {
-        assertThat(123, new Has<>(new TextDescription("has hash"), new TextDescription("had hash"), Objects::hashCode, new EqualTo<>(125)));
+        assertThat(123, new Has<>(new Text("has hash"), new Text("had hash"), Objects::hashCode, new EqualTo<>(125)));
     }
 
 
@@ -192,7 +192,7 @@ public final class Examples
             public Assessment assessmentOf(String candidate)
             {
                 return new PassIf(candidate.length() == 3, new Spaced(
-                    new TextDescription("String length was"),
+                    new Text("String length was"),
                     new NumberDescription(candidate.length())));
             }
 
@@ -200,7 +200,7 @@ public final class Examples
             @Override
             public Description description()
             {
-                return new TextDescription("String with length 3");
+                return new Text("String with length 3");
             }
         }, new Passes<>(
             "123",
@@ -220,7 +220,7 @@ public final class Examples
                        public Assessment assessmentOf(String candidate)
                        {
                            return new PassIf(candidate.length() == 3, new Spaced(
-                               new TextDescription("String length was"),
+                               new Text("String length was"),
                                new NumberDescription(candidate.length())));
                        }
 
@@ -228,7 +228,7 @@ public final class Examples
                        @Override
                        public Description description()
                        {
-                           return new TextDescription("String with length 3");
+                           return new Text("String with length 3");
                        }
                    },
             new AllOf<>(

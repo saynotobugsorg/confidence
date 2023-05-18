@@ -21,7 +21,7 @@ package org.saynotobugs.confidence.junit5.engine.environment;
 import org.dmfs.jems2.Fragile;
 import org.dmfs.jems2.FragileProcedure;
 import org.junit.jupiter.api.Test;
-import org.saynotobugs.confidence.description.TextDescription;
+import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.junit5.engine.verifiable.WithResource;
 
 import static org.dmfs.jems2.mockito.Mock.*;
@@ -43,7 +43,7 @@ class ResourceTest
             has("resource", Fragile::value,
                 allOf(
                     has("resource", WithResource.Resource::value, is(object)),
-                    successfully(new TextDescription("closes"), new TextDescription("did not close"), WithResource.Resource::close)
+                    successfully(new Text("closes"), new Text("did not close"), WithResource.Resource::close)
                 ))
         );
 

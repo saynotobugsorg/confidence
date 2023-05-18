@@ -1,7 +1,7 @@
 package org.saynotobugs.confidence.assessment;
 
 import org.junit.jupiter.api.Test;
-import org.saynotobugs.confidence.description.TextDescription;
+import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.test.quality.DescribesAs;
 import org.saynotobugs.confidence.test.quality.Failed;
 import org.saynotobugs.confidence.test.quality.Passed;
@@ -15,7 +15,7 @@ class AnyPassedTest
     @Test
     void testOnePass()
     {
-        assertThat(new AnyPassed(new TextDescription("e"), new TextDescription("x"), new Pass()),
+        assertThat(new AnyPassed(new Text("e"), new Text("x"), new Pass()),
             new Passed());
     }
 
@@ -23,7 +23,7 @@ class AnyPassedTest
     @Test
     void testMultiplePass()
     {
-        assertThat(new AnyPassed(new TextDescription("e"), new TextDescription("x"), new Pass(), new Pass(), new Pass()),
+        assertThat(new AnyPassed(new Text("e"), new Text("x"), new Pass(), new Pass(), new Pass()),
             new Passed());
     }
 
@@ -31,7 +31,7 @@ class AnyPassedTest
     @Test
     void testOneFail()
     {
-        assertThat(new AnyPassed(new TextDescription("e"), new TextDescription("x"), new Fail(new TextDescription("faaail"))),
+        assertThat(new AnyPassed(new Text("e"), new Text("x"), new Fail(new Text("faaail"))),
             new Failed(new DescribesAs("efaaail")));
     }
 
@@ -39,7 +39,7 @@ class AnyPassedTest
     @Test
     void testOneFailOnePass()
     {
-        assertThat(new AnyPassed(new TextDescription("e"), new TextDescription("x"), new Fail(new TextDescription("faaail")), new Pass()),
+        assertThat(new AnyPassed(new Text("e"), new Text("x"), new Fail(new Text("faaail")), new Pass()),
             new Passed());
     }
 
@@ -47,8 +47,8 @@ class AnyPassedTest
     @Test
     void testMultipleFail()
     {
-        assertThat(new AnyPassed(new TextDescription("e"), new TextDescription("x"), new Fail(new TextDescription("f1")), new Fail(new TextDescription("f2")),
-                new Fail(new TextDescription("f3"))),
+        assertThat(new AnyPassed(new Text("e"), new Text("x"), new Fail(new Text("f1")), new Fail(new Text("f2")),
+                new Fail(new Text("f3"))),
             new Failed(new DescribesAs("ef1xf2xf3")));
     }
 
@@ -56,9 +56,9 @@ class AnyPassedTest
     @Test
     void testMultipleFailWithExitTest()
     {
-        assertThat(new AnyPassed(new TextDescription("e"), new TextDescription("x"), new TextDescription("--"), new Fail(new TextDescription("f1")),
-                new Fail(new TextDescription("f2")),
-                new Fail(new TextDescription("f3"))),
+        assertThat(new AnyPassed(new Text("e"), new Text("x"), new Text("--"), new Fail(new Text("f1")),
+                new Fail(new Text("f2")),
+                new Fail(new Text("f3"))),
             new Failed(new DescribesAs("ef1xf2xf3--")));
     }
 }

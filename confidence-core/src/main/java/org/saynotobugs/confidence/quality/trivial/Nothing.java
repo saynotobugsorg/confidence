@@ -21,8 +21,8 @@ package org.saynotobugs.confidence.quality.trivial;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.Fail;
-import org.saynotobugs.confidence.description.TextDescription;
-import org.saynotobugs.confidence.description.ValueDescription;
+import org.saynotobugs.confidence.description.Text;
+import org.saynotobugs.confidence.description.Value;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 
 
@@ -39,6 +39,6 @@ public final class Nothing extends QualityComposition<Object>
      */
     public Nothing()
     {
-        super(actual -> new Fail(new ValueDescription(actual)), new TextDescription("<nothing>"));
+        super(actual -> new Fail(new Value(actual)), new Text("<nothing>"));
     }
 }

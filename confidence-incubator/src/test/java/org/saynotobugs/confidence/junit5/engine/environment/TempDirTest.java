@@ -19,7 +19,7 @@
 package org.saynotobugs.confidence.junit5.engine.environment;
 
 import org.junit.jupiter.api.Test;
-import org.saynotobugs.confidence.description.TextDescription;
+import org.saynotobugs.confidence.description.Text;
 
 import java.io.File;
 
@@ -37,8 +37,8 @@ class TempDirTest
             // todo: create and use Resource Quality to test the resource for correct cleanup
             hasValue(
                 allOf(
-                    autoClosableThat(hasValue(satisfies(File::isDirectory, new TextDescription("is Directory")))),
-                    hasValue(not(satisfies(File::exists, new TextDescription("exists"))))))
+                    autoClosableThat(hasValue(satisfies(File::isDirectory, new Text("is Directory")))),
+                    hasValue(not(satisfies(File::exists, new Text("exists"))))))
         );
     }
 
@@ -54,9 +54,9 @@ class TempDirTest
                         File x = new File(f, "abc");
                         x.createNewFile();
                         return x;
-                    }, satisfies(File::isFile, new TextDescription("is file")))),
-                    autoClosableThat(hasValue(satisfies(File::isDirectory, new TextDescription("is Directory")))),
-                    hasValue(not(satisfies(File::exists, new TextDescription("exists"))))))
+                    }, satisfies(File::isFile, new Text("is file")))),
+                    autoClosableThat(hasValue(satisfies(File::isDirectory, new Text("is Directory")))),
+                    hasValue(not(satisfies(File::exists, new Text("exists"))))))
         );
     }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 dmfs GmbH
+ * Copyright 2023 dmfs GmbH
  *
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,7 +26,10 @@ import org.saynotobugs.confidence.Description;
  * A plain text {@link Description}.
  * <p>
  * Note that certain control characters and {@code \} will be escaped in the result.
+ *
+ * @deprecated in favour of {@link Text}
  */
+@Deprecated
 public final class TextDescription extends DescriptionComposition
 {
     public TextDescription(CharSequence text)

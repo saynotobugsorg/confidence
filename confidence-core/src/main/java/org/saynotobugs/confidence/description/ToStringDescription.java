@@ -28,6 +28,6 @@ public final class ToStringDescription extends DescriptionComposition
 {
     public ToStringDescription(Object value)
     {
-        super(new QuotedDescription("<", new TextDescription(value::toString), ">"));
+        super(new QuotedDescription("<", new Text(value::toString), ">"));
     }
 }

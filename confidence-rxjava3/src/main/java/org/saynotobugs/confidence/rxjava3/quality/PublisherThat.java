@@ -22,7 +22,7 @@ import org.dmfs.jems2.Function;
 import org.dmfs.jems2.iterable.Seq;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.reactivestreams.Publisher;
-import org.saynotobugs.confidence.description.TextDescription;
+import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 import org.saynotobugs.confidence.rxjava3.RxExpectation;
 import org.saynotobugs.confidence.rxjava3.adapters.RxTestSubscriber;
@@ -44,7 +44,7 @@ public final class PublisherThat<T> extends QualityComposition<Function<? super 
     public PublisherThat(Iterable<? extends RxExpectation<T>> events)
     {
         super(new RxWithSchedulerThat<>(
-            new TextDescription("Publisher that"),
+            new Text("Publisher that"),
             publisher -> {
                 RxTestSubscriber<T> testObserver = new RxTestSubscriber<>();
                 publisher.subscribe(testObserver);

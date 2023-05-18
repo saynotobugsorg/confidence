@@ -25,7 +25,7 @@ import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.Fail;
 import org.saynotobugs.confidence.assessment.Pass;
-import org.saynotobugs.confidence.description.TextDescription;
+import org.saynotobugs.confidence.description.Text;
 
 
 @StaticFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality")
@@ -49,7 +49,7 @@ public final class Hamcrest<T> implements Quality<T>
         }
         org.hamcrest.Description mismatch = new StringDescription();
         mDelegate.describeMismatch(candidate, mismatch);
-        return new Fail(new TextDescription(mismatch.toString()));
+        return new Fail(new Text(mismatch.toString()));
     }
 
 
@@ -58,7 +58,7 @@ public final class Hamcrest<T> implements Quality<T>
     {
         org.hamcrest.Description expected = new StringDescription();
         mDelegate.describeTo(expected);
-        return new TextDescription(expected.toString());
+        return new Text(expected.toString());
     }
 
 }

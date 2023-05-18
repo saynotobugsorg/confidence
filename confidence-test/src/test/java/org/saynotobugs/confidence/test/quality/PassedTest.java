@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.assessment.Fail;
 import org.saynotobugs.confidence.assessment.Pass;
-import org.saynotobugs.confidence.description.TextDescription;
+import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.quality.composite.AllOf;
 
 import static org.saynotobugs.confidence.Assertion.assertThat;
@@ -31,10 +31,10 @@ class PassedTest
                     @Override
                     public org.saynotobugs.confidence.Description description()
                     {
-                        return new TextDescription("should not exist");
+                        return new Text("should not exist");
                     }
                 }, "passed but described failure described as\n  ----\n  \"should not exist\"\n  ----"),
-                new Fails<>(new Fail(new TextDescription("failed")), "failed"),
+                new Fails<>(new Fail(new Text("failed")), "failed"),
                 new HasDescription("passed")
             ));
     }

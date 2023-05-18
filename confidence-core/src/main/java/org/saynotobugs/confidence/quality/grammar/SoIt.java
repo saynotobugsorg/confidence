@@ -22,7 +22,7 @@ import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.description.Spaced;
-import org.saynotobugs.confidence.description.TextDescription;
+import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.quality.composite.DescribedAs;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 
@@ -35,6 +35,6 @@ public final class SoIt<T> extends QualityComposition<T>
      */
     public SoIt(Quality<T> delegate)
     {
-        super(new DescribedAs<>(d -> new Spaced(new TextDescription("but"), d), d -> new Spaced(new TextDescription("so it"), d), delegate));
+        super(new DescribedAs<>(d -> new Spaced(new Text("but"), d), d -> new Spaced(new Text("so it"), d), delegate));
     }
 }

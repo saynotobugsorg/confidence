@@ -24,8 +24,8 @@ import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.AllPassed;
 import org.saynotobugs.confidence.description.Composite;
-import org.saynotobugs.confidence.description.StructuredDescription;
-import org.saynotobugs.confidence.description.TextDescription;
+import org.saynotobugs.confidence.description.Structured;
+import org.saynotobugs.confidence.description.Text;
 
 import static org.saynotobugs.confidence.description.LiteralDescription.NEW_LINE;
 
@@ -49,12 +49,12 @@ public final class AllOf<T> extends QualityComposition<T>
     public AllOf(Iterable<? extends Quality<? super T>> delegates)
     {
         super(actual -> new AllPassed(
-                new TextDescription("{ "),
-                new Composite(NEW_LINE, new TextDescription("and"), NEW_LINE),
-                new TextDescription(" }"),
+                new Text("{ "),
+                new Composite(NEW_LINE, new Text("and"), NEW_LINE),
+                new Text(" }"),
                 new Mapped<>(d -> d.assessmentOf(actual), delegates)),
-            new StructuredDescription(
-                new Composite(NEW_LINE, new TextDescription("and"), NEW_LINE),
+            new Structured(
+                new Composite(NEW_LINE, new Text("and"), NEW_LINE),
                 new Mapped<>(Quality::description, delegates)));
     }
 }

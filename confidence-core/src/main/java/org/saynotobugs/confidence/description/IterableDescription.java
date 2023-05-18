@@ -30,16 +30,16 @@ import static org.saynotobugs.confidence.description.LiteralDescription.COMMA_NE
 public final class IterableDescription extends DescriptionComposition
 {
 
-    private static final TextDescription ENTRY_SEQUENCE = new TextDescription("[ ");
-    private static final TextDescription EXIT_SEQUENCE = new TextDescription(" ]");
+    private static final Text ENTRY_SEQUENCE = new Text("[ ");
+    private static final Text EXIT_SEQUENCE = new Text(" ]");
 
 
     public IterableDescription(Iterable<?> value)
     {
-        super(new StructuredDescription(
+        super(new Structured(
             ENTRY_SEQUENCE,
             COMMA_NEW_LINE,
             EXIT_SEQUENCE,
-            new Mapped<>(ValueDescription::new, value)));
+            new Mapped<>(Value::new, value)));
     }
 }

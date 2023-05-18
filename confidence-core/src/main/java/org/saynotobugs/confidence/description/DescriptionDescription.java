@@ -31,6 +31,6 @@ public final class DescriptionDescription extends DescriptionComposition
 
     public DescriptionDescription(Description description)
     {
-        super(new Indented(new Composite(NEW_LINE, new TextDescription("----"), NEW_LINE, description, NEW_LINE, new TextDescription("----"))));
+        super(new Indented(new Composite(NEW_LINE, new Text("----"), NEW_LINE, description, NEW_LINE, new Text("----"))));
     }
 }

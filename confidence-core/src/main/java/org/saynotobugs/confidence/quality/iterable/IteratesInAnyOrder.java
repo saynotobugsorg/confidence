@@ -32,9 +32,9 @@ import org.saynotobugs.confidence.assessment.Fail;
 import org.saynotobugs.confidence.assessment.FailUpdated;
 import org.saynotobugs.confidence.assessment.PassIf;
 import org.saynotobugs.confidence.description.Composite;
-import org.saynotobugs.confidence.description.StructuredDescription;
-import org.saynotobugs.confidence.description.TextDescription;
-import org.saynotobugs.confidence.description.ValueDescription;
+import org.saynotobugs.confidence.description.Structured;
+import org.saynotobugs.confidence.description.Text;
+import org.saynotobugs.confidence.description.Value;
 import org.saynotobugs.confidence.quality.object.EqualTo;
 
 import java.util.*;
@@ -96,27 +96,27 @@ public final class IteratesInAnyOrder<T> implements Quality<Iterable<T>>
         {
             if (values.size() != delegates.size())
             {
-                return new Fail(new Composite(new ValueDescription(candidate),
-                    new TextDescription(" has " + (values.size() > delegates.size() ? "more" : "fewer") + " elements than "),
-                    new StructuredDescription(new TextDescription("["), COMMA_NEW_LINE, new TextDescription("]"),
+                return new Fail(new Composite(new Value(candidate),
+                    new Text(" has " + (values.size() > delegates.size() ? "more" : "fewer") + " elements than "),
+                    new Structured(new Text("["), COMMA_NEW_LINE, new Text("]"),
                         new Mapped<>(Quality::description, delegates))));
             }
-            return new Fail(new Composite(new TextDescription("No permutation of "),
-                new StructuredDescription(new TextDescription("["), COMMA_NEW_LINE, new TextDescription("]"),
+            return new Fail(new Composite(new Text("No permutation of "),
+                new Structured(new Text("["), COMMA_NEW_LINE, new Text("]"),
                     new Mapped<>(Quality::description, delegates)),
-                new TextDescription(" matched "),
-                new ValueDescription(candidate)));
+                new Text(" matched "),
+                new Value(candidate)));
         }
-        return new FailUpdated(description -> new StructuredDescription(NEW_LINE, new Seq<>(
-            new StructuredDescription(
-                new TextDescription("iterated also ["),
+        return new FailUpdated(description -> new Structured(NEW_LINE, new Seq<>(
+            new Structured(
+                new Text("iterated also ["),
                 COMMA_NEW_LINE,
-                new TextDescription("]"),
-                new Mapped<>(ValueDescription::new, additionals)),
-            new StructuredDescription(
-                new TextDescription("did not iterate ["),
+                new Text("]"),
+                new Mapped<>(Value::new, additionals)),
+            new Structured(
+                new Text("did not iterate ["),
                 COMMA_NEW_LINE,
-                new TextDescription("]"),
+                new Text("]"),
                 new Mapped<>(Quality::description, unmatched)))),
             assessment);
     }
@@ -125,10 +125,10 @@ public final class IteratesInAnyOrder<T> implements Quality<Iterable<T>>
     @Override
     public Description description()
     {
-        return new StructuredDescription(
-            new TextDescription("iterates in any order ["),
+        return new Structured(
+            new Text("iterates in any order ["),
             COMMA_NEW_LINE,
-            new TextDescription("]"),
+            new Text("]"),
             new Mapped<>(Quality::description, mDelegates));
     }
 
@@ -140,7 +140,7 @@ public final class IteratesInAnyOrder<T> implements Quality<Iterable<T>>
     {
         if (candidates.size() == 0 || qualities.size() == 0)
         {
-            return new PassIf(candidates.size() == qualities.size(), new TextDescription(""));
+            return new PassIf(candidates.size() == qualities.size(), new Text(""));
         }
         for (int i = 0; i < candidates.size(); ++i)
         {
@@ -160,7 +160,7 @@ public final class IteratesInAnyOrder<T> implements Quality<Iterable<T>>
                 }
             }
         }
-        return new Fail(new TextDescription(""));
+        return new Fail(new Text(""));
     }
 
 

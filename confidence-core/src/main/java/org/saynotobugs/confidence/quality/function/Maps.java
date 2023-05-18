@@ -21,8 +21,8 @@ package org.saynotobugs.confidence.quality.function;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.description.Spaced;
-import org.saynotobugs.confidence.description.TextDescription;
-import org.saynotobugs.confidence.description.ValueDescription;
+import org.saynotobugs.confidence.description.Text;
+import org.saynotobugs.confidence.description.Value;
 import org.saynotobugs.confidence.quality.composite.Has;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 import org.saynotobugs.confidence.quality.object.EqualTo;
@@ -42,8 +42,8 @@ public final class Maps<Argument, Result> extends QualityComposition<Function<Ar
     public Maps(Argument argument, Quality<? super Result> resultQuality)
     {
         super(new Has<>(
-            new Spaced(new TextDescription("maps"), new ValueDescription(argument)),
-            new Spaced(new TextDescription("mapped"), new ValueDescription(argument)),
+            new Spaced(new Text("maps"), new Value(argument)),
+            new Spaced(new Text("mapped"), new Value(argument)),
             candidate -> candidate.apply(argument),
             resultQuality
         ));

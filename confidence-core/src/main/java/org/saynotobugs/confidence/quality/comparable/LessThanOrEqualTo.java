@@ -21,8 +21,8 @@ package org.saynotobugs.confidence.quality.comparable;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.description.Spaced;
-import org.saynotobugs.confidence.description.TextDescription;
-import org.saynotobugs.confidence.description.ValueDescription;
+import org.saynotobugs.confidence.description.Text;
+import org.saynotobugs.confidence.description.Value;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 import org.saynotobugs.confidence.quality.object.Satisfies;
 
@@ -43,6 +43,6 @@ public final class LessThanOrEqualTo<T extends Comparable<? super T>> extends Qu
     {
         super(new Satisfies<>(
             actual -> expected.compareTo(actual) >= 0,
-            new Spaced(new TextDescription("less than or equal to"), new ValueDescription(expected))));
+            new Spaced(new Text("less than or equal to"), new Value(expected))));
     }
 }

@@ -22,8 +22,8 @@ import org.dmfs.jems2.Single;
 import org.dmfs.jems2.procedure.ForEach;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.description.Spaced;
-import org.saynotobugs.confidence.description.TextDescription;
-import org.saynotobugs.confidence.description.ValueDescription;
+import org.saynotobugs.confidence.description.Text;
+import org.saynotobugs.confidence.description.Value;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 import org.saynotobugs.confidence.quality.object.Successfully;
 import org.saynotobugs.confidence.rxjava3.RxSubjectAdapter;
@@ -41,8 +41,8 @@ public final class Error extends QualityComposition<RxSubjectAdapter<?>>
     public Error(Single<Throwable> error)
     {
         super(new Successfully<>(
-            new Spaced(new TextDescription("error"), new ValueDescription(error.value())),
-            new TextDescription("error failed with"),
+            new Spaced(new Text("error"), new Value(error.value())),
+            new Text("error failed with"),
             rxSubjectAdapter -> new ForEach<>(error).process(rxSubjectAdapter::onError)));
     }
 

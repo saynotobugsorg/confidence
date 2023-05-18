@@ -28,14 +28,14 @@ import java.util.Map;
  */
 public final class MapEntryDescription extends DescriptionComposition
 {
-    private static final Description SEPARATOR = new TextDescription(": ");
+    private static final Description SEPARATOR = new Text(": ");
 
 
     public MapEntryDescription(Map.Entry<?, ?> value)
     {
         super(new Composite(
-            new ValueDescription(value.getKey()),
+            new Value(value.getKey()),
             SEPARATOR,
-            new ValueDescription(value.getValue())));
+            new Value(value.getValue())));
     }
 }

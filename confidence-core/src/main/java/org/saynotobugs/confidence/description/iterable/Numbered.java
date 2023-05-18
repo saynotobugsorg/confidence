@@ -23,20 +23,20 @@ import org.dmfs.jems2.iterable.DelegatingIterable;
 import org.dmfs.jems2.iterable.Mapped;
 import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.description.Composite;
-import org.saynotobugs.confidence.description.TextDescription;
+import org.saynotobugs.confidence.description.Text;
 
 
 public final class Numbered extends DelegatingIterable<Description>
 {
     public Numbered(Iterable<Description> delegate)
     {
-        this(new TextDescription(": "), delegate);
+        this(new Text(": "), delegate);
     }
 
 
     public Numbered(Description separator, Iterable<Description> delegate)
     {
-        this((number, description) -> new Composite(new TextDescription(number.toString()), separator, description), delegate);
+        this((number, description) -> new Composite(new Text(number.toString()), separator, description), delegate);
     }
 
 

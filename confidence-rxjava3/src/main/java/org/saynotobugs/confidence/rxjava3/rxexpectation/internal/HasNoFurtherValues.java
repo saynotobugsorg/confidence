@@ -18,7 +18,7 @@
 
 package org.saynotobugs.confidence.rxjava3.rxexpectation.internal;
 
-import org.saynotobugs.confidence.description.TextDescription;
+import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.quality.collection.HasSize;
 import org.saynotobugs.confidence.quality.composite.Has;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
@@ -31,8 +31,8 @@ public final class HasNoFurtherValues<T> extends QualityComposition<RxTestAdapte
     {
         super(
             new Has<>(
-                new TextDescription("pending emissions"),
-                new TextDescription("pending emissions"),
+                new Text("pending emissions"),
+                new Text("pending emissions"),
                 ackSubscriber -> ackSubscriber.newValues(Integer.MAX_VALUE),
                 new HasSize(0)));
     }

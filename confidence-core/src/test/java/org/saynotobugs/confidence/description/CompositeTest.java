@@ -41,7 +41,7 @@ class CompositeTest
     void testSingleDelegates()
     {
         assertThat(
-            new Composite(new TextDescription("abc")),
+            new Composite(new Text("abc")),
             new DescribesAs("abc"));
     }
 
@@ -50,7 +50,7 @@ class CompositeTest
     void testMultipleDelegates()
     {
         assertThat(
-            new Composite(new TextDescription("abc"), new TextDescription("xyz"), new TextDescription("123")),
+            new Composite(new Text("abc"), new Text("xyz"), new Text("123")),
             new DescribesAs("abcxyz123"));
     }
 

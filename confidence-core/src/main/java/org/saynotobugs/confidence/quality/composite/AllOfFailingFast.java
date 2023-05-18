@@ -32,8 +32,8 @@ import org.saynotobugs.confidence.assessment.FailPrepended;
 import org.saynotobugs.confidence.assessment.Pass;
 import org.saynotobugs.confidence.description.Composite;
 import org.saynotobugs.confidence.description.Spaced;
-import org.saynotobugs.confidence.description.StructuredDescription;
-import org.saynotobugs.confidence.description.TextDescription;
+import org.saynotobugs.confidence.description.Structured;
+import org.saynotobugs.confidence.description.Text;
 
 import static org.saynotobugs.confidence.description.LiteralDescription.NEW_LINE;
 
@@ -75,7 +75,7 @@ public final class AllOfFailingFast<T> extends QualityComposition<T>
      */
     public AllOfFailingFast(Iterable<? extends Quality<? super T>> delegates)
     {
-        this(new Composite(NEW_LINE, new TextDescription("and"), NEW_LINE), delegates);
+        this(new Composite(NEW_LINE, new Text("and"), NEW_LINE), delegates);
     }
 
 
@@ -91,12 +91,12 @@ public final class AllOfFailingFast<T> extends QualityComposition<T>
                 new Backed<>(
                     new First<>(new Not<>(Assessment::isSuccess),
                         new Mapped<>(
-                            d -> new FailPrepended(new TextDescription("(" + d.left() + ")"), d.right().assessmentOf(actual)),
+                            d -> new FailPrepended(new Text("(" + d.left() + ")"), d.right().assessmentOf(actual)),
                             new Numbered<>(delegates))),
                     new Pass()).value(),
-            new StructuredDescription(
+            new Structured(
                 delimiter,
-                new org.saynotobugs.confidence.description.iterable.Numbered((i, d) -> new Spaced(new TextDescription("(" + i + ")"), d),
+                new org.saynotobugs.confidence.description.iterable.Numbered((i, d) -> new Spaced(new Text("(" + i + ")"), d),
                     new Mapped<>(Quality::description, delegates))));
     }
 }

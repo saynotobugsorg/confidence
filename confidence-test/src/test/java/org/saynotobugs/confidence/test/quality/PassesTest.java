@@ -5,7 +5,7 @@ import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.Fail;
 import org.saynotobugs.confidence.assessment.Pass;
-import org.saynotobugs.confidence.description.TextDescription;
+import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.quality.composite.AllOf;
 
 import static org.saynotobugs.confidence.Assertion.assertThat;
@@ -31,7 +31,7 @@ class PassesTest
                     @Override
                     public org.saynotobugs.confidence.Description description()
                     {
-                        return new TextDescription("passes");
+                        return new Text("passes");
                     }
                 }),
                 new Fails<>(new Quality<Integer>()
@@ -39,14 +39,14 @@ class PassesTest
                     @Override
                     public Assessment assessmentOf(Integer candidate)
                     {
-                        return new Fail(new TextDescription("failed"));
+                        return new Fail(new Text("failed"));
                     }
 
 
                     @Override
                     public org.saynotobugs.confidence.Description description()
                     {
-                        return new TextDescription("passes");
+                        return new Text("passes");
                     }
                 },
                     "matched<1> mismatched with \n    ----\n    failed\n    ----\n  and\n  <2> mismatched with \n    ----\n    failed\n    ----\n  and\n  <3> mismatched with \n    ----\n    failed\n    ----"),

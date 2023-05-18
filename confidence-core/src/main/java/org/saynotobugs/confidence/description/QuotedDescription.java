@@ -35,7 +35,7 @@ public final class QuotedDescription extends DescriptionComposition
 
     public QuotedDescription(String entry, Description delegate, String exit)
     {
-        this(new TextDescription(entry), delegate, new TextDescription(exit));
+        this(new Text(entry), delegate, new Text(exit));
     }
 
 

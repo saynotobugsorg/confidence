@@ -25,7 +25,7 @@ import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.Fail;
 import org.saynotobugs.confidence.assessment.FailPrepended;
 import org.saynotobugs.confidence.description.Spaced;
-import org.saynotobugs.confidence.description.TextDescription;
+import org.saynotobugs.confidence.description.Text;
 
 
 @StaticFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality")
@@ -58,11 +58,11 @@ public final class Throwing implements Quality<Throwing.Breakable>
         try
         {
             candidate.run();
-            return new Fail(new Spaced(new TextDescription("not throwing"), mDelegate.description()));
+            return new Fail(new Spaced(new Text("not throwing"), mDelegate.description()));
         }
         catch (Throwable e)
         {
-            return new FailPrepended(new TextDescription("throwing"), mDelegate.assessmentOf(e));
+            return new FailPrepended(new Text("throwing"), mDelegate.assessmentOf(e));
         }
     }
 
@@ -70,6 +70,6 @@ public final class Throwing implements Quality<Throwing.Breakable>
     @Override
     public Description description()
     {
-        return new Spaced(new TextDescription("throwing"), mDelegate.description());
+        return new Spaced(new Text("throwing"), mDelegate.description());
     }
 }

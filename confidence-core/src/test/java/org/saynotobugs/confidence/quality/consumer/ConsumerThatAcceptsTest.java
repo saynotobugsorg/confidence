@@ -19,7 +19,7 @@
 package org.saynotobugs.confidence.quality.consumer;
 
 import org.junit.jupiter.api.Test;
-import org.saynotobugs.confidence.description.TextDescription;
+import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.quality.composite.AllOf;
 import org.saynotobugs.confidence.test.quality.Fails;
 import org.saynotobugs.confidence.test.quality.HasDescription;
@@ -58,7 +58,7 @@ class ConsumerThatAcceptsTest
     @Test
     void testSuppliedValueWithDescription()
     {
-        assertThat(new ConsumerThatAccepts<>(new TextDescription("Pass"), new TextDescription("Fail"), () -> "a"),
+        assertThat(new ConsumerThatAccepts<>(new Text("Pass"), new Text("Fail"), () -> "a"),
             new AllOf<>(
                 new Passes<>(x -> {}),
                 new Fails<>(x -> {throw new RuntimeException();}, "Fail <java.lang.RuntimeException>"),

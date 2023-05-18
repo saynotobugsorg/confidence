@@ -26,7 +26,7 @@ import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.Fail;
 import org.saynotobugs.confidence.assessment.Pass;
 import org.saynotobugs.confidence.description.Spaced;
-import org.saynotobugs.confidence.description.ValueDescription;
+import org.saynotobugs.confidence.description.Value;
 
 
 /**
@@ -64,7 +64,7 @@ public final class Successfully<T> implements Quality<T>
         }
         catch (Exception e)
         {
-            return new Fail(new Spaced(mFailDescription, new ValueDescription(e)));
+            return new Fail(new Spaced(mFailDescription, new Value(e)));
         }
     }
 
