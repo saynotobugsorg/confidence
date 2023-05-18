@@ -47,8 +47,8 @@ public final class In<T> extends QualityComposition<T>
     {
         super(
             new Satisfies<>(delegates::contains,
-                actual -> new Spaced(new ValueDescription(actual), new TextDescription("not in"), new IterableDescription(delegates)),
-                new Spaced(new TextDescription("in"), new IterableDescription(delegates))));
+                actual -> new Spaced(new Value(actual), new Text("not in"), new IterableDescription(delegates)),
+                new Spaced(new Text("in"), new IterableDescription(delegates))));
     }
 
 
@@ -62,15 +62,15 @@ public final class In<T> extends QualityComposition<T>
     public In(Iterable<? extends Quality<? super T>> delegates)
     {
         super(actual -> new AnyPassed(
-                new Spaced(new ValueDescription(actual), new TextDescription("not in { ")),
+                new Spaced(new Value(actual), new Text("not in { ")),
                 COMMA_NEW_LINE,
-                new TextDescription(" }"),
+                new Text(" }"),
                 new Mapped<>(d -> new FailUpdated(m -> d.description(), d.assessmentOf(actual)), delegates)),
             new Spaced(
-                new TextDescription("in"),
-                new StructuredDescription(new TextDescription("{ "),
+                new Text("in"),
+                new Structured(new Text("{ "),
                     COMMA_NEW_LINE,
-                    new TextDescription(" }"),
+                    new Text(" }"),
                     new Mapped<>(Quality::description, delegates))));
     }
 }

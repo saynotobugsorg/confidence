@@ -36,13 +36,13 @@ public final class FailDescription extends DescriptionComposition
 {
     public FailDescription(Description entry, Description delimiter, Description exit, Iterable<Assessment> verdicts)
     {
-        super(new StructuredDescription(
+        super(new Structured(
             entry,
             NEW_LINE,
             exit,
             new Mapped<>(
                 cluster -> cluster.iterator().next().isSuccess()
-                    ? new TextDescription("...")
+                    ? new Text("...")
                     : new Delimited(delimiter, new Mapped<>(Assessment::description, cluster)),
                 new Clustered<>(new By<>(Assessment::isSuccess), verdicts))));
     }

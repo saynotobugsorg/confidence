@@ -49,11 +49,11 @@ public final class AnyOf<T> extends QualityComposition<T>
 
     public AnyOf(Iterable<? extends Quality<? super T>> delegates)
     {
-        super(actual -> new AnyPassed(new Spaced(new ValueDescription(actual), new TextDescription("neither ")),
-                new Composite(new TextDescription(" nor "), NEW_LINE),
+        super(actual -> new AnyPassed(new Spaced(new Value(actual), new Text("neither ")),
+                new Composite(new Text(" nor "), NEW_LINE),
                 new Mapped<>(
                     d -> new FailUpdated(m -> d.description(), d.assessmentOf(actual)),
                     delegates)),
-            new StructuredDescription(new TextDescription(" or "), new Mapped<>(Quality::description, delegates)));
+            new Structured(new Text(" or "), new Mapped<>(Quality::description, delegates)));
     }
 }

@@ -24,7 +24,7 @@ import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.FailPrepended;
 import org.saynotobugs.confidence.description.NumberDescription;
 import org.saynotobugs.confidence.description.Spaced;
-import org.saynotobugs.confidence.description.TextDescription;
+import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.rxjava3.RxTestAdapter;
 
 import java.util.Collection;
@@ -56,9 +56,9 @@ public final class Emits<T> implements Quality<RxTestAdapter<T>>
         }
         return new FailPrepended(
             new Spaced(
-                new TextDescription("emitted"),
+                new Text("emitted"),
                 new NumberDescription(values.size()),
-                new TextDescription("items that")),
+                new Text("items that")),
             result);
     }
 
@@ -67,9 +67,9 @@ public final class Emits<T> implements Quality<RxTestAdapter<T>>
     public Description description()
     {
         return new Spaced(
-            new TextDescription("emits"),
+            new Text("emits"),
             new NumberDescription(mEmissionCount),
-            new TextDescription("items that"),
+            new Text("items that"),
             mEmissionQualities.description());
     }
 }

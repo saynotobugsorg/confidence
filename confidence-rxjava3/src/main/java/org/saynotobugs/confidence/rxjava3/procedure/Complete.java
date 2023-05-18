@@ -19,7 +19,7 @@
 package org.saynotobugs.confidence.rxjava3.procedure;
 
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
-import org.saynotobugs.confidence.description.TextDescription;
+import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 import org.saynotobugs.confidence.quality.object.Successfully;
 import org.saynotobugs.confidence.rxjava3.RxSubjectAdapter;
@@ -30,6 +30,6 @@ public final class Complete extends QualityComposition<RxSubjectAdapter<?>>
 {
     public Complete()
     {
-        super(new Successfully<>(new TextDescription("completion"), new TextDescription("completion failed with"), RxSubjectAdapter::onComplete));
+        super(new Successfully<>(new Text("completion"), new Text("completion failed with"), RxSubjectAdapter::onComplete));
     }
 }

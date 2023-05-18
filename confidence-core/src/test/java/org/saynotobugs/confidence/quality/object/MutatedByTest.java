@@ -19,7 +19,7 @@
 package org.saynotobugs.confidence.quality.object;
 
 import org.junit.jupiter.api.Test;
-import org.saynotobugs.confidence.description.TextDescription;
+import org.saynotobugs.confidence.description.Text;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -37,7 +37,7 @@ class MutatedByTest
     @Test
     void test()
     {
-        assertThat(new MutatedBy<List<String>>(new TextDescription("appending abc"), l -> l.add("abc"), iterates("abc")),
+        assertThat(new MutatedBy<List<String>>(new Text("appending abc"), l -> l.add("abc"), iterates("abc")),
             allOf(
                 passes(ArrayList::new, LinkedList::new),
                 fails(() -> new ArrayList<>(asList("123")), "mutated by appending abc iterated [ 0: \"123\",\n  1: additional \"abc\" ]"),

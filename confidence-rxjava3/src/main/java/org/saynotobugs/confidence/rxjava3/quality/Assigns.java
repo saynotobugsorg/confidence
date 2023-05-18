@@ -21,8 +21,8 @@ package org.saynotobugs.confidence.rxjava3.quality;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.description.Spaced;
-import org.saynotobugs.confidence.description.TextDescription;
-import org.saynotobugs.confidence.description.ValueDescription;
+import org.saynotobugs.confidence.description.Text;
+import org.saynotobugs.confidence.description.Value;
 import org.saynotobugs.confidence.quality.composite.Has;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 import org.saynotobugs.confidence.quality.object.EqualTo;
@@ -42,8 +42,8 @@ public final class Assigns<Argument, Result> extends QualityComposition<Function
     public Assigns(Argument argument, Quality<? super Result> resultQuality)
     {
         super(new Has<>(
-            new Spaced(new TextDescription("assigns"), new ValueDescription(argument)),
-            new Spaced(new TextDescription("assigned"), new ValueDescription(argument)),
+            new Spaced(new Text("assigns"), new Value(argument)),
+            new Spaced(new Text("assigned"), new Value(argument)),
             candidate -> candidate.apply(argument),
             resultQuality
         ));

@@ -21,8 +21,8 @@ package org.saynotobugs.confidence.quality.consumer;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.description.Spaced;
-import org.saynotobugs.confidence.description.TextDescription;
-import org.saynotobugs.confidence.description.ValueDescription;
+import org.saynotobugs.confidence.description.Text;
+import org.saynotobugs.confidence.description.Value;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 import org.saynotobugs.confidence.quality.object.Successfully;
 
@@ -41,16 +41,16 @@ public final class ConsumerThatAccepts<T> extends QualityComposition<Consumer<T>
 
     public ConsumerThatAccepts(Supplier<T> valueSupplier)
     {
-        this(new Spaced(new TextDescription("Consumer that accepts"), new ValueDescription(valueSupplier.get())),
-            new Spaced(new TextDescription("Consumer that accepts"), new ValueDescription(valueSupplier.get()), new TextDescription("threw")),
+        this(new Spaced(new Text("Consumer that accepts"), new Value(valueSupplier.get())),
+            new Spaced(new Text("Consumer that accepts"), new Value(valueSupplier.get()), new Text("threw")),
             valueSupplier);
     }
 
 
     public ConsumerThatAccepts(T value)
     {
-        this(new Spaced(new TextDescription("Consumer that accepts"), new ValueDescription(value)),
-            new Spaced(new TextDescription("Consumer that accepts"), new ValueDescription(value), new TextDescription("threw")),
+        this(new Spaced(new Text("Consumer that accepts"), new Value(value)),
+            new Spaced(new Text("Consumer that accepts"), new Value(value), new Text("threw")),
             () -> value);
     }
 }

@@ -21,7 +21,7 @@ package org.saynotobugs.confidence.junit5.engine.verifiable;
 import org.dmfs.jems2.BiFunction;
 import org.dmfs.jems2.Function;
 import org.junit.jupiter.api.Test;
-import org.saynotobugs.confidence.description.TextDescription;
+import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.junit5.engine.Verifiable;
 import org.saynotobugs.confidence.quality.composite.AllOf;
 import org.saynotobugs.confidence.quality.composite.Has;
@@ -52,7 +52,7 @@ class WithResourceTest
                     with(f -> f.value(resourceDummy), returning(mock(Verifiable.class,
                         withVoid(Verifiable::verify, doingNothing())))))),
             new AllOf<>(
-                new Successfully<>(new TextDescription("Verifies"), new TextDescription("Failed"), Verifiable::verify),
+                new Successfully<>(new Text("Verifies"), new Text("Failed"), Verifiable::verify),
                 new Has<>("name", Verifiable::name, new EqualTo<>(""))
             )
         );
@@ -117,7 +117,7 @@ class WithResourceTest
                     with(f -> f.value(resourceDummy1, resourceDummy2), returning(mock(Verifiable.class,
                         withVoid(Verifiable::verify, doingNothing())))))),
             new AllOf<>(
-                new Successfully<>(new TextDescription("Verifies"), new TextDescription("Failed"), Verifiable::verify),
+                new Successfully<>(new Text("Verifies"), new Text("Failed"), Verifiable::verify),
                 new Has<>("name", Verifiable::name, new EqualTo<>(""))
             )
         );

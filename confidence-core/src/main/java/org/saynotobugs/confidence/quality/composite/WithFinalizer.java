@@ -27,7 +27,7 @@ import org.saynotobugs.confidence.assessment.AllPassed;
 import org.saynotobugs.confidence.assessment.Fail;
 import org.saynotobugs.confidence.description.Composite;
 import org.saynotobugs.confidence.description.Spaced;
-import org.saynotobugs.confidence.description.TextDescription;
+import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.quality.grammar.Is;
 import org.saynotobugs.confidence.quality.object.Successfully;
 
@@ -53,7 +53,7 @@ public final class WithFinalizer<T> implements Quality<T>
         Quality<? super T> delegate)
     {
         this(
-            new Is<>(new Successfully<>(new TextDescription("finalized"), new TextDescription("throwing"), finalizer)),
+            new Is<>(new Successfully<>(new Text("finalized"), new Text("throwing"), finalizer)),
             description,
             delegate);
     }
@@ -73,7 +73,7 @@ public final class WithFinalizer<T> implements Quality<T>
     @Override
     public Assessment assessmentOf(T candidate)
     {
-        Assessment assessment = new Fail(new TextDescription("Did not complete"));
+        Assessment assessment = new Fail(new Text("Did not complete"));
         try
         {
             assessment = mDelegate.assessmentOf(candidate);
@@ -82,7 +82,7 @@ public final class WithFinalizer<T> implements Quality<T>
         {
             assessment = new AllPassed(
                 new Composite(mDescription, SPACE),
-                new Composite(new TextDescription(" and"), NEW_LINE),
+                new Composite(new Text(" and"), NEW_LINE),
                 assessment,
                 mFinalQuality.assessmentOf(candidate));
         }
@@ -93,6 +93,6 @@ public final class WithFinalizer<T> implements Quality<T>
     @Override
     public Description description()
     {
-        return new Spaced(mDescription, mDelegate.description(), new TextDescription("and"), mFinalQuality.description());
+        return new Spaced(mDescription, mDelegate.description(), new Text("and"), mFinalQuality.description());
     }
 }

@@ -13,7 +13,7 @@ class DescriptionDescriptionTest
     void test()
     {
         assertThat(
-            new DescriptionDescription(new TextDescription("abc")),
+            new DescriptionDescription(new Text("abc")),
             new DescribesAs("\n  ----\n  abc\n  ----"));
     }
 

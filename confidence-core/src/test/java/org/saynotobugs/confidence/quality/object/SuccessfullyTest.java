@@ -20,7 +20,7 @@ package org.saynotobugs.confidence.quality.object;
 
 import org.dmfs.jems2.Fragile;
 import org.junit.jupiter.api.Test;
-import org.saynotobugs.confidence.description.TextDescription;
+import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.quality.composite.AllOf;
 import org.saynotobugs.confidence.test.quality.Fails;
 import org.saynotobugs.confidence.test.quality.HasDescription;
@@ -35,7 +35,7 @@ class SuccessfullyTest
     @Test
     void test()
     {
-        assertThat(new Successfully<Fragile<Object, Exception>>(new TextDescription("foo"), new TextDescription("failed with"), Fragile::value),
+        assertThat(new Successfully<Fragile<Object, Exception>>(new Text("foo"), new Text("failed with"), Fragile::value),
             new AllOf<>(
                 new Passes<Fragile<Object, Exception>>(() -> ""),
                 new Fails<>(() -> {throw new RuntimeException();}, "failed with <java.lang.RuntimeException>"),

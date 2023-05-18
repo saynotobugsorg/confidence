@@ -31,9 +31,9 @@ import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.AllPassed;
 import org.saynotobugs.confidence.assessment.PassIf;
 import org.saynotobugs.confidence.description.Spaced;
-import org.saynotobugs.confidence.description.StructuredDescription;
-import org.saynotobugs.confidence.description.TextDescription;
-import org.saynotobugs.confidence.description.ValueDescription;
+import org.saynotobugs.confidence.description.Structured;
+import org.saynotobugs.confidence.description.Text;
+import org.saynotobugs.confidence.description.Value;
 import org.saynotobugs.confidence.utils.UnPaired;
 
 import java.util.Comparator;
@@ -69,7 +69,7 @@ public final class ImposesEquality<T> implements Quality<Comparator<T>>
     @Override
     public Assessment assessmentOf(Comparator<T> candidate)
     {
-        return new AllPassed(new TextDescription("Comparator "), COMMA_NEW_LINE,
+        return new AllPassed(new Text("Comparator "), COMMA_NEW_LINE,
             new Mapped<>(
                 new UnPaired<Pair<Integer, ? extends T>, Pair<Integer, ? extends T>, Assessment>(
                     (left, right) -> testPair(candidate, left, right)),
@@ -82,11 +82,11 @@ public final class ImposesEquality<T> implements Quality<Comparator<T>>
     @Override
     public Description description()
     {
-        return new StructuredDescription(
-            new TextDescription("imposes equality on "),
+        return new Structured(
+            new Text("imposes equality on "),
             COMMA_NEW_LINE,
             EMPTY,
-            new Mapped<>(ValueDescription::new, mEqualElements));
+            new Mapped<>(Value::new, mEqualElements));
     }
 
 
@@ -94,11 +94,11 @@ public final class ImposesEquality<T> implements Quality<Comparator<T>>
     {
         int result = actual.compare(left.right(), right.right());
         return new PassIf(result == 0, new Spaced(
-            new TextDescription("compared elements"),
-            new ValueDescription(left.right()),
-            new TextDescription("at index " + left.left() + " and"),
-            new ValueDescription(right.right()),
-            new TextDescription("at index " + right.left() + " incorrectly to"),
-            new ValueDescription(result)));
+            new Text("compared elements"),
+            new Value(left.right()),
+            new Text("at index " + left.left() + " and"),
+            new Value(right.right()),
+            new Text("at index " + right.left() + " incorrectly to"),
+            new Value(result)));
     }
 }

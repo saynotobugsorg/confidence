@@ -20,7 +20,7 @@ package org.saynotobugs.confidence.test.quality;
 
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Quality;
-import org.saynotobugs.confidence.description.TextDescription;
+import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.quality.composite.Has;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 
@@ -45,6 +45,6 @@ public final class HasDescription extends QualityComposition<Quality<?>>
 
     public HasDescription(Quality<? super org.saynotobugs.confidence.Description> delegate)
     {
-        super(new Has<>(new TextDescription("description"), new TextDescription("description"), Quality::description, delegate));
+        super(new Has<>(new Text("description"), new Text("description"), Quality::description, delegate));
     }
 }

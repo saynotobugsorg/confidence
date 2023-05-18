@@ -20,8 +20,8 @@ package org.saynotobugs.confidence.quality.object;
 
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.description.Spaced;
-import org.saynotobugs.confidence.description.TextDescription;
-import org.saynotobugs.confidence.description.ValueDescription;
+import org.saynotobugs.confidence.description.Text;
+import org.saynotobugs.confidence.description.Value;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 
 
@@ -32,6 +32,6 @@ public final class SameAs<T> extends QualityComposition<T>
     {
         super(new Satisfies<>(
             actual -> expected == actual,
-            new Spaced(new TextDescription("same instance as"), new ValueDescription(expected))));
+            new Spaced(new Text("same instance as"), new Value(expected))));
     }
 }

@@ -31,8 +31,8 @@ public final class OptionalDescription extends DescriptionComposition
     {
         super(
             value.isPresent()
-                ? new Composite(new TextDescription("<present "), new ValueDescription(value.get()), new TextDescription(">"))
-                : new TextDescription("<empty>")
+                ? new Composite(new Text("<present "), new Value(value.get()), new Text(">"))
+                : new Text("<empty>")
         );
     }
 }

@@ -29,8 +29,8 @@ import org.saynotobugs.confidence.assessment.AllPassed;
 import org.saynotobugs.confidence.assessment.Fail;
 import org.saynotobugs.confidence.assessment.FailPrepended;
 import org.saynotobugs.confidence.description.Spaced;
-import org.saynotobugs.confidence.description.TextDescription;
-import org.saynotobugs.confidence.description.ValueDescription;
+import org.saynotobugs.confidence.description.Text;
+import org.saynotobugs.confidence.description.Value;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -71,17 +71,17 @@ public final class Parallel<T> implements Quality<T>
         new ForEach<>(new First<>(mThreadCount, new Sequence<>(0, i -> i + 1)))
             .process(
                 i -> {
-                    results.add(i, new Fail(new TextDescription("missing result " + i)));
+                    results.add(i, new Fail(new Text("missing result " + i)));
                     executor.execute(() -> {
                         try
                         {
-                            results.set(i, new FailPrepended(new TextDescription("#" + i + " in thread " + Thread.currentThread().getName()),
+                            results.set(i, new FailPrepended(new Text("#" + i + " in thread " + Thread.currentThread().getName()),
                                 mDelegate.assessmentOf(candidate)));
                         }
                         catch (Exception e)
                         {
-                            results.set(i, new Fail(new Spaced(new TextDescription("#" + i + " in thread " + Thread.currentThread().getName()),
-                                new ValueDescription(e))));
+                            results.set(i, new Fail(new Spaced(new Text("#" + i + " in thread " + Thread.currentThread().getName()),
+                                new Value(e))));
                         }
                     });
                 }
@@ -91,21 +91,21 @@ public final class Parallel<T> implements Quality<T>
         {
             if (!executor.awaitTermination(1, TimeUnit.DAYS))
             {
-                return new Fail(new TextDescription("did not finish within one day"));
+                return new Fail(new Text("did not finish within one day"));
             }
         }
         catch (InterruptedException e)
         {
             Thread.currentThread().interrupt();
-            return new Fail(new TextDescription("interrupted"));
+            return new Fail(new Text("interrupted"));
         }
-        return new AllPassed(new TextDescription("executions: "), COMMA_NEW_LINE, EMPTY, results);
+        return new AllPassed(new Text("executions: "), COMMA_NEW_LINE, EMPTY, results);
     }
 
 
     @Override
     public Description description()
     {
-        return new Spaced(new TextDescription("running " + mThreadCount + " parallel execution, each"), mDelegate.description());
+        return new Spaced(new Text("running " + mThreadCount + " parallel execution, each"), mDelegate.description());
     }
 }

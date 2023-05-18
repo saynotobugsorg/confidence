@@ -8,13 +8,13 @@ import static org.dmfs.jems2.iterable.EmptyIterable.emptyIterable;
 import static org.saynotobugs.confidence.Assertion.assertThat;
 
 
-class StructuredDescriptionTest
+class StructuredTest
 {
     @Test
     void testNone()
     {
         assertThat(
-            new StructuredDescription("in", "del", "out", emptyIterable()),
+            new Structured("in", "del", "out", emptyIterable()),
             new DescribesAs("inout"));
     }
 
@@ -23,7 +23,7 @@ class StructuredDescriptionTest
     void testOne()
     {
         assertThat(
-            new StructuredDescription("in", "del", "out", new Seq<>(new Text("123"))),
+            new Structured("in", "del", "out", new Seq<>(new Text("123"))),
             new DescribesAs("in123out"));
     }
 
@@ -31,7 +31,7 @@ class StructuredDescriptionTest
     @Test
     void testMultipleDelimiterOnly()
     {
-        assertThat(new StructuredDescription("del",
+        assertThat(new Structured("del",
                 new Seq<>(new Text("123"), new Text("abc"), new Text("xyz"))),
             new DescribesAs("123delabcdelxyz"));
     }
@@ -40,7 +40,7 @@ class StructuredDescriptionTest
     @Test
     void testMultiple()
     {
-        assertThat(new StructuredDescription("in", "del", "out",
+        assertThat(new Structured("in", "del", "out",
                 new Seq<>(new Text("123"), new Text("abc"), new Text("xyz"))),
             new DescribesAs("in123delabcdelxyzout"));
     }
@@ -49,10 +49,9 @@ class StructuredDescriptionTest
     @Test
     void testSecondaryCtor()
     {
-        assertThat(new StructuredDescription(new Text("---"),
+        assertThat(new Structured(new Text("---"),
                 new Seq<>(new Text("123"), new Text("abc"), new Text("xyz"))),
             new DescribesAs("123---abc---xyz"));
     }
-
 
 }

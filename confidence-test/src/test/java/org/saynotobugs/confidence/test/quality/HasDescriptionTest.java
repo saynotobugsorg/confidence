@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.Pass;
-import org.saynotobugs.confidence.description.TextDescription;
+import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.quality.composite.AllOf;
 
 import java.util.regex.Pattern;
@@ -32,7 +32,7 @@ class HasDescriptionTest
                     @Override
                     public org.saynotobugs.confidence.Description description()
                     {
-                        return new TextDescription("abc");
+                        return new Text("abc");
                     }
                 }),
                 new Fails<Quality<Object>>(new Quality<Object>()
@@ -47,7 +47,7 @@ class HasDescriptionTest
                     @Override
                     public org.saynotobugs.confidence.Description description()
                     {
-                        return new TextDescription("123");
+                        return new Text("123");
                     }
                 }, "description described as\n  ----\n  \"123\"\n  ----"),
                 new HasDescription("description describes as\n  ----\n  \"abc\"\n  ----")
@@ -72,7 +72,7 @@ class HasDescriptionTest
                     @Override
                     public org.saynotobugs.confidence.Description description()
                     {
-                        return new TextDescription("1abc2");
+                        return new Text("1abc2");
                     }
                 }),
                 new Fails<Quality<Object>>(new Quality<Object>()
@@ -87,7 +87,7 @@ class HasDescriptionTest
                     @Override
                     public org.saynotobugs.confidence.Description description()
                     {
-                        return new TextDescription("123");
+                        return new Text("123");
                     }
                 }, "description described as\n  ----\n  \"123\" mismatched pattern <\\\\dabc\\\\d>\n  ----"),
                 new HasDescription("description describes as\n  ----\n  matches pattern <\\\\dabc\\\\d>\n  ----")

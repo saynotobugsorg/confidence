@@ -26,7 +26,7 @@ import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.FailPrepended;
 import org.saynotobugs.confidence.description.Spaced;
-import org.saynotobugs.confidence.description.TextDescription;
+import org.saynotobugs.confidence.description.Text;
 
 
 @StaticFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality")
@@ -50,7 +50,7 @@ public final class MutatedBy<T> implements Quality<Generator<T>>
     {
         T value = candidate.next();
         mMutator.process(value);
-        return new FailPrepended(new Spaced(new TextDescription("mutated by"), mValueDescription),
+        return new FailPrepended(new Spaced(new Text("mutated by"), mValueDescription),
             mValueQuality.assessmentOf(value));
     }
 
@@ -58,6 +58,6 @@ public final class MutatedBy<T> implements Quality<Generator<T>>
     @Override
     public Description description()
     {
-        return new Spaced(new TextDescription("mutated by"), mValueDescription, mValueQuality.description());
+        return new Spaced(new Text("mutated by"), mValueDescription, mValueQuality.description());
     }
 }

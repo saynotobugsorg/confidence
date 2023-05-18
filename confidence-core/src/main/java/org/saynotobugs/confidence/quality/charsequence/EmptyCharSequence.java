@@ -19,8 +19,8 @@
 package org.saynotobugs.confidence.quality.charsequence;
 
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
-import org.saynotobugs.confidence.description.TextDescription;
-import org.saynotobugs.confidence.description.ValueDescription;
+import org.saynotobugs.confidence.description.Text;
+import org.saynotobugs.confidence.description.Value;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 import org.saynotobugs.confidence.quality.object.Satisfies;
 
@@ -30,6 +30,6 @@ public final class EmptyCharSequence extends QualityComposition<CharSequence>
 {
     public EmptyCharSequence()
     {
-        super(new Satisfies<>(c -> c.length() == 0, ValueDescription::new, new TextDescription("<empty>")));
+        super(new Satisfies<>(c -> c.length() == 0, Value::new, new Text("<empty>")));
     }
 }

@@ -26,7 +26,7 @@ import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.AllPassed;
 import org.saynotobugs.confidence.assessment.FailPrepended;
 import org.saynotobugs.confidence.description.Spaced;
-import org.saynotobugs.confidence.description.TextDescription;
+import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.quality.composite.AllOf;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 
@@ -52,10 +52,10 @@ public final class Each<T> extends QualityComposition<Iterable<T>>
 
     public Each(Quality<? super T> delegate)
     {
-        super(actual -> new AllPassed(new TextDescription("elements ["), COMMA_NEW_LINE, new TextDescription("]"),
+        super(actual -> new AllPassed(new Text("elements ["), COMMA_NEW_LINE, new Text("]"),
                 new Mapped<>(
-                    numberedVerdict -> new FailPrepended(new TextDescription(numberedVerdict.left() + ": "), numberedVerdict.right()),
+                    numberedVerdict -> new FailPrepended(new Text(numberedVerdict.left() + ": "), numberedVerdict.right()),
                     new Numbered<>(new Mapped<>(delegate::assessmentOf, actual)))),
-            new Spaced(new TextDescription("each element"), delegate.description()));
+            new Spaced(new Text("each element"), delegate.description()));
     }
 }

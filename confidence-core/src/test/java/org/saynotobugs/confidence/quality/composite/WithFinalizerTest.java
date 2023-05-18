@@ -19,7 +19,7 @@
 package org.saynotobugs.confidence.quality.composite;
 
 import org.junit.jupiter.api.Test;
-import org.saynotobugs.confidence.description.TextDescription;
+import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.quality.object.SameAs;
 import org.saynotobugs.confidence.test.quality.Fails;
 import org.saynotobugs.confidence.test.quality.HasDescription;
@@ -43,7 +43,7 @@ class WithFinalizerTest
         Closeable mockClosable = mock(Closeable.class,
             withVoid(Closeable::close, doingNothing()),
             with(Objects::toString, returning("bar")));
-        assertThat(new WithFinalizer<>(Closeable::close, new TextDescription("Closable that"), new SameAs<>(mockClosable)),
+        assertThat(new WithFinalizer<>(Closeable::close, new Text("Closable that"), new SameAs<>(mockClosable)),
             new AllOf<>(
                 new Passes<>(mockClosable),
                 new HasDescription("Closable that same instance as <bar> and is finalized")
@@ -58,7 +58,7 @@ class WithFinalizerTest
         Closeable mockClosable = mock(Closeable.class,
             withVoid(Closeable::close, doingNothing()),
             with(Objects::toString, returning("bar")));
-        assertThat(new WithFinalizer<>(Closeable::close, new TextDescription("Closable that"), new Not<>(new SameAs<>(mockClosable))),
+        assertThat(new WithFinalizer<>(Closeable::close, new Text("Closable that"), new Not<>(new SameAs<>(mockClosable))),
             new AllOf<>(
                 new Fails<>(mockClosable, "Closable that <bar> ( same instance as <bar> )\n  ..."),
                 new HasDescription("Closable that not ( same instance as <bar> ) and is finalized")
@@ -73,7 +73,7 @@ class WithFinalizerTest
         Closeable mockClosable = mock(Closeable.class,
             withVoid(Closeable::close, throwing(new IOException("error"))),
             with(Objects::toString, returning("bar")));
-        assertThat(new WithFinalizer<>(Closeable::close, new TextDescription("Closable that"), new SameAs<>(mockClosable)),
+        assertThat(new WithFinalizer<>(Closeable::close, new Text("Closable that"), new SameAs<>(mockClosable)),
             new AllOf<>(
                 new Fails<>(mockClosable, "Closable that ...\n  was throwing <java.io.IOException: error>"),
                 new HasDescription("Closable that same instance as <bar> and is finalized")
@@ -88,7 +88,7 @@ class WithFinalizerTest
         Closeable mockClosable = mock(Closeable.class,
             withVoid(Closeable::close, throwing(new IOException("error"))),
             with(Objects::toString, returning("bar")));
-        assertThat(new WithFinalizer<>(Closeable::close, new TextDescription("Closable that"), new Not<>(new SameAs<>(mockClosable))),
+        assertThat(new WithFinalizer<>(Closeable::close, new Text("Closable that"), new Not<>(new SameAs<>(mockClosable))),
             new AllOf<>(
                 new Fails<>(mockClosable, "Closable that <bar> ( same instance as <bar> ) and\n  was throwing <java.io.IOException: error>"),
                 new HasDescription("Closable that not ( same instance as <bar> ) and is finalized")

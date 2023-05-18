@@ -21,8 +21,8 @@ package org.saynotobugs.confidence.quality.number;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.description.Composite;
 import org.saynotobugs.confidence.description.Spaced;
-import org.saynotobugs.confidence.description.TextDescription;
-import org.saynotobugs.confidence.description.ValueDescription;
+import org.saynotobugs.confidence.description.Text;
+import org.saynotobugs.confidence.description.Value;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 import org.saynotobugs.confidence.quality.object.Satisfies;
 
@@ -43,18 +43,18 @@ public final class CloseTo extends QualityComposition<Number>
         super(new Satisfies<>(
             actual -> expectation.subtract(new BigDecimal(actual.toString())).abs().compareTo(epsilon) <= 0,
             actual -> new Spaced(
-                new ValueDescription(actual),
-                new TextDescription("differs from"),
-                new ValueDescription(expectation),
-                new TextDescription("by"),
+                new Value(actual),
+                new Text("differs from"),
+                new Value(expectation),
+                new Text("by"),
                 new Composite(
-                    new ValueDescription(expectation.subtract(new BigDecimal(actual.toString())).abs()),
-                    new TextDescription(", which is more than the allowed")),
-                new ValueDescription(epsilon)),
+                    new Value(expectation.subtract(new BigDecimal(actual.toString())).abs()),
+                    new Text(", which is more than the allowed")),
+                new Value(epsilon)),
             new Spaced(
-                new TextDescription("differs from"),
-                new ValueDescription(expectation),
-                new TextDescription("by no more than"),
-                new ValueDescription(epsilon))));
+                new Text("differs from"),
+                new Value(expectation),
+                new Text("by no more than"),
+                new Value(epsilon))));
     }
 }

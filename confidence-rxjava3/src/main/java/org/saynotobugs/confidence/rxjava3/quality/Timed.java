@@ -23,7 +23,7 @@ import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.description.Spaced;
-import org.saynotobugs.confidence.description.TextDescription;
+import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.quality.composite.AllOf;
 import org.saynotobugs.confidence.quality.composite.Has;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
@@ -70,8 +70,8 @@ public final class Timed<T> extends QualityComposition<io.reactivex.rxjava3.sche
     public Timed(Instant timestamp, Quality<? super T> valueQuality)
     {
         super(new AllOf<>(
-            new Has<>((Function<Description, Description>) d -> new Spaced(new TextDescription("has time of"), d, new TextDescription("millis")),
-                (Function<Description, Description>) d -> new Spaced(new TextDescription("had time of"), d, new TextDescription("millis")),
+            new Has<>((Function<Description, Description>) d -> new Spaced(new Text("has time of"), d, new Text("millis")),
+                (Function<Description, Description>) d -> new Spaced(new Text("had time of"), d, new Text("millis")),
                 timed -> timed.time(TimeUnit.MILLISECONDS),
                 new EqualTo<>(timestamp.toEpochMilli())),
             new Has<>("value", io.reactivex.rxjava3.schedulers.Timed::value, valueQuality)

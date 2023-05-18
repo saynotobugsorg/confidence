@@ -20,7 +20,7 @@ package org.saynotobugs.confidence.rxjava3.rxexpectation;
 
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.description.Spaced;
-import org.saynotobugs.confidence.description.TextDescription;
+import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.quality.composite.DescribedAs;
 import org.saynotobugs.confidence.rxjava3.RxExpectation;
 import org.saynotobugs.confidence.rxjava3.RxExpectationComposition;
@@ -32,6 +32,6 @@ public final class Immediately<T> extends RxExpectationComposition<T>
     public Immediately(RxExpectation<T> delegate)
     {
         super(new ActionTriggering<>(
-            testScheduler -> new DescribedAs<>(orig -> new Spaced(new TextDescription("immediately"), orig), delegate.quality(testScheduler))));
+            testScheduler -> new DescribedAs<>(orig -> new Spaced(new Text("immediately"), orig), delegate.quality(testScheduler))));
     }
 }

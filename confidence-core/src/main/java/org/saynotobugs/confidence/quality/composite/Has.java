@@ -26,8 +26,8 @@ import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.Fail;
 import org.saynotobugs.confidence.assessment.FailUpdated;
 import org.saynotobugs.confidence.description.Spaced;
-import org.saynotobugs.confidence.description.TextDescription;
-import org.saynotobugs.confidence.description.ValueDescription;
+import org.saynotobugs.confidence.description.Text;
+import org.saynotobugs.confidence.description.Value;
 import org.saynotobugs.confidence.utils.FailSafe;
 
 
@@ -46,8 +46,8 @@ public final class Has<T, V> extends QualityComposition<T>
 
     public Has(String featureName, ThrowingFunction<? super T, ? extends V> featureFunction, Quality<? super V> delegate)
     {
-        this(new Spaced(new TextDescription("has"), new TextDescription(featureName)),
-            new Spaced(new TextDescription("had"), new TextDescription(featureName)),
+        this(new Spaced(new Text("has"), new Text(featureName)),
+            new Spaced(new Text("had"), new Text(featureName)),
             featureFunction,
             delegate);
     }
@@ -72,7 +72,7 @@ public final class Has<T, V> extends QualityComposition<T>
         Quality<? super V> delegate)
     {
         super(new FailSafe<>(
-                throwable -> new Fail(new Spaced(new TextDescription("threw"), new ValueDescription(throwable))),
+                throwable -> new Fail(new Spaced(new Text("threw"), new Value(throwable))),
                 actual -> new FailUpdated(featureMismatchDescription, delegate.assessmentOf(featureFunction.value(actual)))),
             featureDescription.value(delegate.description()));
     }

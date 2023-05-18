@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 dmfs GmbH
+ * Copyright 2022 dmfs GmbH
  *
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,17 +33,14 @@ import static org.saynotobugs.confidence.description.LiteralDescription.NULL;
 /**
  * A {@link Description} for all types of values. If possible, it delegates to a concrete {@link Description} for the type of the given value,
  * otherwise it delegates to {@link ToStringDescription}.
- *
- * @deprecated in favour of {@link Value}.
  */
-@Deprecated
-public final class ValueDescription implements Description
+public final class Value implements Description
 {
     @Nullable
     private final Object value;
 
 
-    public ValueDescription(@Nullable Object value)
+    public Value(@Nullable Object value)
     {
         this.value = value;
     }

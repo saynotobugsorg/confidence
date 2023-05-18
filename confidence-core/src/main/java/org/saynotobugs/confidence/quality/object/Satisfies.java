@@ -24,7 +24,7 @@ import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.PassIf;
-import org.saynotobugs.confidence.description.ValueDescription;
+import org.saynotobugs.confidence.description.Value;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 
 
@@ -35,7 +35,7 @@ public final class Satisfies<T> extends QualityComposition<T>
         Predicate<? super T> predicate,
         Description matchDescription)
     {
-        super(actual -> new PassIf(predicate.satisfiedBy(actual), () -> new ValueDescription(actual)),
+        super(actual -> new PassIf(predicate.satisfiedBy(actual), () -> new Value(actual)),
             matchDescription);
     }
 

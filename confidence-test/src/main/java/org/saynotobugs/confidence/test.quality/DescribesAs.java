@@ -26,7 +26,7 @@ import org.saynotobugs.confidence.Scribe;
 import org.saynotobugs.confidence.assessment.FailUpdated;
 import org.saynotobugs.confidence.description.Composite;
 import org.saynotobugs.confidence.description.DescriptionDescription;
-import org.saynotobugs.confidence.description.TextDescription;
+import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.quality.charsequence.MatchesPattern;
 import org.saynotobugs.confidence.quality.object.EqualTo;
 import org.saynotobugs.confidence.scribe.StringBuilderScribe;
@@ -63,7 +63,7 @@ public final class DescribesAs implements Quality<Description>
     {
         Scribe sink = new StringBuilderScribe("  ");
         candidate.describeTo(sink);
-        return new FailUpdated(mismatch -> new Composite(new TextDescription("described as"), new DescriptionDescription(mismatch)),
+        return new FailUpdated(mismatch -> new Composite(new Text("described as"), new DescriptionDescription(mismatch)),
             mDelegate.assessmentOf(sink.toString()));
     }
 
@@ -71,6 +71,6 @@ public final class DescribesAs implements Quality<Description>
     @Override
     public Description description()
     {
-        return new Composite(new TextDescription("describes as"), new DescriptionDescription(mDelegate.description()));
+        return new Composite(new Text("describes as"), new DescriptionDescription(mDelegate.description()));
     }
 }

@@ -24,7 +24,7 @@ import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.FailPrepended;
 import org.saynotobugs.confidence.description.Spaced;
-import org.saynotobugs.confidence.description.TextDescription;
+import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.rxjava3.RxExpectation;
 import org.saynotobugs.confidence.rxjava3.RxExpectationComposition;
 import org.saynotobugs.confidence.rxjava3.RxTestAdapter;
@@ -48,7 +48,7 @@ public final class When<T> extends RxExpectationComposition<T>
      */
     public When(String triggerDescription, Runnable trigger, RxExpectation<T> delegate)
     {
-        this(new TextDescription(triggerDescription), trigger, delegate);
+        this(new Text(triggerDescription), trigger, delegate);
     }
 
 
@@ -64,7 +64,7 @@ public final class When<T> extends RxExpectationComposition<T>
             {
                 trigger.run();
                 return new FailPrepended(
-                    new Spaced(new TextDescription("when"), triggerDescription),
+                    new Spaced(new Text("when"), triggerDescription),
                     new ActionTriggering<>(delegate).quality(testScheduler).assessmentOf(candidate));
             }
 
@@ -72,7 +72,7 @@ public final class When<T> extends RxExpectationComposition<T>
             @Override
             public Description description()
             {
-                return new Spaced(new TextDescription("when"), triggerDescription, delegate.quality(testScheduler).description());
+                return new Spaced(new Text("when"), triggerDescription, delegate.quality(testScheduler).description());
             }
         });
     }

@@ -21,7 +21,7 @@ package org.saynotobugs.confidence.rxjava3.quality;
 import org.dmfs.jems2.Function;
 import org.dmfs.jems2.iterable.Seq;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
-import org.saynotobugs.confidence.description.TextDescription;
+import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 import org.saynotobugs.confidence.rxjava3.RxExpectation;
 import org.saynotobugs.confidence.rxjava3.adapters.RxTestObserver;
@@ -43,7 +43,7 @@ public final class CompletableThat<T> extends QualityComposition<Function<? supe
     public CompletableThat(Iterable<? extends RxExpectation<Object>> events)
     {
         super(new RxWithSchedulerThat<Object, CompletableSource>(
-            new TextDescription("Completable that"),
+            new Text("Completable that"),
             completableSource -> {
                 RxTestObserver<Object> observer = new RxTestObserver<>();
                 completableSource.subscribe(observer);

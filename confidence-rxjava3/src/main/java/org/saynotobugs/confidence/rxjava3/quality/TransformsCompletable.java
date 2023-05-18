@@ -27,7 +27,7 @@ import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.description.Composite;
 import org.saynotobugs.confidence.description.Indented;
-import org.saynotobugs.confidence.description.TextDescription;
+import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.quality.composite.AllOfFailingFast;
 import org.saynotobugs.confidence.quality.composite.DescribedAs;
 import org.saynotobugs.confidence.rxjava3.TransformerTestStep;
@@ -80,7 +80,7 @@ public final class TransformsCompletable<Up, Down> implements Quality<Function<?
         TestScheduler t = new TestScheduler();
         CompletableSubject upstream = CompletableSubject.create();
         return new DescribedAs<>(
-            orig -> new Composite(new TextDescription("CompletableTransformer that transforms"), new Indented(new Composite(NEW_LINE, orig))),
+            orig -> new Composite(new Text("CompletableTransformer that transforms"), new Indented(new Composite(NEW_LINE, orig))),
             new AllOfFailingFast<>(COMMA_NEW_LINE,
                 new Expanded<>(e -> e.qualities(t, new CompletableSubjectAdapter<>(upstream)), mEvents)
             )).description();

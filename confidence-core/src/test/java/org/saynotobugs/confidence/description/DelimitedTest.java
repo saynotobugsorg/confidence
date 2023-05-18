@@ -12,8 +12,8 @@ class DelimitedTest
     void testDefaultDelimiter()
     {
         assertThat(new Delimited(), new DescribesAs(""));
-        assertThat(new Delimited(new TextDescription("a")), new DescribesAs("a"));
-        assertThat(new Delimited(new TextDescription("a"), new TextDescription("b"), new TextDescription("c")), new DescribesAs("a b c"));
+        assertThat(new Delimited(new Text("a")), new DescribesAs("a"));
+        assertThat(new Delimited(new Text("a"), new Text("b"), new Text("c")), new DescribesAs("a b c"));
     }
 
 
@@ -21,8 +21,8 @@ class DelimitedTest
     void testCustomDelimiter()
     {
         assertThat(new Delimited("--"), new DescribesAs(""));
-        assertThat(new Delimited("--", new TextDescription("a")), new DescribesAs("a"));
-        assertThat(new Delimited("--", new TextDescription("a"), new TextDescription("b"), new TextDescription("c")), new DescribesAs("a--b--c"));
+        assertThat(new Delimited("--", new Text("a")), new DescribesAs("a"));
+        assertThat(new Delimited("--", new Text("a"), new Text("b"), new Text("c")), new DescribesAs("a--b--c"));
     }
 
 }

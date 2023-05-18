@@ -21,7 +21,7 @@ package org.saynotobugs.confidence.quality.map;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.description.Composite;
-import org.saynotobugs.confidence.description.TextDescription;
+import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.quality.composite.AllOf;
 import org.saynotobugs.confidence.quality.composite.DescribedAs;
 import org.saynotobugs.confidence.quality.composite.Has;
@@ -56,11 +56,11 @@ public final class EntryOf<K, V> extends QualityComposition<Map.Entry<K, V>>
     public EntryOf(Quality<? super K> key, Quality<? super V> value)
     {
         super(new DescribedAs<>(description -> new Composite(
-            new TextDescription("Entry ( "),
+            new Text("Entry ( "),
             key.description(),
-            new TextDescription(": "),
+            new Text(": "),
             value.description(),
-            new TextDescription(" )")),
+            new Text(" )")),
             new AllOf<>(
                 new Has<>(Map.Entry::getKey, key),
                 new Has<>(Map.Entry::getValue, value)

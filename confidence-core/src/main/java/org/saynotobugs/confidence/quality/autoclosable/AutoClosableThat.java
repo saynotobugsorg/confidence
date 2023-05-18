@@ -20,7 +20,7 @@ package org.saynotobugs.confidence.quality.autoclosable;
 
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Quality;
-import org.saynotobugs.confidence.description.TextDescription;
+import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 import org.saynotobugs.confidence.quality.composite.WithFinalizer;
 import org.saynotobugs.confidence.quality.grammar.Is;
@@ -38,10 +38,10 @@ public final class AutoClosableThat<T extends AutoCloseable> extends QualityComp
         super(new WithFinalizer<>(
             new Is<>(
                 new Successfully<>(
-                    new TextDescription("closed"),
-                    new TextDescription("closed throwing"),
+                    new Text("closed"),
+                    new Text("closed throwing"),
                     AutoCloseable::close)),
-            new TextDescription("AutoClosable that"),
+            new Text("AutoClosable that"),
             delegate
         ));
     }
