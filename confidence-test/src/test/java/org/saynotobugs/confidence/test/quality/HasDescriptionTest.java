@@ -89,8 +89,8 @@ class HasDescriptionTest
                     {
                         return new Text("123");
                     }
-                }, "description described as\n  ----\n  \"123\" mismatched pattern <\\\\dabc\\\\d>\n  ----"),
-                new HasDescription("description describes as\n  ----\n  matches pattern <\\\\dabc\\\\d>\n  ----")
+                }, "description described as\n  ----\n  \"123\" mismatched pattern /\\\\dabc\\\\d/\n  ----"),
+                new HasDescription("description describes as\n  ----\n  matches pattern /\\\\dabc\\\\d/\n  ----")
             ));
     }
 
