@@ -26,6 +26,7 @@ import org.saynotobugs.confidence.utils.ArrayIterable;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import static org.saynotobugs.confidence.description.LiteralDescription.NULL;
 
@@ -85,6 +86,10 @@ public final class Value implements Description
         else if (value instanceof Description)
         {
             description = new DescriptionDescription((Description) value);
+        }
+        else if (value instanceof Pattern)
+        {
+            description = new PatternDescription((Pattern) value);
         }
         else if (value.getClass().isArray())
         {

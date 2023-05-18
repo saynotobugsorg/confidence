@@ -7,6 +7,7 @@ import org.saynotobugs.confidence.test.quality.DescribesAs;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
@@ -48,6 +49,7 @@ class ValueTest
         }), new DescribesAs("\"abc\": <123>"));
         assertThat(new Value(empty()), new DescribesAs("<empty>"));
         assertThat(new Value(of(123)), new DescribesAs("<present <123>>"));
+        assertThat(new Value(Pattern.compile("123")), new DescribesAs("/123/"));
         assertThat(new Value(new String[]{"a", "b", "c"}), new DescribesAs("[ \"a\",\n  \"b\",\n  \"c\" ]"));
         assertThat(new Value(new Text("123")), new DescribesAs("\n  ----\n  123\n  ----"));
     }
