@@ -12,6 +12,9 @@ import org.saynotobugs.confidence.quality.comparable.GreaterThan;
 import org.saynotobugs.confidence.quality.comparable.LessThan;
 import org.saynotobugs.confidence.quality.compat.Hamcrest;
 import org.saynotobugs.confidence.quality.composite.*;
+import org.saynotobugs.confidence.quality.function.Maps;
+import org.saynotobugs.confidence.quality.function.MapsArgument;
+import org.saynotobugs.confidence.quality.function.ResultOf;
 import org.saynotobugs.confidence.quality.grammar.Is;
 import org.saynotobugs.confidence.quality.iterable.Contains;
 import org.saynotobugs.confidence.quality.iterable.Each;
@@ -26,13 +29,13 @@ import org.saynotobugs.confidence.test.quality.Passes;
 
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Function;
 
 import static java.util.Arrays.asList;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static org.saynotobugs.confidence.Assertion.assertThat;
-import static org.saynotobugs.confidence.quality.Core.contains;
-
+import static org.saynotobugs.confidence.quality.Core.*;
 
 @Disabled
 public final class Examples
@@ -280,7 +283,6 @@ public final class Examples
             new Each<>(new AnyOf<>(new EqualTo<>(77), new EqualTo<>(12), new EqualTo<>(22), new GreaterThan<>(99))));
     }
 
-
     @Test
     void testEachIn()
     {
@@ -288,4 +290,14 @@ public final class Examples
             new Each<>(new In<>(new EqualTo<>(77), new EqualTo<>(10), new EqualTo<>(22), new GreaterThan<>(9))));
     }
 
+    @Test
+    void testDelegatingFunction()
+    {
+        assertThat((Function<Integer, Integer> delegate) -> (Integer x) -> delegate.apply(x + 2) + x + 3,
+            allOf(
+                new MapsArgument<>(1, equalTo(3)),
+                new ResultOf<>(0, new Maps<>(10, to(13)))
+            )
+        );
+    }
 }
