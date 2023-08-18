@@ -19,6 +19,7 @@
 package org.saynotobugs.confidence.quality.number;
 
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
+import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.description.Composite;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
@@ -32,16 +33,57 @@ import java.math.BigDecimal;
 @StaticFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality")
 public final class CloseTo extends QualityComposition<Number>
 {
-    public CloseTo(Number expectation, Number epsilon)
+    /**
+     * A {@link Quality} of a {@link Number} in that's within the given {@code ε} of one ulp as determined by {@link Math#ulp(double)}.,
+     * i.e. any number {@code x} with {@code expectation - ulp(expectation) < x < expectation + ulp(expectation)}
+     */
+    public CloseTo(double expectation)
     {
-        this(new BigDecimal(expectation.toString()), new BigDecimal(epsilon.toString()));
+        this(expectation, 1);
     }
 
 
-    public CloseTo(BigDecimal expectation, BigDecimal epsilon)
+    /**
+     * A {@link Quality} of a {@link Number} in that's within the given {@code ε} of {@code ulpCount} ulp as determined by {@link Math#ulp(double)}.,
+     * i.e. any number {@code x} with {@code expectation - ulpCount * ulp(expectation) < x < expectation + ulpCount * ulp(expectation)}
+     */
+    public CloseTo(double expectation, int ulpCount)
+    {
+        this(expectation, ulpCount * Math.ulp(expectation));
+    }
+
+    /**
+     * A {@link Quality} of a {@link Number} in that's within the given {@code ε} of one ulp as determined by {@link Math#ulp(float)}.,
+     * i.e. any number {@code x} with {@code expectation - ulp(expectation) < x < expectation + ulp(expectation)}
+     */
+    public CloseTo(float expectation)
+    {
+        this(expectation, 1);
+    }
+
+    /**
+     * A {@link Quality} of a {@link Number} in that's within the given {@code ε} of {@code ulpCount} ulp as determined by {@link Math#ulp(float)}.,
+     * i.e. any number {@code x} with {@code expectation - ulpCount * ulp(expectation) < x < expectation + ulpCount * ulp(expectation)}
+     */
+    public CloseTo(float expectation, int ulpCount)
+    {
+        this(expectation, ulpCount * Math.ulp(expectation));
+    }
+
+    /**
+     * A {@link Quality} of a {@link Number} in that's within the given {@code ε} of the given {@link Number}, i.e. any number {@code x}
+     * with {@code expectation - ε < x < expectation + ε}
+     */
+    public CloseTo(Number expectation, Number ε)
+    {
+        this(new BigDecimal(expectation.toString()), new BigDecimal(ε.toString()));
+    }
+
+
+    public CloseTo(BigDecimal expectation, BigDecimal ε)
     {
         super(new Satisfies<>(
-            actual -> expectation.subtract(new BigDecimal(actual.toString())).abs().compareTo(epsilon) <= 0,
+            actual -> expectation.subtract(new BigDecimal(actual.toString())).abs().compareTo(ε) < 0,
             actual -> new Spaced(
                 new Value(actual),
                 new Text("differs from"),
@@ -49,12 +91,12 @@ public final class CloseTo extends QualityComposition<Number>
                 new Text("by"),
                 new Composite(
                     new Value(expectation.subtract(new BigDecimal(actual.toString())).abs()),
-                    new Text(", which is more than the allowed")),
-                new Value(epsilon)),
+                    new Text(", which exceeds the ε of")),
+                new Value(ε)),
             new Spaced(
                 new Text("differs from"),
                 new Value(expectation),
-                new Text("by no more than"),
-                new Value(epsilon))));
+                new Text("by less than"),
+                new Value(ε))));
     }
 }
