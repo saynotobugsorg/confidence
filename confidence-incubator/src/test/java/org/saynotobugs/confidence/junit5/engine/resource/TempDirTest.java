@@ -19,13 +19,14 @@
 package org.saynotobugs.confidence.junit5.engine.resource;
 
 import org.junit.jupiter.api.Test;
-import org.saynotobugs.confidence.description.Text;
+import org.saynotobugs.confidence.junit5.engine.quality.ResourceThat;
 
 import java.io.File;
 
 import static org.dmfs.jems2.confidence.Jems2.hasValue;
 import static org.saynotobugs.confidence.Assertion.assertThat;
 import static org.saynotobugs.confidence.quality.Core.*;
+import static org.saynotobugs.confidence.quality.File.*;
 
 
 class TempDirTest
@@ -34,11 +35,10 @@ class TempDirTest
     void testEmpty()
     {
         assertThat(new TempDir(),
-            // todo: create and use Resource Quality to test the resource for correct cleanup
             hasValue(
-                allOf(
-                    autoClosableThat(hasValue(satisfies(File::isDirectory, new Text("is Directory")))),
-                    hasValue(not(satisfies(File::exists, new Text("exists"))))))
+                new ResourceThat<>(
+                    is(aDirectory()),
+                    not(exists())))
         );
     }
 
@@ -47,17 +47,23 @@ class TempDirTest
     void testWithContent()
     {
         assertThat(new TempDir(),
-            // todo: create and use Resource Quality to test the resource for correct cleanup
             hasValue(
-                allOf(
-                    hasValue(has("file abc", f -> {
-                        File x = new File(f, "abc");
-                        x.createNewFile();
-                        return x;
-                    }, satisfies(File::isFile, new Text("is file")))),
-                    autoClosableThat(hasValue(satisfies(File::isDirectory, new Text("is Directory")))),
-                    hasValue(not(satisfies(File::exists, new Text("exists"))))))
-        );
+                new ResourceThat<>(
+                    // TODO, this can't be achieved with `mutatedBy` because that tests
+                    // a generator of new instances. also we don't really mutate the file instance
+                    // We need a better way to express this
+                    has(
+                        "creating a temporary file",
+                        (File f) -> {
+                            File x = new File(f, "abc");
+                            x.createNewFile();
+                            return f;
+                        },
+                        allOf(
+                            is(aDirectory()),
+                            has((File d) -> new File(d, "abc"), is(aFile())))),
+                    not(exists()))
+            ));
     }
 
 }
