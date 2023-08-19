@@ -13,7 +13,7 @@ Confidence is still under development. All parts should be considered subject to
 
 # Declarative Testing
 
-Declarative testing means, focusing on the **What** instead of the **How**.
+Declarative testing means focusing on the **What** instead of the **How**.
 
 Any unit under test (typically a class) has two aspects:
 * **What** it is meant to do and
@@ -153,9 +153,67 @@ General note on matching arrays: arrays (including ones of primitive types) can 
 *works with arrays of primitive types
 
 Confidence provides an adapter to use Hamcrest `Matcher`s in Confidence assertions.
-The adapter `Quality` is called `hamcrest` and you just pass `Matcher` to it like in:
+The adapter `Quality` is called `hamcrest` and you just pass a `Matcher` to it like in:
 
 ```java
 assertThat(List.of(1,2,5,10,11), hamcrest(hasItem(2)));
 
 ```
+
+# JUnit Confidence TestEngine
+
+One of the goals of Confidence is to eliminate any imperative code from unit tests. Unfortunately, with Jupiter you still need to write at least one very imperative `assertThat` statement.
+
+That's why the `confidence-incubator` module contains an experimental JUnit TestEngine to remove this limitation.
+
+With the ConfidenceEngine you no longer write statements. Instead, you declare `Verifiable`s that are verified when the test runs.
+
+Check out the [`HasPatchTest`](https://github.com/dmfs/semver/blob/main/semver-confidence/src/test/java/org/dmfs/semver/confidence/HasPatchTest.java) from the [dmfs/semver](https://github.com/dmfs/semver/tree/main) project. It verifies that the `HasPatch` `Quality` is satisfied by certain `Version`s.
+
+```java
+@Confidence
+class HasPatchTest
+{
+    Verifiable has_patch_int = assertThat(
+        new HasPatch(5),
+        allOf(
+            passes(mock(Version.class, with(Version::patch, returning(5)))),
+            fails(mock(Version.class, with(Version::patch, returning(4))), "had patch <4>"),
+            hasDescription("has patch <5>")
+        )
+    );
+
+    Verifiable has_patch_quality = assertThat(
+        new HasPatch(greaterThan(4)),
+        allOf(
+            passes(mock(Version.class, with(Version::patch, returning(5)))),
+            fails(mock(Version.class, with(Version::patch, returning(4))), "had patch <4>"),
+            hasDescription("has patch greater than <4>")
+        )
+    );
+}
+```
+
+The class is annotated with `@Confidence` to make it discoverable by the `ConfidenceEngine`. 
+
+There are no statements in that test, not even test methods.
+The test only declares certain `Verifiable`s that are verified by the test engine. It should be noted that the `assertThat` method is not the same as in the other tests above.
+
+Also, there are no `Before` or `After` hooks. The idea is to make those part of the `Verifiable` using composition. For instance, when a test requires certain resources you'd apply the `withResources` decorator like in the following test, that requires a git repository in a temporary directory:
+
+```java
+    Verifiable default_strategy_on_clean_repo = withResources(
+        new TempDir(),
+        new Repository(
+            getClass().getClassLoader().getResource("0.1.0-alpha.bundle"),
+           "main"),
+
+        (tempDir, repo) -> assertThat(
+            new GitVersion(TEST_STRATEGY, new Suffixes(), ignored -> "alpha"),
+            maps(repo, to(preRelease(0, 1, 0, "alpha.20220116T191427Z-SNAPSHOT")))));
+```
+
+The `withResources` decorator creates the required resources before the
+assertion is made and cleans up afterward.
+
+The Confidence Engine is still in an early ideation phase. You're welcome to try it and make suggestions or contributions for improvements.
