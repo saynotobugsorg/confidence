@@ -30,6 +30,6 @@ public final class EmptyCharSequence extends QualityComposition<CharSequence>
 {
     public EmptyCharSequence()
     {
-        super(new Satisfies<>(c -> c.length() == 0, Value::new, new Text("<empty>")));
+        super(new Satisfies<>(c -> c.length() == 0, new Text("<empty>")));
     }
 }
