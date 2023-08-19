@@ -19,30 +19,14 @@
 package org.saynotobugs.confidence.junit5.engine.testengine;
 
 import org.saynotobugs.confidence.junit5.engine.Confidence;
-import org.saynotobugs.confidence.junit5.engine.Verifiable;
+import org.saynotobugs.confidence.junit5.engine.Assertion;
 
-import static org.saynotobugs.confidence.junit5.engine.ConfidenceEngine.assertThat;
+import static org.saynotobugs.confidence.junit5.engine.ConfidenceEngine.assertionThat;
 import static org.saynotobugs.confidence.quality.Core.hasToString;
 
 
 @Confidence
-public final class MultipleVerifiableFailAndPassTestCase
+public final class SingleAssertionPassTestCase
 {
-    Verifiable passing_test = assertThat("abc", hasToString("abc"));
-    Verifiable failingTest = assertThat("abc", hasToString("abcd"));
-    Verifiable throwing_test = new Verifiable()
-    {
-        @Override
-        public void verify()
-        {
-            throw new RuntimeException();
-        }
-
-
-        @Override
-        public String name()
-        {
-            return "name";
-        }
-    };
+    Assertion passing_test = assertionThat("abc", hasToString("abc"));
 }

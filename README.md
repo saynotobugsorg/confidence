@@ -166,15 +166,15 @@ One of the goals of Confidence is to eliminate any imperative code from unit tes
 
 That's why the `confidence-incubator` module contains an experimental JUnit TestEngine to remove this limitation.
 
-With the ConfidenceEngine you no longer write statements. Instead, you declare `Verifiable`s that are verified when the test runs.
+With the ConfidenceEngine you no longer write statements. Instead, you declare `Assertion`s that are verified when the test runs.
 
-Check out the [`HasPatchTest`](https://github.com/dmfs/semver/blob/main/semver-confidence/src/test/java/org/dmfs/semver/confidence/HasPatchTest.java) from the [dmfs/semver](https://github.com/dmfs/semver/tree/main) project. It verifies that the `HasPatch` `Quality` is satisfied by certain `Version`s.
+Check out the [`HasPatchTest`](https://github.com/dmfs/semver/blob/main/semver-confidence/src/test/java/org/dmfs/semver/confidence/HasPatchTest.java) from the [dmfs/semver](https://github.com/dmfs/semver/tree/main) project. It verifies that the `HasPatch` `Quality` is satisfied by certain `Version`s (at present the naming has diverged a bit).
 
 ```java
 @Confidence
 class HasPatchTest
 {
-    Verifiable has_patch_int = assertThat(
+    Assertion has_patch_int = assertionThat(
         new HasPatch(5),
         allOf(
             passes(mock(Version.class, with(Version::patch, returning(5)))),
@@ -183,7 +183,7 @@ class HasPatchTest
         )
     );
 
-    Verifiable has_patch_quality = assertThat(
+    Assertion has_patch_quality = assertionThat(
         new HasPatch(greaterThan(4)),
         allOf(
             passes(mock(Version.class, with(Version::patch, returning(5)))),
@@ -197,18 +197,18 @@ class HasPatchTest
 The class is annotated with `@Confidence` to make it discoverable by the `ConfidenceEngine`. 
 
 There are no statements in that test, not even test methods.
-The test only declares certain `Verifiable`s that are verified by the test engine. It should be noted that the `assertThat` method is not the same as in the other tests above.
+The test only declares certain `Assertion`s that are verified by the test engine.
 
-Also, there are no `Before` or `After` hooks. The idea is to make those part of the `Verifiable` using composition. For instance, when a test requires certain resources you'd apply the `withResources` decorator like in the following test, that requires a git repository in a temporary directory:
+Also, there are no `Before` or `After` hooks. The idea is to make those part of the `Assertion` using composition. For instance, when a test requires certain resources you'd apply the `withResources` decorator like in the following test, that requires a git repository in a temporary directory:
 
 ```java
-    Verifiable default_strategy_on_clean_repo = withResources(
+    Assertion default_strategy_on_clean_repo = withResources(
         new TempDir(),
         new Repository(
             getClass().getClassLoader().getResource("0.1.0-alpha.bundle"),
            "main"),
 
-        (tempDir, repo) -> assertThat(
+        (tempDir, repo) -> assertionThat(
             new GitVersion(TEST_STRATEGY, new Suffixes(), ignored -> "alpha"),
             maps(repo, to(preRelease(0, 1, 0, "alpha.20220116T191427Z-SNAPSHOT")))));
 ```

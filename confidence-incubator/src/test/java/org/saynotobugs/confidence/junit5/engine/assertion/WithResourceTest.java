@@ -16,13 +16,13 @@
  *
  */
 
-package org.saynotobugs.confidence.junit5.engine.verifiable;
+package org.saynotobugs.confidence.junit5.engine.assertion;
 
 import org.dmfs.jems2.BiFunction;
 import org.dmfs.jems2.Function;
 import org.junit.jupiter.api.Test;
 import org.saynotobugs.confidence.description.Text;
-import org.saynotobugs.confidence.junit5.engine.Verifiable;
+import org.saynotobugs.confidence.junit5.engine.Assertion;
 import org.saynotobugs.confidence.quality.composite.AllOf;
 import org.saynotobugs.confidence.quality.composite.Has;
 import org.saynotobugs.confidence.quality.object.EqualTo;
@@ -49,11 +49,11 @@ class WithResourceTest
 
         assertThat(new WithResource(() -> mockResource,
                 mock(Function.class,
-                    with(f -> f.value(resourceDummy), returning(mock(Verifiable.class,
-                        withVoid(Verifiable::verify, doingNothing())))))),
+                    with(f -> f.value(resourceDummy), returning(mock(Assertion.class,
+                        withVoid(Assertion::verify, doingNothing())))))),
             new AllOf<>(
-                new Successfully<>(new Text("Verifies"), new Text("Failed"), Verifiable::verify),
-                new Has<>("name", Verifiable::name, new EqualTo<>(""))
+                new Successfully<>(new Text("Verifies"), new Text("Failed"), Assertion::verify),
+                new Has<>("name", Assertion::name, new EqualTo<>(""))
             )
         );
 
@@ -71,13 +71,13 @@ class WithResourceTest
 
         assertThat(new WithResource(() -> mockResource,
                 mock(Function.class,
-                    with(f -> f.value(any()), returning(mock(Verifiable.class,
-                        withVoid(Verifiable::verify, doingNothing())))),
-                    with(f -> f.value(resourceDummy), returning(mock(Verifiable.class,
-                        withVoid(Verifiable::verify, throwing(new AssertionError("failed")))))))),
+                    with(f -> f.value(any()), returning(mock(Assertion.class,
+                        withVoid(Assertion::verify, doingNothing())))),
+                    with(f -> f.value(resourceDummy), returning(mock(Assertion.class,
+                        withVoid(Assertion::verify, throwing(new AssertionError("failed")))))))),
             new AllOf<>(
                 new Has<>("failing", verifiable -> verifiable::verify, new Throwing(AssertionError.class)),
-                new Has<>("name", Verifiable::name, new EqualTo<>(""))
+                new Has<>("name", Assertion::name, new EqualTo<>(""))
             )
         );
 
@@ -90,11 +90,11 @@ class WithResourceTest
     {
         assertThat(new WithResource(() -> {throw new IOException();},
                 mock(Function.class,
-                    with(f -> f.value(any()), returning(mock(Verifiable.class,
-                        withVoid(Verifiable::verify, doingNothing())))))),
+                    with(f -> f.value(any()), returning(mock(Assertion.class,
+                        withVoid(Assertion::verify, doingNothing())))))),
             new AllOf<>(
                 new Has<>("failing", verifiable -> verifiable::verify, new Throwing(RuntimeException.class)),
-                new Has<>("name", Verifiable::name, new EqualTo<>(""))
+                new Has<>("name", Assertion::name, new EqualTo<>(""))
             )
         );
     }
@@ -114,11 +114,11 @@ class WithResourceTest
 
         assertThat(new WithResource(() -> mockResource1, () -> mockResource2,
                 mock(BiFunction.class,
-                    with(f -> f.value(resourceDummy1, resourceDummy2), returning(mock(Verifiable.class,
-                        withVoid(Verifiable::verify, doingNothing())))))),
+                    with(f -> f.value(resourceDummy1, resourceDummy2), returning(mock(Assertion.class,
+                        withVoid(Assertion::verify, doingNothing())))))),
             new AllOf<>(
-                new Successfully<>(new Text("Verifies"), new Text("Failed"), Verifiable::verify),
-                new Has<>("name", Verifiable::name, new EqualTo<>(""))
+                new Successfully<>(new Text("Verifies"), new Text("Failed"), Assertion::verify),
+                new Has<>("name", Assertion::name, new EqualTo<>(""))
             )
         );
 
@@ -141,13 +141,13 @@ class WithResourceTest
 
         assertThat(new WithResource(() -> mockResource1, () -> mockResource2,
                 mock(BiFunction.class,
-                    with(f -> f.value(any(), any()), returning(mock(Verifiable.class,
-                        withVoid(Verifiable::verify, doingNothing())))),
-                    with(f -> f.value(resourceDummy1, resourceDummy2), returning(mock(Verifiable.class,
-                        withVoid(Verifiable::verify, throwing(new AssertionError("failed")))))))),
+                    with(f -> f.value(any(), any()), returning(mock(Assertion.class,
+                        withVoid(Assertion::verify, doingNothing())))),
+                    with(f -> f.value(resourceDummy1, resourceDummy2), returning(mock(Assertion.class,
+                        withVoid(Assertion::verify, throwing(new AssertionError("failed")))))))),
             new AllOf<>(
                 new Has<>("failing", verifiable -> verifiable::verify, new Throwing(AssertionError.class)),
-                new Has<>("name", Verifiable::name, new EqualTo<>(""))
+                new Has<>("name", Assertion::name, new EqualTo<>(""))
             )
         );
 
@@ -166,11 +166,11 @@ class WithResourceTest
 
         assertThat(new WithResource(() -> mockResource1, () -> {throw new IOException();},
                 mock(BiFunction.class,
-                    with(f -> f.value(any(), any()), returning(mock(Verifiable.class,
-                        withVoid(Verifiable::verify, doingNothing())))))),
+                    with(f -> f.value(any(), any()), returning(mock(Assertion.class,
+                        withVoid(Assertion::verify, doingNothing())))))),
             new AllOf<>(
                 new Has<>("failing", verifiable -> verifiable::verify, new Throwing(RuntimeException.class)),
-                new Has<>("name", Verifiable::name, new EqualTo<>(""))
+                new Has<>("name", Assertion::name, new EqualTo<>(""))
             )
         );
         verify(mockResource1).close();

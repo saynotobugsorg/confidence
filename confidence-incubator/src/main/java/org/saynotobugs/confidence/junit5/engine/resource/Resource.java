@@ -16,11 +16,11 @@
  *
  */
 
-package org.saynotobugs.confidence.junit5.engine.environment;
+package org.saynotobugs.confidence.junit5.engine.resource;
 
 import org.dmfs.jems2.Fragile;
 import org.dmfs.jems2.FragileProcedure;
-import org.saynotobugs.confidence.junit5.engine.verifiable.WithResource;
+import org.saynotobugs.confidence.junit5.engine.assertion.WithResource;
 
 
 public final class Resource<T> implements Fragile<WithResource.Resource<T>, Exception>

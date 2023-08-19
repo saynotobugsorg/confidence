@@ -18,15 +18,17 @@
 
 package org.saynotobugs.confidence.junit5.engine.testengine;
 
+import org.saynotobugs.confidence.junit5.engine.Assertion;
 import org.saynotobugs.confidence.junit5.engine.Confidence;
-import org.saynotobugs.confidence.junit5.engine.Verifiable;
 
-import static org.saynotobugs.confidence.junit5.engine.ConfidenceEngine.assertThat;
+import static org.saynotobugs.confidence.junit5.engine.ConfidenceEngine.assertionThat;
 import static org.saynotobugs.confidence.quality.Core.hasToString;
 
 
 @Confidence
-public final class SingleVerifiableFailTestCase
+public final class AllAssertionPassTestCase
 {
-    Verifiable failingTest = assertThat("abc", hasToString("abcd"));
+    Assertion passing_test1 = assertionThat("abc1", hasToString("abc1"));
+    Assertion passing_test2 = assertionThat("abc2", hasToString("abc2"));
+    Assertion passing_test3 = assertionThat("abc3", hasToString("abc3"));
 }
