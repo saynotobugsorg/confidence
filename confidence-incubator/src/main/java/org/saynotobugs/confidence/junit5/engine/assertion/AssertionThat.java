@@ -16,24 +16,24 @@
  *
  */
 
-package org.saynotobugs.confidence.junit5.engine.verifiable;
+package org.saynotobugs.confidence.junit5.engine.assertion;
 
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Quality;
-import org.saynotobugs.confidence.junit5.engine.Verifiable;
+import org.saynotobugs.confidence.junit5.engine.Assertion;
 
 import static org.saynotobugs.confidence.Assertion.assertThat;
 
 
 @StaticFactories(value = "ConfidenceEngine", packageName = "org.saynotobugs.confidence.junit5.engine")
-public final class AssertThat<T> implements Verifiable
+public final class AssertionThat<T> implements Assertion
 {
     private final String mName;
     private final T mInstance;
     private final Quality<T> mQuality;
 
 
-    public AssertThat(String name, T instance, Quality<T> quality)
+    public AssertionThat(String name, T instance, Quality<T> quality)
     {
         mName = name;
         mInstance = instance;
@@ -41,7 +41,7 @@ public final class AssertThat<T> implements Verifiable
     }
 
 
-    public AssertThat(T instance, Quality<T> quality)
+    public AssertionThat(T instance, Quality<T> quality)
     {
         this("", instance, quality);
     }

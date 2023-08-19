@@ -31,7 +31,7 @@ class ConfidenceEngineTest
     {
         EngineTestKit
             .engine("ConfidenceTest")
-            .selectors(selectClass(AllVerifiablePassTestCase.class))
+            .selectors(selectClass(AllAssertionPassTestCase.class))
             .execute()
             .testEvents()
             .assertStatistics(stats -> stats
@@ -47,7 +47,7 @@ class ConfidenceEngineTest
     {
         EngineTestKit
             .engine("ConfidenceTest")
-            .selectors(selectClass(MultipleVerifiableFailAndPassTestCase.class))
+            .selectors(selectClass(MultipleAssertionFailAndPassTestCase.class))
             .execute()
             .testEvents()
             .assertStatistics(stats -> stats
@@ -64,7 +64,7 @@ class ConfidenceEngineTest
     {
         EngineTestKit
             .engine("ConfidenceTest")
-            .selectors(selectClass(SingleVerifiablePassTestCase.class))
+            .selectors(selectClass(SingleAssertionPassTestCase.class))
             .execute()
             .testEvents()
             .assertStatistics(stats -> stats
@@ -80,7 +80,7 @@ class ConfidenceEngineTest
     {
         EngineTestKit
             .engine("ConfidenceTest")
-            .selectors(selectClass(SingleVerifiableFailTestCase.class))
+            .selectors(selectClass(SingleAssertionFailTestCase.class))
             .execute()
             .testEvents()
             .assertStatistics(stats -> stats

@@ -16,7 +16,7 @@
  *
  */
 
-package org.saynotobugs.confidence.junit5.engine.environment;
+package org.saynotobugs.confidence.junit5.engine.resource;
 
 import org.junit.jupiter.api.Test;
 import org.saynotobugs.confidence.description.Text;

@@ -16,11 +16,11 @@
  *
  */
 
-package org.saynotobugs.confidence.junit5.engine.environment;
+package org.saynotobugs.confidence.junit5.engine.resource;
 
 import org.dmfs.jems2.fragile.DelegatingFragile;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
-import org.saynotobugs.confidence.junit5.engine.verifiable.WithResource;
+import org.saynotobugs.confidence.junit5.engine.assertion.WithResource;
 
 import java.io.File;
 import java.io.IOException;

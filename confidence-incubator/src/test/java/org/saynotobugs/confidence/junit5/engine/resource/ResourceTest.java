@@ -16,13 +16,13 @@
  *
  */
 
-package org.saynotobugs.confidence.junit5.engine.environment;
+package org.saynotobugs.confidence.junit5.engine.resource;
 
 import org.dmfs.jems2.Fragile;
 import org.dmfs.jems2.FragileProcedure;
 import org.junit.jupiter.api.Test;
 import org.saynotobugs.confidence.description.Text;
-import org.saynotobugs.confidence.junit5.engine.verifiable.WithResource;
+import org.saynotobugs.confidence.junit5.engine.assertion.WithResource;
 
 import static org.dmfs.jems2.mockito.Mock.*;
 import static org.mockito.Mockito.verify;

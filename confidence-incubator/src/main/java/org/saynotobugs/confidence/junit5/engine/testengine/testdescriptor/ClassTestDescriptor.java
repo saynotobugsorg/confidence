@@ -24,7 +24,7 @@ import org.junit.platform.engine.TestExecutionResult;
 import org.junit.platform.engine.UniqueId;
 import org.junit.platform.engine.support.descriptor.AbstractTestDescriptor;
 import org.junit.platform.engine.support.descriptor.ClassSource;
-import org.saynotobugs.confidence.junit5.engine.Verifiable;
+import org.saynotobugs.confidence.junit5.engine.Assertion;
 import org.saynotobugs.confidence.junit5.engine.testengine.Testable;
 
 import java.util.Arrays;
@@ -42,7 +42,7 @@ public final class ClassTestDescriptor extends AbstractTestDescriptor implements
             ClassSource.from(javaClass));
 
         Arrays.stream(javaClass.getDeclaredFields())
-            .filter(field -> Verifiable.class.isAssignableFrom(field.getType()))
+            .filter(field -> Assertion.class.isAssignableFrom(field.getType()))
             .map(field -> new FieldTestDescriptor(getUniqueId(), javaClass, field))
             .forEach(this::addChild);
     }

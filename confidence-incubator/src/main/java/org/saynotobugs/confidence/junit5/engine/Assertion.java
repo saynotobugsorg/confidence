@@ -16,17 +16,11 @@
  *
  */
 
-package org.saynotobugs.confidence.junit5.engine.testengine;
+package org.saynotobugs.confidence.junit5.engine;
 
-import org.saynotobugs.confidence.junit5.engine.Confidence;
-import org.saynotobugs.confidence.junit5.engine.Verifiable;
-
-import static org.saynotobugs.confidence.junit5.engine.ConfidenceEngine.assertThat;
-import static org.saynotobugs.confidence.quality.Core.hasToString;
-
-
-@Confidence
-public final class SingleVerifiablePassTestCase
+public interface Assertion
 {
-    Verifiable passing_test = assertThat("abc", hasToString("abc"));
+    void verify();
+
+    String name();
 }
