@@ -146,7 +146,7 @@ public final class IteratesInAnyOrder<T> implements Quality<Iterable<T>>
         {
             for (int j = 0; j < qualities.size(); j++)
             {
-                if (asses(candidates.get(i), qualities.get((j)), cache))
+                if (assess(candidates.get(i), qualities.get((j)), cache))
                 {
                     List<T> can2 = new ArrayList<>(candidates);
                     can2.remove(i);
@@ -165,7 +165,7 @@ public final class IteratesInAnyOrder<T> implements Quality<Iterable<T>>
 
 
     @SuppressWarnings("NewApi")
-    private static <T> Boolean asses(T candidate, Quality<? super T> quality, Map<T, Map<Quality<? super T>, Boolean>> cache)
+    private static <T> Boolean assess(T candidate, Quality<? super T> quality, Map<T, Map<Quality<? super T>, Boolean>> cache)
     {
         return cache.computeIfAbsent(candidate, i -> new HashMap<>())
             .computeIfAbsent(quality, i -> quality.assessmentOf(candidate).isSuccess());

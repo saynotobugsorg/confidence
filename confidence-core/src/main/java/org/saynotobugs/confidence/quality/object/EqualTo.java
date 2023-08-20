@@ -20,7 +20,6 @@ package org.saynotobugs.confidence.quality.object;
 
 import org.dmfs.jems2.iterable.Mapped;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
-import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.FailPrepended;
 import org.saynotobugs.confidence.assessment.PassIf;
@@ -39,16 +38,15 @@ public final class EqualTo<T> extends QualityComposition<T>
      */
     public EqualTo(T expected)
     {
-        super(actual -> asses(expected, actual),
+        super(actual -> expected.getClass().isArray() && actual.getClass().isArray()
+                ?
+                new FailPrepended(
+                    new Text("array that"),
+                    new Iterates<>(new Mapped<>(EqualTo::new, new ArrayIterable(expected))).assessmentOf(new ArrayIterable(actual)))
+                :
+                new PassIf(expected.equals(actual), new Value(actual)),
             new Value(expected));
     }
 
 
-    private static <T> Assessment asses(T expected, T actual)
-    {
-        return expected.getClass().isArray() && actual.getClass().isArray()
-            ? new FailPrepended(new Text("array that"),
-            new Iterates<>(new Mapped<>(EqualTo::new, new ArrayIterable(expected))).assessmentOf(new ArrayIterable(actual)))
-            : new PassIf(expected.equals(actual), new Value(actual));
-    }
 }
