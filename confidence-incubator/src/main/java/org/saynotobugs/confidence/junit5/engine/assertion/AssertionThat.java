@@ -30,10 +30,10 @@ public final class AssertionThat<T> implements Assertion
 {
     private final String mName;
     private final T mInstance;
-    private final Quality<T> mQuality;
+    private final Quality<? super T> mQuality;
 
 
-    public AssertionThat(String name, T instance, Quality<T> quality)
+    public AssertionThat(String name, T instance, Quality<? super T> quality)
     {
         mName = name;
         mInstance = instance;
@@ -41,7 +41,7 @@ public final class AssertionThat<T> implements Assertion
     }
 
 
-    public AssertionThat(T instance, Quality<T> quality)
+    public AssertionThat(T instance, Quality<? super T> quality)
     {
         this("", instance, quality);
     }
