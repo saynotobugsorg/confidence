@@ -17,7 +17,7 @@ import java.util.function.Function;
 
 /**
  * {@link Quality} of a non-pure {@link Function} that mutates its argument when called.
- * <h3>Examples</h3>
+ * <h2>Examples</h2>
  * <p>
  * The following test ensures the function {@code list->list:add} adds an element to a given {@link List} and returns
  * {@code true} when the list content has been changed.
