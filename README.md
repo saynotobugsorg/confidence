@@ -1,5 +1,6 @@
-[![Build](https://github.com/saynotobugsorg/confidence/actions/workflows/main.yml/badge.svg?label=main)](https://github.com/saynotobugsorg/confidence/actions/workflows/main.yml)
-[![codecov](https://codecov.io/gh/saynotobugsorg/confidence/branch/main/graph/badge.svg?token=3wGxOPmEEc)](https://codecov.io/gh/saynotobugsorg/confidence)
+[![Build](https://github.com/saynotobugsorg/confidence/actions/workflows/main.yml/badge.svg?label=main)](https://github.com/saynotobugsorg/confidence/actions/workflows/main.yml)  
+[![codecov](https://codecov.io/gh/saynotobugsorg/confidence/branch/main/graph/badge.svg?token=3wGxOPmEEc)](https://codecov.io/gh/saynotobugsorg/confidence)  
+[![Confidence](https://img.shields.io/badge/Tested_with-Confidence-800000?labelColor=white)](https://saynotobugs.org/confidence)
 
 # Confidence
 
@@ -217,3 +218,17 @@ The `withResources` decorator creates the required resources before the
 assertion is made and cleans up afterward.
 
 The Confidence Engine is still in an early ideation phase. You're welcome to try it and make suggestions or contributions for improvements.
+
+## Badge
+
+Show visitors of your repository that you use Confidence to test your projects by embedding this badge
+
+[![Confidence](https://img.shields.io/badge/Tested_with-Confidence-800000?labelColor=white)](https://saynotobugs.org/confidence)
+
+Put the following markdown snippet into your README.md file.
+
+```markdown
+[![Confidence](https://img.shields.io/badge/Tested_with-Confidence-800000?labelColor=white)](https://saynotobugs.org/confidence)
+```
+
+Note that the link to https://saynotobugs.org/confidence currently just redirects to https://github.com/saynotobugsorg/confidence this will change in the near future.
