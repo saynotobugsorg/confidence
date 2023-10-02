@@ -3,13 +3,19 @@ package org.saynotobugs.confidence.quality.iterable;
 import org.dmfs.jems2.iterable.EmptyIterable;
 import org.dmfs.jems2.iterable.Seq;
 import org.junit.jupiter.api.Test;
+import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.quality.comparable.GreaterThan;
 import org.saynotobugs.confidence.quality.comparable.LessThan;
 import org.saynotobugs.confidence.quality.composite.AllOf;
 import org.saynotobugs.confidence.test.quality.Fails;
 import org.saynotobugs.confidence.test.quality.HasDescription;
 import org.saynotobugs.confidence.test.quality.Passes;
+import org.saynotobugs.confidence.test.quality.PassesPostMutation;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static java.util.Collections.singletonList;
 import static org.saynotobugs.confidence.Assertion.assertThat;
 
 
@@ -80,4 +86,14 @@ class IteratesTest
                 new HasDescription("iterates [ 0: less than <1>,\n  1: greater than <2>,\n  2: less than <3> ]")
             ));
     }
+
+
+    @Test
+    void testOneValueWithPostMutation()
+    {
+        assertThat(new Iterates<>(1),
+            new PassesPostMutation<>(() -> new ArrayList<>(singletonList(1)), new Text("clear list"), List::clear));
+    }
+
+
 }

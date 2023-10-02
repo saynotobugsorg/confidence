@@ -23,6 +23,7 @@ import org.dmfs.jems2.iterable.OuterZipped;
 import org.dmfs.jems2.iterable.Seq;
 import org.dmfs.jems2.optional.Zipped;
 import org.dmfs.jems2.single.Backed;
+import org.dmfs.jems2.single.Collected;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Description;
@@ -35,6 +36,8 @@ import org.saynotobugs.confidence.description.Structured;
 import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.description.Value;
 import org.saynotobugs.confidence.quality.object.EqualTo;
+
+import java.util.ArrayList;
 
 import static org.saynotobugs.confidence.description.LiteralDescription.COMMA_NEW_LINE;
 
@@ -70,14 +73,18 @@ public final class Iterates<T> implements Quality<Iterable<T>>
     {
         return new AllPassed(new Text("iterated [ "), COMMA_NEW_LINE, new Text(" ]"),
             new Numbered(
-                new OuterZipped<>(
-                    mDelegates,
-                    candidate,
-                    (left, right) -> new Backed<>(new Zipped<>(left, right, Quality::assessmentOf),
-                        () -> new Fail(left.isPresent()
-                            ? new Spaced(new Text("missing"), left.value().description())
-                            : new Spaced(new Text("additional"), new Value(right.value())))).value()
-                )));
+                // eagerly collect the Assessments, otherwise the result might be wrong when the tested candidate is
+                // mutable and mutated afterward
+                new Collected<>(ArrayList::new,
+                    new OuterZipped<>(
+                        mDelegates,
+                        candidate,
+                        (left, right) -> new Backed<>(new Zipped<>(left, right, Quality::assessmentOf),
+                            () -> new Fail(left.isPresent()
+                                ? new Spaced(new Text("missing"), left.value().description())
+                                : new Spaced(new Text("additional"), new Value(right.value())))).value()
+                    )
+                ).value()));
     }
 
 

@@ -21,6 +21,12 @@ package org.saynotobugs.confidence;
 import org.dmfs.srcless.annotations.composable.Composable;
 
 
+/**
+ * The assessment of an object in regard to a specific {@link Quality}.
+ * <p>
+ * Note, {@link Assessment}s must be immutable. If a {@link Quality} returns an {@link Assessment} of a mutable object
+ * the {@link Assessment} instance MUST return the same result when the object is mutated.
+ */
 @Composable(packageName = "org.saynotobugs.confidence.assessment")
 public interface Assessment
 {
