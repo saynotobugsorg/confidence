@@ -20,12 +20,15 @@ package org.saynotobugs.confidence.quality.composite;
 
 import org.dmfs.jems2.iterable.Mapped;
 import org.dmfs.jems2.iterable.Seq;
+import org.dmfs.jems2.single.Collected;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.AllPassed;
 import org.saynotobugs.confidence.description.Composite;
 import org.saynotobugs.confidence.description.Structured;
 import org.saynotobugs.confidence.description.Text;
+
+import java.util.ArrayList;
 
 import static org.saynotobugs.confidence.description.LiteralDescription.NEW_LINE;
 
@@ -52,7 +55,7 @@ public final class AllOf<T> extends QualityComposition<T>
                 new Text("{ "),
                 new Composite(NEW_LINE, new Text("and"), NEW_LINE),
                 new Text(" }"),
-                new Mapped<>(d -> d.assessmentOf(actual), delegates)),
+                new Collected<>(ArrayList::new, new Mapped<>(d -> d.assessmentOf(actual), delegates)).value()),
             new Structured(
                 new Composite(NEW_LINE, new Text("and"), NEW_LINE),
                 new Mapped<>(Quality::description, delegates)));

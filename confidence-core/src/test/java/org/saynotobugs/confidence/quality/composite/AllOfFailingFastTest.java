@@ -19,11 +19,18 @@
 package org.saynotobugs.confidence.quality.composite;
 
 import org.junit.jupiter.api.Test;
+import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.quality.comparable.LessThan;
+import org.saynotobugs.confidence.quality.iterable.Contains;
 import org.saynotobugs.confidence.test.quality.Fails;
 import org.saynotobugs.confidence.test.quality.HasDescription;
 import org.saynotobugs.confidence.test.quality.Passes;
+import org.saynotobugs.confidence.test.quality.PassesPostMutation;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static java.util.Arrays.asList;
 import static org.saynotobugs.confidence.Assertion.assertThat;
 import static org.saynotobugs.confidence.description.LiteralDescription.NEW_LINE;
 
@@ -58,4 +65,11 @@ class AllOfFailingFastTest
             ));
     }
 
+
+    @Test
+    void testPostMutation()
+    {
+        assertThat(new AllOfFailingFast<>(new Contains<>(1), new Contains<>(2)),
+            new PassesPostMutation<>(() -> new ArrayList<>(asList(1, 2)), new Text("clear list"), List::clear));
+    }
 }
