@@ -33,9 +33,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.saynotobugs.confidence.Assertion.assertThat;
 
-class HasLengthTest
+class ContainsTextTest
 {
     @TempDir
     File tempDir;
@@ -51,12 +52,12 @@ class HasLengthTest
         {
             fileWriter.write("0123456789");
         }
-        assertThat(new HasLength(new EqualTo<>(10L)),
+        assertThat(new ContainsText(UTF_8, new EqualTo<>("0123456789")),
             new AllOf<>(
                 new Passes<>(file10Bytes),
-                new Fails<>(tempDir, new DescribesAs(new MatchesPattern("had length <\\d+>"))),
-                new Fails<>(emptyFile, "had length <0>"),
-                new HasDescription("has length <10>")
+                new Fails<>(tempDir, new DescribesAs(new MatchesPattern("threw <java.io.IOException: [^>]+> while reading"))),
+                new Fails<>(emptyFile, "contained \"UTF-8\" text \"\""),
+                new HasDescription("contains \"UTF-8\" text \"0123456789\"")
             ));
     }
 
@@ -71,13 +72,12 @@ class HasLengthTest
         {
             fileWriter.write("0123456789");
         }
-        assertThat(new HasLength(10),
+        assertThat(new ContainsText("0123456789"),
             new AllOf<>(
                 new Passes<>(file10Bytes),
-                new Fails<>(tempDir, new DescribesAs(new MatchesPattern("had length <\\d+>"))),
-                new Fails<>(emptyFile, "had length <0>"),
-                new HasDescription("has length <10>")
+                new Fails<>(tempDir, new DescribesAs(new MatchesPattern("threw <java.io.IOException: [^>]+> while reading"))),
+                new Fails<>(emptyFile, "contained \"UTF-8\" text \"\""),
+                new HasDescription("contains \"UTF-8\" text \"0123456789\"")
             ));
     }
-
 }
