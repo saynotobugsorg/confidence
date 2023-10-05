@@ -18,6 +18,10 @@
 
 package org.saynotobugs.confidence.junit5.engine.testengine.testdescriptor;
 
+import org.dmfs.jems2.Pair;
+import org.dmfs.jems2.iterable.Mapped;
+import org.dmfs.jems2.iterable.Numbered;
+import org.dmfs.jems2.procedure.ForEach;
 import org.junit.platform.engine.EngineExecutionListener;
 import org.junit.platform.engine.TestDescriptor;
 import org.junit.platform.engine.TestExecutionResult;
@@ -28,29 +32,31 @@ import org.saynotobugs.confidence.junit5.engine.Assertion;
 import org.saynotobugs.confidence.junit5.engine.Assertions;
 import org.saynotobugs.confidence.junit5.engine.testengine.Testable;
 
-import java.util.Arrays;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 
 
 /**
- * A {@link TestDescriptor} for container test classes.
+ * A {@link TestDescriptor} for {@link Field}s.
  */
-public final class ClassTestDescriptor extends AbstractTestDescriptor implements Testable
+public final class AssertionsFieldTestDescriptor extends AbstractTestDescriptor implements Testable
 {
-    public ClassTestDescriptor(UniqueId uniqueId, Class<?> javaClass)
+    private final Class<?> javaClass;
+    private final Field javaField;
+
+
+    public AssertionsFieldTestDescriptor(UniqueId uniqueId, Class<?> javaClass, Field javaField)
     {
-        super(uniqueId.append("class", javaClass.getName()),
-            javaClass.getSimpleName(),
+        super(uniqueId.append("field", javaField.getName()),
+            (javaField.getName().replace("_", " ")).trim(),
             ClassSource.from(javaClass));
+        this.javaClass = javaClass;
+        this.javaField = javaField;
 
-        Arrays.stream(javaClass.getDeclaredFields())
-            .filter(field -> Assertion.class.isAssignableFrom(field.getType()))
-            .map(field -> new FieldTestDescriptor(getUniqueId(), javaClass, field))
-            .forEach(this::addChild);
-
-        Arrays.stream(javaClass.getDeclaredFields())
-            .filter(field -> Assertions.class.isAssignableFrom(field.getType()))
-            .map(field -> new AssertionsFieldTestDescriptor(getUniqueId(), javaClass, field))
-            .forEach(this::addChild);
+        new ForEach<>(
+            new Mapped<>(
+                a -> new AssertionDescriptor(getUniqueId().append("index", a.left().toString()), a.right(), javaClass), assertion(javaClass, javaField))).process(this::addChild);
     }
 
 
@@ -71,6 +77,23 @@ public final class ClassTestDescriptor extends AbstractTestDescriptor implements
                 }
             }
         );
+    }
+
+
+    private static Iterable<Pair<Integer, Assertion>> assertion(Class<?> javaClass, Field javaField)
+    {
+        try
+        {
+            Constructor<?> constructor = javaClass.getDeclaredConstructor();
+            constructor.setAccessible(true);
+            Object instance = constructor.newInstance();
+            javaField.setAccessible(true);
+            return new Numbered<>(((Assertions) javaField.get(instance)).assertions());
+        }
+        catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e)
+        {
+            throw new RuntimeException("Can't invoke test " + javaClass.getName() + "." + javaField.getName(), e);
+        }
     }
 
 
