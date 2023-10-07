@@ -25,22 +25,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.Arrays.asList;
-import static org.dmfs.jems2.confidence.Jems2.hasValue;
 import static org.saynotobugs.confidence.Assertion.assertThat;
 import static org.saynotobugs.confidence.quality.Core.emptyIterable;
 import static org.saynotobugs.confidence.quality.Core.iterates;
 
 
-class ResourceTest
+class LazyResourceTest
 {
     @Test
     void test()
     {
-        assertThat(new Resource<>(() -> new ArrayList<>(asList(1, 2, 3)), List::clear),
-            hasValue(
-                new ResourceThat<>(
-                    iterates(1, 2, 3),
-                    emptyIterable()))
+        assertThat(new LazyResource<>(() -> new ArrayList<>(asList(1, 2, 3)), List::clear),
+            new ResourceThat<>(
+                iterates(1, 2, 3),
+                emptyIterable())
         );
     }
 }

@@ -18,10 +18,10 @@
 
 package org.saynotobugs.confidence.junit5.engine.resource;
 
-import org.dmfs.jems2.Fragile;
 import org.dmfs.jems2.Generator;
+import org.dmfs.jems2.Single;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
-import org.saynotobugs.confidence.junit5.engine.assertion.WithResource;
+import org.saynotobugs.confidence.junit5.engine.Resource;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -30,37 +30,50 @@ import java.io.PrintStream;
 
 
 /**
- * Provides a {@link WithResource.Resource} that provides everything written to {@link System#out}.
+ * A{@link Resource} that provides everything written to {@link System#out until closed}.
  */
-@StaticFactories(value = "ConfidenceEngine", packageName = "org.saynotobugs.confidence.junit5.engine")
-public final class SystemOut implements Fragile<WithResource.Resource<Generator<String>>, Exception>
+@StaticFactories(value = "Resources", packageName = "org.saynotobugs.confidence.junit5.engine")
+public final class SystemOut implements Resource<Generator<String>>
 {
-    @Override
-    public WithResource.Resource<Generator<String>> value()
+
+    private Single<? extends Generator<String>> mResourceGenerator;
+    private Runnable mCleanUp = () -> {};
+
+    public SystemOut()
     {
-        PrintStream original = System.out;
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        PrintStream ps = new PrintStream(new TeeStream(out, original));
-        System.setOut(ps);
-        return new WithResource.Resource<Generator<String>>()
-        {
-            @Override
-            public void close()
+        mResourceGenerator = () -> {
+            synchronized (this)
             {
-                System.setOut(original);
-                ps.close();
-            }
+                PrintStream original = System.out;
+                ByteArrayOutputStream out = new ByteArrayOutputStream();
+                PrintStream ps = new PrintStream(new TeeStream(out, original));
+                System.setOut(ps);
 
-
-            @Override
-            public Generator<String> value()
-            {
-                return () -> {
-                    ps.flush();
-                    return out.toString();
+                mResourceGenerator = () ->
+                    () -> {
+                        ps.flush();
+                        return out.toString();
+                    };
+                mCleanUp = () -> {
+                    System.setOut(original);
+                    ps.close();
                 };
+                return mResourceGenerator.value();
             }
         };
+    }
+
+
+    @Override
+    public Generator<String> value()
+    {
+        return mResourceGenerator.value();
+    }
+
+    @Override
+    public void close()
+    {
+        mCleanUp.run();
     }
 
 

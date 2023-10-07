@@ -28,22 +28,14 @@ import static org.saynotobugs.confidence.Assertion.assertThat;
 @StaticFactories(value = "ConfidenceEngine", packageName = "org.saynotobugs.confidence.junit5.engine")
 public final class AssertionThat<T> implements Assertion
 {
-    private final String mName;
     private final T mInstance;
     private final Quality<? super T> mQuality;
 
 
-    public AssertionThat(String name, T instance, Quality<? super T> quality)
-    {
-        mName = name;
-        mInstance = instance;
-        mQuality = quality;
-    }
-
-
     public AssertionThat(T instance, Quality<? super T> quality)
     {
-        this("", instance, quality);
+        mInstance = instance;
+        mQuality = quality;
     }
 
 
@@ -52,12 +44,4 @@ public final class AssertionThat<T> implements Assertion
     {
         assertThat(mInstance, mQuality);
     }
-
-
-    @Override
-    public String name()
-    {
-        return mName;
-    }
-
 }

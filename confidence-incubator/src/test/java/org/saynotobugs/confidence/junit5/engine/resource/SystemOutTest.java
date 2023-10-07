@@ -23,7 +23,6 @@ import org.junit.jupiter.api.Test;
 import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.junit5.engine.quality.ResourceThat;
 
-import static org.dmfs.jems2.confidence.Jems2.hasValue;
 import static org.saynotobugs.confidence.Assertion.assertThat;
 import static org.saynotobugs.confidence.quality.Core.*;
 
@@ -34,7 +33,7 @@ class SystemOutTest
     void test()
     {
         assertThat(new SystemOut(),
-            hasValue(new ResourceThat<>(
+            new ResourceThat<>(
                 allOf(
                     has("generated", Generator::next, emptyCharSequence()),
                     successfully(new Text("Writes to System.out"), new Text("Writes to System.out"),
@@ -47,7 +46,7 @@ class SystemOutTest
                         (Generator<?> systemOut) -> System.out.print("More Output")),
                     // no further changes expected
                     has("generated", Generator::next, equalTo("Hello Test"))
-                ))));
+                )));
     }
 
 }

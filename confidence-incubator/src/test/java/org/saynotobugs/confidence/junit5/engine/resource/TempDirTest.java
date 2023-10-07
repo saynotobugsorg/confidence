@@ -23,7 +23,6 @@ import org.saynotobugs.confidence.junit5.engine.quality.ResourceThat;
 
 import java.io.File;
 
-import static org.dmfs.jems2.confidence.Jems2.hasValue;
 import static org.saynotobugs.confidence.Assertion.assertThat;
 import static org.saynotobugs.confidence.quality.Core.*;
 import static org.saynotobugs.confidence.quality.File.*;
@@ -35,10 +34,9 @@ class TempDirTest
     void testEmpty()
     {
         assertThat(new TempDir(),
-            hasValue(
-                new ResourceThat<>(
-                    is(aDirectory()),
-                    not(exists())))
+            new ResourceThat<>(
+                is(aDirectory()),
+                not(exists()))
         );
     }
 
@@ -47,23 +45,22 @@ class TempDirTest
     void testWithContent()
     {
         assertThat(new TempDir(),
-            hasValue(
-                new ResourceThat<>(
-                    // TODO, this can't be achieved with `mutatedBy` because that tests
-                    // a generator of new instances. also we don't really mutate the file instance
-                    // We need a better way to express this
-                    has(
-                        "creating a temporary file",
-                        (File f) -> {
-                            File x = new File(f, "abc");
-                            x.createNewFile();
-                            return f;
-                        },
-                        allOf(
-                            is(aDirectory()),
-                            has((File d) -> new File(d, "abc"), is(aFile())))),
-                    not(exists()))
-            ));
+            new ResourceThat<>(
+                // TODO, this can't be achieved with `mutatedBy` because that tests
+                // a generator of new instances. also we don't really mutate the file instance
+                // We need a better way to express this
+                has(
+                    "creating a temporary file",
+                    (File f) -> {
+                        File x = new File(f, "abc");
+                        x.createNewFile();
+                        return f;
+                    },
+                    allOf(
+                        is(aDirectory()),
+                        has((File d) -> new File(d, "abc"), is(aFile())))),
+                not(exists()))
+        );
     }
 
 }

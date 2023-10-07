@@ -23,13 +23,10 @@ import org.dmfs.jems2.Function;
 import org.junit.jupiter.api.Test;
 import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.junit5.engine.Assertion;
-import org.saynotobugs.confidence.quality.composite.AllOf;
+import org.saynotobugs.confidence.junit5.engine.Resource;
 import org.saynotobugs.confidence.quality.composite.Has;
-import org.saynotobugs.confidence.quality.object.EqualTo;
 import org.saynotobugs.confidence.quality.object.Successfully;
 import org.saynotobugs.confidence.quality.object.Throwing;
-
-import java.io.IOException;
 
 import static org.dmfs.jems2.mockito.Mock.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -43,18 +40,15 @@ class WithResourceTest
     void testPassSingleResource() throws Exception
     {
         Object resourceDummy = new Object();
-        WithResource.Resource<Object> mockResource = mock(WithResource.Resource.class,
-            with(WithResource.Resource::value, returning(resourceDummy)),
-            withVoid(WithResource.Resource::close, doingNothing()));
+        Resource<Object> mockResource = mock(Resource.class,
+            with(Resource::value, returning(resourceDummy)),
+            withVoid(Resource::close, doingNothing()));
 
-        assertThat(new WithResource(() -> mockResource,
+        assertThat(new WithResource(mockResource,
                 mock(Function.class,
                     with(f -> f.value(resourceDummy), returning(mock(Assertion.class,
                         withVoid(Assertion::verify, doingNothing())))))),
-            new AllOf<>(
-                new Successfully<>(new Text("Verifies"), new Text("Failed"), Assertion::verify),
-                new Has<>("name", Assertion::name, new EqualTo<>(""))
-            )
+            new Successfully<>(new Text("Verifies"), new Text("Failed"), Assertion::verify)
         );
 
         verify(mockResource).close();
@@ -65,38 +59,20 @@ class WithResourceTest
     void testFailSingleResource() throws Exception
     {
         Object resourceDummy = new Object();
-        WithResource.Resource<Object> mockResource = mock(WithResource.Resource.class,
-            with(WithResource.Resource::value, returning(resourceDummy)),
-            withVoid(WithResource.Resource::close, doingNothing()));
+        Resource<Object> mockResource = mock(Resource.class,
+            with(Resource::value, returning(resourceDummy)),
+            withVoid(Resource::close, doingNothing()));
 
-        assertThat(new WithResource(() -> mockResource,
+        assertThat(new WithResource(mockResource,
                 mock(Function.class,
                     with(f -> f.value(any()), returning(mock(Assertion.class,
                         withVoid(Assertion::verify, doingNothing())))),
                     with(f -> f.value(resourceDummy), returning(mock(Assertion.class,
                         withVoid(Assertion::verify, throwing(new AssertionError("failed")))))))),
-            new AllOf<>(
-                new Has<>("failing", verifiable -> verifiable::verify, new Throwing(AssertionError.class)),
-                new Has<>("name", Assertion::name, new EqualTo<>(""))
-            )
+            new Has<>("failing", verifiable -> verifiable::verify, new Throwing(AssertionError.class))
         );
 
         verify(mockResource).close();
-    }
-
-
-    @Test
-    void testFailToCreateResource() throws Exception
-    {
-        assertThat(new WithResource(() -> {throw new IOException();},
-                mock(Function.class,
-                    with(f -> f.value(any()), returning(mock(Assertion.class,
-                        withVoid(Assertion::verify, doingNothing())))))),
-            new AllOf<>(
-                new Has<>("failing", verifiable -> verifiable::verify, new Throwing(RuntimeException.class)),
-                new Has<>("name", Assertion::name, new EqualTo<>(""))
-            )
-        );
     }
 
 
@@ -105,21 +81,18 @@ class WithResourceTest
     {
         Object resourceDummy1 = new Object();
         Object resourceDummy2 = new Object();
-        WithResource.Resource<Object> mockResource1 = mock(WithResource.Resource.class,
-            with(WithResource.Resource::value, returning(resourceDummy1)),
-            withVoid(WithResource.Resource::close, doingNothing()));
-        WithResource.Resource<Object> mockResource2 = mock(WithResource.Resource.class,
-            with(WithResource.Resource::value, returning(resourceDummy2)),
-            withVoid(WithResource.Resource::close, doingNothing()));
+        Resource<Object> mockResource1 = mock(Resource.class,
+            with(Resource::value, returning(resourceDummy1)),
+            withVoid(Resource::close, doingNothing()));
+        Resource<Object> mockResource2 = mock(Resource.class,
+            with(Resource::value, returning(resourceDummy2)),
+            withVoid(Resource::close, doingNothing()));
 
-        assertThat(new WithResource(() -> mockResource1, () -> mockResource2,
+        assertThat(new WithResource(mockResource1, mockResource2,
                 mock(BiFunction.class,
                     with(f -> f.value(resourceDummy1, resourceDummy2), returning(mock(Assertion.class,
                         withVoid(Assertion::verify, doingNothing())))))),
-            new AllOf<>(
-                new Successfully<>(new Text("Verifies"), new Text("Failed"), Assertion::verify),
-                new Has<>("name", Assertion::name, new EqualTo<>(""))
-            )
+            new Successfully<>(new Text("Verifies"), new Text("Failed"), Assertion::verify)
         );
 
         verify(mockResource1).close();
@@ -132,48 +105,24 @@ class WithResourceTest
     {
         Object resourceDummy1 = new Object();
         Object resourceDummy2 = new Object();
-        WithResource.Resource<Object> mockResource1 = mock(WithResource.Resource.class,
-            with(WithResource.Resource::value, returning(resourceDummy1)),
-            withVoid(WithResource.Resource::close, doingNothing()));
-        WithResource.Resource<Object> mockResource2 = mock(WithResource.Resource.class,
-            with(WithResource.Resource::value, returning(resourceDummy2)),
-            withVoid(WithResource.Resource::close, doingNothing()));
+        Resource<Object> mockResource1 = mock(Resource.class,
+            with(Resource::value, returning(resourceDummy1)),
+            withVoid(Resource::close, doingNothing()));
+        Resource<Object> mockResource2 = mock(Resource.class,
+            with(Resource::value, returning(resourceDummy2)),
+            withVoid(Resource::close, doingNothing()));
 
-        assertThat(new WithResource(() -> mockResource1, () -> mockResource2,
+        assertThat(new WithResource(mockResource1, mockResource2,
                 mock(BiFunction.class,
                     with(f -> f.value(any(), any()), returning(mock(Assertion.class,
                         withVoid(Assertion::verify, doingNothing())))),
                     with(f -> f.value(resourceDummy1, resourceDummy2), returning(mock(Assertion.class,
                         withVoid(Assertion::verify, throwing(new AssertionError("failed")))))))),
-            new AllOf<>(
-                new Has<>("failing", verifiable -> verifiable::verify, new Throwing(AssertionError.class)),
-                new Has<>("name", Assertion::name, new EqualTo<>(""))
-            )
+            new Has<>("failing", verifiable -> verifiable::verify, new Throwing(AssertionError.class))
         );
 
         verify(mockResource1).close();
         verify(mockResource2).close();
-    }
-
-
-    @Test
-    void testFailToCreateDoubleResource() throws Exception
-    {
-        Object resourceDummy1 = new Object();
-        WithResource.Resource<Object> mockResource1 = mock(WithResource.Resource.class,
-            with(WithResource.Resource::value, returning(resourceDummy1)),
-            withVoid(WithResource.Resource::close, doingNothing()));
-
-        assertThat(new WithResource(() -> mockResource1, () -> {throw new IOException();},
-                mock(BiFunction.class,
-                    with(f -> f.value(any(), any()), returning(mock(Assertion.class,
-                        withVoid(Assertion::verify, doingNothing())))))),
-            new AllOf<>(
-                new Has<>("failing", verifiable -> verifiable::verify, new Throwing(RuntimeException.class)),
-                new Has<>("name", Assertion::name, new EqualTo<>(""))
-            )
-        );
-        verify(mockResource1).close();
     }
 
 }

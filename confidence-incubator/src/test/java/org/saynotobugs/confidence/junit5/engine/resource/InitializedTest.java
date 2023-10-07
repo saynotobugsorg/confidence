@@ -24,7 +24,6 @@ import org.saynotobugs.confidence.junit5.engine.quality.ResourceThat;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.dmfs.jems2.confidence.Jems2.hasValue;
 import static org.saynotobugs.confidence.Assertion.assertThat;
 import static org.saynotobugs.confidence.quality.Core.emptyIterable;
 import static org.saynotobugs.confidence.quality.Core.iterates;
@@ -34,9 +33,8 @@ class InitializedTest
     @Test
     void test()
     {
-        assertThat(new Initialized<List<String>>(list -> list.add("xyz"), new Resource<List<String>>(ArrayList::new, List::clear)),
-            hasValue(
-                new ResourceThat<>(iterates("xyz"), emptyIterable())
-            ));
+        assertThat(new Initialized<List<String>>(list -> list.add("xyz"), new LazyResource<List<String>>(ArrayList::new, List::clear)),
+            new ResourceThat<>(iterates("xyz"), emptyIterable())
+        );
     }
 }
