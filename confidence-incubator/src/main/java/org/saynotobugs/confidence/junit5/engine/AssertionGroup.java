@@ -18,7 +18,7 @@
 
 package org.saynotobugs.confidence.junit5.engine;
 
-public interface Assertions
+public interface AssertionGroup
 {
     Iterable<Assertion> assertions();
 }

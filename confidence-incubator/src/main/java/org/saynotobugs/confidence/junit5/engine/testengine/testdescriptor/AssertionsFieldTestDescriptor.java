@@ -29,7 +29,7 @@ import org.junit.platform.engine.UniqueId;
 import org.junit.platform.engine.support.descriptor.AbstractTestDescriptor;
 import org.junit.platform.engine.support.descriptor.ClassSource;
 import org.saynotobugs.confidence.junit5.engine.Assertion;
-import org.saynotobugs.confidence.junit5.engine.Assertions;
+import org.saynotobugs.confidence.junit5.engine.AssertionGroup;
 import org.saynotobugs.confidence.junit5.engine.testengine.Testable;
 
 import java.lang.reflect.Constructor;
@@ -88,7 +88,7 @@ public final class AssertionsFieldTestDescriptor extends AbstractTestDescriptor 
             constructor.setAccessible(true);
             Object instance = constructor.newInstance();
             javaField.setAccessible(true);
-            return new Numbered<>(((Assertions) javaField.get(instance)).assertions());
+            return new Numbered<>(((AssertionGroup) javaField.get(instance)).assertions());
         }
         catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e)
         {

@@ -22,9 +22,9 @@ import org.dmfs.jems2.Function;
 import org.dmfs.jems2.iterable.Mapped;
 import org.dmfs.jems2.iterable.Numbered;
 import org.saynotobugs.confidence.junit5.engine.Assertion;
-import org.saynotobugs.confidence.junit5.engine.Assertions;
+import org.saynotobugs.confidence.junit5.engine.AssertionGroup;
 
-public final class Parametrized<T> implements Assertions
+public final class Parametrized<T> implements AssertionGroup
 {
     private final Iterable<? extends T> parameters;
     public final Function<? super T, ? extends Assertion> assertionFunction;

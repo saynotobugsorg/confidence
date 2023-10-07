@@ -19,7 +19,7 @@
 package org.saynotobugs.confidence.junit5.engine.testengine;
 
 import org.dmfs.jems2.iterable.Seq;
-import org.saynotobugs.confidence.junit5.engine.Assertions;
+import org.saynotobugs.confidence.junit5.engine.AssertionGroup;
 import org.saynotobugs.confidence.junit5.engine.Confidence;
 import org.saynotobugs.confidence.junit5.engine.assertions.Parametrized;
 
@@ -28,11 +28,11 @@ import static org.saynotobugs.confidence.quality.Core.hasLength;
 
 
 @Confidence
-public final class MultipleAssertionsTestCase
+public final class MultipleAssertionGroupTestCase
 {
-    Assertions hasLength =
+    AssertionGroup hasLength =
         new Parametrized<>(
             new Seq<>("123", "abc", "   ", "   1234"),
 
-            parameter -> assertionThat("of " + parameter, parameter, hasLength(3)));
+            parameter -> assertionThat(parameter, hasLength(3)));
 }
