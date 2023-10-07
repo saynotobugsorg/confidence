@@ -89,4 +89,20 @@ class ConfidenceEngineTest
                 .failed(1)
             );
     }
+
+
+    @Test
+    void testWithResources()
+    {
+        EngineTestKit
+            .engine("ConfidenceTest")
+            .selectors(selectClass(SharedResourceTestCase.class))
+            .execute()
+            .testEvents()
+            .assertStatistics(stats -> stats
+                .started(2)
+                .succeeded(2)
+                .failed(0)
+            );
+    }
 }

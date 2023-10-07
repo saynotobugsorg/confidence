@@ -20,7 +20,7 @@ package org.saynotobugs.confidence.junit5.engine.quality;
 
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Quality;
-import org.saynotobugs.confidence.junit5.engine.assertion.WithResource;
+import org.saynotobugs.confidence.junit5.engine.Resource;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 
 import static org.dmfs.jems2.confidence.Jems2.hasValue;
@@ -28,7 +28,7 @@ import static org.saynotobugs.confidence.quality.Core.allOf;
 import static org.saynotobugs.confidence.quality.Core.autoClosableThat;
 
 @StaticFactories(value = "ConfidenceEngine", packageName = "org.saynotobugs.confidence.junit5.engine")
-public final class ResourceThat<T> extends QualityComposition<WithResource.Resource<T>>
+public final class ResourceThat<T> extends QualityComposition<Resource<T>>
 {
     public ResourceThat(Quality<? super T> delegate, Quality<? super T> cleanUpDelegate)
     {

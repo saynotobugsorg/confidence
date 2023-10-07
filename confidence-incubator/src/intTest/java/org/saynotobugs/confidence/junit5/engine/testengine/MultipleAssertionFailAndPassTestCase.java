@@ -18,8 +18,8 @@
 
 package org.saynotobugs.confidence.junit5.engine.testengine;
 
-import org.saynotobugs.confidence.junit5.engine.Confidence;
 import org.saynotobugs.confidence.junit5.engine.Assertion;
+import org.saynotobugs.confidence.junit5.engine.Confidence;
 
 import static org.saynotobugs.confidence.junit5.engine.ConfidenceEngine.assertionThat;
 import static org.saynotobugs.confidence.quality.Core.hasToString;
@@ -30,19 +30,5 @@ public final class MultipleAssertionFailAndPassTestCase
 {
     Assertion passing_test = assertionThat("abc", hasToString("abc"));
     Assertion failingTest = assertionThat("abc", hasToString("abcd"));
-    Assertion throwing_test = new Assertion()
-    {
-        @Override
-        public void verify()
-        {
-            throw new RuntimeException();
-        }
-
-
-        @Override
-        public String name()
-        {
-            return "name";
-        }
-    };
+    Assertion throwing_test = () -> {throw new RuntimeException();};
 }

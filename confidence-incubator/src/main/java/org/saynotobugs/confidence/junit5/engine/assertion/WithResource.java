@@ -18,84 +18,57 @@
 
 package org.saynotobugs.confidence.junit5.engine.assertion;
 
-import org.dmfs.jems2.*;
+import org.dmfs.jems2.BiFunction;
+import org.dmfs.jems2.Function;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactory;
 import org.saynotobugs.confidence.junit5.engine.Assertion;
+import org.saynotobugs.confidence.junit5.engine.Resource;
 
 
 /**
- * A {@link Assertion} that provides a certain environment to another {@link Assertion}.
+ * A {@link Assertion} that provides resource values to another {@link Assertion}.
+ * <p>
+ * After the delegate {@link Assertion} has finished, the given resources are closed.
  */
 @StaticFactories(value = "ConfidenceEngine", packageName = "org.saynotobugs.confidence.junit5.engine")
 public final class WithResource implements Assertion
 {
-    public interface Resource<T> extends Single<T>, AutoCloseable
+    private final Assertion mDelegate;
+
+
+    public <T> WithResource(Resource<T> res, Function<T, Assertion> delegate)
     {
-    }
-
-
-    private final Runnable mDelegate;
-    private final String mName;
-
-
-    public <T> WithResource(Fragile<Resource<T>, Exception> res, Function<T, Assertion> delegate)
-    {
-        this("", res, delegate);
-    }
-
-
-    public <T> WithResource(String name, Fragile<Resource<T>, Exception> res, Function<T, Assertion> delegate)
-    {
-        this(name, () -> {
-            try (Resource<T> resource = res.value())
+        this(() -> {
+            try (Resource<T> r = res)
             {
-                delegate.value(resource.value()).verify();
+                delegate.value(r.value()).verify();
             }
             catch (Exception e)
             {
-                throw new RuntimeException("Can't create test environment", e);
+                throw new RuntimeException(e);
+            }
+        });
+    }
+
+    @StaticFactory(value = "ConfidenceEngine", packageName = "org.saynotobugs.confidence.junit5.engine", methodName = "withResources")
+    public <T, V> WithResource(Resource<T> res1, Resource<V> res2, BiFunction<T, V, Assertion> delegate)
+    {
+        this(() -> {
+            try (Resource<T> r1 = res1; Resource<V> r2 = res2)
+            {
+                delegate.value(r1.value(), r2.value()).verify();
+            }
+            catch (Exception e)
+            {
+                throw new RuntimeException(e);
             }
         });
     }
 
 
-    @StaticFactory(value = "ConfidenceEngine", packageName = "org.saynotobugs.confidence.junit5.engine", methodName = "withResources")
-    public <T, V> WithResource(Fragile<Resource<T>, Exception> res1, Fragile<Resource<V>, Exception> res2, BiFunction<T, V, Assertion> delegate)
+    private WithResource(Assertion delegate)
     {
-        this("", res1, res2, delegate);
-    }
-
-
-    @StaticFactory(value = "ConfidenceEngine", packageName = "org.saynotobugs.confidence.junit5.engine", methodName = "withResources")
-    public <T, V> WithResource(String name, Fragile<Resource<T>, Exception> res1, Fragile<Resource<V>, Exception> res2, BiFunction<T, V, Assertion> delegate)
-    {
-        this(name, res1, ignored -> res2.value(), delegate);
-    }
-
-
-    @StaticFactory(value = "ConfidenceEngine", packageName = "org.saynotobugs.confidence.junit5.engine", methodName = "withResources")
-    public <T, V> WithResource(String name,
-        Fragile<Resource<T>, Exception> res1,
-        FragileFunction<T, Resource<V>, Exception> res2,
-        BiFunction<T, V, Assertion> delegate)
-    {
-        this(name, () -> {
-            try (Resource<T> resource1 = res1.value(); Resource<V> resource2 = res2.value(resource1.value()))
-            {
-                delegate.value(resource1.value(), resource2.value()).verify();
-            }
-            catch (Exception e)
-            {
-                throw new RuntimeException("Can't create test environment", e);
-            }
-        });
-    }
-
-
-    private WithResource(String name, Runnable delegate)
-    {
-        mName = name;
         mDelegate = delegate;
     }
 
@@ -103,13 +76,6 @@ public final class WithResource implements Assertion
     @Override
     public void verify()
     {
-        mDelegate.run();
-    }
-
-
-    @Override
-    public String name()
-    {
-        return mName;
+        mDelegate.verify();
     }
 }

@@ -18,19 +18,17 @@
 
 package org.saynotobugs.confidence.junit5.engine.resource;
 
-import org.dmfs.jems2.fragile.DelegatingFragile;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
-import org.saynotobugs.confidence.junit5.engine.assertion.WithResource;
+import org.saynotobugs.confidence.junit5.engine.ResourceComposition;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
 
-@StaticFactories(value = "ConfidenceEngine", packageName = "org.saynotobugs.confidence.junit5.engine")
-public final class TempDir extends DelegatingFragile<WithResource.Resource<File>, Exception>
+@StaticFactories(value = "Resources", packageName = "org.saynotobugs.confidence.junit5.engine")
+public final class TempDir extends ResourceComposition<File>
 {
-
     public TempDir()
     {
         this("TempDir");
@@ -39,7 +37,7 @@ public final class TempDir extends DelegatingFragile<WithResource.Resource<File>
 
     public TempDir(String prefix)
     {
-        super(new Resource<>(() -> Files.createTempDirectory(prefix).toFile(), TempDir::delete));
+        super(new LazyResource<>(() -> Files.createTempDirectory(prefix).toFile(), TempDir::delete));
     }
 
 
@@ -50,6 +48,7 @@ public final class TempDir extends DelegatingFragile<WithResource.Resource<File>
         {
             for (File f : files)
             {
+                f.setWritable(true);
                 delete(f);
             }
         }

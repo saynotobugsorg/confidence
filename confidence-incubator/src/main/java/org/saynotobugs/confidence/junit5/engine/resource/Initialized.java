@@ -18,23 +18,25 @@
 
 package org.saynotobugs.confidence.junit5.engine.resource;
 
-import org.dmfs.jems2.Fragile;
 import org.dmfs.jems2.FragileProcedure;
-import org.dmfs.jems2.fragile.DelegatingFragile;
-import org.dmfs.jems2.fragile.Mapped;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
-import org.saynotobugs.confidence.junit5.engine.assertion.WithResource;
+import org.saynotobugs.confidence.junit5.engine.Resource;
+import org.saynotobugs.confidence.junit5.engine.ResourceComposition;
 
-@StaticFactories(value = "ConfidenceEngine", packageName = "org.saynotobugs.confidence.junit5.engine")
-public final class Initialized<T> extends DelegatingFragile<WithResource.Resource<T>, Exception>
+@StaticFactories(value = "Resources", packageName = "org.saynotobugs.confidence.junit5.engine")
+public final class Initialized<T> extends ResourceComposition<T>
 {
     public Initialized(
         FragileProcedure<? super T, Exception> initializationProcedure,
-        Fragile<? extends WithResource.Resource<T>, Exception> delegate)
+        Resource<? extends T> delegate)
     {
-        super(new Mapped<>(resource -> {
-            initializationProcedure.process(resource.value());
-            return resource;
-        }, delegate));
+        super(new LazyResource<>(
+            () -> {
+                T resource = delegate.value();
+                initializationProcedure.process(resource);
+                return resource;
+            },
+            resource -> delegate.close()
+        ));
     }
 }

@@ -18,7 +18,15 @@
 
 package org.saynotobugs.confidence.junit5.engine;
 
-public interface Assertion
+import org.dmfs.jems2.Single;
+import org.dmfs.srcless.annotations.composable.Composable;
+
+@Composable
+public interface Resource<T> extends Single<T>, AutoCloseable
 {
-    void verify();
+    @Override
+    T value();
+
+    @Override
+    void close() throws Exception;
 }

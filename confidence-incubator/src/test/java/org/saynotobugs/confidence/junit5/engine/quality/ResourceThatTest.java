@@ -19,7 +19,7 @@
 package org.saynotobugs.confidence.junit5.engine.quality;
 
 import org.junit.jupiter.api.Test;
-import org.saynotobugs.confidence.junit5.engine.assertion.WithResource;
+import org.saynotobugs.confidence.junit5.engine.Resource;
 import org.saynotobugs.confidence.quality.composite.AllOf;
 import org.saynotobugs.confidence.test.quality.Fails;
 import org.saynotobugs.confidence.test.quality.HasDescription;
@@ -40,7 +40,7 @@ class ResourceThatTest
     {
         assertThat(new ResourceThat<>(iterates("1", "2"), emptyIterable()),
             new AllOf<>(
-                new Passes<WithResource.Resource<List<String>>>(new WithResource.Resource<List<String>>()
+                new Passes<Resource<List<String>>>(new Resource<List<String>>()
                 {
                     private final List<String> resource = new ArrayList<>(asList("1", "2"));
 
@@ -56,7 +56,7 @@ class ResourceThatTest
                         resource.clear();
                     }
                 }),
-                new Fails<WithResource.Resource<List<String>>>(new WithResource.Resource<List<String>>()
+                new Fails<Resource<List<String>>>(new Resource<List<String>>()
                 {
                     private final List<String> resource = new ArrayList<>(asList("1", "2"));
 
@@ -73,7 +73,7 @@ class ResourceThatTest
                     }
                 },
                     "{ ...\n  had value [ \"1\",\n    \"2\" ] }"),
-                new Fails<WithResource.Resource<List<String>>>(new WithResource.Resource<List<String>>()
+                new Fails<Resource<List<String>>>(new Resource<List<String>>()
                 {
                     private final List<String> resource = new ArrayList<>(asList("1"));
 
@@ -90,7 +90,7 @@ class ResourceThatTest
                     }
                 },
                     "{ AutoClosable that had value iterated [ ...\n      1: missing \"2\" ]\n    ...\n  ... }"),
-                new Fails<WithResource.Resource<List<String>>>(new WithResource.Resource<List<String>>()
+                new Fails<Resource<List<String>>>(new Resource<List<String>>()
                 {
                     private final List<String> resource = new ArrayList<>(asList("1"));
 
