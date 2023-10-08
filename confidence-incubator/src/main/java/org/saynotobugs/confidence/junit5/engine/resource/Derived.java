@@ -18,15 +18,17 @@
 
 package org.saynotobugs.confidence.junit5.engine.resource;
 
+import org.dmfs.jems2.FragileBiFunction;
 import org.dmfs.jems2.FragileFunction;
 import org.dmfs.jems2.FragileProcedure;
+import org.dmfs.jems2.pair.ValuePair;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.junit5.engine.Resource;
 import org.saynotobugs.confidence.junit5.engine.ResourceComposition;
 import org.saynotobugs.confidence.junit5.engine.ResourceHandle;
 
 @StaticFactories(value = "Resources", packageName = "org.saynotobugs.confidence.junit5.engine")
-public final class Derived<Original, Derivate> extends ResourceComposition<Derivate>
+public final class Derived<Derivate> extends ResourceComposition<Derivate>
 {
     /**
      * Derivate of an existing {@link Resource}. The resource is derived by applying the given {@link FragileFunction}
@@ -34,7 +36,7 @@ public final class Derived<Original, Derivate> extends ResourceComposition<Deriv
      * <p>
      * Use this constructor when the derived {@link Resource} does not need a separate clean-up procedure.
      */
-    public Derived(
+    public <Original> Derived(
         FragileFunction<? super Original, ? extends Derivate, Exception> derivationFunction,
         Resource<Original> delegate)
     {
@@ -46,11 +48,8 @@ public final class Derived<Original, Derivate> extends ResourceComposition<Deriv
      * on the original {@link Resource} value.
      * <p>
      * The given clean-up procedure is executed when the resource is no longer needed.
-     * <p>
-     * Note that, at present, the original resource might be closed before this one is cleaned-up.
-     * This might change in future versions.
      */
-    public Derived(
+    public <Original> Derived(
         FragileFunction<? super Original, ? extends Derivate, Exception> derivationFunction,
         Resource<Original> delegate,
         FragileProcedure<Derivate, Exception> cleanUp)
@@ -60,6 +59,43 @@ public final class Derived<Original, Derivate> extends ResourceComposition<Deriv
             handle -> derivationFunction.value(handle.value()),
             (derivate, original) -> {
                 try (ResourceHandle<Original> o = original)
+                {
+                    cleanUp.process(derivate);
+                }
+            }));
+    }
+
+    /**
+     * Derivate of two existing {@link Resource}. The resource is derived by applying the given {@link FragileBiFunction}
+     * on the original {@link Resource} values.
+     * <p>
+     * Use this constructor when the derived {@link Resource} does not need a separate clean-up procedure.
+     */
+    public <Original1, Original2> Derived(
+        FragileBiFunction<? super Original1, ? super Original2, ? extends Derivate, Exception> derivationFunction,
+        Resource<Original1> delegate1,
+        Resource<Original2> delegate2)
+    {
+        this(derivationFunction, delegate1, delegate2, result -> {});
+    }
+
+    /**
+     * Derivate of two existing {@link Resource}s. The resource is derived by applying the given {@link FragileBiFunction}
+     * on the original {@link Resource} values.
+     * <p>
+     * The given clean-up procedure is executed when the resource is no longer needed.
+     */
+    public <Original1, Original2> Derived(
+        FragileBiFunction<? super Original1, ? super Original2, ? extends Derivate, Exception> derivationFunction,
+        Resource<Original1> delegate1,
+        Resource<Original2> delegate2,
+        FragileProcedure<Derivate, Exception> cleanUp)
+    {
+        super(new LazyResource<>(
+            () -> new ValuePair<>(delegate1.value(), delegate2.value()),
+            handlePair -> derivationFunction.value(handlePair.left().value(), handlePair.right().value()),
+            (derivate, handlePair) -> {
+                try (ResourceHandle<Original1> o1 = handlePair.left(); ResourceHandle<Original2> o2 = handlePair.right())
                 {
                     cleanUp.process(derivate);
                 }

@@ -21,6 +21,7 @@ package org.saynotobugs.confidence.junit5.engine.resource;
 import org.junit.jupiter.api.Test;
 import org.saynotobugs.confidence.junit5.engine.quality.DelegatingResourceThat;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -47,5 +48,79 @@ class DerivedTest
             new DelegatingResourceThat<List<String>, Set<String>>(() -> singletonList("xyz"), iterates("xyz"), emptyIterable())
         );
     }
+
+    @Test
+    void testFromTwoResources()
+    {
+        assertThat(orig -> new Derived<>(
+                (list1, list2) -> {
+                    List<String> l = new ArrayList<>();
+                    l.addAll(list1);
+                    l.addAll(list2);
+                    return l;
+                },
+                orig,
+                new LazyResource<>(() -> singletonList("abc"), list -> {})),
+            new DelegatingResourceThat<List<String>, List<String>>(
+                () -> singletonList("xyz"),
+                iterates("xyz", "abc")));
+    }
+
+    @Test
+    void testFromTwoResourcesSwapped()
+    {
+        assertThat(orig -> new Derived<>(
+                (list1, list2) -> {
+                    List<String> l = new ArrayList<>();
+                    l.addAll(list1);
+                    l.addAll(list2);
+                    return l;
+                },
+                new LazyResource<>(() -> singletonList("abc"), list -> {}),
+                orig),
+            new DelegatingResourceThat<List<String>, List<String>>(
+                () -> singletonList("xyz"),
+                iterates("abc", "xyz"))
+        );
+    }
+
+
+    @Test
+    void testFromTwoResourcesWithCleanUp()
+    {
+        assertThat(orig -> new Derived<>(
+                (list1, list2) -> {
+                    List<String> l = new ArrayList<>();
+                    l.addAll(list1);
+                    l.addAll(list2);
+                    return l;
+                },
+                orig,
+                new LazyResource<>(() -> singletonList("abc"), list -> {}),
+                List::clear),
+            new DelegatingResourceThat<List<String>, List<String>>(
+                () -> singletonList("xyz"),
+                iterates("xyz", "abc"), emptyIterable()));
+    }
+
+    @Test
+    void testFromTwoResourcesSwappedWithCleanUp()
+    {
+        assertThat(orig -> new Derived<>(
+                (list1, list2) -> {
+                    List<String> l = new ArrayList<>();
+                    l.addAll(list1);
+                    l.addAll(list2);
+                    return l;
+                },
+                new LazyResource<>(() -> singletonList("abc"), list -> {}),
+                orig,
+                List::clear),
+            new DelegatingResourceThat<List<String>, List<String>>(
+                () -> singletonList("xyz"),
+                iterates("abc", "xyz"), emptyIterable())
+        );
+    }
+
 
 }
