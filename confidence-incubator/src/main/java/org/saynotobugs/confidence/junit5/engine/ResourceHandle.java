@@ -16,24 +16,10 @@
  *
  */
 
-package org.saynotobugs.confidence.junit5.engine.resource;
+package org.saynotobugs.confidence.junit5.engine;
 
-import org.junit.jupiter.api.Test;
-import org.saynotobugs.confidence.junit5.engine.quality.DelegatingResourceThat;
+import org.dmfs.jems2.Single;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.saynotobugs.confidence.Assertion.assertThat;
-import static org.saynotobugs.confidence.quality.Core.iterates;
-
-class InitializedTest
+public interface ResourceHandle<T> extends Single<T>, AutoCloseable
 {
-    @Test
-    void test()
-    {
-        assertThat(orig -> new Initialized<>(list -> list.add("xyz"), orig),
-            new DelegatingResourceThat<List<String>, List<String>>(ArrayList::new, iterates("xyz"))
-        );
-    }
 }

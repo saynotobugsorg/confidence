@@ -18,22 +18,41 @@
 
 package org.saynotobugs.confidence.junit5.engine.quality;
 
+import org.dmfs.jems2.Generator;
+import org.dmfs.jems2.function.Unchecked;
+import org.dmfs.jems2.generatable.Sequence;
+import org.dmfs.jems2.iterable.First;
+import org.dmfs.jems2.iterable.Mapped;
+import org.dmfs.jems2.single.Collected;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.junit5.engine.Resource;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 
+import java.util.ArrayList;
+
 import static org.dmfs.jems2.confidence.Jems2.hasValue;
-import static org.saynotobugs.confidence.quality.Core.allOf;
-import static org.saynotobugs.confidence.quality.Core.autoClosableThat;
+import static org.saynotobugs.confidence.quality.Core.*;
 
 @StaticFactories(value = "ConfidenceEngine", packageName = "org.saynotobugs.confidence.junit5.engine")
-public final class ResourceThat<T> extends QualityComposition<Resource<T>>
+public final class ResourceThat<T> extends QualityComposition<Generator<? extends Resource<? extends T>>>
 {
-    public ResourceThat(Quality<? super T> delegate, Quality<? super T> cleanUpDelegate)
+    public ResourceThat(int parallelFactor, Quality<? super T> delegate, Quality<? super T> cleanUpDelegate)
     {
-        super(allOf(
-            autoClosableThat(hasValue(delegate)),
-            hasValue(cleanUpDelegate)));
+        super(
+            allOf(
+                has("single use",
+                    resourceGenerator -> resourceGenerator.next().value(),
+                    allOf(
+                        autoClosableThat(hasValue(delegate)),
+                        hasValue(cleanUpDelegate)
+                    )),
+                has("parallel use",
+                    resourceGenerator -> new Collected<>(ArrayList::new, new Mapped<>(new Unchecked<>(i -> resourceGenerator.next().value()), new First<>(parallelFactor, new Sequence<>(1, i -> i + 1)))).value(),
+                    allOf(
+                        parallel(parallelFactor, each(hasValue(anything()))),// don't test the value yet, as the test might fail next a second time
+                        each(autoClosableThat(hasValue(delegate))), // the delegate quality should match until the last resource has been closed
+                        each(hasValue(cleanUpDelegate))
+                    ))));
     }
 }

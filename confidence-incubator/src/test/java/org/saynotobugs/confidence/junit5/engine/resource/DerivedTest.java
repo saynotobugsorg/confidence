@@ -21,19 +21,31 @@ package org.saynotobugs.confidence.junit5.engine.resource;
 import org.junit.jupiter.api.Test;
 import org.saynotobugs.confidence.junit5.engine.quality.DelegatingResourceThat;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import static java.util.Collections.singletonList;
 import static org.saynotobugs.confidence.Assertion.assertThat;
+import static org.saynotobugs.confidence.quality.Core.emptyIterable;
 import static org.saynotobugs.confidence.quality.Core.iterates;
 
-class InitializedTest
+class DerivedTest
 {
     @Test
-    void test()
+    void testSimple()
     {
-        assertThat(orig -> new Initialized<>(list -> list.add("xyz"), orig),
-            new DelegatingResourceThat<List<String>, List<String>>(ArrayList::new, iterates("xyz"))
+        assertThat(orig -> new Derived<>(HashSet::new, orig),
+            new DelegatingResourceThat<List<String>, Set<String>>(() -> singletonList("xyz"), iterates("xyz"))
         );
     }
+
+    @Test
+    void testWithCleanUp()
+    {
+        assertThat(orig -> new Derived<>(HashSet::new, orig, Set::clear),
+            new DelegatingResourceThat<List<String>, Set<String>>(() -> singletonList("xyz"), iterates("xyz"), emptyIterable())
+        );
+    }
+
 }

@@ -18,6 +18,8 @@
 
 package org.saynotobugs.confidence.junit5.engine.resource;
 
+import org.dmfs.jems2.Pair;
+import org.dmfs.jems2.pair.ValuePair;
 import org.junit.jupiter.api.Test;
 import org.saynotobugs.confidence.junit5.engine.quality.ResourceThat;
 
@@ -25,9 +27,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.Arrays.asList;
+import static org.dmfs.jems2.confidence.Jems2.hasValue;
 import static org.saynotobugs.confidence.Assertion.assertThat;
-import static org.saynotobugs.confidence.quality.Core.emptyIterable;
-import static org.saynotobugs.confidence.quality.Core.iterates;
+import static org.saynotobugs.confidence.quality.Core.*;
 
 
 class LazyResourceTest
@@ -35,10 +37,37 @@ class LazyResourceTest
     @Test
     void test()
     {
-        assertThat(new LazyResource<>(() -> new ArrayList<>(asList(1, 2, 3)), List::clear),
+        assertThat(() -> new LazyResource<>(() -> new ArrayList<>(asList(1, 2, 3)), List::clear),
             new ResourceThat<>(
+                100,
                 iterates(1, 2, 3),
                 emptyIterable())
         );
     }
+
+    @Test
+    void testMultipleUsers()
+    {
+        assertThat(new LazyResource<>(() -> new ArrayList<>(asList(1, 2, 3)), List::clear),
+            allOf(
+                has("2 derivates", r -> new ValuePair<>(r.value(), r.value()),
+                    allOf(
+                        has("left", Pair::left, autoClosableThat(hasValue(iterates(1, 2, 3)))),
+                        has("right", Pair::right, autoClosableThat(hasValue(iterates(1, 2, 3))))
+                    )),
+                hasValue(hasValue(emptyIterable()))
+            )
+        );
+    }
+
+    @Test
+    void testMultipleCloses()
+    {
+        assertThat(new LazyResource<>(() -> new ArrayList<>(asList(1, 2, 3)), List::clear),
+            hasValue(
+                allOf(
+                    autoClosableThat(hasValue(iterates(1, 2, 3))),
+                    has("closable", value -> value::close, throwing(IllegalStateException.class)))));
+    }
+
 }

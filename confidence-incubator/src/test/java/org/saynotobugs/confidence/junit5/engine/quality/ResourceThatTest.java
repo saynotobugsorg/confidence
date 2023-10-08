@@ -20,6 +20,7 @@ package org.saynotobugs.confidence.junit5.engine.quality;
 
 import org.junit.jupiter.api.Test;
 import org.saynotobugs.confidence.junit5.engine.Resource;
+import org.saynotobugs.confidence.junit5.engine.ResourceHandle;
 import org.saynotobugs.confidence.quality.composite.AllOf;
 import org.saynotobugs.confidence.test.quality.Fails;
 import org.saynotobugs.confidence.test.quality.HasDescription;
@@ -38,78 +39,106 @@ class ResourceThatTest
     @Test
     void test()
     {
-        assertThat(new ResourceThat<>(iterates("1", "2"), emptyIterable()),
+        assertThat(new ResourceThat<>(1, iterates("1", "2"), emptyIterable()),
             new AllOf<>(
-                new Passes<Resource<List<String>>>(new Resource<List<String>>()
+                new Passes<>(() -> new Resource<List<String>>()
                 {
                     private final List<String> resource = new ArrayList<>(asList("1", "2"));
 
                     @Override
-                    public List<String> value()
+                    public ResourceHandle<List<String>> value()
                     {
-                        return resource;
-                    }
+                        return new ResourceHandle<List<String>>()
+                        {
+                            @Override
+                            public void close()
+                            {
+                                resource.clear();
+                            }
 
-                    @Override
-                    public void close()
-                    {
-                        resource.clear();
+                            @Override
+                            public List<String> value()
+                            {
+                                return resource;
+                            }
+                        };
                     }
                 }),
-                new Fails<Resource<List<String>>>(new Resource<List<String>>()
+                new Fails<>(() -> new Resource<List<String>>()
                 {
                     private final List<String> resource = new ArrayList<>(asList("1", "2"));
 
                     @Override
-                    public List<String> value()
+                    public ResourceHandle<List<String>> value()
                     {
-                        return resource;
-                    }
+                        return new ResourceHandle<List<String>>()
+                        {
+                            @Override
+                            public void close()
+                            {
+                                // does not clean up
+                            }
 
-                    @Override
-                    public void close()
-                    {
-                        // this doesn't clean up
+                            @Override
+                            public List<String> value()
+                            {
+                                return resource;
+                            }
+                        };
                     }
                 },
-                    "{ ...\n  had value [ \"1\",\n    \"2\" ] }"),
-                new Fails<Resource<List<String>>>(new Resource<List<String>>()
+                    "{ had single use { ...\n    had value [ \"1\",\n      \"2\" ] }\n  and\n  had parallel use { ...\n    elements [0:  had value [ \"1\",\n        \"2\" ]] } }"),
+                new Fails<>(() -> new Resource<List<String>>()
+                {
+                    private final List<String> resource = new ArrayList<>(asList("1"));
+
+
+                    @Override
+                    public ResourceHandle<List<String>> value()
+                    {
+                        return new ResourceHandle<List<String>>()
+                        {
+                            @Override
+                            public void close()
+                            {
+                                resource.clear();
+                            }
+
+                            @Override
+                            public List<String> value()
+                            {
+                                return resource;
+                            }
+                        };
+                    }
+                },
+                    "{ had single use { AutoClosable that had value iterated [ ...\n        1: missing \"2\" ]\n      ...\n    ... }\n  and\n  had parallel use { ...\n    elements [0:  AutoClosable that had value iterated [ ...\n          1: missing \"2\" ]\n        ...]\n    ... } }"),
+                new Fails<>(() -> new Resource<List<String>>()
                 {
                     private final List<String> resource = new ArrayList<>(asList("1"));
 
                     @Override
-                    public List<String> value()
+                    public ResourceHandle<List<String>> value()
                     {
-                        return resource;
-                    }
+                        return new ResourceHandle<List<String>>()
+                        {
+                            @Override
+                            public void close()
+                            {
+                                // does not clean up
+                            }
 
-                    @Override
-                    public void close()
-                    {
-                        resource.clear();
+                            @Override
+                            public List<String> value()
+                            {
+                                return resource;
+                            }
+                        };
                     }
                 },
-                    "{ AutoClosable that had value iterated [ ...\n      1: missing \"2\" ]\n    ...\n  ... }"),
-                new Fails<Resource<List<String>>>(new Resource<List<String>>()
-                {
-                    private final List<String> resource = new ArrayList<>(asList("1"));
-
-                    @Override
-                    public List<String> value()
-                    {
-                        return resource;
-                    }
-
-                    @Override
-                    public void close()
-                    {
-                        // this doesn't clean up
-                    }
-                },
-                    "{ AutoClosable that had value iterated [ ...\n      1: missing \"2\" ]\n    ...\n  and\n  had value [ \"1\" ] }"),
-                new HasDescription("AutoClosable that has value iterates [ 0: \"1\",\n    1: \"2\" ] and is closed\n  and\n  has value <empty>")
+                    "{ had single use { AutoClosable that had value iterated [ ...\n        1: missing \"2\" ]\n      ...\n    and\n    had value [ \"1\" ] }\n  and\n  had parallel use { ...\n    elements [0:  AutoClosable that had value iterated [ ...\n          1: missing \"2\" ]\n        ...]\n    and\n    elements [0:  had value [ \"1\" ]] } }"),
+                new HasDescription("has single use AutoClosable that has value iterates [ 0: \"1\",\n      1: \"2\" ] and is closed\n    and\n    has value <empty>\n  and\n  has parallel use running 1 parallel execution, each each element has value <anything>\n    and\n    each element AutoClosable that has value iterates [ 0: \"1\",\n      1: \"2\" ] and is closed\n    and\n    each element has value <empty>")
             )
         );
     }
-
 }

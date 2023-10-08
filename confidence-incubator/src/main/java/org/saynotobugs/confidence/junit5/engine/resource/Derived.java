@@ -23,6 +23,7 @@ import org.dmfs.jems2.FragileProcedure;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.junit5.engine.Resource;
 import org.saynotobugs.confidence.junit5.engine.ResourceComposition;
+import org.saynotobugs.confidence.junit5.engine.ResourceHandle;
 
 @StaticFactories(value = "Resources", packageName = "org.saynotobugs.confidence.junit5.engine")
 public final class Derived<Original, Derivate> extends ResourceComposition<Derivate>
@@ -35,7 +36,7 @@ public final class Derived<Original, Derivate> extends ResourceComposition<Deriv
      */
     public Derived(
         FragileFunction<? super Original, ? extends Derivate, Exception> derivationFunction,
-        Resource<? extends Original> delegate)
+        Resource<Original> delegate)
     {
         this(derivationFunction, delegate, result -> {});
     }
@@ -51,18 +52,17 @@ public final class Derived<Original, Derivate> extends ResourceComposition<Deriv
      */
     public Derived(
         FragileFunction<? super Original, ? extends Derivate, Exception> derivationFunction,
-        Resource<? extends Original> delegate,
+        Resource<Original> delegate,
         FragileProcedure<Derivate, Exception> cleanUp)
     {
         super(new LazyResource<>(
-            () -> {
-                Original resource = delegate.value();
-                return derivationFunction.value(resource);
-            },
-            derivate -> {
-                cleanUp.process(derivate);
-                delegate.close();
-            }
-        ));
+            delegate,
+            handle -> derivationFunction.value(handle.value()),
+            (derivate, original) -> {
+                try (ResourceHandle<Original> o = original)
+                {
+                    cleanUp.process(derivate);
+                }
+            }));
     }
 }

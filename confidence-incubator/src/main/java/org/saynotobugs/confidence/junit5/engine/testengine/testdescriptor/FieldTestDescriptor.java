@@ -18,18 +18,12 @@
 
 package org.saynotobugs.confidence.junit5.engine.testengine.testdescriptor;
 
-import org.dmfs.jems2.iterable.Mapped;
-import org.dmfs.jems2.iterable.Reverse;
-import org.dmfs.jems2.iterable.Seq;
-import org.dmfs.jems2.iterable.Sieved;
-import org.dmfs.jems2.procedure.ForEach;
 import org.junit.platform.engine.EngineExecutionListener;
 import org.junit.platform.engine.TestDescriptor;
 import org.junit.platform.engine.UniqueId;
 import org.junit.platform.engine.support.descriptor.AbstractTestDescriptor;
 import org.junit.platform.engine.support.descriptor.ClassSource;
 import org.saynotobugs.confidence.junit5.engine.Assertion;
-import org.saynotobugs.confidence.junit5.engine.Resource;
 import org.saynotobugs.confidence.junit5.engine.testengine.Testable;
 
 import java.lang.reflect.Constructor;
@@ -71,36 +65,6 @@ public final class FieldTestDescriptor extends AbstractTestDescriptor implements
         catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e)
         {
             throw new RuntimeException("Can't invoke test " + javaClass.getName() + "." + javaField.getName(), e);
-        }
-        finally
-        {
-            if (instance != null)
-            {
-                Object finalInstance = instance;
-                new ForEach<>(
-                    new Mapped<>(field -> {
-                        field.setAccessible(true);
-                        try
-                        {
-                            return (Resource) field.get(finalInstance);
-                        }
-                        catch (IllegalAccessException e)
-                        {
-                            throw new RuntimeException(e);
-                        }
-                    },
-                        new Sieved<>(field -> Resource.class.isAssignableFrom(field.getType()),
-                            new Reverse<>(new Seq<>(javaClass.getDeclaredFields()))))).process(resource -> {
-                    try
-                    {
-                        resource.close();
-                    }
-                    catch (Exception e)
-                    {
-                        throw new RuntimeException(e);
-                    }
-                });
-            }
         }
     }
 

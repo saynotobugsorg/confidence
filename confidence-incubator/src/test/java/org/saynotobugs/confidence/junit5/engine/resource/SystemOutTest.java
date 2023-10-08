@@ -32,14 +32,14 @@ class SystemOutTest
     @Test
     void test()
     {
-        assertThat(new SystemOut(),
-            new ResourceThat<>(
-                allOf(
-                    has("generated", Generator::next, emptyCharSequence()),
-                    successfully(new Text("Writes to System.out"), new Text("Writes to System.out"),
-                        (Generator<?> systemOut) -> System.out.print("Hello Test")),
-                    has("generated", Generator::next, equalTo("Hello Test"))
-                ),
+        assertThat(SystemOut::new,
+            new ResourceThat<Generator<String>>(
+                1, allOf(
+                has("generated", Generator::next, emptyCharSequence()),
+                successfully(new Text("Writes to System.out"), new Text("Writes to System.out"),
+                    (Generator<?> systemOut) -> System.out.print("Hello Test")),
+                has("generated", Generator::next, equalTo("Hello Test"))
+            ),
                 allOf(
                     has("generated", Generator::next, equalTo("Hello Test")),
                     successfully(new Text("Writes to System.out"), new Text("Writes to System.out"),

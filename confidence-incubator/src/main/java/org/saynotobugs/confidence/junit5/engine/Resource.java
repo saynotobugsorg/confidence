@@ -18,15 +18,21 @@
 
 package org.saynotobugs.confidence.junit5.engine;
 
-import org.dmfs.jems2.Single;
+import org.dmfs.jems2.Fragile;
 import org.dmfs.srcless.annotations.composable.Composable;
+import org.saynotobugs.confidence.junit5.engine.resource.Derived;
+import org.saynotobugs.confidence.junit5.engine.resource.Initialized;
+import org.saynotobugs.confidence.junit5.engine.resource.LazyResource;
 
+/**
+ * A test resource.
+ * <p>
+ * You almost certainly should not implement this interface directly but compose your resource using {@link Derived},
+ * {@link Initialized} and/or {@link LazyResource} instead.
+ */
 @Composable
-public interface Resource<T> extends Single<T>, AutoCloseable
+public interface Resource<T> extends Fragile<ResourceHandle<T>, Exception>
 {
     @Override
-    T value();
-
-    @Override
-    void close() throws Exception;
+    ResourceHandle<T> value() throws Exception;
 }

@@ -30,13 +30,12 @@ public final class Initialized<T> extends ResourceComposition<T>
         FragileProcedure<? super T, Exception> initializationProcedure,
         Resource<? extends T> delegate)
     {
-        super(new LazyResource<>(
-            () -> {
-                T resource = delegate.value();
-                initializationProcedure.process(resource);
-                return resource;
+        super(new Derived<>(
+            original -> {
+                initializationProcedure.process(original);
+                return original;
             },
-            resource -> delegate.close()
+            delegate
         ));
     }
 }

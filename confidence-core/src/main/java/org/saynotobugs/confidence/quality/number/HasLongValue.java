@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 dmfs GmbH
+ * Copyright 2023 dmfs GmbH
  *
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,19 +16,24 @@
  *
  */
 
-package org.saynotobugs.confidence.quality.charsequence;
+package org.saynotobugs.confidence.quality.number;
 
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
-import org.saynotobugs.confidence.description.Text;
+import org.saynotobugs.confidence.Quality;
+import org.saynotobugs.confidence.quality.composite.Has;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
-import org.saynotobugs.confidence.quality.object.Satisfies;
-
+import org.saynotobugs.confidence.quality.object.EqualTo;
 
 @StaticFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality")
-public final class EmptyCharSequence extends QualityComposition<CharSequence>
+public final class HasLongValue extends QualityComposition<Number>
 {
-    public EmptyCharSequence()
+    public HasLongValue(long expectedValue)
     {
-        super(new Satisfies<>(c -> c.length() == 0, new Text("<empty>")));
+        this(new EqualTo<>(expectedValue));
+    }
+
+    public HasLongValue(Quality<? super Long> delegate)
+    {
+        super(new Has<>("long value", Number::longValue, delegate));
     }
 }

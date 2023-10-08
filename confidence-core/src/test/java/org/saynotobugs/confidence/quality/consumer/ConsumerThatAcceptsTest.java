@@ -37,7 +37,9 @@ class ConsumerThatAcceptsTest
         assertThat(new ConsumerThatAccepts<>("a"),
             new AllOf<>(
                 new Passes<>(x -> {}),
-                new Fails<>(x -> {throw new RuntimeException();}, "Consumer that accepts \"a\" threw <java.lang.RuntimeException>"),
+                new Fails<>(x -> {
+                    throw new RuntimeException();
+                }, "Consumer that accepts \"a\" threw <java.lang.RuntimeException>"),
                 new HasDescription("Consumer that accepts \"a\"")
             ));
     }
@@ -49,7 +51,9 @@ class ConsumerThatAcceptsTest
         assertThat(new ConsumerThatAccepts<>(() -> "a"),
             new AllOf<>(
                 new Passes<>(x -> {}),
-                new Fails<>(x -> {throw new RuntimeException();}, "Consumer that accepts \"a\" threw <java.lang.RuntimeException>"),
+                new Fails<>(x -> {
+                    throw new RuntimeException();
+                }, "Consumer that accepts \"a\" threw <java.lang.RuntimeException>"),
                 new HasDescription("Consumer that accepts \"a\"")
             ));
     }
