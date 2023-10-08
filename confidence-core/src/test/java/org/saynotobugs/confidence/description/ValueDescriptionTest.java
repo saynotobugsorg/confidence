@@ -48,7 +48,7 @@ class ValueDescriptionTest
         }), new DescribesAs("\"abc\": <123>"));
         assertThat(new ValueDescription(empty()), new DescribesAs("<empty>"));
         assertThat(new ValueDescription(of(123)), new DescribesAs("<present <123>>"));
-        assertThat(new ValueDescription(new String[]{"a", "b", "c"}), new DescribesAs("[ \"a\",\n  \"b\",\n  \"c\" ]"));
+        assertThat(new ValueDescription(new String[] { "a", "b", "c" }), new DescribesAs("[ \"a\",\n  \"b\",\n  \"c\" ]"));
         assertThat(new ValueDescription(new Text("123")), new DescribesAs("\n  ----\n  123\n  ----"));
     }
 

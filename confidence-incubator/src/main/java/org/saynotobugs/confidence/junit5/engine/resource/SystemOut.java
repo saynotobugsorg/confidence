@@ -19,9 +19,9 @@
 package org.saynotobugs.confidence.junit5.engine.resource;
 
 import org.dmfs.jems2.Generator;
-import org.dmfs.jems2.Single;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.junit5.engine.Resource;
+import org.saynotobugs.confidence.junit5.engine.ResourceComposition;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -33,49 +33,42 @@ import java.io.PrintStream;
  * A{@link Resource} that provides everything written to {@link System#out until closed}.
  */
 @StaticFactories(value = "Resources", packageName = "org.saynotobugs.confidence.junit5.engine")
-public final class SystemOut implements Resource<Generator<String>>
+public final class SystemOut extends ResourceComposition<Generator<String>>
 {
+    private static final class Context
+    {
+        private final PrintStream mOriginal;
+        private final PrintStream mRedirected;
+        private final ByteArrayOutputStream mRawByteStream;
 
-    private Single<? extends Generator<String>> mResourceGenerator;
-    private Runnable mCleanUp = () -> {};
+        private Context(PrintStream original, PrintStream redirected, ByteArrayOutputStream rawByteStream)
+        {
+            mOriginal = original;
+            mRedirected = redirected;
+            mRawByteStream = rawByteStream;
+        }
+    }
 
     public SystemOut()
     {
-        mResourceGenerator = () -> {
-            synchronized (this)
-            {
+        super(new LazyResource<>(
+            () -> {
                 PrintStream original = System.out;
                 ByteArrayOutputStream out = new ByteArrayOutputStream();
-                PrintStream ps = new PrintStream(new TeeStream(out, original));
-                System.setOut(ps);
-
-                mResourceGenerator = () ->
-                    () -> {
-                        ps.flush();
-                        return out.toString();
-                    };
-                mCleanUp = () -> {
-                    System.setOut(original);
-                    ps.close();
-                };
-                return mResourceGenerator.value();
+                PrintStream redirected = new PrintStream(new TeeStream(out, original));
+                System.setOut(redirected);
+                return new Context(original, redirected, out);
+            },
+            context -> () -> {
+                context.mRedirected.flush();
+                return context.mRawByteStream.toString();
+            },
+            (stringGenerator, context) -> {
+                System.setOut(context.mOriginal);
+                context.mRedirected.close();
             }
-        };
+        ));
     }
-
-
-    @Override
-    public Generator<String> value()
-    {
-        return mResourceGenerator.value();
-    }
-
-    @Override
-    public void close()
-    {
-        mCleanUp.run();
-    }
-
 
     /**
      * An {@link OutputStream} that delegates every method call to two other {@link OutputStream}s.

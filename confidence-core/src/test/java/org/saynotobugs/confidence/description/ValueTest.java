@@ -50,7 +50,7 @@ class ValueTest
         assertThat(new Value(empty()), new DescribesAs("<empty>"));
         assertThat(new Value(of(123)), new DescribesAs("<present <123>>"));
         assertThat(new Value(Pattern.compile("123")), new DescribesAs("/123/"));
-        assertThat(new Value(new String[]{"a", "b", "c"}), new DescribesAs("[ \"a\",\n  \"b\",\n  \"c\" ]"));
+        assertThat(new Value(new String[] { "a", "b", "c" }), new DescribesAs("[ \"a\",\n  \"b\",\n  \"c\" ]"));
         assertThat(new Value(new Text("123")), new DescribesAs("\n  ----\n  123\n  ----"));
     }
 

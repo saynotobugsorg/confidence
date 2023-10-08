@@ -18,10 +18,13 @@
 
 package org.saynotobugs.confidence.quality.iterable;
 
+import org.dmfs.jems2.Pair;
 import org.dmfs.jems2.iterable.Mapped;
 import org.dmfs.jems2.iterable.Numbered;
 import org.dmfs.jems2.iterable.Seq;
+import org.dmfs.jems2.single.Collected;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
+import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.AllPassed;
 import org.saynotobugs.confidence.assessment.FailPrepended;
@@ -29,6 +32,8 @@ import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.quality.composite.AllOf;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
+
+import java.util.ArrayList;
 
 import static org.saynotobugs.confidence.description.LiteralDescription.COMMA_NEW_LINE;
 
@@ -53,9 +58,10 @@ public final class Each<T> extends QualityComposition<Iterable<T>>
     public Each(Quality<? super T> delegate)
     {
         super(actual -> new AllPassed(new Text("elements ["), COMMA_NEW_LINE, new Text("]"),
-                new Mapped<>(
-                    numberedVerdict -> new FailPrepended(new Text(numberedVerdict.left() + ": "), numberedVerdict.right()),
-                    new Numbered<>(new Mapped<>(delegate::assessmentOf, actual)))),
+                new Collected<>(ArrayList::new,
+                    new Mapped<Pair<Integer, Assessment>, Assessment>(
+                        numberedVerdict -> new FailPrepended(new Text(numberedVerdict.left() + ": "), numberedVerdict.right()),
+                        new Numbered<>(new Mapped<>(delegate::assessmentOf, actual)))).value()),
             new Spaced(new Text("each element"), delegate.description()));
     }
 }

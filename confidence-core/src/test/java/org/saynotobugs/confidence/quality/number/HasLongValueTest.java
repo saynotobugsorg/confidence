@@ -16,9 +16,10 @@
  *
  */
 
-package org.saynotobugs.confidence.quality.object;
+package org.saynotobugs.confidence.quality.number;
 
 import org.junit.jupiter.api.Test;
+import org.saynotobugs.confidence.quality.comparable.LessThan;
 import org.saynotobugs.confidence.quality.composite.AllOf;
 import org.saynotobugs.confidence.test.quality.Fails;
 import org.saynotobugs.confidence.test.quality.HasDescription;
@@ -26,27 +27,28 @@ import org.saynotobugs.confidence.test.quality.Passes;
 
 import static org.saynotobugs.confidence.Assertion.assertThat;
 
-class HashCodeEqualsTest
+class HasLongValueTest
 {
     @Test
-    void testHashCode()
+    void testWithPrimitive()
     {
-        assertThat(new HashCodeEquals(123),
+        assertThat(new HasLongValue(10L),
             new AllOf<>(
-                new Passes<>(123, 123L),
-                new Fails<>(124, "had hashCode <124>"),
-                new HasDescription("has hashCode <123>")
+                new Passes<>(10, 10L, 10f, 10d),
+                new Fails<>(11, "had long value <11>"),
+                new HasDescription("has long value <10>")
             ));
     }
 
     @Test
-    void testReferenceObject()
+    void testWithQuality()
     {
-        assertThat(new HashCodeEquals("123"),
+        assertThat(new HasLongValue(new LessThan<>(11L)),
             new AllOf<>(
-                new Passes<>("123"),
-                new Fails<Object>(321, "had hashCode <321>"),
-                new HasDescription("has hashCode <48690> like \"123\"")
+                new Passes<>(10, 10L, 10f, 10d),
+                new Fails<>(11, "had long value <11>"),
+                new HasDescription("has long value less than <11>")
             ));
     }
+
 }

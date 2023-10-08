@@ -38,7 +38,9 @@ class FailSafeTest
     @Test
     void testException()
     {
-        assertThat(new FailSafe<String, String>(Throwable::getMessage, x -> {throw new IllegalArgumentException("xyz");}),
+        assertThat(new FailSafe<String, String>(Throwable::getMessage, x -> {
+                throw new IllegalArgumentException("xyz");
+            }),
             has(fs -> fs.value("123"), equalTo("xyz")));
     }
 }

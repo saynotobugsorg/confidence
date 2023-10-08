@@ -41,9 +41,8 @@ public final class ConfidenceEngine implements TestEngine
         TestDescriptor testDescriptor = new EngineDescriptor(uniqueId, "Test with Confidence");
 
         request.getSelectorsByType(ClassSelector.class)
-            .stream().filter(
-                classSelector -> classSelector.getJavaClass().isAnnotationPresent(Confidence.class)
-            )
+            .stream()
+            .filter(classSelector -> classSelector.getJavaClass().isAnnotationPresent(Confidence.class))
             .forEach(selector -> testDescriptor.addChild(new ClassTestDescriptor(uniqueId, selector.getJavaClass())));
         return testDescriptor;
     }

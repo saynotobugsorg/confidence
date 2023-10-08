@@ -24,6 +24,7 @@ import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactory;
 import org.saynotobugs.confidence.junit5.engine.Assertion;
 import org.saynotobugs.confidence.junit5.engine.Resource;
+import org.saynotobugs.confidence.junit5.engine.ResourceHandle;
 
 
 /**
@@ -37,12 +38,12 @@ public final class WithResource implements Assertion
     private final Assertion mDelegate;
 
 
-    public <T> WithResource(Resource<T> res, Function<T, Assertion> delegate)
+    public <T> WithResource(Resource<T> res, Function<T, Assertion> delegateFunction)
     {
         this(() -> {
-            try (Resource<T> r = res)
+            try (ResourceHandle<T> r = res.value())
             {
-                delegate.value(r.value()).verify();
+                delegateFunction.value(r.value()).verify();
             }
             catch (Exception e)
             {
@@ -52,12 +53,12 @@ public final class WithResource implements Assertion
     }
 
     @StaticFactory(value = "ConfidenceEngine", packageName = "org.saynotobugs.confidence.junit5.engine", methodName = "withResources")
-    public <T, V> WithResource(Resource<T> res1, Resource<V> res2, BiFunction<T, V, Assertion> delegate)
+    public <T, V> WithResource(Resource<T> res1, Resource<V> res2, BiFunction<T, V, Assertion> delegateFunction)
     {
         this(() -> {
-            try (Resource<T> r1 = res1; Resource<V> r2 = res2)
+            try (ResourceHandle<T> r1 = res1.value(); ResourceHandle<V> r2 = res2.value())
             {
-                delegate.value(r1.value(), r2.value()).verify();
+                delegateFunction.value(r1.value(), r2.value()).verify();
             }
             catch (Exception e)
             {

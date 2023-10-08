@@ -25,7 +25,6 @@ import org.saynotobugs.confidence.test.quality.HasDescription;
 import org.saynotobugs.confidence.test.quality.Passes;
 
 import java.io.File;
-import java.io.IOException;
 
 import static org.saynotobugs.confidence.Assertion.assertThat;
 

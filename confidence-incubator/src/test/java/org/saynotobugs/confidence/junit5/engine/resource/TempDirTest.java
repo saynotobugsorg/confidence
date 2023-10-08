@@ -33,9 +33,9 @@ class TempDirTest
     @Test
     void testEmpty()
     {
-        assertThat(new TempDir(),
+        assertThat(TempDir::new,
             new ResourceThat<>(
-                is(aDirectory()),
+                100, is(aDirectory()),
                 not(exists()))
         );
     }
@@ -44,11 +44,12 @@ class TempDirTest
     @Test
     void testWithContent()
     {
-        assertThat(new TempDir(),
+        assertThat(TempDir::new,
             new ResourceThat<>(
                 // TODO, this can't be achieved with `mutatedBy` because that tests
                 // a generator of new instances. also we don't really mutate the file instance
                 // We need a better way to express this
+                100,
                 has(
                     "creating a temporary file",
                     (File f) -> {

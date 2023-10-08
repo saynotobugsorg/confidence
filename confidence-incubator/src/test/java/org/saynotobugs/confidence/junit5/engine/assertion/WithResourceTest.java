@@ -24,12 +24,16 @@ import org.junit.jupiter.api.Test;
 import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.junit5.engine.Assertion;
 import org.saynotobugs.confidence.junit5.engine.Resource;
+import org.saynotobugs.confidence.junit5.engine.ResourceHandle;
 import org.saynotobugs.confidence.quality.composite.Has;
 import org.saynotobugs.confidence.quality.object.Successfully;
 import org.saynotobugs.confidence.quality.object.Throwing;
 
+import java.io.IOException;
+
 import static org.dmfs.jems2.mockito.Mock.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.saynotobugs.confidence.Assertion.assertThat;
 
@@ -40,9 +44,11 @@ class WithResourceTest
     void testPassSingleResource() throws Exception
     {
         Object resourceDummy = new Object();
+        ResourceHandle<Object> mockResourceHandle = mock(ResourceHandle.class,
+            with(ResourceHandle::value, returning(resourceDummy)),
+            withVoid(ResourceHandle::close, doingNothing()));
         Resource<Object> mockResource = mock(Resource.class,
-            with(Resource::value, returning(resourceDummy)),
-            withVoid(Resource::close, doingNothing()));
+            with(Resource::value, returning(mockResourceHandle)));
 
         assertThat(new WithResource(mockResource,
                 mock(Function.class,
@@ -51,7 +57,7 @@ class WithResourceTest
             new Successfully<>(new Text("Verifies"), new Text("Failed"), Assertion::verify)
         );
 
-        verify(mockResource).close();
+        verify(mockResourceHandle).close();
     }
 
 
@@ -59,9 +65,11 @@ class WithResourceTest
     void testFailSingleResource() throws Exception
     {
         Object resourceDummy = new Object();
+        ResourceHandle<Object> mockResourceHandle = mock(ResourceHandle.class,
+            with(ResourceHandle::value, returning(resourceDummy)),
+            withVoid(ResourceHandle::close, doingNothing()));
         Resource<Object> mockResource = mock(Resource.class,
-            with(Resource::value, returning(resourceDummy)),
-            withVoid(Resource::close, doingNothing()));
+            with(Resource::value, returning(mockResourceHandle)));
 
         assertThat(new WithResource(mockResource,
                 mock(Function.class,
@@ -72,7 +80,18 @@ class WithResourceTest
             new Has<>("failing", verifiable -> verifiable::verify, new Throwing(AssertionError.class))
         );
 
-        verify(mockResource).close();
+        verify(mockResourceHandle).close();
+    }
+
+    @Test
+    void testFailToCreateSingleResource()
+    {
+        Resource<Object> mockResource = mock(Resource.class, with(Resource::value, throwing(new IOException())));
+
+        assertThat(new WithResource(mockResource,
+                mock(Function.class,
+                    with(f -> f.value(any()), throwing(new AssertionError("Assertion called"))))),
+            new Has<>("failing", verifiable -> verifiable::verify, new Throwing(RuntimeException.class)));
     }
 
 
@@ -80,13 +99,18 @@ class WithResourceTest
     void testPassDoubleResource() throws Exception
     {
         Object resourceDummy1 = new Object();
-        Object resourceDummy2 = new Object();
+        ResourceHandle<Object> mockResourceHandle1 = mock(ResourceHandle.class,
+            with(ResourceHandle::value, returning(resourceDummy1)),
+            withVoid(ResourceHandle::close, doingNothing()));
         Resource<Object> mockResource1 = mock(Resource.class,
-            with(Resource::value, returning(resourceDummy1)),
-            withVoid(Resource::close, doingNothing()));
+            with(Resource::value, returning(mockResourceHandle1)));
+
+        Object resourceDummy2 = new Object();
+        ResourceHandle<Object> mockResourceHandle2 = mock(ResourceHandle.class,
+            with(ResourceHandle::value, returning(resourceDummy2)),
+            withVoid(ResourceHandle::close, doingNothing()));
         Resource<Object> mockResource2 = mock(Resource.class,
-            with(Resource::value, returning(resourceDummy2)),
-            withVoid(Resource::close, doingNothing()));
+            with(Resource::value, returning(mockResourceHandle2)));
 
         assertThat(new WithResource(mockResource1, mockResource2,
                 mock(BiFunction.class,
@@ -95,8 +119,8 @@ class WithResourceTest
             new Successfully<>(new Text("Verifies"), new Text("Failed"), Assertion::verify)
         );
 
-        verify(mockResource1).close();
-        verify(mockResource2).close();
+        verify(mockResourceHandle1).close();
+        verify(mockResourceHandle2).close();
     }
 
 
@@ -104,13 +128,18 @@ class WithResourceTest
     void testFailDoubleResource() throws Exception
     {
         Object resourceDummy1 = new Object();
-        Object resourceDummy2 = new Object();
+        ResourceHandle<Object> mockResourceHandle1 = mock(ResourceHandle.class,
+            with(ResourceHandle::value, returning(resourceDummy1)),
+            withVoid(ResourceHandle::close, doingNothing()));
         Resource<Object> mockResource1 = mock(Resource.class,
-            with(Resource::value, returning(resourceDummy1)),
-            withVoid(Resource::close, doingNothing()));
+            with(Resource::value, returning(mockResourceHandle1)));
+
+        Object resourceDummy2 = new Object();
+        ResourceHandle<Object> mockResourceHandle2 = mock(ResourceHandle.class,
+            with(ResourceHandle::value, returning(resourceDummy2)),
+            withVoid(ResourceHandle::close, doingNothing()));
         Resource<Object> mockResource2 = mock(Resource.class,
-            with(Resource::value, returning(resourceDummy2)),
-            withVoid(Resource::close, doingNothing()));
+            with(Resource::value, returning(mockResourceHandle2)));
 
         assertThat(new WithResource(mockResource1, mockResource2,
                 mock(BiFunction.class,
@@ -121,8 +150,44 @@ class WithResourceTest
             new Has<>("failing", verifiable -> verifiable::verify, new Throwing(AssertionError.class))
         );
 
-        verify(mockResource1).close();
-        verify(mockResource2).close();
+        verify(mockResourceHandle1).close();
+        verify(mockResourceHandle2).close();
     }
 
+
+    @Test
+    void testFailToCreateFirstOfTwoResources() throws Exception
+    {
+        Resource<Object> mockResource1 = mock(Resource.class, with(Resource::value, throwing(new IOException())));
+
+        Object resourceDummy2 = new Object();
+        ResourceHandle<Object> mockResourceHandle2 = mock(ResourceHandle.class,
+            with(ResourceHandle::value, returning(resourceDummy2)),
+            withVoid(ResourceHandle::close, doingNothing()));
+        Resource<Object> mockResource2 = mock(Resource.class, with(Resource::value, returning(mockResourceHandle2)));
+
+        assertThat(new WithResource(mockResource1, mockResource2,
+                mock(BiFunction.class,
+                    with(f -> f.value(any(), any()), throwing(new AssertionError("Assertion called"))))),
+            new Has<>("failing", verifiable -> verifiable::verify, new Throwing(RuntimeException.class)));
+        verify(mockResource2, never()).value();
+    }
+
+    @Test
+    void testFailToCreateSecondOfTwoResources() throws Exception
+    {
+        Object resourceDummy1 = new Object();
+        ResourceHandle<Object> mockResourceHandle1 = mock(ResourceHandle.class,
+            with(ResourceHandle::value, returning(resourceDummy1)),
+            withVoid(ResourceHandle::close, doingNothing()));
+        Resource<Object> mockResource1 = mock(Resource.class, with(Resource::value, returning(mockResourceHandle1)));
+
+        Resource<Object> mockResource2 = mock(Resource.class, with(Resource::value, throwing(new IOException())));
+
+        assertThat(new WithResource(mockResource1, mockResource2,
+                mock(BiFunction.class,
+                    with(f -> f.value(any(), any()), throwing(new AssertionError("Assertion called"))))),
+            new Has<>("failing", verifiable -> verifiable::verify, new Throwing(RuntimeException.class)));
+        verify(mockResourceHandle1).close();
+    }
 }
