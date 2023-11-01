@@ -18,10 +18,12 @@
 
 package org.saynotobugs.confidence.quality.optional;
 
+import org.dmfs.jems2.Function;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
+import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.Fail;
-import org.saynotobugs.confidence.assessment.FailPrepended;
+import org.saynotobugs.confidence.assessment.FailUpdated;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
@@ -57,9 +59,22 @@ public final class Present<T> extends QualityComposition<Optional<T>>
      */
     public Present(Quality<? super T> delegate)
     {
+        this(description -> new Spaced(new Text("present"), description),
+            description -> new Spaced(new Text("present"), description),
+            delegate);
+    }
+
+
+    /**
+     * Matches present {@link Optional}s with a value that matches the given matcher.
+     */
+    public Present(Function<? super Description, ? extends Description> expectationDescription,
+        Function<? super Description, ? extends Description> failDescription,
+        Quality<? super T> delegate)
+    {
         super(actual -> actual.isPresent()
-                ? new FailPrepended(new Text("present"), delegate.assessmentOf(actual.get()))
+                ? new FailUpdated(failDescription, delegate.assessmentOf(actual.get()))
                 : new Fail(new Text("absent")),
-            new Spaced(new Text("present"), delegate.description()));
+            expectationDescription.value(delegate.description()));
     }
 }

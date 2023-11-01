@@ -95,7 +95,7 @@ class StrictlyEqualToTest
                         return "fakeObject3";
                     }
                 }, "{ ...\n  was not equal to \"123\"\n  ... }"),
-                new HasDescription("is reflexive\n  and\n  is not equal to null\n  and\n  is equal to \"123\"\n  and\n  is symmetric\n  and\n  has hashCode <48690> like \"123\"")
+                new HasDescription("{ is reflexive\n  and\n  is not equal to null\n  and\n  is equal to \"123\"\n  and\n  is symmetric\n  and\n  has hashCode <48690> like \"123\" }")
             ));
     }
 }

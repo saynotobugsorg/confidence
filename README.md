@@ -158,7 +158,6 @@ The adapter `Quality` is called `hamcrest` and you just pass a `Matcher` to it l
 
 ```java
 assertThat(List.of(1,2,5,10,11), hamcrest(hasItem(2)));
-
 ```
 
 # JUnit Confidence TestEngine

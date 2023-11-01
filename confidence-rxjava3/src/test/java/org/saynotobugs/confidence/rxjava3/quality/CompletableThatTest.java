@@ -25,7 +25,7 @@ class CompletableThatTest
                 new Passes<>(ignored -> Completable.complete()),
                 new Fails<>(ignored -> Completable.error(IOException::new), "Completable that (0) { completed <0> times\n  ... }"),
                 new Fails<>(ignored -> Completable.never(), "Completable that (0) { completed <0> times\n  ... }"),
-                new HasDescription("Completable that (0) completes exactly once\n    and\n    emits nothing")
+                new HasDescription("Completable that (0) { completes exactly once\n    and\n    emits nothing }")
             ));
     }
 

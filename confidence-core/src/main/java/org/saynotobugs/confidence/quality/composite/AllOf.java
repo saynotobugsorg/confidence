@@ -57,7 +57,9 @@ public final class AllOf<T> extends QualityComposition<T>
                 new Text(" }"),
                 new Collected<>(ArrayList::new, new Mapped<>(d -> d.assessmentOf(actual), delegates)).value()),
             new Structured(
+                new Text("{ "),
                 new Composite(NEW_LINE, new Text("and"), NEW_LINE),
+                new Text(" }"),
                 new Mapped<>(Quality::description, delegates)));
     }
 }

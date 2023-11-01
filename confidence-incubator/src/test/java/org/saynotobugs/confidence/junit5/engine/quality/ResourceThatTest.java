@@ -137,7 +137,7 @@ class ResourceThatTest
                     }
                 },
                     "{ had single use { AutoClosable that had value iterated [ ...\n        1: missing \"2\" ]\n      ...\n    and\n    had value [ \"1\" ] }\n  and\n  had parallel use { ...\n    elements [0:  AutoClosable that had value iterated [ ...\n          1: missing \"2\" ]\n        ...]\n    and\n    elements [0:  had value [ \"1\" ]] } }"),
-                new HasDescription("has single use AutoClosable that has value iterates [ 0: \"1\",\n      1: \"2\" ] and is closed\n    and\n    has value <empty>\n  and\n  has parallel use running 1 parallel execution, each each element has value <anything>\n    and\n    each element AutoClosable that has value iterates [ 0: \"1\",\n      1: \"2\" ] and is closed\n    and\n    each element has value <empty>")
+                new HasDescription("{ has single use { AutoClosable that has value iterates [ 0: \"1\",\n      1: \"2\" ] and is closed\n    and\n    has value <empty> }\n  and\n  has parallel use { running 1 parallel execution, each each element has value <anything>\n    and\n    each element AutoClosable that has value iterates [ 0: \"1\",\n      1: \"2\" ] and is closed\n    and\n    each element has value <empty> } }")
             )
         );
     }
