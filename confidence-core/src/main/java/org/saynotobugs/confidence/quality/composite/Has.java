@@ -71,8 +71,22 @@ public final class Has<T, V> extends QualityComposition<T>
         ThrowingFunction<? super T, ? extends V> featureFunction,
         Quality<? super V> delegate)
     {
+        this(featureDescription,
+            featureMismatchDescription,
+            throwable -> new Spaced(new Text("threw"), new Value(throwable)),
+            featureFunction,
+            delegate);
+    }
+
+
+    public Has(Function<Description, Description> featureDescription,
+        Function<Description, Description> featureMismatchDescription,
+        Function<? super Throwable, ? extends Description> throwsDescription,
+        ThrowingFunction<? super T, ? extends V> featureFunction,
+        Quality<? super V> delegate)
+    {
         super(new FailSafe<>(
-                throwable -> new Fail(new Spaced(new Text("threw"), new Value(throwable))),
+                throwable -> new Fail(throwsDescription.value(throwable)),
                 actual -> new FailUpdated(featureMismatchDescription, delegate.assessmentOf(featureFunction.value(actual)))),
             featureDescription.value(delegate.description()));
     }
