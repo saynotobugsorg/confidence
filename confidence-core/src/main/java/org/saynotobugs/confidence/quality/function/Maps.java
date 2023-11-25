@@ -42,8 +42,9 @@ public final class Maps<Argument, Result> extends QualityComposition<Function<Ar
     public Maps(Argument argument, Quality<? super Result> resultQuality)
     {
         super(new Has<>(
-            new Spaced(new Text("maps"), new Value(argument)),
-            new Spaced(new Text("mapped"), new Value(argument)),
+            description -> new Spaced(new Text("maps"), new Value(argument), description),
+            description -> new Spaced(new Text("mapped"), new Value(argument), description),
+            throwable -> new Spaced(new Text("threw"), new Value(throwable), new Text("for argument"), new Value(argument)),
             candidate -> candidate.apply(argument),
             resultQuality
         ));

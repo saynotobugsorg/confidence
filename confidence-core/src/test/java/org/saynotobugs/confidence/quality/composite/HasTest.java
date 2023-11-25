@@ -4,10 +4,13 @@ import org.junit.jupiter.api.Test;
 import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
+import org.saynotobugs.confidence.description.Value;
 import org.saynotobugs.confidence.quality.object.EqualTo;
 import org.saynotobugs.confidence.test.quality.Fails;
 import org.saynotobugs.confidence.test.quality.HasDescription;
 import org.saynotobugs.confidence.test.quality.Passes;
+
+import java.util.function.Supplier;
 
 import static org.saynotobugs.confidence.Assertion.assertThat;
 
@@ -61,6 +64,23 @@ class HasTest
             new AllOf<>(
                 new Passes<>("123", 123),
                 new Fails<>(124, "mismatch \"124\""),
+                new HasDescription("match \"123\"")));
+    }
+
+
+    @Test
+    void testThrowing()
+    {
+        assertThat(new Has<>(
+                description -> new Spaced(new Text("match"), description),
+                description -> new Spaced(new Text("mismatch"), description),
+                throwable -> new Spaced(new Text("yikes"), new Value(throwable)),
+                Supplier::get,
+                new EqualTo<>("123")),
+            new AllOf<>(
+                new Passes<Supplier<String>>(() -> "123"),
+                new Fails<>(() -> "124", "mismatch \"124\""),
+                new Fails<>(() -> {throw new RuntimeException("error");}, "yikes <java.lang.RuntimeException: error>"),
                 new HasDescription("match \"123\"")));
     }
 }
