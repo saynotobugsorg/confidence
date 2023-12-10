@@ -41,19 +41,19 @@ import java.nio.file.Files;
 public final class ContainsText implements Quality<File>
 {
     private final Charset mCharset;
-    private final Quality<CharSequence> mDelegate;
+    private final Quality<? super CharSequence> mDelegate;
 
     public ContainsText(String text)
     {
         this(new EqualTo<>(text));
     }
 
-    public ContainsText(Quality<CharSequence> mDelegate)
+    public ContainsText(Quality<? super CharSequence> mDelegate)
     {
         this(StandardCharsets.UTF_8, mDelegate);
     }
 
-    public ContainsText(Charset mCharset, Quality<CharSequence> mDelegate)
+    public ContainsText(Charset mCharset, Quality<? super CharSequence> mDelegate)
     {
         this.mCharset = mCharset;
         this.mDelegate = mDelegate;
