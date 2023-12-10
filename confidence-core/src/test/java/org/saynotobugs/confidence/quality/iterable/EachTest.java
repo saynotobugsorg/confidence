@@ -41,7 +41,7 @@ class EachTest
                 new Passes<Iterable<Integer>>(asList(1, 1, 2), asList(2, 2, 2), emptyList()),
                 new Fails<Iterable<Integer>>(asList(0, 4, 2), "elements [0:  { ...\n    <0> },\n  1:  { <4>\n    ... }\n  ...]"),
                 new Fails<Iterable<Integer>>(asList(1, 4, 2), "elements [...\n  1:  { <4>\n    ... }\n  ...]"),
-                new HasDescription("each element less than <3>\n  and\n  greater than <0>")
+                new HasDescription("each element { less than <3>\n  and\n  greater than <0> }")
             ));
     }
 

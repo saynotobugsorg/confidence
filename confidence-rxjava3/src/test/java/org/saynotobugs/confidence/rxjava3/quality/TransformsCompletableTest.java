@@ -50,7 +50,7 @@ class TransformsCompletableTest
                 new Fails<>(scheduler -> upsteam -> upsteam.andThen(Completable.error(new IOException())), "(1) to downstream { completed <0> times\n  ... }"),
                 new Fails<>(scheduler -> upsteam -> upsteam.delay(10, TimeUnit.SECONDS, scheduler), "(1) to downstream { completed <0> times\n  ... }"),
                 new HasDescription(
-                    "CompletableTransformer that transforms\n  (0) upstream completion,\n    (1) to downstream completes exactly once\n      and\n      emits nothing")
+                    "CompletableTransformer that transforms\n  (0) upstream { completion },\n    (1) to downstream { completes exactly once\n      and\n      emits nothing }")
             ));
     }
 
@@ -66,7 +66,7 @@ class TransformsCompletableTest
                 new Fails<>(scheduler -> upsteam -> upsteam.delay(10, TimeUnit.SECONDS, scheduler),
                     "(1) to downstream had errors that iterated [ 0: missing instance of <class java.io.IOException> ]"),
                 new HasDescription(
-                    "CompletableTransformer that transforms\n  (0) upstream completion,\n    (1) to downstream has errors that iterates [ 0: instance of <class java.io.IOException> ]")
+                    "CompletableTransformer that transforms\n  (0) upstream { completion },\n    (1) to downstream has errors that iterates [ 0: instance of <class java.io.IOException> ]")
             ));
     }
 
@@ -80,10 +80,10 @@ class TransformsCompletableTest
                 new Fails<>(scheduler -> Completable::hide, "(1) to downstream { completed <0> times\n  ... }"),
                 new Fails<>(scheduler -> upsteam -> upsteam.delay(10, TimeUnit.SECONDS), "(1) to downstream { completed <0> times\n  ... }"),
                 new HasDescription("CompletableTransformer that transforms\n" +
-                    "  (0) upstream error <java.io.IOException>,\n" +
-                    "    (1) to downstream completes exactly once\n" +
+                    "  (0) upstream { error <java.io.IOException> },\n" +
+                    "    (1) to downstream { completes exactly once\n" +
                     "      and\n" +
-                    "      emits nothing")
+                    "      emits nothing }")
             ));
     }
 }

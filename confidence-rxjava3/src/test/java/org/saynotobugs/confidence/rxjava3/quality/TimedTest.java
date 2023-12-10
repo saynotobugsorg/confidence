@@ -43,7 +43,7 @@ class TimedTest
                 new Fails<>(new io.reactivex.rxjava3.schedulers.Timed<>(789, 123, TimeUnit.MILLISECONDS), "{ ...\n  had value <789> }"),
                 new Fails<>(new io.reactivex.rxjava3.schedulers.Timed<>(456, 789, TimeUnit.MILLISECONDS), "{ had time of <789> millis\n  ... }"),
                 new Fails<>(new io.reactivex.rxjava3.schedulers.Timed<>(987, 789, TimeUnit.MILLISECONDS), "{ had time of <789> millis\n  and\n  had value <987> }"),
-                new HasDescription("has time of <123> millis\n  and\n  has value <456>"))
+                new HasDescription("{ has time of <123> millis\n  and\n  has value <456> }"))
         );
     }
 
@@ -57,7 +57,7 @@ class TimedTest
                 new Fails<>(new io.reactivex.rxjava3.schedulers.Timed<>(789, 123, TimeUnit.MILLISECONDS), "{ ...\n  had value <789> }"),
                 new Fails<>(new io.reactivex.rxjava3.schedulers.Timed<>(456, 789, TimeUnit.MILLISECONDS), "{ had time of <789> millis\n  ... }"),
                 new Fails<>(new io.reactivex.rxjava3.schedulers.Timed<>(987, 789, TimeUnit.MILLISECONDS), "{ had time of <789> millis\n  and\n  had value <987> }"),
-                new HasDescription("has time of <123> millis\n  and\n  has value <456>"))
+                new HasDescription("{ has time of <123> millis\n  and\n  has value <456> }"))
         );
     }
 
@@ -71,7 +71,7 @@ class TimedTest
                 new Fails<>(new io.reactivex.rxjava3.schedulers.Timed<>(789, 123, TimeUnit.MILLISECONDS), "{ ...\n  had value <789> }"),
                 new Fails<>(new io.reactivex.rxjava3.schedulers.Timed<>(456, 789, TimeUnit.MILLISECONDS), "{ had time of <789> millis\n  ... }"),
                 new Fails<>(new io.reactivex.rxjava3.schedulers.Timed<>(987, 789, TimeUnit.MILLISECONDS), "{ had time of <789> millis\n  and\n  had value <987> }"),
-                new HasDescription("has time of <123> millis\n  and\n  has value <456>"))
+                new HasDescription("{ has time of <123> millis\n  and\n  has value <456> }"))
         );
     }
 
@@ -85,7 +85,7 @@ class TimedTest
                 new Fails<>(new io.reactivex.rxjava3.schedulers.Timed<>(789, 123, TimeUnit.MILLISECONDS), "{ ...\n  had value <789> }"),
                 new Fails<>(new io.reactivex.rxjava3.schedulers.Timed<>(456, 789, TimeUnit.MILLISECONDS), "{ had time of <789> millis\n  ... }"),
                 new Fails<>(new io.reactivex.rxjava3.schedulers.Timed<>(987, 789, TimeUnit.MILLISECONDS), "{ had time of <789> millis\n  and\n  had value <987> }"),
-                new HasDescription("has time of <123> millis\n  and\n  has value <456>"))
+                new HasDescription("{ has time of <123> millis\n  and\n  has value <456> }"))
         );
     }
 
@@ -99,7 +99,7 @@ class TimedTest
                 new Fails<>(new io.reactivex.rxjava3.schedulers.Timed<>(789, 123, TimeUnit.MILLISECONDS), "{ ...\n  had value <789> }"),
                 new Fails<>(new io.reactivex.rxjava3.schedulers.Timed<>(456, 789, TimeUnit.MILLISECONDS), "{ had time of <789> millis\n  ... }"),
                 new Fails<>(new io.reactivex.rxjava3.schedulers.Timed<>(987, 789, TimeUnit.MILLISECONDS), "{ had time of <789> millis\n  and\n  had value <987> }"),
-                new HasDescription("has time of <123> millis\n  and\n  has value <456>"))
+                new HasDescription("{ has time of <123> millis\n  and\n  has value <456> }"))
         );
     }
 
@@ -113,7 +113,7 @@ class TimedTest
                 new Fails<>(new io.reactivex.rxjava3.schedulers.Timed<>(789, 123, TimeUnit.MILLISECONDS), "{ ...\n  had value <789> }"),
                 new Fails<>(new io.reactivex.rxjava3.schedulers.Timed<>(456, 789, TimeUnit.MILLISECONDS), "{ had time of <789> millis\n  ... }"),
                 new Fails<>(new io.reactivex.rxjava3.schedulers.Timed<>(987, 789, TimeUnit.MILLISECONDS), "{ had time of <789> millis\n  and\n  had value <987> }"),
-                new HasDescription("has time of <123> millis\n  and\n  has value <456>"))
+                new HasDescription("{ has time of <123> millis\n  and\n  has value <456> }"))
         );
     }
 }

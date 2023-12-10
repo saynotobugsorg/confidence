@@ -27,11 +27,11 @@ import static org.saynotobugs.confidence.description.LiteralDescription.EMPTY;
 
 public final class FailUpdated implements Assessment
 {
-    private final Function<Description, ? extends Description> mDescriptionFunction;
+    private final Function<? super Description, ? extends Description> mDescriptionFunction;
     private final Assessment mDelegate;
 
 
-    public FailUpdated(Function<Description, ? extends Description> descriptionFunction, Assessment delegate)
+    public FailUpdated(Function<? super Description, ? extends Description> descriptionFunction, Assessment delegate)
     {
         mDescriptionFunction = descriptionFunction;
         mDelegate = delegate;

@@ -55,12 +55,12 @@ class TransformsMaybeTest
                     "(1) to downstream { completed <0> times\n  and\n  emitted <0> items that iterated [ 0: missing <123> ]\n  ... }"),
                 new HasDescription(
                     "MaybeTransformer that transforms\n" +
-                        "  (0) upstream emissions [<123>],\n" +
-                        "    (1) to downstream completes exactly once\n" +
+                        "  (0) upstream { emissions [<123>] },\n" +
+                        "    (1) to downstream { completes exactly once\n" +
                         "      and\n" +
                         "      emits <1> items that iterates [ 0: <123> ]\n" +
                         "      and\n" +
-                        "      emits nothing")
+                        "      emits nothing }")
             ));
     }
 
@@ -77,10 +77,10 @@ class TransformsMaybeTest
                     "(1) to downstream { completed <0> times\n  ... }"),
                 new HasDescription(
                     "MaybeTransformer that transforms\n" +
-                        "  (0) upstream completion,\n" +
-                        "    (1) to downstream completes exactly once\n" +
+                        "  (0) upstream { completion },\n" +
+                        "    (1) to downstream { completes exactly once\n" +
                         "      and\n" +
-                        "      emits nothing")
+                        "      emits nothing }")
             ));
     }
 
@@ -96,7 +96,7 @@ class TransformsMaybeTest
                     "(1) to downstream had errors that iterated [ 0: missing instance of <class java.io.IOException> ]"),
                 new HasDescription(
                     "MaybeTransformer that transforms\n" +
-                        "  (0) upstream emissions [<123>],\n" +
+                        "  (0) upstream { emissions [<123>] },\n" +
                         "    (1) to downstream has errors that iterates [ 0: instance of <class java.io.IOException> ]")
             ));
     }
@@ -114,12 +114,12 @@ class TransformsMaybeTest
                     "(1) to downstream { completed <0> times\n  and\n  emitted <0> items that iterated [ 0: missing <123> ]\n  ... }"),
                 new HasDescription(
                     "MaybeTransformer that transforms\n" +
-                        "  (0) upstream error <java.io.IOException>,\n" +
-                        "    (1) to downstream completes exactly once\n" +
+                        "  (0) upstream { error <java.io.IOException> },\n" +
+                        "    (1) to downstream { completes exactly once\n" +
                         "      and\n" +
                         "      emits <1> items that iterates [ 0: <123> ]\n" +
                         "      and\n" +
-                        "      emits nothing")
+                        "      emits nothing }")
             ));
     }
 }
