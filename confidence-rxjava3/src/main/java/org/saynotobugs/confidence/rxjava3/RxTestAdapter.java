@@ -18,10 +18,10 @@
 
 package org.saynotobugs.confidence.rxjava3;
 
-import java.util.Collection;
-
 import io.reactivex.rxjava3.observers.TestObserver;
 import io.reactivex.rxjava3.subscribers.TestSubscriber;
+
+import java.util.Collection;
 
 
 /**
@@ -48,4 +48,6 @@ public interface RxTestAdapter<T>
     Iterable<Throwable> errors();
 
     boolean isCancelled();
+
+    void cancel();
 }

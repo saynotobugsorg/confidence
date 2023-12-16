@@ -18,14 +18,13 @@
 
 package org.saynotobugs.confidence.rxjava3.adapters;
 
+import io.reactivex.rxjava3.observers.TestObserver;
 import org.saynotobugs.confidence.rxjava3.RxTestAdapter;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import io.reactivex.rxjava3.observers.TestObserver;
 
 
 public final class RxTestObserver<T> extends TestObserver<T> implements RxTestAdapter<T>
@@ -75,5 +74,11 @@ public final class RxTestObserver<T> extends TestObserver<T> implements RxTestAd
     public boolean isCancelled()
     {
         return super.isDisposed();
+    }
+
+    @Override
+    public void cancel()
+    {
+        dispose();
     }
 }

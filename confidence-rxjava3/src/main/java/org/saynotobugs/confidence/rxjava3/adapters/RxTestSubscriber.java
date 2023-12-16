@@ -18,14 +18,13 @@
 
 package org.saynotobugs.confidence.rxjava3.adapters;
 
+import io.reactivex.rxjava3.subscribers.TestSubscriber;
 import org.saynotobugs.confidence.rxjava3.RxTestAdapter;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import io.reactivex.rxjava3.subscribers.TestSubscriber;
 
 
 public final class RxTestSubscriber<T> extends TestSubscriber<T> implements RxTestAdapter<T>

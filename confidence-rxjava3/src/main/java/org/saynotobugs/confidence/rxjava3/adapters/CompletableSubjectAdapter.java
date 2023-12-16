@@ -18,9 +18,8 @@
 
 package org.saynotobugs.confidence.rxjava3.adapters;
 
-import org.saynotobugs.confidence.rxjava3.RxSubjectAdapter;
-
 import io.reactivex.rxjava3.subjects.CompletableSubject;
+import org.saynotobugs.confidence.rxjava3.RxSubjectAdapter;
 
 
 /**
@@ -57,5 +56,11 @@ public final class CompletableSubjectAdapter<T> implements RxSubjectAdapter<T>
     public void onError(Throwable error)
     {
         mDelegate.onError(error);
+    }
+
+    @Override
+    public boolean hasSubscribers()
+    {
+        return mDelegate.hasObservers();
     }
 }
