@@ -23,7 +23,7 @@ import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.json.JsonElementAdapter;
-import org.saynotobugs.confidence.json.jsonpathadapter.JsonPathElementAdapter;
+import org.saynotobugs.confidence.json.jsonstringadapter.JsonStringElementAdapter;
 import org.saynotobugs.confidence.quality.composite.Has;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 
@@ -35,11 +35,11 @@ public final class JsonPathOf extends QualityComposition<JsonPath>
 {
     public JsonPathOf(Quality<? super JsonElementAdapter> delegate)
     {
-        super(new Has<>(
-            new Text("JsonPath"),
-            new Text("JsonPath"),
-            jsonPath -> new JsonPathElementAdapter(jsonPath, ""),
-            delegate));
+        /*
+         * We just convert the JSON to a String and use the JsonStringElementAdapter.
+         * Repeatedly invoking the JsonPath getters is way too slow.
+         */
+        super(new Has<>(new Text("JsonPath"), new Text("JsonPath"), jsonPath -> new JsonStringElementAdapter(jsonPath.prettify()), delegate));
     }
 
 }
