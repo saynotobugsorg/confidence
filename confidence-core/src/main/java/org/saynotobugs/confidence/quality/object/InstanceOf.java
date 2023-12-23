@@ -20,24 +20,42 @@ package org.saynotobugs.confidence.quality.object;
 
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Quality;
-import org.saynotobugs.confidence.assessment.PassIf;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.description.Value;
+import org.saynotobugs.confidence.quality.composite.AllOfFailingFast;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
+
+import static org.saynotobugs.confidence.description.LiteralDescription.NEW_LINE;
 
 
 @StaticFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality")
 public final class InstanceOf<T> extends QualityComposition<T>
 {
     /**
-     * Creates a {@link Quality} that matches when the object under test is an instance of the given class.
+     * A {@link Quality} that matches when the object under test is an instance of the given class and satisfies the
+     * given {@link Quality}.
+     * <p>
+     * This provides a type-safe way to downcast and apply a {@link Quality} of a subtype.
+     *
+     * <h1>Example</h1>
+     * <pre>{@code
+     * assertThat(someObject,
+     *     is(instanceOf(Number.class, that(has(Number::intValue, equalTo(1))))));
+     * }</pre>
      */
-    public InstanceOf(Class<? extends T> expectation)
+    public <V extends T> InstanceOf(Class<? extends V> expectation, Quality<? super V> delegate)
     {
-        super(actual -> new PassIf(
-                expectation.isInstance(actual),
-                new Spaced(new Text("instance of"), new Value(actual.getClass()))),
-            new Spaced(new Text("instance of"), new Value(expectation)));
+        super((Quality<T>) new AllOfFailingFast<>(NEW_LINE, new InstanceOf<>(expectation), delegate));
+    }
+
+    /**
+     * A {@link Quality} that matches when the object under test is an instance of the given class.
+     */
+    public <V extends T> InstanceOf(Class<? extends V> expectation)
+    {
+        super(new Satisfies<>(expectation::isInstance,
+            actual -> new Spaced(new Text("instance of"), new Value(actual.getClass())),
+            new Spaced(new Text("instance of"), new Value(expectation))));
     }
 }

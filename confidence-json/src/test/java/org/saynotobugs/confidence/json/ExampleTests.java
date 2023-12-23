@@ -92,12 +92,12 @@ class ExampleTests
                         at(-2, string("b")),
                         at(-1, string("c")))
                 ))),
-                is(jsonStringOf(array(that(
+                is(jsonStringOf(arrayThat(
                     iterates(  // you can also use regular Qualities of Iterable with the `that` adapter
                         string("a"),
                         string("b"),
                         string("c"))
-                ))))
+                )))
             ));
     }
 

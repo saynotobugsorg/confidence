@@ -28,12 +28,21 @@ import org.saynotobugs.confidence.assessment.FailUpdated;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.description.Value;
+import org.saynotobugs.confidence.quality.object.EqualTo;
 import org.saynotobugs.confidence.utils.FailSafe;
 
 
 @StaticFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality")
 public final class Has<T, V> extends QualityComposition<T>
 {
+    public Has(ThrowingFunction<? super T, ? extends V> featureFunction, V value)
+    {
+        this(delegateFeatureDescription -> delegateFeatureDescription,
+            featureMismatchDescription -> featureMismatchDescription,
+            featureFunction,
+            new EqualTo<>(value));
+    }
+
 
     public Has(ThrowingFunction<? super T, ? extends V> featureFunction, Quality<? super V> delegate)
     {
@@ -41,6 +50,15 @@ public final class Has<T, V> extends QualityComposition<T>
             featureMismatchDescription -> featureMismatchDescription,
             featureFunction,
             delegate);
+    }
+
+
+    public Has(String featureName, ThrowingFunction<? super T, ? extends V> featureFunction, V value)
+    {
+        this(new Spaced(new Text("has"), new Text(featureName)),
+            new Spaced(new Text("had"), new Text(featureName)),
+            featureFunction,
+            new EqualTo<>(value));
     }
 
 
