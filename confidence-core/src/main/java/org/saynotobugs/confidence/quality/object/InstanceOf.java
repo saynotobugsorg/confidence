@@ -38,7 +38,7 @@ public final class InstanceOf<T> extends QualityComposition<T>
      * <p>
      * This provides a type-safe way to downcast and apply a {@link Quality} of a subtype.
      *
-     * <h2>Example</h2>
+     * <h4>Example</h4>
      * <pre>{@code
      * assertThat(someObject,
      *     is(instanceOf(Number.class, that(has(Number::intValue, equalTo(1))))));
