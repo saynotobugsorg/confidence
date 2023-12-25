@@ -25,34 +25,29 @@ import org.dmfs.jems2.iterable.PresentValues;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.description.Text;
-import org.saynotobugs.confidence.json.JsonArrayAdapter;
 import org.saynotobugs.confidence.json.JsonElementAdapter;
 import org.saynotobugs.confidence.quality.composite.Has;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 
 /**
- * Adapter to use the {@link Array} {@link Quality} with normal {@link Iterable} {@link Quality}s.
- * <p>
- * This makes it possible to create something like
+ * {@link Quality} of a JSON array that delegates to a normal {@link Iterable} {@link Quality}.
+ * <h1>Example</h1>
  * <pre>
- * array(that(contains(string(xyz))))
+ * arrayThat(contains(string(xyz)))
  * </pre>
- *
- * @deprecated this is too easy to confuse with {@link org.saynotobugs.confidence.quality.grammar.That} and
- * inconsistent with {@link org.saynotobugs.confidence.quality.array.ArrayThat}. Use {@link ArrayThat} instead.
  */
 @StaticFactories(value = "Json", packageName = "org.saynotobugs.confidence.json")
-@Deprecated
-public final class That extends QualityComposition<JsonArrayAdapter>
+public final class ArrayThat extends QualityComposition<JsonElementAdapter>
 {
-    public That(Quality<? super Iterable<JsonElementAdapter>> delegate)
+    public ArrayThat(Quality<? super Iterable<JsonElementAdapter>> delegate)
     {
-        super(new Has<>(
-            new Text("that"),
-            new Text("that"),
-            array -> new PresentValues<>(
-                new Mapped<>(array::elementAt,
-                    new First<>(array.length(),
-                        new Sequence<>(0, i -> i + 1)))), delegate));
+        super(new Array(
+            new Has<>(
+                new Text("that"),
+                new Text("that"),
+                array -> new PresentValues<>(
+                    new Mapped<>(array::elementAt,
+                        new First<>(array.length(),
+                            new Sequence<>(0, i -> i + 1)))), delegate)));
     }
 }

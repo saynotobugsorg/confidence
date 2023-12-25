@@ -29,9 +29,31 @@ class HasTest
 
 
     @Test
+    void testPlainValue()
+    {
+        assertThat(new Has<>(Object::toString, "123"),
+            new AllOf<>(
+                new Passes<>("123", 123),
+                new Fails<>(124, "\"124\""),
+                new HasDescription("\"123\"")));
+    }
+
+
+    @Test
     void testWithFeature()
     {
         assertThat(new Has<>("toString", Object::toString, new EqualTo<>("123")),
+            new AllOf<>(
+                new Passes<>("123", 123),
+                new Fails<>(124, "had toString \"124\""),
+                new HasDescription("has toString \"123\"")));
+    }
+
+
+    @Test
+    void testValueWithFeature()
+    {
+        assertThat(new Has<>("toString", Object::toString, "123"),
             new AllOf<>(
                 new Passes<>("123", 123),
                 new Fails<>(124, "had toString \"124\""),
