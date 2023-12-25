@@ -18,12 +18,11 @@
 
 package org.saynotobugs.confidence.rxjava3;
 
-import org.reactivestreams.Subscriber;
-
 import io.reactivex.rxjava3.core.CompletableObserver;
 import io.reactivex.rxjava3.core.MaybeObserver;
 import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.core.SingleObserver;
+import org.reactivestreams.Subscriber;
 
 
 /**
@@ -39,4 +38,6 @@ public interface RxSubjectAdapter<T>
     void onComplete();
 
     void onError(Throwable error);
+
+    boolean hasSubscribers();
 }

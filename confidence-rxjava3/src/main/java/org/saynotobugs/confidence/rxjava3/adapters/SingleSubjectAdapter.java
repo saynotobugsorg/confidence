@@ -18,9 +18,8 @@
 
 package org.saynotobugs.confidence.rxjava3.adapters;
 
-import org.saynotobugs.confidence.rxjava3.RxSubjectAdapter;
-
 import io.reactivex.rxjava3.subjects.SingleSubject;
+import org.saynotobugs.confidence.rxjava3.RxSubjectAdapter;
 
 
 /**
@@ -52,10 +51,15 @@ public final class SingleSubjectAdapter<T> implements RxSubjectAdapter<T>
         throw new UnsupportedOperationException("SingleSubjectAdapter.onComplete() called, but Singles require a value");
     }
 
-
     @Override
     public void onError(Throwable error)
     {
         mDelegate.onError(error);
+    }
+
+    @Override
+    public boolean hasSubscribers()
+    {
+        return mDelegate.hasObservers();
     }
 }

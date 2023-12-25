@@ -18,9 +18,8 @@
 
 package org.saynotobugs.confidence.rxjava3.adapters;
 
-import org.saynotobugs.confidence.rxjava3.RxSubjectAdapter;
-
 import io.reactivex.rxjava3.processors.PublishProcessor;
+import org.saynotobugs.confidence.rxjava3.RxSubjectAdapter;
 
 
 /**
@@ -55,5 +54,11 @@ public final class PublishProcessorAdapter<T> implements RxSubjectAdapter<T>
     public void onError(Throwable error)
     {
         mDelegate.onError(error);
+    }
+
+    @Override
+    public boolean hasSubscribers()
+    {
+        return mDelegate.hasSubscribers();
     }
 }

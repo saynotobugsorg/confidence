@@ -1,17 +1,17 @@
 package org.saynotobugs.confidence.rxjava3;
 
+import io.reactivex.rxjava3.core.*;
+import io.reactivex.rxjava3.schedulers.TestScheduler;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import io.reactivex.rxjava3.core.*;
-import io.reactivex.rxjava3.schedulers.TestScheduler;
-
 import static java.time.Duration.ofSeconds;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.saynotobugs.confidence.Assertion.assertThat;
 import static org.saynotobugs.confidence.quality.Core.*;
+import static org.saynotobugs.confidence.rxjava3.RxJava3.when;
 import static org.saynotobugs.confidence.rxjava3.RxJava3.*;
 
 
@@ -189,6 +189,19 @@ public final class Examples
                 transformsCompletable(
                     upstream(error(IOException::new)),
                     downstream(immediately(errors(IOException.class))))));
+    }
+
+
+    @Test
+    void testCancelledFlowableTransformer()
+    {
+        assertThat((Flowable<Integer> upstream) -> upstream,
+            unscheduled(transformsFlowable(
+                upstream(emit(1, 2, 3)),
+                downstream(emits(1, 2, 3)),
+                downstream(disposal()),
+                upstream(not(hasSubscribers()))
+            )));
     }
 
 }
