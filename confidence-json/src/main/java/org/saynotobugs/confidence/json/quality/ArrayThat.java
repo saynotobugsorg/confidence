@@ -31,7 +31,7 @@ import org.saynotobugs.confidence.quality.composite.QualityComposition;
 
 /**
  * {@link Quality} of a JSON array that delegates to a normal {@link Iterable} {@link Quality}.
- * <h1>Example</h1>
+ * <h2>Example</h2>
  * <pre>
  * arrayThat(contains(string(xyz)))
  * </pre>
