@@ -33,8 +33,8 @@ import static org.saynotobugs.confidence.description.LiteralDescription.NEW_LINE
 public final class InstanceOf<T> extends QualityComposition<T>
 {
     /**
-     * A {@link Quality} that matches when the object under test is an instance of the given class and satisfies the
-     * given {@link Quality}.
+     * A {@link Quality} that is satisfied when the object under test is an instance of the given class and satisfies
+     * the given {@link Quality}.
      * <p>
      * This provides a type-safe way to downcast and apply a {@link Quality} of a subtype.
      *
@@ -43,6 +43,8 @@ public final class InstanceOf<T> extends QualityComposition<T>
      * assertThat(someObject,
      *     is(instanceOf(Number.class, that(has(Number::intValue, equalTo(1))))));
      * }</pre>
+     *
+     * @see UnsafeInstanceOf#UnsafeInstanceOf(Class, Quality) for testing generic classes.
      */
     public <V extends T> InstanceOf(Class<? extends V> expectation, Quality<? super V> delegate)
     {
