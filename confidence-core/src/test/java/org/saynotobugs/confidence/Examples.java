@@ -8,6 +8,7 @@ import org.saynotobugs.confidence.assessment.PassIf;
 import org.saynotobugs.confidence.description.NumberDescription;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
+import org.saynotobugs.confidence.quality.Core;
 import org.saynotobugs.confidence.quality.comparable.GreaterThan;
 import org.saynotobugs.confidence.quality.comparable.LessThan;
 import org.saynotobugs.confidence.quality.compat.Hamcrest;
@@ -27,6 +28,9 @@ import org.saynotobugs.confidence.quality.supplier.Supplies;
 import org.saynotobugs.confidence.test.quality.Fails;
 import org.saynotobugs.confidence.test.quality.Passes;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
@@ -299,5 +303,37 @@ public final class Examples
                 new ResultOf<>(0, new Maps<>(10, to(13)))
             )
         );
+    }
+
+
+    @Test
+    void testHamcrestIssue107()
+    {
+        Map<String, Number> m = new HashMap<String, Number>();
+        Integer foo = new Integer(6);
+        m.put("foo", foo);
+        assertThat(m, containsEntry("foo", foo));
+    }
+
+
+    @Test
+    void testHamcrestIssue388()
+    {
+        Map actual = Map.of(
+            "k1", Map.of(
+                "k11", "v11",
+                "k12", "v12"),
+            "k2", List.of("v21", "v22"),
+            "k3", "v3"
+        );
+
+        assertThat(actual, unsafeInstanceOf(Map.class, Core.<Map<String, Object>>allOf(
+                containsEntry("k1", unsafeInstanceOf(Map.class, allOf(
+                    containsEntry("k11", "v11"),
+                    containsEntry("k12", "v12")))),
+                containsEntry("k2", unsafeInstanceOf(Iterable.class, iterates("v21", "v22"))),
+                containsEntry("k3", unsafeInstanceOf(String.class, equalTo("v3")))
+            )
+        ));
     }
 }
