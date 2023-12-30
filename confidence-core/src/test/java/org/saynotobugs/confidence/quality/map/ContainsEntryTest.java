@@ -26,10 +26,10 @@ class ContainsEntryTest
         assertThat(new ContainsEntry<>("k1"),
             new AllOf<>(
                 new Passes<>(map1),
-                new Fails<>(new HashMap<String, String>(), "{  } did not contain { Entry ( \"k1\": <anything> ) }"),
-                new Fails<>(map2, "{ \"k2\": \"v2\" } did not contain { Entry ( \"k1\": <anything> ) }"),
+                new Fails<>(new HashMap<String, String>(), "{  } did not contain Entry ( \"k1\": <anything> )"),
+                new Fails<>(map2, "{ \"k2\": \"v2\" } did not contain Entry ( \"k1\": <anything> )"),
                 //  new Fails<>(Map.of("k2", "v2"), new DescribesAs("")),
-                new HasDescription("contains { Entry ( \"k1\": <anything> ) }")
+                new HasDescription("contains Entry ( \"k1\": <anything> )")
             ));
     }
 
@@ -45,10 +45,10 @@ class ContainsEntryTest
         assertThat(new ContainsEntry<>(new EqualTo<>("k1")),
             new AllOf<>(
                 new Passes<>(map1),
-                new Fails<>(new HashMap<String, String>(), "{  } did not contain { Entry ( \"k1\": <anything> ) }"),
-                new Fails<>(map2, "{ \"k2\": \"v2\" } did not contain { Entry ( \"k1\": <anything> ) }"),
+                new Fails<>(new HashMap<String, String>(), "{  } did not contain Entry ( \"k1\": <anything> )"),
+                new Fails<>(map2, "{ \"k2\": \"v2\" } did not contain Entry ( \"k1\": <anything> )"),
                 //  new Fails<>(Map.of("k2", "v2"), new DescribesAs("")),
-                new HasDescription("contains { Entry ( \"k1\": <anything> ) }")
+                new HasDescription("contains Entry ( \"k1\": <anything> )")
             ));
     }
 
@@ -64,10 +64,10 @@ class ContainsEntryTest
         assertThat(new ContainsEntry<>("k1", "v1"),
             new AllOf<>(
                 new Passes<>(map1),
-                new Fails<>(new HashMap<String, String>(), "{  } did not contain { Entry ( \"k1\": \"v1\" ) }"),
-                new Fails<>(map2, "{ \"k2\": \"v2\" } did not contain { Entry ( \"k1\": \"v1\" ) }"),
+                new Fails<>(new HashMap<String, String>(), "{  } did not contain Entry ( \"k1\": \"v1\" )"),
+                new Fails<>(map2, "{ \"k2\": \"v2\" } did not contain Entry ( \"k1\": \"v1\" )"),
                 //  new Fails<>(Map.of("k2", "v2"), new DescribesAs("")),
-                new HasDescription("contains { Entry ( \"k1\": \"v1\" ) }")
+                new HasDescription("contains Entry ( \"k1\": \"v1\" )")
             ));
     }
 
@@ -83,10 +83,10 @@ class ContainsEntryTest
         assertThat(new ContainsEntry<>("k1", new EqualTo<>("v1")),
             new AllOf<>(
                 new Passes<>(map1),
-                new Fails<>(new HashMap<String, String>(), "{  } did not contain { Entry ( \"k1\": \"v1\" ) }"),
-                new Fails<>(map2, "{ \"k2\": \"v2\" } did not contain { Entry ( \"k1\": \"v1\" ) }"),
+                new Fails<>(new HashMap<String, String>(), "{  } did not contain Entry ( \"k1\": \"v1\" )"),
+                new Fails<>(map2, "{ \"k2\": \"v2\" } did not contain Entry ( \"k1\": \"v1\" )"),
                 //  new Fails<>(Map.of("k2", "v2"), new DescribesAs("")),
-                new HasDescription("contains { Entry ( \"k1\": \"v1\" ) }")
+                new HasDescription("contains Entry ( \"k1\": \"v1\" )")
             ));
     }
 
@@ -102,10 +102,10 @@ class ContainsEntryTest
         assertThat(new ContainsEntry<>(new EqualTo<>("k1")),
             new AllOf<>(
                 new Passes<>(map1),
-                new Fails<>(new HashMap<String, String>(), "{  } did not contain { Entry ( \"k1\": <anything> ) }"),
-                new Fails<>(map2, "{ \"k2\": \"v2\" } did not contain { Entry ( \"k1\": <anything> ) }"),
+                new Fails<>(new HashMap<String, String>(), "{  } did not contain Entry ( \"k1\": <anything> )"),
+                new Fails<>(map2, "{ \"k2\": \"v2\" } did not contain Entry ( \"k1\": <anything> )"),
                 //  new Fails<>(Map.of("k2", "v2"), new DescribesAs("")),
-                new HasDescription("contains { Entry ( \"k1\": <anything> ) }")
+                new HasDescription("contains Entry ( \"k1\": <anything> )")
             ));
     }
 
