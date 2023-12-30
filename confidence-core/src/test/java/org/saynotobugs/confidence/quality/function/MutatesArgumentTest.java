@@ -43,8 +43,8 @@ class MutatesArgumentTest
                 new When<>(new Maps<>("a", new To<>(true)))),
             new AllOf<>(
                 new Passes<>(list -> list::add),
-                new Fails<>(list -> list::remove, "but [  ] did not contain { \"a\" } when mapped \"a\" to <false>"),
-                new HasDescription("mutates argument [  ] so it contains { \"a\" } when maps \"a\" to <true>")
+                new Fails<>(list -> list::remove, "but [  ] did not contain \"a\" when mapped \"a\" to <false>"),
+                new HasDescription("mutates argument [  ] so it contains \"a\" when maps \"a\" to <true>")
             ));
     }
 
