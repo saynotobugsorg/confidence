@@ -27,7 +27,7 @@ import org.saynotobugs.confidence.quality.object.InstanceOf;
 /**
  * Quality of an {@link java.lang.annotation.Annotation}.
  */
-@StaticFactories(value = "Asm", packageName = "org.saynotobugs.confidence.asm")
+@StaticFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality")
 public final class Annotation extends QualityComposition<java.lang.annotation.Annotation>
 {
     @SafeVarargs
