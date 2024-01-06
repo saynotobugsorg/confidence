@@ -18,6 +18,7 @@
 
 package org.saynotobugs.confidence.rxjava3.transformerteststep;
 
+import io.reactivex.rxjava3.schedulers.TestScheduler;
 import org.dmfs.jems2.iterable.Just;
 import org.dmfs.jems2.iterable.Seq;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
@@ -31,30 +32,28 @@ import org.saynotobugs.confidence.rxjava3.RxSubjectAdapter;
 import org.saynotobugs.confidence.rxjava3.RxTestAdapter;
 import org.saynotobugs.confidence.rxjava3.TransformerTestStep;
 
-import io.reactivex.rxjava3.schedulers.TestScheduler;
-
 
 @StaticFactories(value = "RxJava3", packageName = "org.saynotobugs.confidence.rxjava3")
 public final class Upstream<Up, Down> implements TransformerTestStep<Up, Down>
 {
-    private final Iterable<Quality<? super RxSubjectAdapter<? super Up>>> mEvents;
+    private final Iterable<? extends Quality<? super RxSubjectAdapter<Up>>> mEvents;
 
 
     @SafeVarargs
-    public Upstream(Quality<? super RxSubjectAdapter<? super Up>>... events)
+    public Upstream(Quality<? super RxSubjectAdapter<Up>>... events)
     {
         this(new Seq<>(events));
     }
 
 
-    public Upstream(Iterable<Quality<? super RxSubjectAdapter<? super Up>>> events)
+    public Upstream(Iterable<? extends Quality<? super RxSubjectAdapter<Up>>> events)
     {
         mEvents = events;
     }
 
 
     @Override
-    public Iterable<Quality<RxTestAdapter<Down>>> qualities(TestScheduler scheduler, RxSubjectAdapter<? super Up> upstream)
+    public Iterable<Quality<RxTestAdapter<Down>>> qualities(TestScheduler scheduler, RxSubjectAdapter<Up> upstream)
     {
         return new Just<>(
             new DescribedAs<>(orig -> new Spaced(new Text("upstream"), orig),

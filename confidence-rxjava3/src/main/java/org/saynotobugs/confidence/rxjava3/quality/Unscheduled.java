@@ -18,6 +18,7 @@
 
 package org.saynotobugs.confidence.rxjava3.quality;
 
+import io.reactivex.rxjava3.schedulers.TestScheduler;
 import org.dmfs.jems2.Function;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Quality;
@@ -25,8 +26,6 @@ import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.quality.composite.Has;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 import org.saynotobugs.confidence.rxjava3.rxexpectation.Within;
-
-import io.reactivex.rxjava3.schedulers.TestScheduler;
 
 
 @StaticFactories(value = "RxJava3", packageName = "org.saynotobugs.confidence.rxjava3")
@@ -37,12 +36,12 @@ public final class Unscheduled<RxType> extends QualityComposition<RxType>
      * <p>
      * Scheduler events like {@link Within} will be ignored.
      */
-    public Unscheduled(Quality<? super Function<? super TestScheduler, ? extends RxType>> delegate)
+    public Unscheduled(Quality<? super Function<TestScheduler, RxType>> delegate)
     {
         super(new Has<>(
             new Text("unscheduled"),
             new Text("unscheduled"),
-            matcher -> (Function<? super TestScheduler, ? extends RxType>) ignoredScheduler -> matcher,
+            matcher -> (Function<TestScheduler, RxType>) ignoredScheduler -> matcher,
             delegate));
     }
 }
