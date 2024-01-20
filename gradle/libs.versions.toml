@@ -1,0 +1,45 @@
+[versions]
+asm = "9.6"
+eclipse-jdt = "2.2.600"
+express = "0.3.1"
+hamcrest = "2.2"
+jems2 = "2.22.0"
+json-path = "5.4.0"
+junit = "5.8.2"
+junit-testkit = "1.9.2"
+mockito4 = "4.6.1"
+org-json = "20230618"
+rxjava3 = "3.1.6"
+srcless = "0.3.0"
+
+[libraries]
+srcless-annotations = { module = "org.dmfs:srcless-annotations", version.ref = "srcless" }
+srcless-processors = { module = "org.dmfs:srcless-processors", version.ref = "srcless" }
+eclipse-jdt-anntation = { module = 'org.eclipse.jdt:org.eclipse.jdt.annotation', version.ref = "eclipse-jdt" }
+nullless-processors = { module = "org.dmfs:nullless-processors", version.ref = "srcless" }
+
+junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
+junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
+junit-testkit = { module = 'org.junit.platform:junit-platform-testkit', version.ref = "junit-testkit" }
+hamcrest = { module = "org.hamcrest:hamcrest", version.ref = "hamcrest" }
+
+mockito4 = { module = 'org.mockito:mockito-core', version.ref = "mockito4" }
+
+asm = { module = "org.ow2.asm:asm", version.ref = "asm" }
+asm-tree = { module = 'org.ow2.asm:asm-tree', version.ref = "asm" }
+
+jems2 = { module = "org.dmfs:jems2", version.ref = "jems2" }
+jems2-testing = { module = "org.dmfs:jems2-testing", version.ref = "jems2" }
+jems2-confidence = { module = "org.dmfs:jems2-confidence", version.ref = "jems2" }
+
+express-json = { module = "org.dmfs:express-json", version.ref = "express" }
+
+rxjava3 = { module = 'io.reactivex.rxjava3:rxjava', version.ref = "rxjava3" }
+
+org-json = { module = "org.json:json", version.ref = "org-json" }
+json-path = { module = "io.rest-assured:json-path", version.ref = "json-path" }
+
+[bundles]
+srcless-processors = ["srcless-processors", "nullless-processors"]
+
+[plugins]

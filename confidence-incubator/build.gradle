@@ -26,21 +26,22 @@ configurations {
 
 
 dependencies {
-    compileOnly 'org.mockito:mockito-core:4.6.1'
-    compileOnly 'org.eclipse.jdt:org.eclipse.jdt.annotation:2.2.600'
-    compileOnly 'org.dmfs:srcless-annotations:0.3.0'
-    annotationProcessor 'org.dmfs:srcless-processors:0.3.0'
-    annotationProcessor 'org.dmfs:nullless-processors:0.3.0'
-    implementation 'org.dmfs:jems2:2.19.0'
-    implementation 'org.dmfs:jems2-confidence:2.19.0'
+    compileOnly libs.eclipse.jdt.anntation
+    compileOnly libs.srcless.annotations
+    annotationProcessor libs.bundles.srcless.processors
+    compileOnly libs.mockito4
+    implementation libs.jems2
+    implementation libs.junit.jupiter.api
+    implementation libs.junit.jupiter.engine
     implementation project(':confidence-core')
-    intTestImplementation project(':confidence-core')
+    implementation libs.jems2.confidence
+
     testImplementation project(':confidence-test')
-    testImplementation 'org.dmfs:jems2-testing:2.19.0'
-    testImplementation 'org.mockito:mockito-core:4.6.1'
-    implementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
-    implementation 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
-    testImplementation 'org.junit.platform:junit-platform-testkit:1.9.2'
+    testImplementation libs.jems2.testing
+    testImplementation libs.mockito4
+    testImplementation libs.junit.testkit
+
+    intTestImplementation project(':confidence-core')
 }
 
 test {
