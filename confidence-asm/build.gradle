@@ -8,19 +8,19 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
 dependencies {
-    compileOnly 'org.eclipse.jdt:org.eclipse.jdt.annotation:2.2.600'
-    compileOnly 'org.dmfs:srcless-annotations:0.3.0'
-    annotationProcessor 'org.dmfs:srcless-processors:0.3.0'
-    annotationProcessor 'org.dmfs:nullless-processors:0.3.0'
+    compileOnly libs.eclipse.jdt.anntation
+    compileOnly libs.srcless.annotations
+    annotationProcessor libs.bundles.srcless.processors
     implementation project(':confidence-core')
-    implementation 'org.dmfs:jems2:2.21.0'
-    implementation 'org.dmfs:jems2-confidence:2.21.0'
-    implementation 'org.ow2.asm:asm:9.6'
-    implementation 'org.ow2.asm:asm-tree:9.6'
-    testImplementation 'org.dmfs:jems2-testing:2.21.0'
+    implementation libs.asm
+    implementation libs.asm.tree
+    implementation libs.jems2
+    implementation libs.jems2.confidence
+
     testImplementation project(':confidence-test')
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+    testImplementation libs.jems2.testing
+    testImplementation libs.junit.jupiter.api
+    testRuntimeOnly libs.junit.jupiter.engine
 }
 
 test {
