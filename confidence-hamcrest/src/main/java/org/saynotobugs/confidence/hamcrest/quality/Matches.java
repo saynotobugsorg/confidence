@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 dmfs GmbH
+ * Copyright 2024 dmfs GmbH
  *
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,7 +16,7 @@
  *
  */
 
-package org.saynotobugs.confidence.quality.compat;
+package org.saynotobugs.confidence.hamcrest.quality;
 
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.hamcrest.StringDescription;
@@ -27,17 +27,17 @@ import org.saynotobugs.confidence.assessment.Fail;
 import org.saynotobugs.confidence.assessment.Pass;
 import org.saynotobugs.confidence.description.Text;
 
+
 /**
- * @deprecated in favour of the Matches Quality in the confidence-hamcrest module
+ * A {@link Quality} of {@code T} that delegates to a Hamcrest {@link org.hamcrest.Matcher}.
  */
-@Deprecated
-@StaticFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality")
-public final class Hamcrest<T> implements Quality<T>
+@StaticFactories(value = "Hamcrest", packageName = "org.saynotobugs.confidence.hamcrest")
+public final class Matches<T> implements Quality<T>
 {
     private final org.hamcrest.Matcher<? super T> mDelegate;
 
 
-    public Hamcrest(org.hamcrest.Matcher<? super T> delegate)
+    public Matches(org.hamcrest.Matcher<? super T> delegate)
     {
         mDelegate = delegate;
     }
