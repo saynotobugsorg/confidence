@@ -11,12 +11,12 @@ dependencies {
     compileOnly libs.eclipse.jdt.anntation
     compileOnly libs.srcless.annotations
     annotationProcessor libs.bundles.srcless.processors
-    compileOnly libs.hamcrest
-    api libs.jems2
+
+    api libs.hamcrest
+    api project(':confidence-core')
 
     testImplementation project(':confidence-test')
     testImplementation libs.jems2.testing
-    testImplementation libs.hamcrest
     testImplementation libs.junit.jupiter.api
     testRuntimeOnly libs.junit.jupiter.engine
 }

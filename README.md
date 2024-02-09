@@ -153,11 +153,23 @@ General note on matching arrays: arrays (including ones of primitive types) can 
 
 *works with arrays of primitive types
 
-Confidence provides an adapter to use Hamcrest `Matcher`s in Confidence assertions.
-The adapter `Quality` is called `hamcrest` and you just pass a `Matcher` to it like in:
+## confidence-hamcrest
+
+Confidence provides adapters to use Hamcrest `Matcher`s in Confidence assertions and Confidence `Quality`s where
+Hamcrest `Matchers` are required (for instance when working with rest-assured, mockito or awaitlity).
+
+You can use Hamcrest `Matcher`s with Confidence by including the `confidence-hamcrest` artifact and adapting it with
+the `matches` adapter `Quality`.
 
 ```java
-assertThat(List.of(1,2,5,10,11), hamcrest(hasItem(2)));
+assertThat(List.of(1,2,5,10,11), matches(hasItem(2)));
+```
+
+The same module also provides a Hamcrest `Matcher` called `qualifiesAs` to use Confidence `Quality`s in a test
+that requires a `Matcher`:
+
+```java
+response.then().body("id", qualifiesAs(jsonStringOf(object(with("foo", equalTo("bar"))))))
 ```
 
 # JUnit Confidence TestEngine
