@@ -4,7 +4,6 @@ eclipse-jdt = "2.2.600"
 express = "0.3.1"
 hamcrest = "2.2"
 jems2 = "2.22.0"
-json-path = "5.4.0"
 junit = "5.8.2"
 junit-testkit = "1.9.2"
 mockito4 = "4.6.1"
@@ -37,7 +36,6 @@ express-json = { module = "org.dmfs:express-json", version.ref = "express" }
 rxjava3 = { module = 'io.reactivex.rxjava3:rxjava', version.ref = "rxjava3" }
 
 org-json = { module = "org.json:json", version.ref = "org-json" }
-json-path = { module = "io.rest-assured:json-path", version.ref = "json-path" }
 
 [bundles]
 srcless-processors = ["srcless-processors", "nullless-processors"]

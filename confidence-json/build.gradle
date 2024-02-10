@@ -13,16 +13,14 @@ dependencies {
     annotationProcessor libs.bundles.srcless.processors
     implementation libs.jems2
     implementation libs.jems2.confidence
-    implementation project(':confidence-core')
+    api project(':confidence-core')
     implementation libs.org.json
-    compileOnly libs.json.path
     compileOnly libs.express.json
 
     testImplementation project(':confidence-test')
     testImplementation libs.jems2.testing
     testImplementation libs.junit.jupiter.api
     testImplementation libs.express.json
-    testImplementation libs.json.path
     testRuntimeOnly libs.junit.jupiter.engine
 }
 
