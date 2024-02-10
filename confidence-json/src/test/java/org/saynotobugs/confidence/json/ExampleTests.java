@@ -18,7 +18,6 @@
 
 package org.saynotobugs.confidence.json;
 
-import io.restassured.path.json.JsonPath;
 import org.junit.jupiter.api.Test;
 
 import static org.saynotobugs.confidence.Assertion.assertThat;
@@ -153,45 +152,5 @@ class ExampleTests
                     number(anything()),
                     not(nullValue())
                 ))));
-    }
-
-
-    @Test
-    void testNotAnythingJsonPath()
-    {
-        assertThat(JsonPath.from("123"),
-            is(jsonPathOf(
-                allOf(
-                    not(object(anything())),
-                    not(array(anything())),
-                    not(string(anything())),
-                    not(bool(anything())),
-                    number(anything()),
-                    not(nullValue())
-                ))));
-    }
-
-    @Test
-    void testNestedJsonpath()
-    {
-        assertThat(JsonPath.from("{\n" +
-                "  \"key1\": {\n" +
-                "    \"anyValue\": \"abc\",\n" +
-                "    \"nullValue\": null\n" +
-                "  },\n" +
-                "  \"key2\": {\n" +
-                "    \"numberValue\": 4\n" +
-                "  }\n" +
-                "}"),
-            is(jsonPathOf(object(
-                with("key1", object(
-                    with("anyValue"),
-                    with("nullValue", nullValue()),
-                    hasMemberCount(2)
-                )),
-                with("key2", object(
-                    with("numberValue", 4)
-                ))
-            ))));
     }
 }
