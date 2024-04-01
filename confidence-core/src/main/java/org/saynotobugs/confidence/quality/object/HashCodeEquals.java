@@ -18,6 +18,7 @@
 
 package org.saynotobugs.confidence.quality.object;
 
+import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
@@ -25,6 +26,9 @@ import org.saynotobugs.confidence.description.Value;
 import org.saynotobugs.confidence.quality.composite.Has;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 
+@StaticFactories(
+    value = "Object",
+    packageName = "org.saynotobugs.confidence.core.quality")
 public final class HashCodeEquals extends QualityComposition<Object>
 {
 

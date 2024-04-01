@@ -18,6 +18,7 @@
 
 package org.saynotobugs.confidence.rxjava3.quality;
 
+import io.reactivex.rxjava3.schedulers.TestScheduler;
 import org.dmfs.jems2.Function;
 import org.dmfs.jems2.iterable.Mapped;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
@@ -30,8 +31,6 @@ import org.saynotobugs.confidence.quality.composite.DescribedAs;
 import org.saynotobugs.confidence.rxjava3.RxExpectation;
 import org.saynotobugs.confidence.rxjava3.RxTestAdapter;
 import org.saynotobugs.confidence.rxjava3.rxexpectation.ActionTriggering;
-
-import io.reactivex.rxjava3.schedulers.TestScheduler;
 
 
 @StaticFactories(value = "RxJava3", packageName = "org.saynotobugs.confidence.rxjava3")

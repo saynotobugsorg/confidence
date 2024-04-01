@@ -20,6 +20,7 @@ package org.saynotobugs.confidence.json.quality;
 
 import org.dmfs.express.json.JsonValue;
 import org.dmfs.express.json.elementary.JsonText;
+import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.description.Text;
@@ -31,7 +32,10 @@ import org.saynotobugs.confidence.quality.composite.QualityComposition;
 /**
  * {@link Quality} of a {@link JsonValue}.
  */
-@StaticFactories(value = "Json", packageName = "org.saynotobugs.confidence.json")
+@StaticFactories(
+    value = "JsonValue",
+    packageName = "org.saynotobugs.confidence.json.quality",
+    deprecates = @DeprecatedFactories(value = "Json", packageName = "org.saynotobugs.confidence.json"))
 public final class JsonValueOf extends QualityComposition<JsonValue>
 {
     public JsonValueOf(Quality<? super JsonElementAdapter> delegate)

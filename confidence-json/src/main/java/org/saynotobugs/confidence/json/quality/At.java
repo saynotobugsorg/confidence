@@ -18,6 +18,7 @@
 
 package org.saynotobugs.confidence.json.quality;
 
+import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.description.Composite;
@@ -33,7 +34,10 @@ import java.lang.String;
 
 import static org.dmfs.jems2.confidence.Jems2.present;
 
-@StaticFactories(value = "Json", packageName = "org.saynotobugs.confidence.json")
+@StaticFactories(
+    value = "Json",
+    packageName = "org.saynotobugs.confidence.json.quality",
+    deprecates = @DeprecatedFactories(value = "Json", packageName = "org.saynotobugs.confidence.json"))
 public final class At extends QualityComposition<JsonArrayAdapter>
 {
 

@@ -18,6 +18,7 @@
 
 package org.saynotobugs.confidence.quality.consumer;
 
+import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Description;
@@ -33,7 +34,10 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 
-@StaticFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality")
+@StaticFactories(
+    value = "Consumer",
+    packageName = "org.saynotobugs.confidence.core.quality",
+    deprecates = @DeprecatedFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality"))
 public final class ConsumerThatAffects<T> implements Quality<Consumer<T>>
 {
     private final Description mValueDescription;

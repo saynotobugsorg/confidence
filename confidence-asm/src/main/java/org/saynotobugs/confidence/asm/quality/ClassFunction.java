@@ -21,6 +21,8 @@ package org.saynotobugs.confidence.asm.quality;
 import org.dmfs.jems2.Function;
 import org.objectweb.asm.Type;
 
+import java.lang.Class;
+
 final class ClassFunction implements Function<Type, Class<?>>
 {
     @Override

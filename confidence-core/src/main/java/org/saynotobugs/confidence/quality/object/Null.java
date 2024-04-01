@@ -18,6 +18,7 @@
 
 package org.saynotobugs.confidence.quality.object;
 
+import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactory;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactory;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
@@ -33,7 +34,11 @@ public final class Null extends QualityComposition<Object>
     /**
      * Creates a {@link Quality} that passes if the value under test is {@code null}.
      */
-    @StaticFactory(value = "Core", methodName = "nullValue", packageName = "org.saynotobugs.confidence.quality")
+    @StaticFactory(
+        value = "Object",
+        packageName = "org.saynotobugs.confidence.core.quality",
+        methodName = "nullValue",
+        deprecates = @DeprecatedFactory(value = "Core", packageName = "org.saynotobugs.confidence.quality"))
     public Null()
     {
         super(new Satisfies<>(actual -> actual == null, NULL));

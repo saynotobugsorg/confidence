@@ -26,9 +26,9 @@ import org.saynotobugs.confidence.quality.composite.Not;
 import org.saynotobugs.confidence.quality.function.MutatesArgument;
 import org.saynotobugs.confidence.quality.grammar.SoIt;
 import org.saynotobugs.confidence.quality.grammar.When;
+import org.saynotobugs.confidence.quality.object.Anything;
 import org.saynotobugs.confidence.quality.object.Satisfies;
 import org.saynotobugs.confidence.quality.object.Successfully;
-import org.saynotobugs.confidence.quality.trivial.Anything;
 
 import static org.saynotobugs.confidence.Assertion.assertThat;
 

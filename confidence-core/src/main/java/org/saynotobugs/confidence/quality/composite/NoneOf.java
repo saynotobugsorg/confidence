@@ -20,6 +20,7 @@ package org.saynotobugs.confidence.quality.composite;
 
 import org.dmfs.jems2.iterable.Mapped;
 import org.dmfs.jems2.iterable.Seq;
+import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Description;
@@ -36,7 +37,10 @@ import static org.saynotobugs.confidence.description.LiteralDescription.EMPTY;
 import static org.saynotobugs.confidence.description.LiteralDescription.NEW_LINE;
 
 
-@StaticFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality")
+@StaticFactories(
+    value = "Composite",
+    packageName = "org.saynotobugs.confidence.core.quality",
+    deprecates = @DeprecatedFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality"))
 public final class NoneOf<T> implements Quality<T>
 {
     private final Iterable<? extends Quality<? super T>> mDelegates;

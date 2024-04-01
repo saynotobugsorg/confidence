@@ -22,6 +22,7 @@ import org.dmfs.jems2.generatable.Sequence;
 import org.dmfs.jems2.iterable.First;
 import org.dmfs.jems2.iterable.Mapped;
 import org.dmfs.jems2.iterable.PresentValues;
+import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.description.Text;
@@ -36,7 +37,10 @@ import org.saynotobugs.confidence.quality.composite.QualityComposition;
  * arrayThat(contains(string(xyz)))
  * </pre>
  */
-@StaticFactories(value = "Json", packageName = "org.saynotobugs.confidence.json")
+@StaticFactories(
+    value = "Json",
+    packageName = "org.saynotobugs.confidence.json.quality",
+    deprecates = @DeprecatedFactories(value = "Json", packageName = "org.saynotobugs.confidence.json"))
 public final class ArrayThat extends QualityComposition<JsonElementAdapter>
 {
     public ArrayThat(Quality<? super Iterable<JsonElementAdapter>> delegate)

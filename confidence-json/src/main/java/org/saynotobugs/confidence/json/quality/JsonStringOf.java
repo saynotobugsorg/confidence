@@ -18,6 +18,7 @@
 
 package org.saynotobugs.confidence.json.quality;
 
+import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.description.Text;
@@ -26,17 +27,20 @@ import org.saynotobugs.confidence.json.jsonstringadapter.JsonStringElementAdapte
 import org.saynotobugs.confidence.quality.composite.Has;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 
-import java.lang.String;
+import java.lang.CharSequence;
 
 /**
- * {@link Quality} of a {@link String} of serialized JSON.
+ * {@link Quality} of a {@link CharSequence} of serialized JSON.
  */
-@StaticFactories(value = "Json", packageName = "org.saynotobugs.confidence.json")
-public final class JsonStringOf extends QualityComposition<String>
+@StaticFactories(
+    value = "CharSequence",
+    packageName = "org.saynotobugs.confidence.json.quality",
+    deprecates = @DeprecatedFactories(value = "Json", packageName = "org.saynotobugs.confidence.json"))
+public final class JsonStringOf extends QualityComposition<CharSequence>
 {
     public JsonStringOf(Quality<? super JsonElementAdapter> delegate)
     {
-        super(new Has<>(new Text("JSON"), new Text("JSON"), JsonStringElementAdapter::new, delegate));
+        super(new Has<>(new Text("JSON"), new Text("JSON"), json -> new JsonStringElementAdapter(json.toString()), delegate));
     }
 
 }

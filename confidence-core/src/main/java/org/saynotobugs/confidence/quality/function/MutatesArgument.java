@@ -1,6 +1,7 @@
 package org.saynotobugs.confidence.quality.function;
 
 import org.dmfs.jems2.Generator;
+import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Description;
@@ -40,7 +41,10 @@ import java.util.function.Function;
  *         when(consumerThatAccepts("a"))));
  * }</pre>
  */
-@StaticFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality")
+@StaticFactories(
+    value = "Function",
+    packageName = "org.saynotobugs.confidence.core.quality",
+    deprecates = @DeprecatedFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality"))
 public final class MutatesArgument<Argument, Type> implements Quality<Function<Argument, Type>>
 {
     private final Generator<? extends Argument> mArgumentGenerator;

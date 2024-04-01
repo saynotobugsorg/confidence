@@ -18,6 +18,7 @@
 
 package org.saynotobugs.confidence.quality.array;
 
+import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.description.Text;
@@ -28,7 +29,10 @@ import org.saynotobugs.confidence.quality.object.Satisfies;
 import org.saynotobugs.confidence.utils.ArrayIterable;
 
 
-@StaticFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality")
+@StaticFactories(
+    value = "Array",
+    packageName = "org.saynotobugs.confidence.core.quality",
+    deprecates = @DeprecatedFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality"))
 public final class ArrayThat extends QualityComposition<Object>
 {
     /**

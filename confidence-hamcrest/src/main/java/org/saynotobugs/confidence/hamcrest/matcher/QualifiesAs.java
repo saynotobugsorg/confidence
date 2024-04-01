@@ -18,6 +18,7 @@
 
 package org.saynotobugs.confidence.hamcrest.matcher;
 
+import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
@@ -29,7 +30,10 @@ import org.saynotobugs.confidence.scribe.StringBuilderScribe;
 /**
  * A Hamcrest {@link org.hamcrest.Matcher} of {@code T} that delegates to a {@link Quality}.
  */
-@StaticFactories(value = "Hamcrest", packageName = "org.saynotobugs.confidence.hamcrest")
+@StaticFactories(
+    value = "Adapter",
+    packageName = "org.saynotobugs.confidence.hamcrest.matcher",
+    deprecates = @DeprecatedFactories(value = "Hamcrest", packageName = "org.saynotobugs.confidence.hamcrest"))
 public final class QualifiesAs<T> extends TypeSafeDiagnosingMatcher<T>
 {
     private final Quality<? super T> mQuality;

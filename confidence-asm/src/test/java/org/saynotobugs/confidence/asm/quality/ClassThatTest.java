@@ -30,6 +30,7 @@ import org.saynotobugs.confidence.test.quality.Fails;
 import org.saynotobugs.confidence.test.quality.HasDescription;
 import org.saynotobugs.confidence.test.quality.Passes;
 
+import java.lang.Class;
 import java.lang.annotation.Annotation;
 
 import static org.saynotobugs.confidence.Assertion.assertThat;
@@ -39,7 +40,7 @@ class ClassThatTest
     @Test
     void test()
     {
-        assertThat(new ClassThat(new Has<>("annotations",ClassAdapter::declaredAnnotations, new Iterates<>(new InstanceOf<>(Annotation.class)))),
+        assertThat(new ClassThat(new Has<>("annotations", ClassAdapter::declaredAnnotations, new Iterates<>(new InstanceOf<>(Annotation.class)))),
             new AllOf<>(
                 new Passes<Class<?>>(AnnotatedTestClass.class),
                 new Fails<>(TestClassWithoutAnnotation.class, "Class that had annotations iterated [ 0: missing instance of <interface java.lang.annotation.Annotation> ]"),

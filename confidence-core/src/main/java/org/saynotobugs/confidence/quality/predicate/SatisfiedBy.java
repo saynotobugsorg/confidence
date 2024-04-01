@@ -18,6 +18,7 @@
 
 package org.saynotobugs.confidence.quality.predicate;
 
+import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.description.Spaced;
@@ -30,7 +31,10 @@ import org.saynotobugs.confidence.quality.object.EqualTo;
 import java.util.function.Predicate;
 
 
-@StaticFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality")
+@StaticFactories(
+    value = "Predicate",
+    packageName = "org.saynotobugs.confidence.core.quality",
+    deprecates = @DeprecatedFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality"))
 public final class SatisfiedBy<T> extends QualityComposition<Predicate<T>>
 {
     public SatisfiedBy(T testee)

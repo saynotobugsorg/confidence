@@ -1,5 +1,6 @@
 package org.saynotobugs.confidence.rxjava3.quality;
 
+import io.reactivex.rxjava3.core.Single;
 import org.junit.jupiter.api.Test;
 import org.saynotobugs.confidence.quality.composite.AllOf;
 import org.saynotobugs.confidence.quality.object.EqualTo;
@@ -9,8 +10,6 @@ import org.saynotobugs.confidence.test.quality.HasDescription;
 import org.saynotobugs.confidence.test.quality.Passes;
 
 import java.io.IOException;
-
-import io.reactivex.rxjava3.core.Single;
 
 import static org.saynotobugs.confidence.Assertion.assertThat;
 

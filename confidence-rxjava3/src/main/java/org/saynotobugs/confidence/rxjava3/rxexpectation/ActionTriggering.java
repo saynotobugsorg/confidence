@@ -18,13 +18,12 @@
 
 package org.saynotobugs.confidence.rxjava3.rxexpectation;
 
+import io.reactivex.rxjava3.schedulers.TestScheduler;
 import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.rxjava3.RxExpectation;
 import org.saynotobugs.confidence.rxjava3.RxTestAdapter;
-
-import io.reactivex.rxjava3.schedulers.TestScheduler;
 
 
 /**

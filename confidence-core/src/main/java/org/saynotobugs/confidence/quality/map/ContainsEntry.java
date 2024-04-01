@@ -18,18 +18,22 @@
 
 package org.saynotobugs.confidence.quality.map;
 
+import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.quality.composite.Has;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 import org.saynotobugs.confidence.quality.iterable.Contains;
+import org.saynotobugs.confidence.quality.object.Anything;
 import org.saynotobugs.confidence.quality.object.EqualTo;
-import org.saynotobugs.confidence.quality.trivial.Anything;
 
 import java.util.Map;
 
 
-@StaticFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality")
+@StaticFactories(
+    value = "Map",
+    packageName = "org.saynotobugs.confidence.core.quality",
+    deprecates = @DeprecatedFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality"))
 public final class ContainsEntry<K, V> extends QualityComposition<Map<K, V>>
 {
     public ContainsEntry(K key)

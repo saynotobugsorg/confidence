@@ -18,6 +18,9 @@
 
 package org.saynotobugs.confidence.rxjava3.procedure;
 
+import io.reactivex.rxjava3.core.CompletableSource;
+import io.reactivex.rxjava3.core.MaybeSource;
+import io.reactivex.rxjava3.core.SingleSource;
 import org.dmfs.jems2.Procedure;
 import org.dmfs.jems2.iterable.Mapped;
 import org.dmfs.jems2.iterable.Seq;
@@ -30,10 +33,6 @@ import org.saynotobugs.confidence.description.Value;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 import org.saynotobugs.confidence.quality.object.Successfully;
 import org.saynotobugs.confidence.rxjava3.RxSubjectAdapter;
-
-import io.reactivex.rxjava3.core.CompletableSource;
-import io.reactivex.rxjava3.core.MaybeSource;
-import io.reactivex.rxjava3.core.SingleSource;
 
 
 @StaticFactories(value = "RxJava3", packageName = "org.saynotobugs.confidence.rxjava3")

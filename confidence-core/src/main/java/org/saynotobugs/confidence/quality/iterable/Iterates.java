@@ -24,6 +24,7 @@ import org.dmfs.jems2.iterable.Seq;
 import org.dmfs.jems2.optional.Zipped;
 import org.dmfs.jems2.single.Backed;
 import org.dmfs.jems2.single.Collected;
+import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Description;
@@ -42,7 +43,10 @@ import java.util.ArrayList;
 import static org.saynotobugs.confidence.description.LiteralDescription.COMMA_NEW_LINE;
 
 
-@StaticFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality")
+@StaticFactories(
+    value = "Iterable",
+    packageName = "org.saynotobugs.confidence.core.quality",
+    deprecates = @DeprecatedFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality"))
 public final class Iterates<T> implements Quality<Iterable<T>>
 {
     private final Iterable<? extends Quality<? super T>> mDelegates;

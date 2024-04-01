@@ -20,6 +20,7 @@ package org.saynotobugs.confidence.test.quality;
 
 import org.dmfs.jems2.iterable.Mapped;
 import org.dmfs.jems2.iterable.Seq;
+import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Description;
@@ -32,7 +33,9 @@ import static org.saynotobugs.confidence.description.LiteralDescription.EMPTY;
 import static org.saynotobugs.confidence.description.LiteralDescription.NEW_LINE;
 
 
-@StaticFactories("Test")
+@StaticFactories(
+    value = "Quality",
+    deprecates = @DeprecatedFactories(value = "Test"))
 public final class Passes<T> implements Quality<Quality<? super T>>
 {
     private final Iterable<? extends T> mMatchingValues;

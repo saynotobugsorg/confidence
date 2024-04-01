@@ -18,6 +18,7 @@
 
 package org.saynotobugs.confidence.json.quality;
 
+import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.description.Text;
@@ -32,7 +33,10 @@ import java.io.File;
 /**
  * {@link Quality} of a JSON {@link File}.
  */
-@StaticFactories(value = "Json", packageName = "org.saynotobugs.confidence.json")
+@StaticFactories(
+    value = "File",
+    packageName = "org.saynotobugs.confidence.json.quality",
+    deprecates = @DeprecatedFactories(value = "Json", packageName = "org.saynotobugs.confidence.json"))
 public final class JsonFileOf extends QualityComposition<File>
 {
     public JsonFileOf(Quality<? super JsonElementAdapter> delegate)

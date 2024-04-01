@@ -18,6 +18,7 @@
 
 package org.saynotobugs.confidence.json.quality;
 
+import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactory;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactory;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.description.Text;
@@ -31,7 +32,11 @@ import org.saynotobugs.confidence.quality.object.Satisfies;
  */
 public final class Null extends QualityComposition<JsonElementAdapter>
 {
-    @StaticFactory(value = "Json", packageName = "org.saynotobugs.confidence.json", methodName = "nullValue")
+    @StaticFactory(
+        value = "Json",
+        packageName = "org.saynotobugs.confidence.json.quality",
+        methodName = "nullValue",
+        deprecates = @DeprecatedFactory(value = "Json", packageName = "org.saynotobugs.confidence.json"))
     public Null()
     {
         super(new Satisfies<>(JsonElementAdapter::isNull, ToStringDescription::new, new Text("<null>")));

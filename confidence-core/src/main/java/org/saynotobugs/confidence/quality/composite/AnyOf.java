@@ -20,6 +20,7 @@ package org.saynotobugs.confidence.quality.composite;
 
 import org.dmfs.jems2.iterable.Mapped;
 import org.dmfs.jems2.iterable.Seq;
+import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.AnyPassed;
@@ -30,7 +31,10 @@ import org.saynotobugs.confidence.quality.object.EqualTo;
 import static org.saynotobugs.confidence.description.LiteralDescription.NEW_LINE;
 
 
-@StaticFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality")
+@StaticFactories(
+    value = "Composite",
+    packageName = "org.saynotobugs.confidence.core.quality",
+    deprecates = @DeprecatedFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality"))
 public final class AnyOf<T> extends QualityComposition<T>
 {
     @SafeVarargs

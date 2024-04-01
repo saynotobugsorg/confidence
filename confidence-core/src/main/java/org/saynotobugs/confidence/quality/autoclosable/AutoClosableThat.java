@@ -18,6 +18,7 @@
 
 package org.saynotobugs.confidence.quality.autoclosable;
 
+import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.description.Text;
@@ -30,7 +31,10 @@ import org.saynotobugs.confidence.quality.object.Successfully;
 /**
  * A {@link Quality} of an {@link AutoCloseable} object. It delegates to another {@link Quality} and calls {@link AutoCloseable#close()} afterwards.
  */
-@StaticFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality")
+@StaticFactories(
+    value = "AutoClosable",
+    packageName = "org.saynotobugs.confidence.core.quality",
+    deprecates = @DeprecatedFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality"))
 public final class AutoClosableThat<T extends AutoCloseable> extends QualityComposition<T>
 {
     public AutoClosableThat(Quality<? super T> delegate)

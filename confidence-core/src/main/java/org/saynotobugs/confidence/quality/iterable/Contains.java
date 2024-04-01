@@ -19,7 +19,9 @@
 package org.saynotobugs.confidence.quality.iterable;
 
 import org.dmfs.jems2.optional.First;
+import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
+import org.dmfs.srcless.annotations.staticfactory.StaticFactory;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.PassIf;
 import org.saynotobugs.confidence.description.Spaced;
@@ -29,7 +31,10 @@ import org.saynotobugs.confidence.quality.composite.QualityComposition;
 import org.saynotobugs.confidence.quality.object.EqualTo;
 
 
-@StaticFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality")
+@StaticFactories(
+    value = "Iterable",
+    packageName = "org.saynotobugs.confidence.core.quality",
+    deprecates = @DeprecatedFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality"))
 public final class Contains<T> extends QualityComposition<Iterable<T>>
 {
     /**
@@ -72,6 +77,7 @@ public final class Contains<T> extends QualityComposition<Iterable<T>>
      *
      * @deprecated use {@link org.saynotobugs.confidence.quality.Core#containsAllOf(Object[])}
      */
+    @StaticFactory(value = "Core", packageName = "org.saynotobugs.confidence.quality")
     @Deprecated
     @SafeVarargs
     public Contains(T... values)
@@ -83,6 +89,7 @@ public final class Contains<T> extends QualityComposition<Iterable<T>>
     /**
      * @deprecated use {@link org.saynotobugs.confidence.quality.Core#containsAllOf(Quality[])}
      */
+    @StaticFactory(value = "Core", packageName = "org.saynotobugs.confidence.quality")
     @Deprecated
     @SafeVarargs
     public Contains(Quality<? super T>... delegates)
@@ -94,6 +101,7 @@ public final class Contains<T> extends QualityComposition<Iterable<T>>
     /**
      * @deprecated use {@link org.saynotobugs.confidence.quality.Core#containsAllOf(Iterable)}
      */
+    @StaticFactory(value = "Core", packageName = "org.saynotobugs.confidence.quality")
     @Deprecated
     public Contains(Iterable<? extends Quality<? super T>> delegates)
     {

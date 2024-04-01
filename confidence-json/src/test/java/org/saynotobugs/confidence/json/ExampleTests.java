@@ -21,6 +21,7 @@ package org.saynotobugs.confidence.json;
 import org.junit.jupiter.api.Test;
 
 import static org.saynotobugs.confidence.Assertion.assertThat;
+import static org.saynotobugs.confidence.json.Json.arrayThat;
 import static org.saynotobugs.confidence.json.Json.nullValue;
 import static org.saynotobugs.confidence.json.Json.*;
 import static org.saynotobugs.confidence.quality.Core.*;

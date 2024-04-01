@@ -18,6 +18,7 @@
 
 package org.saynotobugs.confidence.quality.object;
 
+import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.description.Spaced;
@@ -29,7 +30,10 @@ import org.saynotobugs.confidence.quality.composite.QualityComposition;
 import static org.saynotobugs.confidence.description.LiteralDescription.NEW_LINE;
 
 
-@StaticFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality")
+@StaticFactories(
+    value = "Object",
+    packageName = "org.saynotobugs.confidence.core.quality",
+    deprecates = @DeprecatedFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality"))
 public final class InstanceOf<T> extends QualityComposition<T>
 {
     /**

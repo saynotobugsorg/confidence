@@ -18,6 +18,7 @@
 
 package org.saynotobugs.confidence.quality.annotation;
 
+import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.quality.composite.AllOf;
@@ -27,7 +28,10 @@ import org.saynotobugs.confidence.quality.object.InstanceOf;
 /**
  * Quality of an {@link java.lang.annotation.Annotation}.
  */
-@StaticFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality")
+@StaticFactories(
+    value = "Annotation",
+    packageName = "org.saynotobugs.confidence.core.quality",
+    deprecates = @DeprecatedFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality"))
 public final class Annotation extends QualityComposition<java.lang.annotation.Annotation>
 {
     @SafeVarargs

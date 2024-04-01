@@ -20,6 +20,7 @@ package org.saynotobugs.confidence.test.quality;
 
 import org.dmfs.jems2.Generator;
 import org.dmfs.jems2.Procedure;
+import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Description;
@@ -33,7 +34,9 @@ import org.saynotobugs.confidence.description.Value;
 import static org.saynotobugs.confidence.description.LiteralDescription.NEW_LINE;
 
 
-@StaticFactories("Test")
+@StaticFactories(
+    value = "Quality",
+    deprecates = @DeprecatedFactories(value = "Test"))
 public final class PassesPostMutation<T> implements Quality<Quality<? super T>>
 {
     private final Generator<T> mMatchingValue;

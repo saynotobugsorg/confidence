@@ -19,6 +19,7 @@
 package org.saynotobugs.confidence.quality.object;
 
 import org.dmfs.jems2.iterable.Mapped;
+import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.FailPrepended;
@@ -30,7 +31,10 @@ import org.saynotobugs.confidence.quality.iterable.Iterates;
 import org.saynotobugs.confidence.utils.ArrayIterable;
 
 
-@StaticFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality")
+@StaticFactories(
+    value = "Object",
+    packageName = "org.saynotobugs.confidence.core.quality",
+    deprecates = @DeprecatedFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality"))
 public final class EqualTo<T> extends QualityComposition<T>
 {
     /**

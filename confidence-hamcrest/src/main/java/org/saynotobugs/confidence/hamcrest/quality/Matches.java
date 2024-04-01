@@ -18,6 +18,7 @@
 
 package org.saynotobugs.confidence.hamcrest.quality;
 
+import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.hamcrest.StringDescription;
 import org.saynotobugs.confidence.Assessment;
@@ -31,7 +32,10 @@ import org.saynotobugs.confidence.description.Text;
 /**
  * A {@link Quality} of {@code T} that delegates to a Hamcrest {@link org.hamcrest.Matcher}.
  */
-@StaticFactories(value = "Hamcrest", packageName = "org.saynotobugs.confidence.hamcrest")
+@StaticFactories(
+    value = "Adapter",
+    packageName = "org.saynotobugs.confidence.hamcrest.quality",
+    deprecates = @DeprecatedFactories(value = "Hamcrest", packageName = "org.saynotobugs.confidence.hamcrest"))
 public final class Matches<T> implements Quality<T>
 {
     private final org.hamcrest.Matcher<? super T> mDelegate;

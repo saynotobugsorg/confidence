@@ -19,6 +19,7 @@
 package org.saynotobugs.confidence.quality.optional;
 
 import org.dmfs.jems2.Function;
+import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.Quality;
@@ -27,13 +28,16 @@ import org.saynotobugs.confidence.assessment.FailUpdated;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
+import org.saynotobugs.confidence.quality.object.Anything;
 import org.saynotobugs.confidence.quality.object.EqualTo;
-import org.saynotobugs.confidence.quality.trivial.Anything;
 
 import java.util.Optional;
 
 
-@StaticFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality")
+@StaticFactories(
+    value = "Optional",
+    packageName = "org.saynotobugs.confidence.core.quality",
+    deprecates = @DeprecatedFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality"))
 public final class Present<T> extends QualityComposition<Optional<T>>
 {
     /**

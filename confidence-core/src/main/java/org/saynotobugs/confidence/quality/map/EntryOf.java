@@ -26,8 +26,8 @@ import org.saynotobugs.confidence.quality.composite.AllOf;
 import org.saynotobugs.confidence.quality.composite.DescribedAs;
 import org.saynotobugs.confidence.quality.composite.Has;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
+import org.saynotobugs.confidence.quality.object.Anything;
 import org.saynotobugs.confidence.quality.object.EqualTo;
-import org.saynotobugs.confidence.quality.trivial.Anything;
 
 import java.util.Map;
 

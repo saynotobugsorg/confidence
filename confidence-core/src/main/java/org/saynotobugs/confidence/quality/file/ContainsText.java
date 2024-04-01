@@ -18,6 +18,7 @@
 
 package org.saynotobugs.confidence.quality.file;
 
+import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Description;
@@ -37,7 +38,10 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
-@StaticFactories(value = "File", packageName = "org.saynotobugs.confidence.quality")
+@StaticFactories(
+    value = "File",
+    packageName = "org.saynotobugs.confidence.core.quality",
+    deprecates = @DeprecatedFactories(value = "File", packageName = "org.saynotobugs.confidence.quality"))
 public final class ContainsText implements Quality<File>
 {
     private final Charset mCharset;

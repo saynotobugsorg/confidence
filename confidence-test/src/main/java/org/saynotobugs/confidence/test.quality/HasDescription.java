@@ -18,6 +18,7 @@
 
 package org.saynotobugs.confidence.test.quality;
 
+import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.description.Text;
@@ -27,7 +28,9 @@ import org.saynotobugs.confidence.quality.composite.QualityComposition;
 import java.util.regex.Pattern;
 
 
-@StaticFactories("Test")
+@StaticFactories(
+    value = "Quality",
+    deprecates = @DeprecatedFactories(value = "Test"))
 public final class HasDescription extends QualityComposition<Quality<?>>
 {
 
