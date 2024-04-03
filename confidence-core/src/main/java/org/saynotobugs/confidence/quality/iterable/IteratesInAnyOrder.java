@@ -142,7 +142,7 @@ public final class IteratesInAnyOrder<T> implements Quality<Iterable<T>>
         List<? extends Quality<? super T>> qualities,
         Map<T, Map<Quality<? super T>, Boolean>> cache)
     {
-        if (candidates.size() == 0 || qualities.size() == 0)
+        if (candidates.isEmpty() || qualities.isEmpty())
         {
             return new PassIf(candidates.size() == qualities.size(), new Text(""));
         }

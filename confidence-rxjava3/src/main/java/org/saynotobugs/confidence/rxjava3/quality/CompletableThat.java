@@ -41,7 +41,7 @@ public final class CompletableThat<T> extends QualityComposition<Function<? supe
 
     public CompletableThat(Iterable<? extends RxExpectation<Object>> events)
     {
-        super(new RxWithSchedulerThat<Object, CompletableSource>(
+        super(new RxWithSchedulerThat<>(
             new Text("Completable that"),
             completableSource -> {
                 RxTestObserver<Object> observer = new RxTestObserver<>();
