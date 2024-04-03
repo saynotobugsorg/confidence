@@ -20,6 +20,11 @@ package org.saynotobugs.confidence.quality.object;
 
 import org.junit.jupiter.api.Test;
 import org.saynotobugs.confidence.description.Text;
+import org.saynotobugs.confidence.quality.composite.AllOf;
+import org.saynotobugs.confidence.quality.iterable.Iterates;
+import org.saynotobugs.confidence.test.quality.Fails;
+import org.saynotobugs.confidence.test.quality.HasDescription;
+import org.saynotobugs.confidence.test.quality.Passes;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -27,9 +32,6 @@ import java.util.List;
 
 import static java.util.Arrays.asList;
 import static org.saynotobugs.confidence.Assertion.assertThat;
-import static org.saynotobugs.confidence.quality.Core.allOf;
-import static org.saynotobugs.confidence.quality.Core.iterates;
-import static org.saynotobugs.confidence.test.quality.Test.*;
 
 
 class MutatedByTest
@@ -37,11 +39,11 @@ class MutatedByTest
     @Test
     void test()
     {
-        assertThat(new MutatedBy<List<String>>(new Text("appending abc"), l -> l.add("abc"), iterates("abc")),
-            allOf(
-                passes(ArrayList::new, LinkedList::new),
-                fails(() -> new ArrayList<>(asList("123")), "mutated by appending abc iterated [ 0: \"123\",\n  1: additional \"abc\" ]"),
-                hasDescription("mutated by appending abc iterates [ 0: \"abc\" ]")
+        assertThat(new MutatedBy<List<String>>(new Text("appending abc"), l -> l.add("abc"), new Iterates<>("abc")),
+            new AllOf<>(
+                new Passes<>(ArrayList::new, LinkedList::new),
+                new Fails<>(() -> new ArrayList<>(asList("123")), "mutated by appending abc iterated [ 0: \"123\",\n  1: additional \"abc\" ]"),
+                new HasDescription("mutated by appending abc iterates [ 0: \"abc\" ]")
             )
         );
     }

@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.saynotobugs.confidence.Assertion.assertThat;
-import static org.saynotobugs.confidence.quality.Core.iterates;
+import static org.saynotobugs.confidence.core.quality.Iterable.iterates;
 
 class InitializedTest
 {

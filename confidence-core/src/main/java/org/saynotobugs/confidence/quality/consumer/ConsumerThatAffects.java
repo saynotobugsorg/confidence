@@ -24,10 +24,10 @@ import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.FailPrepended;
+import org.saynotobugs.confidence.core.quality.Grammar;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.description.Value;
-import org.saynotobugs.confidence.quality.Core;
 import org.saynotobugs.confidence.quality.grammar.SoIt;
 
 import java.util.function.Consumer;
@@ -50,7 +50,7 @@ public final class ConsumerThatAffects<T> implements Quality<Consumer<T>>
      * <p>
      * The argument is provided by the given {@link Supplier} and tested by the given {@link Quality} after passing it to the consumer.
      * <p>
-     * For best results, decorate the value{@link Quality} with {@link SoIt} or {@link Core#soIt(Quality)}.
+     * For best results, decorate the value{@link Quality} with {@link SoIt} or {@link Grammar#soIt(Quality)}.
      */
     public ConsumerThatAffects(Description valueDescription, Supplier<T> valueSupplier, Quality<? super T> valueQuality)
     {
@@ -65,7 +65,7 @@ public final class ConsumerThatAffects<T> implements Quality<Consumer<T>>
      * <p>
      * The argument is provided by the given {@link Supplier} and tested by the given {@link Quality} after passing it to the consumer.
      * <p>
-     * For best results, decorate the value{@link Quality} with {@link SoIt} or {@link Core#soIt(Quality)}.
+     * For best results, decorate the value{@link Quality} with {@link SoIt} or {@link Grammar#soIt(Quality)}.
      */
     public ConsumerThatAffects(Supplier<T> valueSupplier, Quality<? super T> valueQuality)
     {

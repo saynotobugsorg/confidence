@@ -19,10 +19,10 @@
 package org.saynotobugs.confidence.utils;
 
 import org.junit.jupiter.api.Test;
+import org.saynotobugs.confidence.quality.composite.Has;
+import org.saynotobugs.confidence.quality.object.EqualTo;
 
 import static org.saynotobugs.confidence.Assertion.assertThat;
-import static org.saynotobugs.confidence.quality.Core.equalTo;
-import static org.saynotobugs.confidence.quality.Core.has;
 
 
 class FailSafeTest
@@ -31,7 +31,7 @@ class FailSafeTest
     void testNoException()
     {
         assertThat(new FailSafe<String, String>(t -> "fail", x -> x),
-            has(fs -> fs.value("123"), equalTo("123")));
+            new Has<>(fs -> fs.value("123"), new EqualTo<>("123")));
     }
 
 
@@ -41,6 +41,6 @@ class FailSafeTest
         assertThat(new FailSafe<String, String>(Throwable::getMessage, x -> {
                 throw new IllegalArgumentException("xyz");
             }),
-            has(fs -> fs.value("123"), equalTo("xyz")));
+            new Has<>(fs -> fs.value("123"), new EqualTo<>("xyz")));
     }
 }

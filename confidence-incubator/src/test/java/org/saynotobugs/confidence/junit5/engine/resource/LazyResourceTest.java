@@ -29,7 +29,12 @@ import java.util.List;
 import static java.util.Arrays.asList;
 import static org.dmfs.jems2.confidence.Jems2.hasValue;
 import static org.saynotobugs.confidence.Assertion.assertThat;
-import static org.saynotobugs.confidence.quality.Core.*;
+import static org.saynotobugs.confidence.core.quality.AutoClosable.autoClosableThat;
+import static org.saynotobugs.confidence.core.quality.Composite.allOf;
+import static org.saynotobugs.confidence.core.quality.Composite.has;
+import static org.saynotobugs.confidence.core.quality.Iterable.emptyIterable;
+import static org.saynotobugs.confidence.core.quality.Iterable.iterates;
+import static org.saynotobugs.confidence.core.quality.Object.throwing;
 
 
 class LazyResourceTest

@@ -5,6 +5,7 @@ import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.quality.comparable.GreaterThan;
 import org.saynotobugs.confidence.quality.comparable.LessThan;
 import org.saynotobugs.confidence.quality.composite.AllOf;
+import org.saynotobugs.confidence.quality.object.EqualTo;
 import org.saynotobugs.confidence.test.quality.Fails;
 import org.saynotobugs.confidence.test.quality.HasDescription;
 import org.saynotobugs.confidence.test.quality.Passes;
@@ -16,7 +17,6 @@ import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static org.saynotobugs.confidence.Assertion.assertThat;
-import static org.saynotobugs.confidence.quality.Core.equalTo;
 
 
 class EachTest
@@ -49,7 +49,7 @@ class EachTest
     @Test
     void testOneValueWithPostMutation()
     {
-        assertThat(new Each<>(equalTo(1)),
+        assertThat(new Each<>(new EqualTo<>(1)),
             new PassesPostMutation<>(() -> new ArrayList<>(singletonList(1)), new Text("adding value 2"), list -> list.add(2)));
     }
 }

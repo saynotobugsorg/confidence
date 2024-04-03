@@ -24,7 +24,11 @@ import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.junit5.engine.quality.ResourceThat;
 
 import static org.saynotobugs.confidence.Assertion.assertThat;
-import static org.saynotobugs.confidence.quality.Core.*;
+import static org.saynotobugs.confidence.core.quality.CharSequence.emptyCharSequence;
+import static org.saynotobugs.confidence.core.quality.Composite.allOf;
+import static org.saynotobugs.confidence.core.quality.Composite.has;
+import static org.saynotobugs.confidence.core.quality.Object.equalTo;
+import static org.saynotobugs.confidence.core.quality.Object.successfully;
 
 
 class SystemOutTest

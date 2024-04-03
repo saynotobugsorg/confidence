@@ -29,7 +29,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 
 import static org.dmfs.jems2.confidence.Jems2.hasValue;
-import static org.saynotobugs.confidence.quality.Core.*;
+import static org.saynotobugs.confidence.core.quality.AutoClosable.autoClosableThat;
+import static org.saynotobugs.confidence.core.quality.Composite.allOf;
+import static org.saynotobugs.confidence.core.quality.Composite.has;
+import static org.saynotobugs.confidence.core.quality.Function.mutatesArgument;
+import static org.saynotobugs.confidence.core.quality.Grammar.soIt;
+import static org.saynotobugs.confidence.core.quality.Grammar.when;
+import static org.saynotobugs.confidence.core.quality.Number.hasLongValue;
 
 @StaticFactories(value = "ConfidenceEngine", packageName = "org.saynotobugs.confidence.junit5.engine")
 public final class DelegatingResourceThat<Original, T> extends QualityComposition<Function<Resource<Original>, Resource<T>>>

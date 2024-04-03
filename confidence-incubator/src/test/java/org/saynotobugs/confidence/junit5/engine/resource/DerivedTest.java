@@ -28,8 +28,8 @@ import java.util.Set;
 
 import static java.util.Collections.singletonList;
 import static org.saynotobugs.confidence.Assertion.assertThat;
-import static org.saynotobugs.confidence.quality.Core.emptyIterable;
-import static org.saynotobugs.confidence.quality.Core.iterates;
+import static org.saynotobugs.confidence.core.quality.Iterable.emptyIterable;
+import static org.saynotobugs.confidence.core.quality.Iterable.iterates;
 
 class DerivedTest
 {

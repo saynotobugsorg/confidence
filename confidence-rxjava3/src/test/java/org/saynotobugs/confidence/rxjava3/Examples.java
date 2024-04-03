@@ -10,8 +10,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static java.time.Duration.ofSeconds;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.saynotobugs.confidence.Assertion.assertThat;
-import static org.saynotobugs.confidence.quality.Core.*;
-import static org.saynotobugs.confidence.rxjava3.RxJava3.when;
+import static org.saynotobugs.confidence.core.quality.Composite.allOf;
+import static org.saynotobugs.confidence.core.quality.Composite.not;
+import static org.saynotobugs.confidence.core.quality.Grammar.is;
+import static org.saynotobugs.confidence.core.quality.Object.instanceOf;
 import static org.saynotobugs.confidence.rxjava3.RxJava3.*;
 
 

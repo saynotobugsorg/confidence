@@ -19,12 +19,12 @@
 package org.saynotobugs.confidence.quality.object;
 
 import org.junit.jupiter.api.Test;
+import org.saynotobugs.confidence.quality.composite.AllOf;
 import org.saynotobugs.confidence.test.quality.Fails;
 import org.saynotobugs.confidence.test.quality.HasDescription;
 import org.saynotobugs.confidence.test.quality.Passes;
 
 import static org.saynotobugs.confidence.Assertion.assertThat;
-import static org.saynotobugs.confidence.quality.Core.allOf;
 
 class StrictlyEqualToTest
 {
@@ -32,7 +32,7 @@ class StrictlyEqualToTest
     void testSingle()
     {
         assertThat(new StrictlyEqualTo<>("123"),
-            allOf(
+            new AllOf<>(
                 new Passes<>("123"),
                 new Fails<Object>("456", "{ ...\n  was not equal to \"123\"\n  and\n  was not symmetric\n  and\n  had hashCode <51669> }"),
                 new Fails<>(new Object()
