@@ -29,7 +29,7 @@ import org.saynotobugs.confidence.quality.composite.QualityComposition;
 import java.lang.annotation.RetentionPolicy;
 
 /**
- * {@link Quality} of a {@link Class} that's annotated with a specific {@link RetentionPolicy#CLASS} or
+ * {@link Quality} of a {@link java.lang.Class} that's annotated with a specific {@link RetentionPolicy#CLASS} or
  * {@link RetentionPolicy#RUNTIME} scoped {@link Annotation}.
  */
 @StaticFactories(value = "Class",
