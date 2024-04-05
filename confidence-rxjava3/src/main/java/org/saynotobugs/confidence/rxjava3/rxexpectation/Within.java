@@ -18,6 +18,7 @@
 
 package org.saynotobugs.confidence.rxjava3.rxexpectation;
 
+import io.reactivex.rxjava3.schedulers.TestScheduler;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Description;
@@ -30,8 +31,6 @@ import org.saynotobugs.confidence.rxjava3.RxTestAdapter;
 
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
-
-import io.reactivex.rxjava3.schedulers.TestScheduler;
 
 
 @StaticFactories(value = "RxJava3", packageName = "org.saynotobugs.confidence.rxjava3")

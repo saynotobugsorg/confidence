@@ -18,6 +18,7 @@
 
 package org.saynotobugs.confidence.asm.quality;
 
+import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.asm.ClassAdapter;
@@ -25,11 +26,15 @@ import org.saynotobugs.confidence.quality.annotation.Annotation;
 import org.saynotobugs.confidence.quality.composite.Has;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 
+import java.lang.annotation.RetentionPolicy;
+
 /**
- * {@link Quality} of a {@link Class} that's annotated with a specific {@code class} or {@code runtime} scoped
- * {@link Annotation}.
+ * {@link Quality} of a {@link java.lang.Class} that's annotated with a specific {@link RetentionPolicy#CLASS} or
+ * {@link RetentionPolicy#RUNTIME} scoped {@link Annotation}.
  */
-@StaticFactories(value = "Asm", packageName = "org.saynotobugs.confidence.asm")
+@StaticFactories(value = "Class",
+    packageName = "org.saynotobugs.confidence.asm.quality",
+    deprecates = @DeprecatedFactories(value = "Asm", packageName = "org.saynotobugs.confidence.asm"))
 public final class HasDeclaredAnnotations extends QualityComposition<ClassAdapter>
 {
     public HasDeclaredAnnotations(Quality<? super Iterable<java.lang.annotation.Annotation>> delegate)

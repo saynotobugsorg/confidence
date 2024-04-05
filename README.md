@@ -98,6 +98,23 @@ public static EmptyCharSequence emptyCharSequence() {
 }
 ```
 
+## Discoverability of Qualities
+
+When it comes to writing tests, finding the right `Quality` can often feel like searching for a needle in a haystack. While some frameworks rely on fluent APIs to ease this process, Confidence takes a different approach.
+
+Instead of a fluent API, Confidence organizes its static factory methods into classes named after the types they describe. This convention simplifies the process of discovering `Quality`s, as your IDE may suggest available options simply by typing out the type you're testing.
+
+For example, if you're working with an instance of `Iterable` (e.g. an `ArrayList`), you'll find suitable `Quality`s in the `org.saynotobugs.confidence.core.quality.Iterable` class. While this may differ from the exact naming of the type you're testing, it ensures a logical organization that aids in discovery.
+
+However, there are cases where a `Quality` doesn't directly correlate to a specific type or serves as an adapter. Currently, Confidence addresses four such scenarios:
+
+* **Compositions**: `Quality`s like `allOf`, `not`, or `has` are grouped under the `Composite` class.
+* **Grammar Improvements**: `Quality`s that enhance grammar, such as `is`, `to`, and `soIt`, reside in the `Grammar` class.
+* **Framework Adapters**: Adapters to other frameworks, such as the Hamcrest adapter `qualifiesAs`, are found in the `Adapter` class.
+* **Abstract Concepts**: `Quality` s representing abstract concepts, like JSON qualities, are housed in the `Json` class.
+
+This organization ensures that regardless of the type or scenario you're testing, Confidence provides a structured and intuitive approach to discovering and utilizing its `Quality`s.
+
 ## Testing Qualities
 
 Classic non-declarative tests often times have a major flaw: the (often times very imperative) test code is not tested itself. After all, you only can trust your production code, when you can trust the test code too.

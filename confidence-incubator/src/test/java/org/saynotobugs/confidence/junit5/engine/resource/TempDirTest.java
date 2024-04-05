@@ -24,8 +24,9 @@ import org.saynotobugs.confidence.junit5.engine.quality.ResourceThat;
 import java.io.File;
 
 import static org.saynotobugs.confidence.Assertion.assertThat;
-import static org.saynotobugs.confidence.quality.Core.*;
-import static org.saynotobugs.confidence.quality.File.*;
+import static org.saynotobugs.confidence.core.quality.Composite.*;
+import static org.saynotobugs.confidence.core.quality.File.*;
+import static org.saynotobugs.confidence.core.quality.Grammar.is;
 
 
 class TempDirTest

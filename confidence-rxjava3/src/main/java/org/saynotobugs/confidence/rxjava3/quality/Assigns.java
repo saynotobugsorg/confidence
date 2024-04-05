@@ -18,6 +18,7 @@
 
 package org.saynotobugs.confidence.rxjava3.quality;
 
+import io.reactivex.rxjava3.functions.Function;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.description.Spaced;
@@ -26,8 +27,6 @@ import org.saynotobugs.confidence.description.Value;
 import org.saynotobugs.confidence.quality.composite.Has;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 import org.saynotobugs.confidence.quality.object.EqualTo;
-
-import io.reactivex.rxjava3.functions.Function;
 
 
 @StaticFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality")

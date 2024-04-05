@@ -2,8 +2,8 @@ package org.saynotobugs.confidence;
 
 import org.junit.jupiter.api.Test;
 import org.saynotobugs.confidence.quality.grammar.Is;
+import org.saynotobugs.confidence.quality.object.Nothing;
 import org.saynotobugs.confidence.quality.object.Throwing;
-import org.saynotobugs.confidence.quality.trivial.Nothing;
 
 import static org.saynotobugs.confidence.Assertion.assertThat;
 

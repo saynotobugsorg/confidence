@@ -1,26 +1,23 @@
 package org.saynotobugs.confidence;
 
 import org.dmfs.jems2.iterable.Seq;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.saynotobugs.confidence.assessment.PassIf;
+import org.saynotobugs.confidence.core.quality.Composite;
 import org.saynotobugs.confidence.description.NumberDescription;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
-import org.saynotobugs.confidence.quality.Core;
 import org.saynotobugs.confidence.quality.comparable.GreaterThan;
 import org.saynotobugs.confidence.quality.comparable.LessThan;
-import org.saynotobugs.confidence.quality.compat.Hamcrest;
 import org.saynotobugs.confidence.quality.composite.*;
 import org.saynotobugs.confidence.quality.function.Maps;
 import org.saynotobugs.confidence.quality.function.MapsArgument;
 import org.saynotobugs.confidence.quality.function.ResultOf;
 import org.saynotobugs.confidence.quality.grammar.Is;
-import org.saynotobugs.confidence.quality.iterable.Contains;
-import org.saynotobugs.confidence.quality.iterable.Each;
-import org.saynotobugs.confidence.quality.iterable.Iterates;
-import org.saynotobugs.confidence.quality.iterable.IteratesInAnyOrder;
+import org.saynotobugs.confidence.quality.grammar.To;
+import org.saynotobugs.confidence.quality.iterable.*;
+import org.saynotobugs.confidence.quality.map.ContainsEntry;
 import org.saynotobugs.confidence.quality.object.EqualTo;
 import org.saynotobugs.confidence.quality.object.HasToString;
 import org.saynotobugs.confidence.quality.optional.Present;
@@ -39,7 +36,11 @@ import static java.util.Arrays.asList;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static org.saynotobugs.confidence.Assertion.assertThat;
-import static org.saynotobugs.confidence.quality.Core.*;
+import static org.saynotobugs.confidence.core.quality.Composite.allOf;
+import static org.saynotobugs.confidence.core.quality.Iterable.iterates;
+import static org.saynotobugs.confidence.core.quality.Map.containsEntry;
+import static org.saynotobugs.confidence.core.quality.Object.equalTo;
+import static org.saynotobugs.confidence.core.quality.Object.unsafeInstanceOf;
 
 @Disabled
 public final class Examples
@@ -47,7 +48,7 @@ public final class Examples
     @Test
     void testSimple()
     {
-        assertThat(asList(1, 2, 10, 3, 4), contains(1, 32, 11, 4));
+        assertThat(asList(1, 2, 10, 3, 4), new ContainsAllOf<>(1, 32, 11, 4));
     }
 
 
@@ -108,7 +109,7 @@ public final class Examples
     @Test
     void testContainsMany()
     {
-        assertThat(new Seq<>(1, 2, 10, 3, 4), new Contains<>(1, 32, 11, 4));
+        assertThat(new Seq<>(1, 2, 10, 3, 4), new ContainsAllOf<>(1, 32, 11, 4));
     }
 
 
@@ -173,13 +174,6 @@ public final class Examples
     void testHaving2()
     {
         assertThat(123, new Has<>(new Text("has hash"), new Text("had hash"), Objects::hashCode, new EqualTo<>(125)));
-    }
-
-
-    @Test
-    void testHamcrestCompat()
-    {
-        assertThat(new Seq<>(1, 2, 5, 10, 11), new Hamcrest<>(Matchers.contains(1, 2, 3, 10, 12)));
     }
 
 
@@ -298,9 +292,9 @@ public final class Examples
     void testDelegatingFunction()
     {
         assertThat((Function<Integer, Integer> delegate) -> (Integer x) -> delegate.apply(x + 2) + x + 3,
-            allOf(
-                new MapsArgument<>(1, equalTo(3)),
-                new ResultOf<>(0, new Maps<>(10, to(13)))
+            new AllOf<>(
+                new MapsArgument<>(1, new EqualTo<>(3)),
+                new ResultOf<>(0, new Maps<>(10, new To<>(13)))
             )
         );
     }
@@ -312,7 +306,7 @@ public final class Examples
         Map<String, Number> m = new HashMap<String, Number>();
         Integer foo = new Integer(6);
         m.put("foo", foo);
-        assertThat(m, containsEntry("foo", foo));
+        assertThat(m, new ContainsEntry<>("foo", foo));
     }
 
 
@@ -327,7 +321,7 @@ public final class Examples
             "k3", "v3"
         );
 
-        assertThat(actual, unsafeInstanceOf(Map.class, Core.<Map<String, Object>>allOf(
+        assertThat(actual, unsafeInstanceOf(Map.class, Composite.<Map<String, Object>>allOf(
                 containsEntry("k1", unsafeInstanceOf(Map.class, allOf(
                     containsEntry("k11", "v11"),
                     containsEntry("k12", "v12")))),

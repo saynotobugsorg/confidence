@@ -22,6 +22,8 @@ import org.junit.jupiter.api.Test;
 import org.saynotobugs.confidence.junit5.engine.Resource;
 import org.saynotobugs.confidence.junit5.engine.ResourceHandle;
 import org.saynotobugs.confidence.quality.composite.AllOf;
+import org.saynotobugs.confidence.quality.iterable.EmptyIterable;
+import org.saynotobugs.confidence.quality.iterable.Iterates;
 import org.saynotobugs.confidence.test.quality.Fails;
 import org.saynotobugs.confidence.test.quality.HasDescription;
 import org.saynotobugs.confidence.test.quality.Passes;
@@ -31,15 +33,13 @@ import java.util.List;
 
 import static java.util.Arrays.asList;
 import static org.saynotobugs.confidence.Assertion.assertThat;
-import static org.saynotobugs.confidence.quality.Core.emptyIterable;
-import static org.saynotobugs.confidence.quality.Core.iterates;
 
 class ResourceThatTest
 {
     @Test
     void test()
     {
-        assertThat(new ResourceThat<>(1, iterates("1", "2"), emptyIterable()),
+        assertThat(new ResourceThat<>(1, new Iterates<>("1", "2"), new EmptyIterable()),
             new AllOf<>(
                 new Passes<>(() -> new Resource<List<String>>()
                 {

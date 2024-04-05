@@ -18,6 +18,7 @@
 
 package org.saynotobugs.confidence.test.quality;
 
+import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.assessment.Fail;
@@ -27,7 +28,9 @@ import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 
 
-@StaticFactories("Test")
+@StaticFactories(
+    value = "Assessment",
+    deprecates = @DeprecatedFactories(value = "Test"))
 public final class Passed extends QualityComposition<Assessment>
 {
 

@@ -19,6 +19,7 @@
 package org.saynotobugs.confidence.asm.quality;
 
 import org.dmfs.jems2.iterable.Mapped;
+import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.objectweb.asm.ClassReader;
 import org.saynotobugs.confidence.Quality;
@@ -28,13 +29,16 @@ import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.quality.composite.Has;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 
+import java.lang.Class;
 import java.util.ArrayList;
 import java.util.Collection;
 
 /**
  * {@link Quality} of a class read from a class file.
  */
-@StaticFactories(value = "Asm", packageName = "org.saynotobugs.confidence.asm")
+@StaticFactories(value = "Class",
+    packageName = "org.saynotobugs.confidence.asm.quality",
+    deprecates = @DeprecatedFactories(value = "Asm", packageName = "org.saynotobugs.confidence.asm"))
 public final class ClassThat extends QualityComposition<Class<?>>
 {
     public ClassThat(Quality<? super ClassAdapter> delegate)

@@ -18,6 +18,7 @@
 
 package org.saynotobugs.confidence.quality.object;
 
+import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Description;
@@ -28,7 +29,10 @@ import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
 
 
-@StaticFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality")
+@StaticFactories(
+    value = "Object",
+    packageName = "org.saynotobugs.confidence.core.quality",
+    deprecates = @DeprecatedFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality"))
 public final class Throwing implements Quality<Throwing.Breakable>
 {
     public interface Breakable

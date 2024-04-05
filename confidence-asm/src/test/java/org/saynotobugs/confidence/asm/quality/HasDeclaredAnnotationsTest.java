@@ -32,6 +32,8 @@ import org.saynotobugs.confidence.test.quality.Fails;
 import org.saynotobugs.confidence.test.quality.HasDescription;
 import org.saynotobugs.confidence.test.quality.Passes;
 
+import java.lang.Class;
+
 import static org.saynotobugs.confidence.Assertion.assertThat;
 
 class HasDeclaredAnnotationsTest

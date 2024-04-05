@@ -29,6 +29,8 @@ import org.saynotobugs.confidence.quality.grammar.Is;
 import org.saynotobugs.confidence.quality.grammar.To;
 import org.saynotobugs.confidence.quality.object.InstanceOf;
 
+import java.lang.Class;
+
 import static org.dmfs.jems2.confidence.Jems2.maps;
 import static org.dmfs.jems2.confidence.Jems2.throwing;
 import static org.saynotobugs.confidence.Assertion.assertThat;

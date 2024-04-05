@@ -19,6 +19,7 @@
 package org.saynotobugs.confidence.quality.object;
 
 import org.dmfs.jems2.FragileProcedure;
+import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Description;
@@ -35,7 +36,10 @@ import org.saynotobugs.confidence.description.Value;
  * <p>
  * This doesn't say anything about what the procedure actually did. It merely means it didn't throw an exception.
  */
-@StaticFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality")
+@StaticFactories(
+    value = "Object",
+    packageName = "org.saynotobugs.confidence.core.quality",
+    deprecates = @DeprecatedFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality"))
 public final class Successfully<T> implements Quality<T>
 {
     private final Description mExpectationDescription;

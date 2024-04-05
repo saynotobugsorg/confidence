@@ -25,8 +25,8 @@ import org.saynotobugs.confidence.json.JsonElementAdapter;
 import org.saynotobugs.confidence.quality.composite.AllOf;
 import org.saynotobugs.confidence.quality.composite.Has;
 import org.saynotobugs.confidence.quality.grammar.Is;
+import org.saynotobugs.confidence.quality.object.Anything;
 import org.saynotobugs.confidence.quality.object.HasToString;
-import org.saynotobugs.confidence.quality.trivial.Anything;
 
 import static org.dmfs.jems2.confidence.Jems2.absent;
 import static org.dmfs.jems2.confidence.Jems2.present;

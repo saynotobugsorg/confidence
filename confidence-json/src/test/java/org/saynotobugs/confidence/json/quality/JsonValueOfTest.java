@@ -21,7 +21,7 @@ package org.saynotobugs.confidence.json.quality;
 import org.dmfs.express.json.JsonValue;
 import org.junit.jupiter.api.Test;
 import org.saynotobugs.confidence.quality.composite.AllOf;
-import org.saynotobugs.confidence.quality.trivial.Anything;
+import org.saynotobugs.confidence.quality.object.Anything;
 import org.saynotobugs.confidence.test.quality.Fails;
 import org.saynotobugs.confidence.test.quality.HasDescription;
 import org.saynotobugs.confidence.test.quality.Passes;

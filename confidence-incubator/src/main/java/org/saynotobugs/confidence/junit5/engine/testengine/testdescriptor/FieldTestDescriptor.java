@@ -53,7 +53,7 @@ public final class FieldTestDescriptor extends AbstractTestDescriptor implements
     @Override
     public void test(EngineExecutionListener listener)
     {
-        Object instance = null;
+        Object instance;
         try
         {
             Constructor<?> constructor = javaClass.getDeclaredConstructor();

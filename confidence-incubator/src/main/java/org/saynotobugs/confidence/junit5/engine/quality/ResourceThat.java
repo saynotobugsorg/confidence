@@ -32,7 +32,10 @@ import org.saynotobugs.confidence.quality.composite.QualityComposition;
 import java.util.ArrayList;
 
 import static org.dmfs.jems2.confidence.Jems2.hasValue;
-import static org.saynotobugs.confidence.quality.Core.*;
+import static org.saynotobugs.confidence.core.quality.AutoClosable.autoClosableThat;
+import static org.saynotobugs.confidence.core.quality.Composite.*;
+import static org.saynotobugs.confidence.core.quality.Iterable.each;
+import static org.saynotobugs.confidence.core.quality.Object.anything;
 
 @StaticFactories(value = "ConfidenceEngine", packageName = "org.saynotobugs.confidence.junit5.engine")
 public final class ResourceThat<T> extends QualityComposition<Generator<? extends Resource<? extends T>>>

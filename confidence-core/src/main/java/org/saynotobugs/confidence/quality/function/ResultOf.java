@@ -1,5 +1,6 @@
 package org.saynotobugs.confidence.quality.function;
 
+import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Description;
@@ -32,7 +33,10 @@ import java.util.function.Function;
  * );
  * </pre>
  */
-@StaticFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality")
+@StaticFactories(
+    value = "Function",
+    packageName = "org.saynotobugs.confidence.core.quality",
+    deprecates = @DeprecatedFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality"))
 public final class ResultOf<In, DelegateIn, Out> implements Quality<Function<Function<DelegateIn, Out>, Function<In, Out>>>
 {
     private final Out mDelegateResult;

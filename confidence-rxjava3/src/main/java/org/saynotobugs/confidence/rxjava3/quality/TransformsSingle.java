@@ -18,6 +18,9 @@
 
 package org.saynotobugs.confidence.rxjava3.quality;
 
+import io.reactivex.rxjava3.core.SingleTransformer;
+import io.reactivex.rxjava3.schedulers.TestScheduler;
+import io.reactivex.rxjava3.subjects.SingleSubject;
 import org.dmfs.jems2.Function;
 import org.dmfs.jems2.iterable.Expanded;
 import org.dmfs.jems2.iterable.Seq;
@@ -33,10 +36,6 @@ import org.saynotobugs.confidence.quality.composite.DescribedAs;
 import org.saynotobugs.confidence.rxjava3.TransformerTestStep;
 import org.saynotobugs.confidence.rxjava3.adapters.RxTestObserver;
 import org.saynotobugs.confidence.rxjava3.adapters.SingleSubjectAdapter;
-
-import io.reactivex.rxjava3.core.SingleTransformer;
-import io.reactivex.rxjava3.schedulers.TestScheduler;
-import io.reactivex.rxjava3.subjects.SingleSubject;
 
 import static org.saynotobugs.confidence.description.LiteralDescription.COMMA_NEW_LINE;
 import static org.saynotobugs.confidence.description.LiteralDescription.NEW_LINE;

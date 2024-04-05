@@ -18,6 +18,7 @@
 
 package org.saynotobugs.confidence.quality.optional;
 
+import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
@@ -26,7 +27,10 @@ import org.saynotobugs.confidence.quality.object.Satisfies;
 import java.util.Optional;
 
 
-@StaticFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality")
+@StaticFactories(
+    value = "Optional",
+    packageName = "org.saynotobugs.confidence.core.quality",
+    deprecates = @DeprecatedFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality"))
 public final class Absent extends QualityComposition<Optional<?>>
 {
     /**

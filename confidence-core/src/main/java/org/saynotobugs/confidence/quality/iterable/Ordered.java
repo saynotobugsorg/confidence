@@ -18,6 +18,7 @@
 
 package org.saynotobugs.confidence.quality.iterable;
 
+import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Quality;
@@ -33,7 +34,10 @@ import java.util.Iterator;
 
 import static org.saynotobugs.confidence.description.LiteralDescription.NEW_LINE;
 
-@StaticFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality")
+@StaticFactories(
+    value = "Iterable",
+    packageName = "org.saynotobugs.confidence.core.quality",
+    deprecates = @DeprecatedFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality"))
 public final class Ordered<T> extends QualityComposition<Iterable<T>>
 {
     /**

@@ -21,9 +21,13 @@ package org.saynotobugs.confidence.json;
 import org.junit.jupiter.api.Test;
 
 import static org.saynotobugs.confidence.Assertion.assertThat;
-import static org.saynotobugs.confidence.json.Json.nullValue;
-import static org.saynotobugs.confidence.json.Json.*;
-import static org.saynotobugs.confidence.quality.Core.*;
+import static org.saynotobugs.confidence.core.quality.Composite.allOf;
+import static org.saynotobugs.confidence.core.quality.Composite.not;
+import static org.saynotobugs.confidence.core.quality.Grammar.is;
+import static org.saynotobugs.confidence.core.quality.Iterable.iterates;
+import static org.saynotobugs.confidence.core.quality.Object.anything;
+import static org.saynotobugs.confidence.json.quality.CharSequence.jsonStringOf;
+import static org.saynotobugs.confidence.json.quality.Json.*;
 
 class ExampleTests
 {

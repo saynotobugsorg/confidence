@@ -16,25 +16,22 @@
  *
  */
 
-package org.saynotobugs.confidence.quality.iterable;
+package org.saynotobugs.confidence.quality.object;
 
-import org.dmfs.jems2.predicate.Not;
-import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
+import org.saynotobugs.confidence.assessment.Pass;
 import org.saynotobugs.confidence.description.Text;
-import org.saynotobugs.confidence.description.Value;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
-import org.saynotobugs.confidence.quality.object.Satisfies;
 
 
-@StaticFactories(
-    value = "Iterable",
-    packageName = "org.saynotobugs.confidence.core.quality",
-    deprecates = @DeprecatedFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality"))
-public final class EmptyIterable extends QualityComposition<Iterable<?>>
+/**
+ * A Quality of any {@link Object}.
+ */
+@StaticFactories(value = "Object", packageName = "org.saynotobugs.confidence.core.quality")
+public final class Anything extends QualityComposition<Object>
 {
-    public EmptyIterable()
+    public Anything()
     {
-        super(new Satisfies<>(new Not<>(actual -> actual.iterator().hasNext()), Value::new, new Text("<empty>")));
+        super(actual -> new Pass(), new Text("<anything>"));
     }
 }

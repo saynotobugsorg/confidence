@@ -30,7 +30,7 @@ public final class EmitsNothing<T> extends QualityComposition<RxTestAdapter<T>>
 {
     public EmitsNothing()
     {
-        super(new Satisfies<>(actual -> actual.newValues(Integer.MAX_VALUE).size() == 0,
+        super(new Satisfies<>(actual -> actual.newValues(Integer.MAX_VALUE).isEmpty(),
             actual -> new Spaced(
                 new Text("emitted"),
                 new Value(actual.newValues(Integer.MAX_VALUE))),

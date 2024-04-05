@@ -24,7 +24,7 @@ import org.saynotobugs.confidence.quality.composite.DescribedAs;
 import org.saynotobugs.confidence.quality.composite.Has;
 import org.saynotobugs.confidence.quality.composite.NoneOf;
 import org.saynotobugs.confidence.quality.iterable.Contains;
-import org.saynotobugs.confidence.quality.trivial.Anything;
+import org.saynotobugs.confidence.quality.object.Anything;
 import org.saynotobugs.confidence.rxjava3.RxExpectation;
 import org.saynotobugs.confidence.rxjava3.RxExpectationComposition;
 import org.saynotobugs.confidence.rxjava3.RxTestAdapter;

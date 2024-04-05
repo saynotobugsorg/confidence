@@ -25,6 +25,7 @@ import org.dmfs.jems2.iterable.Mapped;
 import org.dmfs.jems2.iterable.Numbered;
 import org.dmfs.jems2.iterable.Seq;
 import org.dmfs.jems2.pair.ValuePair;
+import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Description;
@@ -43,7 +44,10 @@ import static org.saynotobugs.confidence.description.LiteralDescription.COMMA_NE
 import static org.saynotobugs.confidence.description.LiteralDescription.EMPTY;
 
 
-@StaticFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality")
+@StaticFactories(
+    value = "Comparator",
+    packageName = "org.saynotobugs.confidence.core.quality",
+    deprecates = @DeprecatedFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality"))
 public final class ImposesOrderOf<T> implements Quality<Comparator<T>>
 {
 

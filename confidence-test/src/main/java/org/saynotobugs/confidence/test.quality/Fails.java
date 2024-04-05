@@ -18,6 +18,7 @@
 
 package org.saynotobugs.confidence.test.quality;
 
+import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Description;
@@ -27,10 +28,12 @@ import org.saynotobugs.confidence.assessment.FailUpdated;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.description.Value;
-import org.saynotobugs.confidence.quality.trivial.Anything;
+import org.saynotobugs.confidence.quality.object.Anything;
 
 
-@StaticFactories("Test")
+@StaticFactories(
+    value = "Quality",
+    deprecates = @DeprecatedFactories(value = "Test"))
 public final class Fails<T> implements Quality<Quality<? super T>>
 {
     private final T mMismatchingValue;
@@ -67,11 +70,11 @@ public final class Fails<T> implements Quality<Quality<? super T>>
                 new Text("matched"),
                 candidate.description()))
             : new FailUpdated(
-                orig -> new Spaced(
-                    new Value(mMismatchingValue),
-                    new Text("mismatched with diff"),
-                    orig),
-                mDiffQuality.assessmentOf(matcherAssessment.description()));
+            orig -> new Spaced(
+                new Value(mMismatchingValue),
+                new Text("mismatched with diff"),
+                orig),
+            mDiffQuality.assessmentOf(matcherAssessment.description()));
     }
 
 

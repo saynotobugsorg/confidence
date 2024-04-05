@@ -16,25 +16,29 @@
  *
  */
 
-package org.saynotobugs.confidence.quality.iterable;
+package org.saynotobugs.confidence.quality.object;
 
-import org.dmfs.jems2.predicate.Not;
-import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
+import org.saynotobugs.confidence.Quality;
+import org.saynotobugs.confidence.assessment.Fail;
 import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.description.Value;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
-import org.saynotobugs.confidence.quality.object.Satisfies;
 
 
-@StaticFactories(
-    value = "Iterable",
-    packageName = "org.saynotobugs.confidence.core.quality",
-    deprecates = @DeprecatedFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality"))
-public final class EmptyIterable extends QualityComposition<Iterable<?>>
+/**
+ * A {@link Quality} that never matches.
+ * <p>
+ * This may be useful for testing {@link Quality}s.
+ */
+@StaticFactories(value = "Object", packageName = "org.saynotobugs.confidence.core.quality")
+public final class Nothing extends QualityComposition<Object>
 {
-    public EmptyIterable()
+    /**
+     * Creates a {@link Quality} that never matches.
+     */
+    public Nothing()
     {
-        super(new Satisfies<>(new Not<>(actual -> actual.iterator().hasNext()), Value::new, new Text("<empty>")));
+        super(actual -> new Fail(new Value(actual)), new Text("<nothing>"));
     }
 }

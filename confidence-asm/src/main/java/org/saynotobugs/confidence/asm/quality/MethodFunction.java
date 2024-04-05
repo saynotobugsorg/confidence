@@ -20,6 +20,7 @@ package org.saynotobugs.confidence.asm.quality;
 
 import org.dmfs.jems2.Function;
 
+import java.lang.Class;
 import java.lang.reflect.Method;
 
 final class MethodFunction implements Function<String, Method>

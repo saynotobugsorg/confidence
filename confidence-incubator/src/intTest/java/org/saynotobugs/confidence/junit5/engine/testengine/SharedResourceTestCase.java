@@ -29,10 +29,14 @@ import org.saynotobugs.confidence.junit5.engine.resource.TempDir;
 
 import java.io.File;
 
+import static org.saynotobugs.confidence.core.quality.CharSequence.containsPattern;
+import static org.saynotobugs.confidence.core.quality.Composite.allOf;
+import static org.saynotobugs.confidence.core.quality.Composite.has;
+import static org.saynotobugs.confidence.core.quality.Consumer.consumerThatAffects;
+import static org.saynotobugs.confidence.core.quality.File.*;
+import static org.saynotobugs.confidence.core.quality.Grammar.is;
+import static org.saynotobugs.confidence.core.quality.Grammar.soIt;
 import static org.saynotobugs.confidence.junit5.engine.ConfidenceEngine.*;
-import static org.saynotobugs.confidence.quality.Core.*;
-import static org.saynotobugs.confidence.quality.File.hasLength;
-import static org.saynotobugs.confidence.quality.File.*;
 
 
 @Confidence

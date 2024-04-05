@@ -21,6 +21,7 @@ package org.saynotobugs.confidence.quality.composite;
 import org.dmfs.jems2.generatable.Sequence;
 import org.dmfs.jems2.iterable.First;
 import org.dmfs.jems2.procedure.ForEach;
+import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Description;
@@ -43,7 +44,10 @@ import static org.saynotobugs.confidence.description.LiteralDescription.COMMA_NE
 import static org.saynotobugs.confidence.description.LiteralDescription.EMPTY;
 
 
-@StaticFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality")
+@StaticFactories(
+    value = "Composite",
+    packageName = "org.saynotobugs.confidence.core.quality",
+    deprecates = @DeprecatedFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality"))
 public final class Parallel<T> implements Quality<T>
 {
     private final int mThreadCount;

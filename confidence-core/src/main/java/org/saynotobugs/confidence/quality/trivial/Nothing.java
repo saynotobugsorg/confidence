@@ -30,8 +30,11 @@ import org.saynotobugs.confidence.quality.composite.QualityComposition;
  * A {@link Quality} that never matches.
  * <p>
  * This may be useful for testing {@link Quality}s.
+ *
+ * @deprecated use {@link org.saynotobugs.confidence.quality.object.Nothing} instead.
  */
 @StaticFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality")
+@Deprecated
 public final class Nothing extends QualityComposition<Object>
 {
     /**

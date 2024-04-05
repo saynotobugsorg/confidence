@@ -70,7 +70,7 @@ public final class Timed<T> extends QualityComposition<io.reactivex.rxjava3.sche
     public Timed(Instant timestamp, Quality<? super T> valueQuality)
     {
         super(new AllOf<>(
-            new Has<>((Function<Description, Description>) d -> new Spaced(new Text("has time of"), d, new Text("millis")),
+            new Has<>(d -> new Spaced(new Text("has time of"), d, new Text("millis")),
                 (Function<Description, Description>) d -> new Spaced(new Text("had time of"), d, new Text("millis")),
                 timed -> timed.time(TimeUnit.MILLISECONDS),
                 new EqualTo<>(timestamp.toEpochMilli())),

@@ -24,7 +24,13 @@ import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 
 
+/**
+ * A Quality of any {@link Object}.
+ *
+ * @deprecated use {@link org.saynotobugs.confidence.quality.object.Anything} instead.
+ */
 @StaticFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality")
+@Deprecated
 public final class Anything extends QualityComposition<Object>
 {
     public Anything()

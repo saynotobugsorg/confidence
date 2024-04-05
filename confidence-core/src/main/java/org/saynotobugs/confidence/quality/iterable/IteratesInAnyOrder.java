@@ -24,6 +24,7 @@ import org.dmfs.jems2.iterable.Seq;
 import org.dmfs.jems2.iterable.Sieved;
 import org.dmfs.jems2.procedure.ForEach;
 import org.dmfs.jems2.single.Collected;
+import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Description;
@@ -43,7 +44,10 @@ import static org.saynotobugs.confidence.description.LiteralDescription.COMMA_NE
 import static org.saynotobugs.confidence.description.LiteralDescription.NEW_LINE;
 
 
-@StaticFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality")
+@StaticFactories(
+    value = "Iterable",
+    packageName = "org.saynotobugs.confidence.core.quality",
+    deprecates = @DeprecatedFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality"))
 public final class IteratesInAnyOrder<T> implements Quality<Iterable<T>>
 {
     private final Iterable<? extends Quality<? super T>> mDelegates;
@@ -138,7 +142,7 @@ public final class IteratesInAnyOrder<T> implements Quality<Iterable<T>>
         List<? extends Quality<? super T>> qualities,
         Map<T, Map<Quality<? super T>, Boolean>> cache)
     {
-        if (candidates.size() == 0 || qualities.size() == 0)
+        if (candidates.isEmpty() || qualities.isEmpty())
         {
             return new PassIf(candidates.size() == qualities.size(), new Text(""));
         }

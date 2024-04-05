@@ -18,6 +18,7 @@
 
 package org.saynotobugs.confidence.quality.number;
 
+import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.description.Composite;
@@ -30,7 +31,10 @@ import org.saynotobugs.confidence.quality.object.Satisfies;
 import java.math.BigDecimal;
 
 
-@StaticFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality")
+@StaticFactories(
+    value = "Number",
+    packageName = "org.saynotobugs.confidence.core.quality",
+    deprecates = @DeprecatedFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality"))
 public final class CloseTo extends QualityComposition<Number>
 {
     /**

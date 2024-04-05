@@ -22,6 +22,7 @@ import org.dmfs.jems2.Function;
 import org.dmfs.jems2.iterable.Mapped;
 import org.dmfs.jems2.iterable.Numbered;
 import org.dmfs.jems2.iterable.Seq;
+import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.Quality;
@@ -41,7 +42,10 @@ import static org.dmfs.jems2.confidence.Jems2.present;
 /**
  * {@link Quality} of a JSON array.
  */
-@StaticFactories(value = "Json", packageName = "org.saynotobugs.confidence.json")
+@StaticFactories(
+    value = "Json",
+    packageName = "org.saynotobugs.confidence.json.quality",
+    deprecates = @DeprecatedFactories(value = "Json", packageName = "org.saynotobugs.confidence.json"))
 public final class Array extends QualityComposition<JsonElementAdapter>
 {
     public Array(String... strings)

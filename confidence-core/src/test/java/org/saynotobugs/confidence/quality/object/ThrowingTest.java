@@ -2,8 +2,6 @@ package org.saynotobugs.confidence.quality.object;
 
 import org.junit.jupiter.api.Test;
 import org.saynotobugs.confidence.quality.composite.AllOf;
-import org.saynotobugs.confidence.quality.trivial.Anything;
-import org.saynotobugs.confidence.quality.trivial.Nothing;
 import org.saynotobugs.confidence.test.quality.Fails;
 import org.saynotobugs.confidence.test.quality.HasDescription;
 import org.saynotobugs.confidence.test.quality.Passes;
