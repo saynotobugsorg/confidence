@@ -9,7 +9,7 @@ junit-testkit = "1.9.2"
 mockito4 = "4.6.1"
 org-json = "20230618"
 rxjava3 = "3.1.6"
-srcless = "0.5.0"
+srcless = "0.6.0"
 
 [libraries]
 srcless-annotations = { module = "org.dmfs:srcless-annotations", version.ref = "srcless" }
