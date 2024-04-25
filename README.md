@@ -111,7 +111,7 @@ However, there are cases where a `Quality` doesn't directly correlate to a speci
 * **Compositions**: `Quality`s like `allOf`, `not`, or `has` are grouped under the `Composite` class.
 * **Grammar Improvements**: `Quality`s that enhance grammar, such as `is`, `to`, and `soIt`, reside in the `Grammar` class.
 * **Framework Adapters**: Adapters to other frameworks, such as the Hamcrest adapter `qualifiesAs`, are found in the `Adapter` class.
-* **Abstract Concepts**: `Quality` s representing abstract concepts, like JSON qualities, are housed in the `Json` class.
+* **Non-Java Types**: `Quality`s describing non-Java concepts may reside in a dedicated class, e.g. JSON qualities are housed in the `Json` class.
 
 This organization ensures that regardless of the type or scenario you're testing, Confidence provides a structured and intuitive approach to discovering and utilizing its `Quality`s.
 
@@ -139,7 +139,7 @@ assertThat(new EmptyCharSequence(),    // The Quality under test.
 
 # Switching from Hamcrest
 
-As a Hamcrest user you'll find it easy to switch to Confidence. The core idea is the same: Composable components to describe he expected behavior of your code. In Hamcrest these are called `Matcher` in Confidence they are called `Quality`.
+As a Hamcrest user you'll find it easy to switch to Confidence. The core idea is the same: Composable components to describe he expected behavior of your code. In Hamcrest these are called `Matcher`, in Confidence they are called `Quality`.
 
 There are some significant differences though:
 
@@ -154,18 +154,18 @@ called or used. The following table shows the most important ones.
 
 General note on matching arrays: arrays (including ones of primitive types) can be matched with matchers to match `Iterable`s decorated with `arrayThat(…)`.
 
-| Hamcrest | Confidence                            |
-|---|---------------------------------------|
-| `contains(...)` | `iterates(...)`                       |
-| `containsInAnyOrder(...)` | `iteratesInAnyOrder(...)`             |
-| `iterableWithSize(...)` | `hasNumberOfElements(...)`            |
-| `hasItem(...)` | `contains(...)`                       |
-| `hasItems(...)` | `contains(...)`                       |
-| `everyItem(...)` | `each(...)`                           |
-| `sameInstance(...)`, `theInstance(...)` | `sameAs(...)`                         |
-| `matchesRegex(...)`, `matchesPattern(...)` | `matchesPattern(...)`                 |
-| `array(...)` | `arrayThat(iterates(...))`*           |
-| `hasItemInArray(...)` | `arrayThat(contains(...))`*           | 
+| Hamcrest | Confidence                             |
+|---|----------------------------------------|
+| `contains(...)` | `iterates(...)`                        |
+| `containsInAnyOrder(...)` | `iteratesInAnyOrder(...)`              |
+| `iterableWithSize(...)` | `hasNumberOfElements(...)`             |
+| `hasItem(...)` | `contains(...)`                        |
+| `hasItems(...)` | `containsAllOf(...)`                   |
+| `everyItem(...)` | `each(...)`                            |
+| `sameInstance(...)`, `theInstance(...)` | `sameAs(...)`                          |
+| `matchesRegex(...)`, `matchesPattern(...)` | `matchesPattern(...)`                  |
+| `array(...)` | `arrayThat(iterates(...))`*            |
+| `hasItemInArray(...)` | `arrayThat(contains(...))`*            |
 | `arrayWithSize(...)` | `arrayThat(hasNumberOfElements(...))`* |
 
 *works with arrays of primitive types
