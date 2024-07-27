@@ -28,6 +28,36 @@ public final class NumberDescription extends DescriptionComposition
 {
     public NumberDescription(Number value)
     {
-        super(new ToStringDescription(value));
+        super(new ToStringDescription(new NumberToString(value)));
+    }
+
+    private final static class NumberToString
+    {
+
+        private final Number mNumber;
+
+        private NumberToString(Number number) {mNumber = number;}
+
+        @Override
+        public String toString()
+        {
+            if (mNumber instanceof Integer)
+            {
+                return mNumber.toString();
+            }
+            if (mNumber instanceof Long)
+            {
+                return mNumber.toString() + "l";
+            }
+            if (mNumber instanceof Float)
+            {
+                return mNumber.toString() + "f";
+            }
+            if (mNumber instanceof Double)
+            {
+                return mNumber.toString() + "d";
+            }
+            return mNumber.toString();
+        }
     }
 }
