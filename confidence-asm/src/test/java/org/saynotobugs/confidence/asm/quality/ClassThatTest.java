@@ -21,6 +21,7 @@ package org.saynotobugs.confidence.asm.quality;
 import org.junit.jupiter.api.Test;
 import org.saynotobugs.confidence.asm.ClassAdapter;
 import org.saynotobugs.confidence.asm.quality.testclasses.AnnotatedTestClass;
+import org.saynotobugs.confidence.asm.quality.testclasses.OuterTestClass;
 import org.saynotobugs.confidence.asm.quality.testclasses.TestClassWithoutAnnotation;
 import org.saynotobugs.confidence.quality.composite.AllOf;
 import org.saynotobugs.confidence.quality.composite.Has;
@@ -30,7 +31,6 @@ import org.saynotobugs.confidence.test.quality.Fails;
 import org.saynotobugs.confidence.test.quality.HasDescription;
 import org.saynotobugs.confidence.test.quality.Passes;
 
-import java.lang.Class;
 import java.lang.annotation.Annotation;
 
 import static org.saynotobugs.confidence.Assertion.assertThat;
@@ -42,10 +42,10 @@ class ClassThatTest
     {
         assertThat(new ClassThat(new Has<>("annotations", ClassAdapter::declaredAnnotations, new Iterates<>(new InstanceOf<>(Annotation.class)))),
             new AllOf<>(
-                new Passes<Class<?>>(AnnotatedTestClass.class),
+                new Passes<java.lang.Class<?>>(AnnotatedTestClass.class),
+                new Passes<java.lang.Class<?>>(OuterTestClass.AnnotatedInnerTestClass.class),
                 new Fails<>(TestClassWithoutAnnotation.class, "Class that had annotations iterated [ 0: missing instance of <interface java.lang.annotation.Annotation> ]"),
                 new HasDescription("Class that has annotations iterates [ 0: instance of <interface java.lang.annotation.Annotation> ]")
             ));
     }
-
 }
