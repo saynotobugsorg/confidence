@@ -47,7 +47,7 @@ public final class ClassThat extends QualityComposition<Class<?>>
             new Text("Class that"),
             new Text("Class that"),
             candidate -> {
-                ClassReader classReader = new ClassReader(candidate.getCanonicalName());
+                ClassReader classReader = new ClassReader(candidate.getName());
                 return (ClassAdapter) () -> {
                     Collection<AnnotationAdapter> adapters = new ArrayList<>();
                     classReader.accept(new AnnotationClassVisitor(adapters), 0);
