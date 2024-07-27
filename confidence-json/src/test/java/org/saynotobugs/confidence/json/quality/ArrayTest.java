@@ -130,7 +130,7 @@ class ArrayTest
                 new Fails<>(mock("not an array", JsonElementAdapter.class,
                     with(JsonElementAdapter::asArray, returning(new Absent<>()))),
                     "array not an array"),
-                new HasDescription("array { has length <2>\n  and\n  { <0>: <1.2>\n    and\n    <1>: <5> } }")
+                new HasDescription("array { has length <2>\n  and\n  { <0>: <1.2d>\n    and\n    <1>: <5> } }")
             ));
     }
 

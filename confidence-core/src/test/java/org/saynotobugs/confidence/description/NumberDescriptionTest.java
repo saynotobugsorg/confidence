@@ -17,15 +17,22 @@ class NumberDescriptionTest
 
 
     @Test
+    void testLong()
+    {
+        assertThat(new NumberDescription(123l), new DescribesAs("<123l>"));
+    }
+
+
+    @Test
     void testFloat()
     {
-        assertThat(new NumberDescription(123.23f), new DescribesAs("<123.23>"));
+        assertThat(new NumberDescription(123.23f), new DescribesAs("<123.23f>"));
     }
 
 
     @Test
     void testDouble()
     {
-        assertThat(new NumberDescription(123.23d), new DescribesAs("<123.23>"));
+        assertThat(new NumberDescription(123.23d), new DescribesAs("<123.23d>"));
     }
 }

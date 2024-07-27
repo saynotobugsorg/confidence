@@ -18,7 +18,7 @@ class CloseToTest
         assertThat(new CloseTo(1.0, 0.01),
             new AllOf<>(
                 new Passes<>(1.0, 1f, 1, 1.00999, 0.99000001),
-                new Fails<>(1.01001d, "<1.01001> differs from <1.0> by <0.01001>, which exceeds the ε of <0.01>"),
+                new Fails<>(1.01001d, "<1.01001d> differs from <1.0> by <0.01001>, which exceeds the ε of <0.01>"),
                 new HasDescription("differs from <1.0> by less than <0.01>")
             ));
     }
@@ -30,7 +30,7 @@ class CloseToTest
         assertThat(new CloseTo(1.0),
             new AllOf<>(
                 new Passes<>(1.0000000000000001, 0.9999999999999999),
-                new Fails<>(1.01001d, "<1.01001> differs from <1.0> by <0.01001>, which exceeds the ε of <2.220446049250313E-16>"),
+                new Fails<>(1.01001d, "<1.01001d> differs from <1.0> by <0.01001>, which exceeds the ε of <2.220446049250313E-16>"),
                 new HasDescription("differs from <1.0> by less than <2.220446049250313E-16>")
             ));
     }
@@ -42,7 +42,7 @@ class CloseToTest
         assertThat(new CloseTo(1.0, 10),
             new AllOf<>(
                 new Passes<>(1.000000000000001, 0.999999999999999),
-                new Fails<>(1.01001d, "<1.01001> differs from <1.0> by <0.01001>, which exceeds the ε of <2.220446049250313E-15>"),
+                new Fails<>(1.01001d, "<1.01001d> differs from <1.0> by <0.01001>, which exceeds the ε of <2.220446049250313E-15>"),
                 new HasDescription("differs from <1.0> by less than <2.220446049250313E-15>")
             ));
     }
@@ -53,7 +53,7 @@ class CloseToTest
         assertThat(new CloseTo(1.0f),
             new AllOf<>(
                 new Passes<>(1.0000001, 0.9999999),
-                new Fails<>(1.01001d, "<1.01001> differs from <1.0> by <0.01001>, which exceeds the ε of <1.1920929E-7>"),
+                new Fails<>(1.01001d, "<1.01001d> differs from <1.0> by <0.01001>, which exceeds the ε of <1.1920929E-7>"),
                 new HasDescription("differs from <1.0> by less than <1.1920929E-7>")
             ));
     }
@@ -65,7 +65,7 @@ class CloseToTest
         assertThat(new CloseTo(1.0f, 10),
             new AllOf<>(
                 new Passes<>(1.000001, 0.999999),
-                new Fails<>(1.01001d, "<1.01001> differs from <1.0> by <0.01001>, which exceeds the ε of <0.0000011920929>"),
+                new Fails<>(1.01001d, "<1.01001d> differs from <1.0> by <0.01001>, which exceeds the ε of <0.0000011920929>"),
                 new HasDescription("differs from <1.0> by less than <0.0000011920929>")
             ));
     }

@@ -53,7 +53,7 @@ class UnsafeInstanceOfTest
         assertThat(new UnsafeInstanceOf<>(Iterable.class, new That<>(new Iterates<>(1, "abc", true))),
             new AllOf<>(
                 new Passes<>(new Seq<Object>(1, "abc", true), new Seq(1, "abc", true)),
-                new Fails<>(new Seq<Object>(1.1, "abc", true), "(1) that iterated [ 0: <1.1>\n  ... ]"),
+                new Fails<>(new Seq<Object>(1.1, "abc", true), "(1) that iterated [ 0: <1.1d>\n  ... ]"),
                 new Fails<>(2, "(0) instance of <class java.lang.Integer>"),
                 new Fails<>("string", "(0) instance of <class java.lang.String>"),
                 new Fails<>(new Object(), "(0) instance of <class java.lang.Object>"),

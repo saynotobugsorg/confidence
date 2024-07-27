@@ -18,9 +18,9 @@
 
 package org.saynotobugs.confidence.rxjava3.rxexpectation.internal;
 
-import org.saynotobugs.confidence.description.NumberDescription;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
+import org.saynotobugs.confidence.description.ToStringDescription;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 import org.saynotobugs.confidence.quality.object.Satisfies;
 import org.saynotobugs.confidence.rxjava3.RxTestAdapter;
@@ -31,7 +31,7 @@ public final class IsComplete extends QualityComposition<RxTestAdapter<?>>
     public IsComplete()
     {
         super(new Satisfies<>(actual -> actual.completions() == 1,
-            ackSubscriber -> new Spaced(new Text("completed"), new NumberDescription(ackSubscriber.completions()), new Text("times")),
+            ackSubscriber -> new Spaced(new Text("completed"), new ToStringDescription(ackSubscriber.completions()), new Text("times")),
             new Text("completes exactly once")));
     }
 }

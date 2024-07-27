@@ -113,11 +113,11 @@ class NumberTest
                     with(JsonElementAdapter::asNumber, returning(new Present<>(3L))))),
                 new Fails<>(mock("mismatching number", JsonElementAdapter.class,
                     with(JsonElementAdapter::asNumber, returning(new Present<>(4L)))),
-                    "<4>"),
+                    "<4l>"),
                 new Fails<>(mock("no number", JsonElementAdapter.class,
                     with(JsonElementAdapter::asNumber, returning(new Absent<>()))),
                     "not a number"),
-                new HasDescription("<3>")
+                new HasDescription("<3l>")
             ));
     }
 
