@@ -23,6 +23,7 @@ import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.Scribe;
 import org.saynotobugs.confidence.utils.ArrayIterable;
 
+import java.nio.file.Path;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -70,6 +71,11 @@ public final class Value implements Description
         else if (value instanceof Set)
         {
             description = new SetDescription((Set<?>) value);
+        }
+        else if (value instanceof Path)
+        {
+            // Path is an Iterable of Path, potentially resulting in an infinite loop, hence we treat it seprately here
+            description = new ToStringDescription(value);
         }
         else if (value instanceof Iterable)
         {
