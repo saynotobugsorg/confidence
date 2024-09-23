@@ -34,6 +34,6 @@ public final class Exists extends QualityComposition<File>
 {
     public Exists()
     {
-        super(new Satisfies<>(File::exists, file -> new Text("does not exist"), new Text("exists")));
+        super(new Satisfies<>(File::exists, file -> new Text("did not exist"), new Text("exists")));
     }
 }

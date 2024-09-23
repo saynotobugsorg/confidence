@@ -43,7 +43,7 @@ class ExistsTest
         assertThat(new Exists(),
             new AllOf<>(
                 new Passes<>(tempDir, file),
-                new Fails<>(new File(tempDir, "nonExistentFile"), "does not exist"),
+                new Fails<>(new File(tempDir, "nonExistentFile"), "did not exist"),
                 new HasDescription("exists")));
     }
 }
