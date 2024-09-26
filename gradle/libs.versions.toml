@@ -1,14 +1,14 @@
 [versions]
-asm = "9.6"
+asm = "9.7"
 eclipse-jdt = "2.2.600"
 express = "0.3.1"
 hamcrest = "2.2"
-jems2 = "2.22.0"
-junit = "5.8.2"
-junit-testkit = "1.9.2"
-mockito4 = "4.6.1"
-org-json = "20230618"
-rxjava3 = "3.1.6"
+jems2 = "2.23.1"
+junit = "5.11.0"
+junit-testkit = "1.11.0"
+mockito4 = "4.11.0"
+org-json = "20240303"
+rxjava3 = "3.1.9"
 srcless = "0.6.0"
 
 [libraries]
