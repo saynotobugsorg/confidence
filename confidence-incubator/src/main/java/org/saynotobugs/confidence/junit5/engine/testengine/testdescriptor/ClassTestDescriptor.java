@@ -109,6 +109,7 @@ public final class ClassTestDescriptor extends AbstractTestDescriptor implements
                     .map(CodeSource::getLocation)
                     .flatMap(new FailSafe<>(any -> empty(), url -> Optional.of(url.toURI())))
                     .map(source -> workingDir.relativize(Path.of(source)))
+                    .filter(relativeClassPath -> relativeClassPath.getNameCount() >= 4)
                     .map(relativeClassPath ->
                         workingDir.resolve(Path.of("src", relativeClassPath.getName(3).toString())
                             .resolve(Path.of(relativeClassPath.getName(2).toString(), testClazz.getPackageName().split("\\.")))
