@@ -94,7 +94,7 @@ public final class ClassTestDescriptor extends AbstractTestDescriptor implements
 
     private static Optional<Path> naiveTestSourcePath(Class<?> testClazz)
     {
-        return Optional.of(Path.of("src", "main")
+        return Optional.of(Path.of("src", "test")
                 .resolve(Path.of("java", testClazz.getPackage().getName().split("\\.")))
                 .resolve(testClazz.getSimpleName() + ".java"))
             .filter(Files::isRegularFile);
