@@ -35,6 +35,7 @@ dependencies {
     implementation libs.junit.jupiter.engine
     implementation project(':confidence-core')
     implementation libs.jems2.confidence
+    implementation 'com.github.javaparser:javaparser-core:3.26.1'
 
     testImplementation project(':confidence-test')
     testImplementation libs.jems2.testing

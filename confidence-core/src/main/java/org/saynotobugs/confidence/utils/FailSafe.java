@@ -25,7 +25,7 @@ import org.dmfs.jems2.ThrowingFunction;
 /**
  * A {@link ThrowingFunction} to {@link Function} adapter that always returns a result, even in case a {@link Throwable} was thrown.
  */
-public final class FailSafe<Argument, Result> implements Function<Argument, Result>
+public final class FailSafe<Argument, Result> implements Function<Argument, Result>, java.util.function.Function<Argument, Result>
 {
     private final ThrowingFunction<Argument, Result> delegate;
     private final Function<Throwable, Result> fallback;
@@ -51,5 +51,11 @@ public final class FailSafe<Argument, Result> implements Function<Argument, Resu
         {
             return fallback.value(e);
         }
+    }
+
+    @Override
+    public Result apply(Argument argument)
+    {
+        return value(argument);
     }
 }

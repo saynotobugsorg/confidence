@@ -18,17 +18,21 @@
 
 package org.saynotobugs.confidence.junit5.engine.testengine.testdescriptor;
 
+import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.body.FieldDeclaration;
 import org.junit.platform.engine.EngineExecutionListener;
 import org.junit.platform.engine.TestDescriptor;
 import org.junit.platform.engine.UniqueId;
 import org.junit.platform.engine.support.descriptor.AbstractTestDescriptor;
 import org.junit.platform.engine.support.descriptor.ClassSource;
+import org.junit.platform.engine.support.descriptor.FilePosition;
 import org.saynotobugs.confidence.junit5.engine.Assertion;
 import org.saynotobugs.confidence.junit5.engine.testengine.Testable;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Optional;
 
 
 /**
@@ -40,11 +44,11 @@ public final class FieldTestDescriptor extends AbstractTestDescriptor implements
     private final Field javaField;
 
 
-    public FieldTestDescriptor(UniqueId uniqueId, Class<?> javaClass, Field javaField)
+    public FieldTestDescriptor(UniqueId uniqueId, Class<?> javaClass, Optional<CompilationUnit> testSource, Field javaField)
     {
         super(uniqueId.append("field", javaField.getName()),
             (javaField.getName().replace("_", " ")).trim(),
-            ClassSource.from(javaClass));
+            ClassSource.from(javaClass, getFieldLineNumber(testSource, javaField.getName())));
         this.javaClass = javaClass;
         this.javaField = javaField;
     }
@@ -72,5 +76,17 @@ public final class FieldTestDescriptor extends AbstractTestDescriptor implements
     public Type getType()
     {
         return Type.TEST;
+    }
+
+
+    private static FilePosition getFieldLineNumber(Optional<CompilationUnit> compilationUnit, String fieldName)
+    {
+        return compilationUnit.flatMap(cu -> cu.findAll(FieldDeclaration.class)
+                .stream().flatMap(fieldDeclaration -> fieldDeclaration.getVariables().stream())
+                .filter(node -> fieldName.equals(node.getName().asString()))
+                .flatMap(node -> node.getBegin().stream())
+                .map(begin -> FilePosition.from(begin.line, begin.column))
+                .findFirst())
+            .orElse(null);
     }
 }
