@@ -23,6 +23,8 @@ import org.saynotobugs.confidence.quality.composite.Has;
 import org.saynotobugs.confidence.quality.object.EqualTo;
 
 import static org.saynotobugs.confidence.Assertion.assertThat;
+import static org.saynotobugs.confidence.core.quality.Function.maps;
+import static org.saynotobugs.confidence.core.quality.Grammar.to;
 
 
 class FailSafeTest
@@ -42,5 +44,22 @@ class FailSafeTest
                 throw new IllegalArgumentException("xyz");
             }),
             new Has<>(fs -> fs.value("123"), new EqualTo<>("xyz")));
+    }
+
+    @Test
+    void testJavaFunctionNoException()
+    {
+        assertThat(new FailSafe<String, String>(t -> "fail", x -> x),
+            maps("123", to("123")));
+    }
+
+
+    @Test
+    void testJavaFunctionException()
+    {
+        assertThat(new FailSafe<String, String>(Throwable::getMessage, x -> {
+                throw new IllegalArgumentException("xyz");
+            }),
+            maps("123", to("xyz")));
     }
 }
