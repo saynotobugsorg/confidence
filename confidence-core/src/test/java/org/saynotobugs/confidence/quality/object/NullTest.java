@@ -17,7 +17,7 @@ class NullTest
         assertThat(new Null(),
             new AllOf<>(
                 new Passes<>(new Object[] { null }),
-                new Fails<>(123, "<123>"),
+                new Fails<>(123, "123"),
                 new HasDescription("<null>")));
     }
 }

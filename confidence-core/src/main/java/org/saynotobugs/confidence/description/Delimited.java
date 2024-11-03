@@ -23,8 +23,6 @@ import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.Scribe;
 import org.saynotobugs.confidence.utils.Intermittent;
 
-import static org.saynotobugs.confidence.description.LiteralDescription.SPACE;
-
 
 /**
  * A {@link Description} that concatenates other {@link Description}s with a delimiting {@link Description}.
@@ -33,19 +31,6 @@ public final class Delimited implements Description
 {
     private final Description mDelimiter;
     private final Iterable<? extends Description> mDescriptions;
-
-
-    /**
-     * Creates a {@link Description} of the sequence of the given {@link Description}s separated with a {@link LiteralDescription#SPACE}.
-     *
-     * @deprecated in favour of {@link Spaced}
-     */
-    @Deprecated
-    public Delimited(Description... descriptions)
-    {
-        this(SPACE, new Seq<>(descriptions));
-    }
-
 
     /**
      * Creates a {@link Description} of the sequence of the given {@link Description}s separated with the given {@code delimiter}.

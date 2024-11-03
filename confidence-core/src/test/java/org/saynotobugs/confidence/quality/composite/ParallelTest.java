@@ -27,7 +27,7 @@ class ParallelTest
                 new Passes<>(() -> 99, () -> integer.incrementAndGet() % 999),
                 new Fails<>(
                     () -> integer.incrementAndGet() % 1000,
-                    new DescribesAs(new MatchesPattern("executions: ...\\R .+ supplied <999>\\R  ..."))),
+                    new DescribesAs(new MatchesPattern("executions: ...\\R .+ supplied 999\\R  ..."))),
                 new Fails<>(
                     () -> {
                         if (integer.incrementAndGet() % 999 == 0)
@@ -40,7 +40,7 @@ class ParallelTest
                         }
                     },
                     new DescribesAs(new MatchesPattern("executions: ...\\R .+ <java.lang.RuntimeException: error>\\R  ..."))),
-                new HasDescription("running 1000 parallel execution, each supplies less than <999>")
+                new HasDescription("running 1000 parallel execution, each supplies less than 999")
             ));
     }
 

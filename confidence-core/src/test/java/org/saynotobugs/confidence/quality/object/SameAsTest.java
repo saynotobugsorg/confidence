@@ -19,8 +19,8 @@ class SameAsTest
         assertThat(new SameAs<>(i),
             new AllOf<>(
                 new Passes<>(i),
-                new Fails<>(123, "<123>"),
-                new HasDescription("same instance as <123>")));
+                new Fails<>(123, "123"),
+                new HasDescription("same instance as 123")));
     }
 
 }

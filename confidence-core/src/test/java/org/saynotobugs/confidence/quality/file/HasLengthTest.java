@@ -54,9 +54,9 @@ class HasLengthTest
         assertThat(new HasLength(new EqualTo<>(10L)),
             new AllOf<>(
                 new Passes<>(file10Bytes),
-                new Fails<>(tempDir, new DescribesAs(new MatchesPattern("had length <\\d+l>"))),
-                new Fails<>(emptyFile, "had length <0l>"),
-                new HasDescription("has length <10l>")
+                new Fails<>(tempDir, new DescribesAs(new MatchesPattern("had length \\d+l"))),
+                new Fails<>(emptyFile, "had length 0l"),
+                new HasDescription("has length 10l")
             ));
     }
 
@@ -74,9 +74,9 @@ class HasLengthTest
         assertThat(new HasLength(10),
             new AllOf<>(
                 new Passes<>(file10Bytes),
-                new Fails<>(tempDir, new DescribesAs(new MatchesPattern("had length <\\d+l>"))),
-                new Fails<>(emptyFile, "had length <0l>"),
-                new HasDescription("has length <10l>")
+                new Fails<>(tempDir, new DescribesAs(new MatchesPattern("had length \\d+l"))),
+                new Fails<>(emptyFile, "had length 0l"),
+                new HasDescription("has length 10l")
             ));
     }
 

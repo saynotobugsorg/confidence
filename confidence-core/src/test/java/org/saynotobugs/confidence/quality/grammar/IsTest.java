@@ -19,8 +19,8 @@ class IsTest
         assertThat(new Is<>(3),
             new AllOf<>(
                 new Passes<>(3),
-                new Fails<>(4, "was <4>"),
-                new HasDescription("is <3>")));
+                new Fails<>(4, "was 4"),
+                new HasDescription("is 3")));
     }
 
 
@@ -39,7 +39,7 @@ class IsTest
     {
         assertThat(new Is<>(new Nothing()),
             new AllOf<>(
-                new Fails<>(1, "was <1>"),
+                new Fails<>(1, "was 1"),
                 new HasDescription("is <nothing>")));
     }
 }

@@ -17,7 +17,7 @@ class MapDescriptionTest
     {
         assertThat(
             new MapDescription(new HashMap<>()),
-            new DescribesAs("{  }"));
+            new DescribesAs("{}"));
     }
 
 
@@ -41,7 +41,7 @@ class MapDescriptionTest
         map.put("c", "z");
         assertThat(
             new MapDescription(map),
-            new DescribesAs("{ \"a\": \"x\",\n  \"b\": \"y\",\n  \"c\": \"z\" }"));
+            new DescribesAs("{ \"a\": \"x\", \"b\": \"y\", \"c\": \"z\" }"));
     }
 
 }

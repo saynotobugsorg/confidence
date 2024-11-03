@@ -91,11 +91,11 @@ class ArrayTest
                                 with(adapter -> adapter.elementAt(1), returning(
                                     new Present<>(mock(JsonElementAdapter.class,
                                         with(JsonElementAdapter::asString, returning(new Present<>("b")))))))))))),
-                    "array { ...\n  { <0>: not a string\n    ... } }"),
+                    "array { ...\n  { 0: not a string\n    ... } }"),
                 new Fails<>(mock("not an array", JsonElementAdapter.class,
                     with(JsonElementAdapter::asArray, returning(new Absent<>()))),
                     "array not an array"),
-                new HasDescription("array { has length <2>\n  and\n  { <0>: \"a\"\n    and\n    <1>: \"b\" } }")
+                new HasDescription("array { has length 2\n  and\n  { 0: \"a\"\n    and\n    1: \"b\" } }")
             ));
     }
 
@@ -126,11 +126,11 @@ class ArrayTest
                                 with(adapter -> adapter.elementAt(1), returning(
                                     new Present<>(mock(JsonElementAdapter.class,
                                         with(JsonElementAdapter::asNumber, returning(new Present<>(5)))))))))))),
-                    "array { ...\n  { <0>: not a number\n    ... } }"),
+                    "array { ...\n  { 0: not a number\n    ... } }"),
                 new Fails<>(mock("not an array", JsonElementAdapter.class,
                     with(JsonElementAdapter::asArray, returning(new Absent<>()))),
                     "array not an array"),
-                new HasDescription("array { has length <2>\n  and\n  { <0>: <1.2d>\n    and\n    <1>: <5> } }")
+                new HasDescription("array { has length 2\n  and\n  { 0: 1.2d\n    and\n    1: 5 } }")
             ));
     }
 
@@ -160,11 +160,11 @@ class ArrayTest
                                 with(adapter -> adapter.elementAt(1), returning(
                                     new Present<>(mock(JsonElementAdapter.class,
                                         with(JsonElementAdapter::asString, returning(new Present<>("b")))))))))))),
-                    "array { <0>: not a string\n  ... }"),
+                    "array { 0: not a string\n  ... }"),
                 new Fails<>(mock("not an array", JsonElementAdapter.class,
                     with(JsonElementAdapter::asArray, returning(new Absent<>()))),
                     "array not an array"),
-                new HasDescription("array { <0>: \"a\"\n  and\n  <1>: \"b\" }")
+                new HasDescription("array { 0: \"a\"\n  and\n  1: \"b\" }")
             ));
     }
 

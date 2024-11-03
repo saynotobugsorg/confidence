@@ -27,8 +27,8 @@ class EachTest
         assertThat(new Each<>(new LessThan<>(3)),
             new AllOf<>(
                 new Passes<>(asList(0, 1, 2), asList(0, 0, 0), emptyList()),
-                new Fails<>(asList(1, 4, 2), "elements [...\n  1:  <4>\n  ...]"),
-                new HasDescription("each element less than <3>")
+                new Fails<>(asList(1, 4, 2), "elements [...\n  1:  4\n  ...]"),
+                new HasDescription("each element less than 3")
             ));
     }
 
@@ -39,9 +39,9 @@ class EachTest
         assertThat(new Each<>(new LessThan<>(3), new GreaterThan<>(0)),
             new AllOf<>(
                 new Passes<Iterable<Integer>>(asList(1, 1, 2), asList(2, 2, 2), emptyList()),
-                new Fails<Iterable<Integer>>(asList(0, 4, 2), "elements [0:  { ...\n    <0> },\n  1:  { <4>\n    ... }\n  ...]"),
-                new Fails<Iterable<Integer>>(asList(1, 4, 2), "elements [...\n  1:  { <4>\n    ... }\n  ...]"),
-                new HasDescription("each element { less than <3>\n  and\n  greater than <0> }")
+                new Fails<Iterable<Integer>>(asList(0, 4, 2), "elements [0:  { ...\n    0 },\n  1:  { 4\n    ... }\n  ...]"),
+                new Fails<Iterable<Integer>>(asList(1, 4, 2), "elements [...\n  1:  { 4\n    ... }\n  ...]"),
+                new HasDescription("each element { less than 3\n  and\n  greater than 0 }")
             ));
     }
 

@@ -37,8 +37,8 @@ class AssignsTest
         assertThat(new Assigns<>("abc", 3),
             new AllOf<>(
                 new Passes<Function<String, Integer>>(String::length, x -> 3),
-                new Fails<Function<String, Integer>>(x -> 4, "assigned \"abc\" <4>"),
-                new HasDescription("assigns \"abc\" <3>")
+                new Fails<Function<String, Integer>>(x -> 4, "assigned \"abc\" 4"),
+                new HasDescription("assigns \"abc\" 3")
             ));
     }
 
@@ -49,8 +49,8 @@ class AssignsTest
         assertThat(new Assigns<>("abc", new EqualTo<>(3)),
             new AllOf<>(
                 new Passes<Function<String, Integer>>(String::length, x -> 3),
-                new Fails<Function<String, Integer>>(x -> 4, "assigned \"abc\" <4>"),
-                new HasDescription("assigns \"abc\" <3>")
+                new Fails<Function<String, Integer>>(x -> 4, "assigned \"abc\" 4"),
+                new HasDescription("assigns \"abc\" 3")
             ));
     }
 

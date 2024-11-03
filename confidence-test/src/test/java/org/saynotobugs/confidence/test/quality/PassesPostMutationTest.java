@@ -68,8 +68,8 @@ class PassesPostMutationTest
                     {
                         return EMPTY;
                     }
-                }, "[ <1> ] mismatched with \n  ----\n  Fail\n  ---- \n after List::clear"),
-                new HasDescription("matches [ <1> ] after List::clear")
+                }, "[ 1 ] mismatched with \n  ----\n  Fail\n  ---- \n after List::clear"),
+                new HasDescription("matches [ 1 ] after List::clear")
             )
         );
     }

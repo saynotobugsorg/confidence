@@ -38,8 +38,8 @@ class HasLengthTest
             new AllOf<>(
                 new Passes<>(mock(JsonArrayAdapter.class, with(JsonArrayAdapter::length, returning(4)))),
                 new Fails<>(mock(JsonArrayAdapter.class, with(JsonArrayAdapter::length, returning(3))),
-                    "had length <3>"),
-                new HasDescription("has length <4>")
+                    "had length 3"),
+                new HasDescription("has length 4")
             ));
     }
 
@@ -51,10 +51,10 @@ class HasLengthTest
                 new Passes<>(mock(JsonArrayAdapter.class, with(JsonArrayAdapter::length, returning(4))),
                     mock(JsonArrayAdapter.class, with(JsonArrayAdapter::length, returning(100)))),
                 new Fails<>(mock(JsonArrayAdapter.class, with(JsonArrayAdapter::length, returning(3))),
-                    "had length <3>"),
+                    "had length 3"),
                 new Fails<>(mock(JsonArrayAdapter.class, with(JsonArrayAdapter::length, returning(0))),
-                    "had length <0>"),
-                new HasDescription("has length greater than <3>")
+                    "had length 0"),
+                new HasDescription("has length greater than 3")
             ));
     }
 

@@ -46,8 +46,8 @@ class TransformsCompletableTest
         assertThat(new TransformsCompletable<>(new Upstream<>(new Complete()), new Downstream<>(new Completes<>())),
             new AllOf<>(
                 new Passes<>(scheduler -> Completable::hide),
-                new Fails<>(scheduler -> upsteam -> upsteam.andThen(Completable.error(new IOException())), "(1) to downstream { completed <0> times\n  ... }"),
-                new Fails<>(scheduler -> upsteam -> upsteam.delay(10, TimeUnit.SECONDS, scheduler), "(1) to downstream { completed <0> times\n  ... }"),
+                new Fails<>(scheduler -> upsteam -> upsteam.andThen(Completable.error(new IOException())), "(1) to downstream { completed 0 times\n  ... }"),
+                new Fails<>(scheduler -> upsteam -> upsteam.delay(10, TimeUnit.SECONDS, scheduler), "(1) to downstream { completed 0 times\n  ... }"),
                 new HasDescription(
                     "CompletableTransformer that transforms\n  (0) upstream { completion },\n    (1) to downstream { completes exactly once\n      and\n      emits nothing }")
             ));
@@ -76,8 +76,8 @@ class TransformsCompletableTest
         assertThat(new TransformsCompletable<>(new Upstream<>(new Error(new IOException())), new Downstream<>(new Completes<>())),
             new AllOf<>(
                 new Passes<>(scheduler -> upsteam -> upsteam.onErrorComplete()),
-                new Fails<>(scheduler -> Completable::hide, "(1) to downstream { completed <0> times\n  ... }"),
-                new Fails<>(scheduler -> upsteam -> upsteam.delay(10, TimeUnit.SECONDS), "(1) to downstream { completed <0> times\n  ... }"),
+                new Fails<>(scheduler -> Completable::hide, "(1) to downstream { completed 0 times\n  ... }"),
+                new Fails<>(scheduler -> upsteam -> upsteam.delay(10, TimeUnit.SECONDS), "(1) to downstream { completed 0 times\n  ... }"),
                 new HasDescription("CompletableTransformer that transforms\n" +
                     "  (0) upstream { error <java.io.IOException> },\n" +
                     "    (1) to downstream { completes exactly once\n" +

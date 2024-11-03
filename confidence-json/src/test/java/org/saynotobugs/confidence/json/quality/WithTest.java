@@ -75,7 +75,7 @@ class WithTest
                         with(JsonElementAdapter::asNumber, returning(new Absent<>()))))))), "\"abc\": not a number"),
                 new Fails<>(mock(JsonObjectAdapter.class, with(o -> o.member("abc"),
                     returning(new Absent<>()))), "\"abc\": not a member"),
-                new HasDescription("\"abc\": <123>")
+                new HasDescription("\"abc\": 123")
             ));
     }
 }

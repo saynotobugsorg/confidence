@@ -87,7 +87,7 @@ class ResourceThatTest
                         };
                     }
                 },
-                    "{ had single use { ...\n    had value [ \"1\",\n      \"2\" ] }\n  and\n  had parallel use { ...\n    elements [0:  had value [ \"1\",\n        \"2\" ]] } }"),
+                    "{ had single use { ...\n    had value [ \"1\", \"2\" ] }\n  and\n  had parallel use { ...\n    elements [0:  had value [ \"1\", \"2\" ]] } }"),
                 new Fails<>(() -> new Resource<List<String>>()
                 {
                     private final List<String> resource = new ArrayList<>(asList("1"));

@@ -29,11 +29,13 @@ public final class LiteralDescription extends DescriptionComposition
 {
     public static final Description DQUOTES = new LiteralDescription("\"");
     public static final Description COMMA = new LiteralDescription(",");
+    public static final Description SLASH = new LiteralDescription("/");
     public static final Description SPACE = new LiteralDescription(" ");
     public static final Description EMPTY = scribe -> {};
     public static final Description NEW_LINE = Scribe::newLine;
     public static final Description NULL = new LiteralDescription("<null>");
     public static final Description COMMA_NEW_LINE = new Composite(COMMA, NEW_LINE);
+    public static final Description COMMA_SPACE = new Composite(COMMA, SPACE);
 
 
     /**

@@ -19,8 +19,8 @@ class SuppliesTest
             new AllOf<>(
                 new Passes<>(() -> 123),
                 new Fails<>(() -> null, "supplied <null>"),
-                new Fails<>(() -> 1234, "supplied <1234>"),
-                new HasDescription("supplies <123>")
+                new Fails<>(() -> 1234, "supplied 1234"),
+                new HasDescription("supplies 123")
             ));
     }
 

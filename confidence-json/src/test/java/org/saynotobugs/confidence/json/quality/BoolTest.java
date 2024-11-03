@@ -41,11 +41,11 @@ class BoolTest
                     with(JsonElementAdapter::asBoolean, returning(new Present<>(true))))),
                 new Fails<>(mock("mismatching boolean", JsonElementAdapter.class,
                     with(JsonElementAdapter::asBoolean, returning(new Present<>(false)))),
-                    "<false>"),
+                    "false"),
                 new Fails<>(mock("no boolean", JsonElementAdapter.class,
                     with(JsonElementAdapter::asBoolean, returning(new Absent<>()))),
                     "not a boolean"),
-                new HasDescription("<true>")
+                new HasDescription("true")
             ));
     }
 
@@ -58,11 +58,11 @@ class BoolTest
                     with(JsonElementAdapter::asBoolean, returning(new Present<>(false))))),
                 new Fails<>(mock("mismatching boolean", JsonElementAdapter.class,
                     with(JsonElementAdapter::asBoolean, returning(new Present<>(true)))),
-                    "<true>"),
+                    "true"),
                 new Fails<>(mock("no boolean", JsonElementAdapter.class,
                     with(JsonElementAdapter::asBoolean, returning(new Absent<>()))),
                     "not a boolean"),
-                new HasDescription("<false>")
+                new HasDescription("false")
             ));
     }
 }

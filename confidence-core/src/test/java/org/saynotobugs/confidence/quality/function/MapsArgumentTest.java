@@ -22,13 +22,13 @@ class MapsArgumentTest
                 ),
                 new Fails<>(
                     delegate -> x -> delegate.apply(x * 10),
-                    "function passed <10> to delegate function for outer argument <1>"
+                    "function passed 10 to delegate function for outer argument 1"
                 ),
                 new Fails<>(
                     delegate -> x -> 0,
                     "function did not call delegate"
                 ),
-                new HasDescription("function passing <2> to delegate function for outer argument <1>")
+                new HasDescription("function passing 2 to delegate function for outer argument 1")
             )
         );
     }

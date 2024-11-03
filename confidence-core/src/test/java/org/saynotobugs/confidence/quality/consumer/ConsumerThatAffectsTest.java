@@ -55,8 +55,8 @@ class ConsumerThatAffectsTest
         assertThat(new ConsumerThatAffects<>(ArrayList::new, new SoIt<>(new Contains<>("a"))),
             new AllOf<>(
                 new Passes<>(l -> l.add("a")),
-                new Fails<>(l -> l.add("b"), "Consumer that affects [  ] but [ \"b\" ] did not contain \"a\""),
-                new HasDescription("Consumer that affects [  ] so it contains \"a\"")
+                new Fails<>(l -> l.add("b"), "Consumer that affects [] but [ \"b\" ] did not contain \"a\""),
+                new HasDescription("Consumer that affects [] so it contains \"a\"")
             ));
     }
 

@@ -20,10 +20,10 @@ class ValueTest
     void test()
     {
         assertThat(new Value(null), new DescribesAs("<null>"));
-        assertThat(new Value(123), new DescribesAs("<123>"));
+        assertThat(new Value(123), new DescribesAs("123"));
         assertThat(new Value("abc"), new DescribesAs("\"abc\""));
-        assertThat(new Value(true), new DescribesAs("<true>"));
-        assertThat(new Value(new Seq<>(5, "abc", 7)), new DescribesAs("[ <5>,\n  \"abc\",\n  <7> ]"));
+        assertThat(new Value(true), new DescribesAs("true"));
+        assertThat(new Value(new Seq<>(5, "abc", 7)), new DescribesAs("[ 5, \"abc\", 7 ]"));
         assertThat(new Value(new Map.Entry<String, Integer>()
         {
             @Override
@@ -46,11 +46,11 @@ class ValueTest
                 throw new AssertionError("unexpected call to setValue");
             }
 
-        }), new DescribesAs("\"abc\": <123>"));
+        }), new DescribesAs("\"abc\": 123"));
         assertThat(new Value(empty()), new DescribesAs("<empty>"));
-        assertThat(new Value(of(123)), new DescribesAs("<present <123>>"));
+        assertThat(new Value(of(123)), new DescribesAs("<present 123>"));
         assertThat(new Value(Pattern.compile("123")), new DescribesAs("/123/"));
-        assertThat(new Value(new String[] { "a", "b", "c" }), new DescribesAs("[ \"a\",\n  \"b\",\n  \"c\" ]"));
+        assertThat(new Value(new String[] { "a", "b", "c" }), new DescribesAs("[ \"a\", \"b\", \"c\" ]"));
         assertThat(new Value(new Text("123")), new DescribesAs("\n  ----\n  123\n  ----"));
     }
 
@@ -60,7 +60,7 @@ class ValueTest
     {
         Map<String, Integer> map = new HashMap<>();
         map.put("abc", 123);
-        assertThat(new Value(map), new DescribesAs("{ \"abc\": <123> }"));
+        assertThat(new Value(map), new DescribesAs("{ \"abc\": 123 }"));
     }
 
     enum TestEnum
@@ -72,6 +72,6 @@ class ValueTest
     void testSet()
     {
         assertThat(new Value(EnumSet.of(TestEnum.X, TestEnum.Y, TestEnum.Z)),
-            new DescribesAs("{ <X>,\n  <Y>,\n  <Z> }"));
+            new DescribesAs("{ <X>, <Y>, <Z> }"));
     }
 }

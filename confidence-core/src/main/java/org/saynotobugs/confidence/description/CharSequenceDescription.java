@@ -33,6 +33,6 @@ public final class CharSequenceDescription extends DescriptionComposition
      */
     public CharSequenceDescription(CharSequence value)
     {
-        super(new QuotedDescription(DQUOTES, new Text(value)));
+        super(new Quoted(DQUOTES, new Text(value)));
     }
 }

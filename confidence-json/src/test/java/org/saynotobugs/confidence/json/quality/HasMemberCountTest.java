@@ -38,8 +38,8 @@ class HasMemberCountTest
             new AllOf<>(
                 new Passes<>(mock(JsonObjectAdapter.class, with(JsonObjectAdapter::length, returning(4)))),
                 new Fails<>(mock(JsonObjectAdapter.class, with(JsonObjectAdapter::length, returning(3))),
-                    "had member count <3>"),
-                new HasDescription("has member count <4>")
+                    "had member count 3"),
+                new HasDescription("has member count 4")
             ));
     }
 
@@ -51,10 +51,10 @@ class HasMemberCountTest
                 new Passes<>(mock(JsonObjectAdapter.class, with(JsonObjectAdapter::length, returning(4))),
                     mock(JsonObjectAdapter.class, with(JsonObjectAdapter::length, returning(100)))),
                 new Fails<>(mock(JsonObjectAdapter.class, with(JsonObjectAdapter::length, returning(3))),
-                    "had member count <3>"),
+                    "had member count 3"),
                 new Fails<>(mock(JsonObjectAdapter.class, with(JsonObjectAdapter::length, returning(0))),
-                    "had member count <0>"),
-                new HasDescription("has member count greater than <3>")
+                    "had member count 0"),
+                new HasDescription("has member count greater than 3")
             ));
     }
 
