@@ -42,11 +42,11 @@ class NumberTest
                     with(JsonElementAdapter::asNumber, returning(new Present<>(3))))),
                 new Fails<>(mock("mismatching number", JsonElementAdapter.class,
                     with(JsonElementAdapter::asNumber, returning(new Present<>(4)))),
-                    "<4>"),
+                    "4"),
                 new Fails<>(mock("no number", JsonElementAdapter.class,
                     with(JsonElementAdapter::asNumber, returning(new Absent<>()))),
                     "not a number"),
-                new HasDescription("<3>")
+                new HasDescription("3")
             ));
     }
 
@@ -59,11 +59,11 @@ class NumberTest
                     with(JsonElementAdapter::asNumber, returning(new Present<>(3))))),
                 new Fails<>(mock("mismatching number", JsonElementAdapter.class,
                     with(JsonElementAdapter::asNumber, returning(new Present<>(4)))),
-                    "<4> differs from <3.0> by <1.0>, which exceeds the ε of <4.440892098500626E-16>"),
+                    "4 differs from 3.0 by 1.0, which exceeds the ε of 4.440892098500626E-16"),
                 new Fails<>(mock("no number", JsonElementAdapter.class,
                     with(JsonElementAdapter::asNumber, returning(new Absent<>()))),
                     "not a number"),
-                new HasDescription("differs from <3.0> by less than <4.440892098500626E-16>")
+                new HasDescription("differs from 3.0 by less than 4.440892098500626E-16")
             ));
     }
 
@@ -77,11 +77,11 @@ class NumberTest
                     with(JsonElementAdapter::asNumber, returning(new Present<>(3))))),
                 new Fails<>(mock("mismatching number", JsonElementAdapter.class,
                     with(JsonElementAdapter::asNumber, returning(new Present<>(4)))),
-                    "<4> differs from <3.0> by <1.0>, which exceeds the ε of <2.3841858E-7>"),
+                    "4 differs from 3.0 by 1.0, which exceeds the ε of 2.3841858E-7"),
                 new Fails<>(mock("no number", JsonElementAdapter.class,
                     with(JsonElementAdapter::asNumber, returning(new Absent<>()))),
                     "not a number"),
-                new HasDescription("differs from <3.0> by less than <2.3841858E-7>")
+                new HasDescription("differs from 3.0 by less than 2.3841858E-7")
             ));
     }
 
@@ -95,11 +95,11 @@ class NumberTest
                     with(JsonElementAdapter::asNumber, returning(new Present<>(3))))),
                 new Fails<>(mock("mismatching number", JsonElementAdapter.class,
                     with(JsonElementAdapter::asNumber, returning(new Present<>(4)))),
-                    "<4>"),
+                    "4"),
                 new Fails<>(mock("no number", JsonElementAdapter.class,
                     with(JsonElementAdapter::asNumber, returning(new Absent<>()))),
                     "not a number"),
-                new HasDescription("<3>")
+                new HasDescription("3")
             ));
     }
 
@@ -113,11 +113,11 @@ class NumberTest
                     with(JsonElementAdapter::asNumber, returning(new Present<>(3L))))),
                 new Fails<>(mock("mismatching number", JsonElementAdapter.class,
                     with(JsonElementAdapter::asNumber, returning(new Present<>(4L)))),
-                    "<4l>"),
+                    "4l"),
                 new Fails<>(mock("no number", JsonElementAdapter.class,
                     with(JsonElementAdapter::asNumber, returning(new Absent<>()))),
                     "not a number"),
-                new HasDescription("<3l>")
+                new HasDescription("3l")
             ));
     }
 
@@ -131,11 +131,11 @@ class NumberTest
                     with(JsonElementAdapter::asNumber, returning(new Present<>(3))))),
                 new Fails<>(mock("mismatching number", JsonElementAdapter.class,
                     with(JsonElementAdapter::asNumber, returning(new Present<>(4)))),
-                    "<4>"),
+                    "4"),
                 new Fails<>(mock("no number", JsonElementAdapter.class,
                     with(JsonElementAdapter::asNumber, returning(new Absent<>()))),
                     "not a number"),
-                new HasDescription("<3>")
+                new HasDescription("3")
             ));
     }
 

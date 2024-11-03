@@ -23,7 +23,10 @@ import org.saynotobugs.confidence.Description;
 
 /**
  * A {@link Description} that's put in some sort of quoting characters.
+ *
+ * @deprecated in favour of {@link Quoted}.
  */
+@Deprecated
 public final class QuotedDescription extends DescriptionComposition
 {
 

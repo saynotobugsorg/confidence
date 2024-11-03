@@ -46,8 +46,8 @@ class EmitTest
                     withVoid(adapter -> adapter.onNext(2), throwing(new RuntimeException("fail"))),
                     withVoid(adapter -> adapter.onNext(3), doingNothing()),
                     with(Object::toString, returning("opopopo"))),
-                    "emissions [<1>,<2>,<3>] failed with <java.lang.RuntimeException: fail>"),
-                new HasDescription("emissions [<1>,<2>,<3>]")
+                    "emissions [1,2,3] failed with <java.lang.RuntimeException: fail>"),
+                new HasDescription("emissions [1,2,3]")
             ));
     }
 }

@@ -46,8 +46,8 @@ class TransformsFlowableTest
         assertThat(new TransformsFlowable<>(new Upstream<>(new Complete()), new Downstream<>(new Completes<>())),
             new AllOf<>(
                 new Passes<>(scheduler -> Flowable::hide),
-                new Fails<>(scheduler -> upsteam -> upsteam.ambWith(Flowable.error(new IOException())), "(1) to downstream { completed <0> times\n  ... }"),
-                new Fails<>(scheduler -> upsteam -> upsteam.delay(10, TimeUnit.SECONDS), "(1) to downstream { completed <0> times\n  ... }"),
+                new Fails<>(scheduler -> upsteam -> upsteam.ambWith(Flowable.error(new IOException())), "(1) to downstream { completed 0 times\n  ... }"),
+                new Fails<>(scheduler -> upsteam -> upsteam.delay(10, TimeUnit.SECONDS), "(1) to downstream { completed 0 times\n  ... }"),
                 new HasDescription(
                     "FlowableTransformer that transforms\n" +
                         "  (0) upstream { completion },\n" +
@@ -71,17 +71,17 @@ class TransformsFlowableTest
             new AllOf<>(
                 new Passes<>(scheduler -> upstream -> upstream.map(i -> i * 2)),
                 new Fails<>(scheduler -> upsteam -> upsteam.map(i -> i * 3),
-                    "(1) to downstream emitted <1> items that iterated [ 0: <369> ]"),
+                    "(1) to downstream emitted 1 items that iterated [ 0: 369 ]"),
                 new Fails<>(scheduler -> upsteam -> upsteam.ambWith(Flowable.error(new IOException())),
-                    "(1) to downstream emitted <0> items that iterated [ 0: missing <246> ]"),
+                    "(1) to downstream emitted 0 items that iterated [ 0: missing 246 ]"),
                 new Fails<>(scheduler -> upsteam -> upsteam.delay(10, TimeUnit.SECONDS, scheduler),
-                    "(1) to downstream emitted <0> items that iterated [ 0: missing <246> ]"),
+                    "(1) to downstream emitted 0 items that iterated [ 0: missing 246 ]"),
                 new HasDescription(
                     "FlowableTransformer that transforms\n" +
-                        "  (0) upstream { emissions [<123>] },\n" +
-                        "    (1) to downstream emits <1> items that iterates [ 0: <246> ],\n" +
-                        "    (2) upstream { emissions [<200>] },\n" +
-                        "    (3) to downstream emits <1> items that iterates [ 0: <400> ],\n" +
+                        "  (0) upstream { emissions [123] },\n" +
+                        "    (1) to downstream emits 1 items that iterates [ 0: 246 ],\n" +
+                        "    (2) upstream { emissions [200] },\n" +
+                        "    (3) to downstream emits 1 items that iterates [ 0: 400 ],\n" +
                         "    (4) upstream { completion },\n" +
                         "    (5) to downstream { completes exactly once\n" +
                         "      and\n" +

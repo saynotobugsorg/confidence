@@ -17,7 +17,7 @@ class ComparesEqualToTest
         assertThat(new ComparesEqualTo<>(3),
             new AllOf<>(
                 new Passes<>(3),
-                new Fails<>(4, "<4>"),
-                new HasDescription("compares equal to <3>")));
+                new Fails<>(4, "4"),
+                new HasDescription("compares equal to 3")));
     }
 }

@@ -21,7 +21,7 @@ package org.saynotobugs.confidence.description;
 import org.dmfs.jems2.iterable.Mapped;
 import org.saynotobugs.confidence.Description;
 
-import static org.saynotobugs.confidence.description.LiteralDescription.COMMA_NEW_LINE;
+import static org.saynotobugs.confidence.description.LiteralDescription.COMMA_SPACE;
 
 
 /**
@@ -32,14 +32,15 @@ public final class IterableDescription extends DescriptionComposition
 
     private static final Text ENTRY_SEQUENCE = new Text("[ ");
     private static final Text EXIT_SEQUENCE = new Text(" ]");
+    private static final Text EMPTY_SEQUENCE = new Text("[]");
 
 
     public IterableDescription(Iterable<?> value)
     {
-        super(new Structured(
+        super(new Enclosed(
             ENTRY_SEQUENCE,
-            COMMA_NEW_LINE,
+            new Delimited(COMMA_SPACE, new Mapped<>(Value::new, value)),
             EXIT_SEQUENCE,
-            new Mapped<>(Value::new, value)));
+            EMPTY_SEQUENCE));
     }
 }

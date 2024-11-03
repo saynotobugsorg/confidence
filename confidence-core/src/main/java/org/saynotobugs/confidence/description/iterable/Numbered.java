@@ -33,12 +33,10 @@ public final class Numbered extends DelegatingIterable<Description>
         this(new Text(": "), delegate);
     }
 
-
     public Numbered(Description separator, Iterable<Description> delegate)
     {
         this((number, description) -> new Composite(new Text(number.toString()), separator, description), delegate);
     }
-
 
     public Numbered(BiFunction<? super Integer, ? super Description, ? extends Description> numberFunction, Iterable<Description> delegate)
     {

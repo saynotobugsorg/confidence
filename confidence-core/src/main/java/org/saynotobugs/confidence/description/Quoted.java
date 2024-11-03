@@ -22,12 +22,31 @@ import org.saynotobugs.confidence.Description;
 
 
 /**
- * A {@link Description} that describes an {@link Object} by its {@link Object#toString()} value.
+ * A {@link Description} that's put in some sort of quoting characters.
  */
-public final class ToStringDescription extends DescriptionComposition
+public final class Quoted extends DescriptionComposition
 {
-    public ToStringDescription(Object value)
+
+    public Quoted(String quoteString, Description delegate)
     {
-        super(new Quoted("<", new Text(value::toString), ">"));
+        this(quoteString, delegate, quoteString);
+    }
+
+
+    public Quoted(String opening, Description delegate, String closing)
+    {
+        this(new Text(opening), delegate, new Text(closing));
+    }
+
+
+    public Quoted(Description quoteString, Description delegate)
+    {
+        this(quoteString, delegate, quoteString);
+    }
+
+
+    public Quoted(Description opening, Description delegate, Description closing)
+    {
+        super(new Composite(opening, delegate, closing));
     }
 }

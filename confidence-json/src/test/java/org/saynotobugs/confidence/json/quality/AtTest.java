@@ -42,8 +42,8 @@ class AtTest
             new AllOf<>(
                 new Passes<>(mock(JsonArrayAdapter.class, with(a -> a.elementAt(1), returning(new Present<>(mock(JsonElementAdapter.class)))))),
                 new Fails<>(mock(JsonArrayAdapter.class, with(a -> a.elementAt(1), returning(new Absent<>()))),
-                    "<1>: missing"),
-                new HasDescription("<1>: <anything>")
+                    "1: missing"),
+                new HasDescription("1: <anything>")
             ));
     }
 
@@ -53,10 +53,10 @@ class AtTest
         assertThat(new At(1, new Nothing()),
             new AllOf<>(
                 new Fails<>(mock(JsonArrayAdapter.class, with(a -> a.elementAt(1), returning(new Present<>(mock("JSON Element", JsonElementAdapter.class))))),
-                    "<1>: <JSON Element>"),
+                    "1: <JSON Element>"),
                 new Fails<>(mock(JsonArrayAdapter.class, with(a -> a.elementAt(1), returning(new Absent<>()))),
-                    "<1>: missing"),
-                new HasDescription("<1>: <nothing>")
+                    "1: missing"),
+                new HasDescription("1: <nothing>")
             ));
     }
 
@@ -73,10 +73,10 @@ class AtTest
                     with(a -> a.elementAt(1), returning(new Present<>(
                         mock("JSON Element", JsonElementAdapter.class,
                             with(JsonElementAdapter::asNumber, returning(new Present<>(124)))))))),
-                    "<1>: <124>"),
+                    "1: 124"),
                 new Fails<>(mock(JsonArrayAdapter.class, with(a -> a.elementAt(1), returning(new Absent<>()))),
-                    "<1>: missing"),
-                new HasDescription("<1>: <123>")
+                    "1: missing"),
+                new HasDescription("1: 123")
             ));
     }
 
@@ -94,10 +94,10 @@ class AtTest
                     with(a -> a.elementAt(1), returning(new Present<>(
                         mock("JSON Element", JsonElementAdapter.class,
                             with(JsonElementAdapter::asString, returning(new Present<>("xyz")))))))),
-                    "<1>: \"xyz\""),
+                    "1: \"xyz\""),
                 new Fails<>(mock(JsonArrayAdapter.class, with(a -> a.elementAt(1), returning(new Absent<>()))),
-                    "<1>: missing"),
-                new HasDescription("<1>: \"abc\"")
+                    "1: missing"),
+                new HasDescription("1: \"abc\"")
             ));
     }
 }

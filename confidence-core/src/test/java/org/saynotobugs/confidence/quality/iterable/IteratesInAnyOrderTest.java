@@ -21,10 +21,10 @@ class IteratesInAnyOrderTest
         assertThat(new IteratesInAnyOrder<>(1, 2, 3),
             new AllOf<>(
                 new Passes<>(asList(1, 2, 3), asList(1, 3, 2), asList(2, 1, 3), asList(2, 3, 1), asList(3, 1, 2), asList(3, 2, 1)),
-                new Fails<>(asList(0, 1, 2, 3), "iterated also [<0>]\n  did not iterate []"),
-                new Fails<>(asList(1, 2), "iterated also []\n  did not iterate [<3>]"),
-                new Fails<>(asList(-1, 0, 1, 2), "iterated also [<0>,\n    <-1>]\n  did not iterate [<3>]"),
-                new HasDescription("iterates in any order [<1>,\n  <2>,\n  <3>]")
+                new Fails<>(asList(0, 1, 2, 3), "iterated also [0]\n  did not iterate []"),
+                new Fails<>(asList(1, 2), "iterated also []\n  did not iterate [3]"),
+                new Fails<>(asList(-1, 0, 1, 2), "iterated also [0,\n    -1]\n  did not iterate [3]"),
+                new HasDescription("iterates in any order [1,\n  2,\n  3]")
             ));
     }
 
@@ -35,10 +35,10 @@ class IteratesInAnyOrderTest
         assertThat(new IteratesInAnyOrder<>(new EqualTo<>(1), new EqualTo<>(2), new EqualTo<>(3)),
             new AllOf<>(
                 new Passes<>(asList(1, 2, 3), asList(1, 3, 2), asList(2, 1, 3), asList(2, 3, 1), asList(3, 1, 2), asList(3, 2, 1)),
-                new Fails<>(asList(0, 1, 2, 3), "iterated also [<0>]\n  did not iterate []"),
-                new Fails<>(asList(1, 2), "iterated also []\n  did not iterate [<3>]"),
-                new Fails<>(asList(-1, 0, 1, 2), "iterated also [<0>,\n    <-1>]\n  did not iterate [<3>]"),
-                new HasDescription("iterates in any order [<1>,\n  <2>,\n  <3>]")
+                new Fails<>(asList(0, 1, 2, 3), "iterated also [0]\n  did not iterate []"),
+                new Fails<>(asList(1, 2), "iterated also []\n  did not iterate [3]"),
+                new Fails<>(asList(-1, 0, 1, 2), "iterated also [0,\n    -1]\n  did not iterate [3]"),
+                new HasDescription("iterates in any order [1,\n  2,\n  3]")
             ));
     }
 
@@ -49,11 +49,11 @@ class IteratesInAnyOrderTest
         assertThat(new IteratesInAnyOrder<>(new LessThan<>(10), new LessThan<>(20), new GreaterThan<>(10)),
             new AllOf<>(
                 new Passes<>(asList(1, 1, 11), asList(1, 11, 11), asList(1, 11, 21), asList(21, 11, 1), asList(11, 11, 1), asList(11, 1, 1)),
-                new Fails<>(asList(0, 1, 2, 3), "iterated also []\n  did not iterate [greater than <10>]"),
-                new Fails<>(asList(1, 1, 1), "iterated also []\n  did not iterate [greater than <10>]"),
-                new Fails<>(asList(1, 2), "iterated also []\n  did not iterate [greater than <10>]"),
-                new Fails<>(asList(-1, 0, 1, 2), "iterated also []\n  did not iterate [greater than <10>]"),
-                new HasDescription("iterates in any order [less than <10>,\n  less than <20>,\n  greater than <10>]")
+                new Fails<>(asList(0, 1, 2, 3), "iterated also []\n  did not iterate [greater than 10]"),
+                new Fails<>(asList(1, 1, 1), "iterated also []\n  did not iterate [greater than 10]"),
+                new Fails<>(asList(1, 2), "iterated also []\n  did not iterate [greater than 10]"),
+                new Fails<>(asList(-1, 0, 1, 2), "iterated also []\n  did not iterate [greater than 10]"),
+                new HasDescription("iterates in any order [less than 10,\n  less than 20,\n  greater than 10]")
             ));
     }
 
@@ -64,13 +64,13 @@ class IteratesInAnyOrderTest
         assertThat(new IteratesInAnyOrder<>(new LessThan<>(10), new LessThan<>(10), new GreaterThan<>(10)),
             new AllOf<>(
                 new Passes<>(asList(1, 1, 11), asList(11, 1, 1), asList(1, 11, 1)),
-                new Fails<>(asList(0, 11, 11), "No permutation of [less than <10>,\n  less than <10>,\n  greater than <10>] matched [ <0>,\n  <11>,\n  <11> ]"),
+                new Fails<>(asList(0, 11, 11), "No permutation of [less than 10,\n  less than 10,\n  greater than 10] matched [ 0, 11, 11 ]"),
                 new Fails<>(asList(1, 11),
-                    "[ <1>,\n  <11> ] has fewer elements than [less than <10>,\n  less than <10>,\n  greater than <10>]"),
+                    "[ 1, 11 ] has fewer elements than [less than 10,\n  less than 10,\n  greater than 10]"),
                 new Fails<>(asList(1, 11, 11, 11),
-                    "[ <1>,\n  <11>,\n  <11>,\n  <11> ] has more elements than [less than <10>,\n  less than <10>,\n  greater than <10>]"),
-                new Fails<>(asList(11, 11, 11), "iterated also []\n  did not iterate [less than <10>,\n    less than <10>]"),
-                new HasDescription("iterates in any order [less than <10>,\n  less than <10>,\n  greater than <10>]")
+                    "[ 1, 11, 11, 11 ] has more elements than [less than 10,\n  less than 10,\n  greater than 10]"),
+                new Fails<>(asList(11, 11, 11), "iterated also []\n  did not iterate [less than 10,\n    less than 10]"),
+                new HasDescription("iterates in any order [less than 10,\n  less than 10,\n  greater than 10]")
             ));
     }
 }

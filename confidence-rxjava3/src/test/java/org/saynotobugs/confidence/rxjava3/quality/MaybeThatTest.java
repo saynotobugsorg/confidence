@@ -23,10 +23,10 @@ class MaybeThatTest
         assertThat(new MaybeThat<>(new Emits<>(new EqualTo<>(123))),
             new AllOf<>(
                 new Passes<>(ignored -> Maybe.just(123)),
-                new Fails<>(ignored -> Maybe.error(IOException::new), "Maybe that (0) emitted <0> items that iterated [ 0: missing <123> ]"),
-                new Fails<>(ignored -> Maybe.empty(), "Maybe that (0) emitted <0> items that iterated [ 0: missing <123> ]"),
-                new Fails<>(ignored -> Maybe.just(124), "Maybe that (0) emitted <1> items that iterated [ 0: <124> ]"),
-                new HasDescription("Maybe that (0) emits <1> items that iterates [ 0: <123> ]")
+                new Fails<>(ignored -> Maybe.error(IOException::new), "Maybe that (0) emitted 0 items that iterated [ 0: missing 123 ]"),
+                new Fails<>(ignored -> Maybe.empty(), "Maybe that (0) emitted 0 items that iterated [ 0: missing 123 ]"),
+                new Fails<>(ignored -> Maybe.just(124), "Maybe that (0) emitted 1 items that iterated [ 0: 124 ]"),
+                new HasDescription("Maybe that (0) emits 1 items that iterates [ 0: 123 ]")
             ));
     }
 
@@ -37,8 +37,8 @@ class MaybeThatTest
         assertThat(new MaybeThat<>(new Completes<>()),
             new AllOf<>(
                 new Passes<>(ignored -> Maybe.empty()),
-                new Fails<>(ignored -> Maybe.error(IOException::new), "Maybe that (0) { completed <0> times\n  ... }"),
-                new Fails<>(ignored -> Maybe.just(124), "Maybe that (0) { ...\n  emitted [ <124> ] }"),
+                new Fails<>(ignored -> Maybe.error(IOException::new), "Maybe that (0) { completed 0 times\n  ... }"),
+                new Fails<>(ignored -> Maybe.just(124), "Maybe that (0) { ...\n  emitted [ 124 ] }"),
                 new HasDescription("Maybe that (0) { completes exactly once\n    and\n    emits nothing }")
             ));
     }

@@ -56,6 +56,10 @@ public final class Value implements Description
         {
             description = NULL;
         }
+        else if (value instanceof Boolean)
+        {
+            description = new BooleanDescription((Boolean) value);
+        }
         else if (value instanceof Number)
         {
             description = new NumberDescription((Number) value);

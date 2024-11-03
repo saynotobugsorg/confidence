@@ -36,8 +36,8 @@ class ToTest
         assertThat(new To<>(3),
             new AllOf<>(
                 new Passes<>(3),
-                new Fails<>(4, "to <4>"),
-                new HasDescription("to <3>")));
+                new Fails<>(4, "to 4"),
+                new HasDescription("to 3")));
     }
 
 

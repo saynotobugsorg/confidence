@@ -22,12 +22,15 @@ import org.saynotobugs.confidence.Description;
 
 
 /**
- * A {@link Description} that describes an {@link Object} by its {@link Object#toString()} value.
+ * The {@link Description} of a {@link Boolean} value.
  */
-public final class ToStringDescription extends DescriptionComposition
+public final class BooleanDescription extends DescriptionComposition
 {
-    public ToStringDescription(Object value)
+    private final static Description TRUE = new Text(Boolean.TRUE.toString());
+    private final static Description FALSE = new Text(Boolean.FALSE.toString());
+
+    public BooleanDescription(boolean bool)
     {
-        super(new Quoted("<", new Text(value::toString), ">"));
+        super(bool ? TRUE : FALSE);
     }
 }

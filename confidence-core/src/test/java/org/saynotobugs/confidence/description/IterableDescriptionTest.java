@@ -15,7 +15,7 @@ class IterableDescriptionTest
     {
         assertThat(
             new IterableDescription(emptyIterable()),
-            new DescribesAs("[  ]"));
+            new DescribesAs("[]"));
     }
 
 
@@ -33,7 +33,7 @@ class IterableDescriptionTest
     {
         assertThat(
             new IterableDescription(new Seq<>("abc", "xyz")),
-            new DescribesAs("[ \"abc\",\n  \"xyz\" ]"));
+            new DescribesAs("[ \"abc\", \"xyz\" ]"));
     }
 
 
@@ -42,16 +42,6 @@ class IterableDescriptionTest
     {
         assertThat(
             new IterableDescription(new Seq<>(new Seq<>(1, 2, 3), new Seq<>("a", "b", "c"))),
-            new DescribesAs("[ " +
-                "[" +
-                " <1>,\n" +
-                "    <2>,\n" +
-                "    <3> " +
-                "],\n" +
-                "  [ \"a\"" +
-                ",\n" +
-                "    \"" +
-                "b\",\n" +
-                "    \"c\" ] ]"));
+            new DescribesAs("[ [ 1, 2, 3 ], [ \"a\", \"b\", \"c\" ] ]"));
     }
 }

@@ -21,8 +21,8 @@ class EntryOfTest
         assertThat(new EntryOf<>(new EqualTo<>(12), new EqualTo<>("abc")),
             new AllOf<>(
                 new Passes<>(entry(12, "abc")),
-                new Fails<>(entry(13, "ab"), "Entry ( <12>: \"abc\" )"),
-                new HasDescription("Entry ( <12>: \"abc\" )")
+                new Fails<>(entry(13, "ab"), "Entry ( 12: \"abc\" )"),
+                new HasDescription("Entry ( 12: \"abc\" )")
             ));
     }
 
@@ -33,8 +33,8 @@ class EntryOfTest
         assertThat(new EntryOf<>(12, "abc"),
             new AllOf<>(
                 new Passes<>(entry(12, "abc")),
-                new Fails<>(entry(13, "ab"), "Entry ( <12>: \"abc\" )"),
-                new HasDescription("Entry ( <12>: \"abc\" )")
+                new Fails<>(entry(13, "ab"), "Entry ( 12: \"abc\" )"),
+                new HasDescription("Entry ( 12: \"abc\" )")
             ));
     }
 
@@ -45,8 +45,8 @@ class EntryOfTest
         assertThat(new EntryOf<>(12, new EqualTo<>("abc")),
             new AllOf<>(
                 new Passes<>(entry(12, "abc")),
-                new Fails<>(entry(13, "ab"), "Entry ( <12>: \"abc\" )"),
-                new HasDescription("Entry ( <12>: \"abc\" )")
+                new Fails<>(entry(13, "ab"), "Entry ( 12: \"abc\" )"),
+                new HasDescription("Entry ( 12: \"abc\" )")
             ));
     }
 
@@ -57,8 +57,8 @@ class EntryOfTest
         assertThat(new EntryOf<>(12),
             new AllOf<>(
                 new Passes<>(entry(12, "abc")),
-                new Fails<>(entry(13, "ab"), "Entry ( <12>: <anything> )"),
-                new HasDescription("Entry ( <12>: <anything> )")
+                new Fails<>(entry(13, "ab"), "Entry ( 12: <anything> )"),
+                new HasDescription("Entry ( 12: <anything> )")
             ));
     }
 

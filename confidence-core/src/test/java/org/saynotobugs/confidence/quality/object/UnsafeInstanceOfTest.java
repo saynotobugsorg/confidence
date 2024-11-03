@@ -39,11 +39,11 @@ class UnsafeInstanceOfTest
         assertThat(new UnsafeInstanceOf<>(Number.class, new That<>(new Has<>("intValue", Number::intValue, new EqualTo<>(1)))),
             new AllOf<>(
                 new Passes<>(1, 1.001, 1L, 1f),
-                new Fails<>(0.999, "(1) that had intValue <0>"),
-                new Fails<>(2, "(1) that had intValue <2>"),
+                new Fails<>(0.999, "(1) that had intValue 0"),
+                new Fails<>(2, "(1) that had intValue 2"),
                 new Fails<>("string", "(0) instance of <class java.lang.String>"),
                 new Fails<>(new Object(), "(0) instance of <class java.lang.Object>"),
-                new HasDescription("(0) instance of <class java.lang.Number>\n  (1) that has intValue <1>")
+                new HasDescription("(0) instance of <class java.lang.Number>\n  (1) that has intValue 1")
             ));
     }
 
@@ -53,11 +53,11 @@ class UnsafeInstanceOfTest
         assertThat(new UnsafeInstanceOf<>(Iterable.class, new That<>(new Iterates<>(1, "abc", true))),
             new AllOf<>(
                 new Passes<>(new Seq<Object>(1, "abc", true), new Seq(1, "abc", true)),
-                new Fails<>(new Seq<Object>(1.1, "abc", true), "(1) that iterated [ 0: <1.1d>\n  ... ]"),
+                new Fails<>(new Seq<Object>(1.1, "abc", true), "(1) that iterated [ 0: 1.1d\n  ... ]"),
                 new Fails<>(2, "(0) instance of <class java.lang.Integer>"),
                 new Fails<>("string", "(0) instance of <class java.lang.String>"),
                 new Fails<>(new Object(), "(0) instance of <class java.lang.Object>"),
-                new HasDescription("(0) instance of <interface java.lang.Iterable>\n  (1) that iterates [ 0: <1>,\n    1: \"abc\",\n    2: <true> ]")
+                new HasDescription("(0) instance of <interface java.lang.Iterable>\n  (1) that iterates [ 0: 1,\n    1: \"abc\",\n    2: true ]")
             ));
     }
 }

@@ -47,8 +47,8 @@ class FailsTest
                     {
                         return new Text("pass");
                     }
-                }, "<123> matched pass"),
-                new HasDescription("mismatches <123> with diff <anything>")
+                }, "123 matched pass"),
+                new HasDescription("mismatches 123 with diff <anything>")
             ));
     }
 
@@ -87,7 +87,7 @@ class FailsTest
                     {
                         return new Text("pass");
                     }
-                }, "<123> mismatched with diff described as\n  ----\n  \"abc\"\n  ----"),
+                }, "123 mismatched with diff described as\n  ----\n  \"abc\"\n  ----"),
                 new Fails<>(new Quality<Integer>()
                 {
                     @Override
@@ -102,8 +102,8 @@ class FailsTest
                     {
                         return new Text("pass");
                     }
-                }, "<123> matched pass"),
-                new HasDescription("mismatches <123> with diff describes as\n  ----\n  \"mismatch\"\n  ----")
+                }, "123 matched pass"),
+                new HasDescription("mismatches 123 with diff describes as\n  ----\n  \"mismatch\"\n  ----")
             ));
     }
 }

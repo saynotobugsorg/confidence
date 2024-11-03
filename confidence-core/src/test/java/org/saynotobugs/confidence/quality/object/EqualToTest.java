@@ -50,7 +50,7 @@ class EqualToTest
                 new Passes<>((Object[]) new String[][] { { "1", "2", "3" } }),
                 new Fails<>("123", "\"123\""),
                 new Fails<>(new String[] { "1", "2" }, "array that iterated [ ...\n  2: missing \"3\" ]"),
-                new HasDescription("[ \"1\",\n  \"2\",\n  \"3\" ]")
+                new HasDescription("[ \"1\", \"2\", \"3\" ]")
             ));
     }
 }

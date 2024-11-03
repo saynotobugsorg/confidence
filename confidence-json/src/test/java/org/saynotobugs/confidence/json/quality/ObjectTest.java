@@ -80,10 +80,10 @@ class ObjectTest
                                 with(JsonElementAdapter::asString, returning(new Present<>("b"))))))),
                             with(a -> a.member("c"), returning(new Present<>(mock(JsonElementAdapter.class,
                                 with(JsonElementAdapter::asNumber, returning(new Present<>(124)))))))))))),
-                    "object { ...\n  \"c\": <124> }"),
+                    "object { ...\n  \"c\": 124 }"),
                 new Fails<>(mock(JsonElementAdapter.class, with(JsonElementAdapter::asObject, returning(new Absent<>()))),
                     "object not an object"),
-                new HasDescription("object { \"a\": \"b\"\n  and\n  \"c\": <123> }")
+                new HasDescription("object { \"a\": \"b\"\n  and\n  \"c\": 123 }")
             ));
     }
 }

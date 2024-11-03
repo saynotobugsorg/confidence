@@ -18,10 +18,10 @@ class HasLengthTest
         assertThat(new HasLength(3),
             new AllOf<>(
                 new Passes<>("123", "abc"),
-                new Fails<>("", "had length <0>"),
-                new Fails<>("12", "had length <2>"),
-                new Fails<>("1234", "had length <4>"),
-                new HasDescription("has length <3>")));
+                new Fails<>("", "had length 0"),
+                new Fails<>("12", "had length 2"),
+                new Fails<>("1234", "had length 4"),
+                new HasDescription("has length 3")));
     }
 
 
@@ -31,8 +31,8 @@ class HasLengthTest
         assertThat(new HasLength(new LessThan<>(4)),
             new AllOf<>(
                 new Passes<>("", "12", "abc"),
-                new Fails<>("abcd", "had length <4>"),
-                new Fails<>("abcde", "had length <5>"),
-                new HasDescription("has length less than <4>")));
+                new Fails<>("abcd", "had length 4"),
+                new Fails<>("abcde", "had length 5"),
+                new HasDescription("has length less than 4")));
     }
 }

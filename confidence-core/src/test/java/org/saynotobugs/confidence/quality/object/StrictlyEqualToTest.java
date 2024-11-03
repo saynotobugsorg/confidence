@@ -34,7 +34,7 @@ class StrictlyEqualToTest
         assertThat(new StrictlyEqualTo<>("123"),
             new AllOf<>(
                 new Passes<>("123"),
-                new Fails<Object>("456", "{ ...\n  was not equal to \"123\"\n  and\n  was not symmetric\n  and\n  had hashCode <51669> }"),
+                new Fails<Object>("456", "{ ...\n  was not equal to \"123\"\n  and\n  was not symmetric\n  and\n  had hashCode 51669 }"),
                 new Fails<>(new Object()
                 {
                     @Override
@@ -74,7 +74,7 @@ class StrictlyEqualToTest
                     {
                         return "fakeObject2";
                     }
-                }, "{ was not reflexive\n  and\n  was equal to null\n  and\n  was not equal to \"123\"\n  ...\n  had hashCode <51669> }"),
+                }, "{ was not reflexive\n  and\n  was equal to null\n  and\n  was not equal to \"123\"\n  ...\n  had hashCode 51669 }"),
                 new Fails<>(new Object()
                 {
                     @Override
@@ -95,7 +95,7 @@ class StrictlyEqualToTest
                         return "fakeObject3";
                     }
                 }, "{ ...\n  was not equal to \"123\"\n  ... }"),
-                new HasDescription("{ is reflexive\n  and\n  is not equal to null\n  and\n  is equal to \"123\"\n  and\n  is symmetric\n  and\n  has hashCode <48690> like \"123\" }")
+                new HasDescription("{ is reflexive\n  and\n  is not equal to null\n  and\n  is equal to \"123\"\n  and\n  is symmetric\n  and\n  has hashCode 48690 like \"123\" }")
             ));
     }
 }

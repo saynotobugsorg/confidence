@@ -22,6 +22,8 @@ import org.saynotobugs.confidence.Description;
 
 import java.util.regex.Pattern;
 
+import static org.saynotobugs.confidence.description.LiteralDescription.SLASH;
+
 
 /**
  * The {@link Description} of a {@link Pattern} value
@@ -33,6 +35,6 @@ public final class PatternDescription extends DescriptionComposition
      */
     public PatternDescription(Pattern value)
     {
-        super(new QuotedDescription(scribe -> scribe.append("/"), new Text(value::pattern)));
+        super(new Quoted(SLASH, new Text(value::pattern)));
     }
 }

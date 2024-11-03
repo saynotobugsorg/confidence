@@ -30,9 +30,9 @@ class AllOfTest
     @Test
     void testMismatch()
     {
-        assertThat(new AllOf<>(new Nothing()), new Fails<>(123, "{ <123> }"));
-        assertThat(new AllOf<>(new Anything(), new Nothing()), new Fails<>(123, "{ ...\n  <123> }"));
-        assertThat(new AllOf<>(new Nothing(), new Anything(), new Anything()), new Fails<>(123, "{ <123>\n  ... }"));
+        assertThat(new AllOf<>(new Nothing()), new Fails<>(123, "{ 123 }"));
+        assertThat(new AllOf<>(new Anything(), new Nothing()), new Fails<>(123, "{ ...\n  123 }"));
+        assertThat(new AllOf<>(new Nothing(), new Anything(), new Anything()), new Fails<>(123, "{ 123\n  ... }"));
     }
 
 

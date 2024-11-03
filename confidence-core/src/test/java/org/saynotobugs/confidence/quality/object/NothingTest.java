@@ -17,7 +17,7 @@ class NothingTest
         assertThat(new Nothing(),
             new AllOf<>(
                 new Fails<Object>("abc", "\"abc\""),
-                new Fails<Object>(123, "<123>"),
+                new Fails<Object>(123, "123"),
                 new Fails<Object>(null, "<null>"),
                 new HasDescription("<nothing>")));
     }

@@ -19,45 +19,36 @@
 package org.saynotobugs.confidence.description;
 
 import org.saynotobugs.confidence.Description;
+import org.saynotobugs.confidence.Scribe;
 
 
 /**
  * The {@link Description} of a {@link Number} value.
  */
-public final class NumberDescription extends DescriptionComposition
+public final class NumberDescription implements Description
 {
-    public NumberDescription(Number value)
+    private final Number mNumber;
+
+    public NumberDescription(Number number)
     {
-        super(new ToStringDescription(new NumberToString(value)));
+        mNumber = number;
     }
 
-    private final static class NumberToString
+    @Override
+    public void describeTo(Scribe scribe)
     {
-
-        private final Number mNumber;
-
-        private NumberToString(Number number) {mNumber = number;}
-
-        @Override
-        public String toString()
+        scribe.append(mNumber.toString());
+        if (mNumber instanceof Long)
         {
-            if (mNumber instanceof Integer)
-            {
-                return mNumber.toString();
-            }
-            if (mNumber instanceof Long)
-            {
-                return mNumber.toString() + "l";
-            }
-            if (mNumber instanceof Float)
-            {
-                return mNumber.toString() + "f";
-            }
-            if (mNumber instanceof Double)
-            {
-                return mNumber.toString() + "d";
-            }
-            return mNumber.toString();
+            scribe.append("l");
+        }
+        if (mNumber instanceof Float)
+        {
+            scribe.append("f");
+        }
+        if (mNumber instanceof Double)
+        {
+            scribe.append("d");
         }
     }
 }

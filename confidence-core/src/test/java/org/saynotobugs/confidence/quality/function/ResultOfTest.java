@@ -26,9 +26,9 @@ class ResultOfTest
                 ),
                 new Fails<>(
                     delegate -> x -> delegate.apply(100),
-                    "delegate which outputs <1> resulted in outer function mapped <30> to <1>"
+                    "delegate which outputs 1 resulted in outer function mapped 30 to 1"
                 ),
-                new HasDescription("delegate which outputs <1> resulting in outer function that maps <30> to <34>")
+                new HasDescription("delegate which outputs 1 resulting in outer function that maps 30 to 34")
             )
         );
     }

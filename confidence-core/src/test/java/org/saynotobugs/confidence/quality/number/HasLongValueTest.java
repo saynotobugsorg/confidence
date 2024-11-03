@@ -35,8 +35,8 @@ class HasLongValueTest
         assertThat(new HasLongValue(10L),
             new AllOf<>(
                 new Passes<>(10, 10L, 10f, 10d),
-                new Fails<>(11, "had long value <11l>"),
-                new HasDescription("has long value <10l>")
+                new Fails<>(11, "had long value 11l"),
+                new HasDescription("has long value 10l")
             ));
     }
 
@@ -46,8 +46,8 @@ class HasLongValueTest
         assertThat(new HasLongValue(new LessThan<>(11L)),
             new AllOf<>(
                 new Passes<>(10, 10L, 10f, 10d),
-                new Fails<>(11, "had long value <11l>"),
-                new HasDescription("has long value less than <11l>")
+                new Fails<>(11, "had long value 11l"),
+                new HasDescription("has long value less than 11l")
             ));
     }
 
