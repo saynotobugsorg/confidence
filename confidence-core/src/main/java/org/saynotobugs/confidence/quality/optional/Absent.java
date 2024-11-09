@@ -20,7 +20,7 @@ package org.saynotobugs.confidence.quality.optional;
 
 import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
-import org.saynotobugs.confidence.description.Text;
+import org.saynotobugs.confidence.description.valuedescription.Value;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 import org.saynotobugs.confidence.quality.object.Satisfies;
 
@@ -40,6 +40,6 @@ public final class Absent extends QualityComposition<Optional<?>>
     {
         super(new Satisfies<>(
             actual -> !actual.isPresent(),
-            new Text("<absent>")));
+            new Value(Optional.empty())));
     }
 }

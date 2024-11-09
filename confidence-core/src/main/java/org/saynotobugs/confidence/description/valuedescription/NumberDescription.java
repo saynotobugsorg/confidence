@@ -16,7 +16,7 @@
  *
  */
 
-package org.saynotobugs.confidence.description;
+package org.saynotobugs.confidence.description.valuedescription;
 
 import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.Scribe;

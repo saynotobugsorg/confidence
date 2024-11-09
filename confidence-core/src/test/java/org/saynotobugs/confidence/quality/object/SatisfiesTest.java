@@ -3,7 +3,7 @@ package org.saynotobugs.confidence.quality.object;
 import org.junit.jupiter.api.Test;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
-import org.saynotobugs.confidence.description.Value;
+import org.saynotobugs.confidence.description.valuedescription.Value;
 import org.saynotobugs.confidence.quality.composite.AllOf;
 import org.saynotobugs.confidence.test.quality.Fails;
 import org.saynotobugs.confidence.test.quality.HasDescription;

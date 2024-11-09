@@ -20,7 +20,7 @@ package org.saynotobugs.confidence.rxjava3.rxexpectation.internal;
 
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
-import org.saynotobugs.confidence.description.Value;
+import org.saynotobugs.confidence.description.valuedescription.Value;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 import org.saynotobugs.confidence.quality.object.Satisfies;
 import org.saynotobugs.confidence.rxjava3.RxTestAdapter;

@@ -16,18 +16,28 @@
  *
  */
 
-package org.saynotobugs.confidence.description;
+package org.saynotobugs.confidence.description.valuedescription;
 
 import org.saynotobugs.confidence.Description;
+import org.saynotobugs.confidence.description.DescriptionComposition;
+import org.saynotobugs.confidence.description.Quoted;
+import org.saynotobugs.confidence.description.Text;
+
+import java.util.regex.Pattern;
+
+import static org.saynotobugs.confidence.description.LiteralDescription.SLASH;
 
 
 /**
- * A {@link Description} that describes an {@link Object} by its {@link Object#toString()} value.
+ * The {@link Description} of a {@link Pattern} value
  */
-public final class ToStringDescription extends DescriptionComposition
+public final class PatternDescription extends DescriptionComposition
 {
-    public ToStringDescription(Object value)
+    /**
+     * Creates a {@link Description} for the given {@link Pattern}.
+     */
+    public PatternDescription(Pattern value)
     {
-        super(new Quoted("<", new Text(value::toString), ">"));
+        super(new Quoted(SLASH, new Text(value::pattern)));
     }
 }

@@ -16,26 +16,23 @@
  *
  */
 
-package org.saynotobugs.confidence.description;
+package org.saynotobugs.confidence.description.valuedescription;
 
 import org.saynotobugs.confidence.Description;
-
-import java.util.Map;
+import org.saynotobugs.confidence.description.DescriptionComposition;
+import org.saynotobugs.confidence.description.Text;
 
 
 /**
- * A {@link Description} of a {@link Map.Entry}.
+ * The {@link Description} of a {@link Boolean} value.
  */
-public final class MapEntryDescription extends DescriptionComposition
+public final class BooleanDescription extends DescriptionComposition
 {
-    private static final Description SEPARATOR = new Text(": ");
+    private final static Description TRUE = new Text(Boolean.TRUE.toString());
+    private final static Description FALSE = new Text(Boolean.FALSE.toString());
 
-
-    public MapEntryDescription(Map.Entry<?, ?> value)
+    public BooleanDescription(boolean bool)
     {
-        super(new Composite(
-            new Value(value.getKey()),
-            SEPARATOR,
-            new Value(value.getValue())));
+        super(bool ? TRUE : FALSE);
     }
 }

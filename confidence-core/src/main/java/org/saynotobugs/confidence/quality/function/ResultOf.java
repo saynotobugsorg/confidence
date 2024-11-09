@@ -8,7 +8,7 @@ import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.FailUpdated;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
-import org.saynotobugs.confidence.description.Value;
+import org.saynotobugs.confidence.description.valuedescription.Value;
 
 import java.util.function.Function;
 

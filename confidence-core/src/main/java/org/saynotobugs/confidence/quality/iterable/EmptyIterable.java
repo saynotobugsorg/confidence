@@ -22,7 +22,7 @@ import org.dmfs.jems2.predicate.Not;
 import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.description.Text;
-import org.saynotobugs.confidence.description.Value;
+import org.saynotobugs.confidence.description.valuedescription.Value;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 import org.saynotobugs.confidence.quality.object.Satisfies;
 

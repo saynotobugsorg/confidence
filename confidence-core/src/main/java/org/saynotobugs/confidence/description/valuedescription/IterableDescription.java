@@ -16,10 +16,14 @@
  *
  */
 
-package org.saynotobugs.confidence.description;
+package org.saynotobugs.confidence.description.valuedescription;
 
 import org.dmfs.jems2.iterable.Mapped;
 import org.saynotobugs.confidence.Description;
+import org.saynotobugs.confidence.description.Delimited;
+import org.saynotobugs.confidence.description.DescriptionComposition;
+import org.saynotobugs.confidence.description.Enclosed;
+import org.saynotobugs.confidence.description.Text;
 
 import static org.saynotobugs.confidence.description.LiteralDescription.COMMA_SPACE;
 

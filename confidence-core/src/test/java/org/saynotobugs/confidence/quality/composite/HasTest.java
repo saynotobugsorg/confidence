@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
-import org.saynotobugs.confidence.description.Value;
+import org.saynotobugs.confidence.description.valuedescription.Value;
 import org.saynotobugs.confidence.quality.object.EqualTo;
 import org.saynotobugs.confidence.test.quality.Fails;
 import org.saynotobugs.confidence.test.quality.HasDescription;

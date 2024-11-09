@@ -1,6 +1,7 @@
-package org.saynotobugs.confidence.description;
+package org.saynotobugs.confidence.description.valuedescription;
 
 import org.junit.jupiter.api.Test;
+import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.test.quality.DescribesAs;
 
 import static org.saynotobugs.confidence.Assertion.assertThat;

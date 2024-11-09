@@ -24,8 +24,6 @@ import org.dmfs.jems2.iterable.Mapped;
 import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Description;
 
-import static org.saynotobugs.confidence.description.LiteralDescription.NEW_LINE;
-
 
 /**
  * A {@link Description} that contains the mismatch descriptions of failing {@link Assessment}s.
@@ -34,16 +32,14 @@ import static org.saynotobugs.confidence.description.LiteralDescription.NEW_LINE
  */
 public final class FailDescription extends DescriptionComposition
 {
-    public FailDescription(Description entry, Description delimiter, Description exit, Iterable<Assessment> verdicts)
+    public FailDescription(Description delimiter, Iterable<Assessment> verdicts)
     {
-        super(new Structured(
-            entry,
-            NEW_LINE,
-            exit,
-            new Mapped<>(
-                cluster -> cluster.iterator().next().isSuccess()
-                    ? new Text("...")
-                    : new Delimited(delimiter, new Mapped<>(Assessment::description, cluster)),
-                new Clustered<>(new By<>(Assessment::isSuccess), verdicts))));
+        super(new Composite(
+            new Delimited(delimiter,
+                new Mapped<>(
+                    cluster -> cluster.iterator().next().isSuccess()
+                        ? new Text("...")
+                        : new Delimited(delimiter, new Mapped<>(Assessment::description, cluster)),
+                    new Clustered<>(new By<>(Assessment::isSuccess), verdicts)))));
     }
 }

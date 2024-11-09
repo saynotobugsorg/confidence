@@ -16,20 +16,29 @@
  *
  */
 
-package org.saynotobugs.confidence.description;
+package org.saynotobugs.confidence.description.valuedescription;
 
 import org.saynotobugs.confidence.Description;
+import org.saynotobugs.confidence.description.Composite;
+import org.saynotobugs.confidence.description.DescriptionComposition;
+import org.saynotobugs.confidence.description.Text;
 
 import java.util.Map;
 
 
 /**
- * A {@link Description} of a {@link Map}.
+ * A {@link Description} of a {@link Map.Entry}.
  */
-public final class MapDescription extends DescriptionComposition
+public final class MapEntryDescription extends DescriptionComposition
 {
-    public MapDescription(Map<?, ?> value)
+    private static final Description SEPARATOR = new Text(": ");
+
+
+    public MapEntryDescription(Map.Entry<?, ?> value)
     {
-        super(new SetDescription(value.entrySet()));
+        super(new Composite(
+            new Value(value.getKey()),
+            SEPARATOR,
+            new Value(value.getValue())));
     }
 }

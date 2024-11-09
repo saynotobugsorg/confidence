@@ -16,9 +16,13 @@
  *
  */
 
-package org.saynotobugs.confidence.description;
+package org.saynotobugs.confidence.description.valuedescription;
 
 import org.saynotobugs.confidence.Description;
+import org.saynotobugs.confidence.description.Composite;
+import org.saynotobugs.confidence.description.DescriptionComposition;
+import org.saynotobugs.confidence.description.Indented;
+import org.saynotobugs.confidence.description.Text;
 
 import static org.saynotobugs.confidence.description.LiteralDescription.NEW_LINE;
 

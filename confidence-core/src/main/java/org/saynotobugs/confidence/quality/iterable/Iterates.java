@@ -32,15 +32,15 @@ import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.AllPassed;
 import org.saynotobugs.confidence.assessment.Fail;
 import org.saynotobugs.confidence.assessment.iterable.Numbered;
+import org.saynotobugs.confidence.description.Block;
 import org.saynotobugs.confidence.description.Spaced;
-import org.saynotobugs.confidence.description.Structured;
 import org.saynotobugs.confidence.description.Text;
-import org.saynotobugs.confidence.description.Value;
+import org.saynotobugs.confidence.description.valuedescription.Value;
 import org.saynotobugs.confidence.quality.object.EqualTo;
 
 import java.util.ArrayList;
 
-import static org.saynotobugs.confidence.description.LiteralDescription.COMMA_NEW_LINE;
+import static org.saynotobugs.confidence.description.LiteralDescription.EMPTY;
 
 
 @StaticFactories(
@@ -75,7 +75,7 @@ public final class Iterates<T> implements Quality<Iterable<T>>
     @Override
     public Assessment assessmentOf(Iterable<T> candidate)
     {
-        return new AllPassed(new Text("iterated [ "), COMMA_NEW_LINE, new Text(" ]"),
+        return new AllPassed(new Text("iterated ["), EMPTY, new Text("]"),
             new Numbered(
                 // eagerly collect the Assessments, otherwise the result might be wrong when the tested candidate is
                 // mutable and mutated afterward
@@ -95,10 +95,10 @@ public final class Iterates<T> implements Quality<Iterable<T>>
     @Override
     public Description description()
     {
-        return new Structured(
-            new Text("iterates [ "),
-            COMMA_NEW_LINE,
-            new Text(" ]"),
+        return new Block(
+            new Text("iterates ["),
+            EMPTY,
+            new Text("]"),
             new org.saynotobugs.confidence.description.iterable.Numbered(new Mapped<>(Quality::description, mDelegates)));
     }
 }

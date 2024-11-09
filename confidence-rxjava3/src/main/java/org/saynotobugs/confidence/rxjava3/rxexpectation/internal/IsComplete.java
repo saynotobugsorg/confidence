@@ -18,7 +18,7 @@
 
 package org.saynotobugs.confidence.rxjava3.rxexpectation.internal;
 
-import org.saynotobugs.confidence.description.NumberDescription;
+import org.saynotobugs.confidence.description.valuedescription.NumberDescription;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;

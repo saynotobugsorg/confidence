@@ -30,40 +30,37 @@ import java.util.concurrent.atomic.AtomicBoolean;
  *
  * <h2>Example</h2>
  * <pre>{@code
- * new Enclosed("[", delegate, "]", "ø");
+ * new PrefixedScribe(NEW_LINE, delegate, EMPTY);
  * }</pre>
- * Results in a description that contains the delegate in {@code [...]} if non-empty and just {@code ø} otherwise.
  */
-public final class Enclosed implements Description
+public final class Prefixed implements Description
 {
     private final Description mPrefix;
-    private final Description mSuffix;
-    private final Description mEmptyFallback;
+    private final Description mEmpty;
     private final Description mDelegate;
 
 
-    public Enclosed(String prefix, Description delegate, String suffix)
+    public Prefixed(String prefix, Description delegate)
     {
-        this(new Text(prefix), delegate, new Text(suffix));
+        this(new Text(prefix), delegate);
     }
 
 
-    public Enclosed(String prefix, Description delegate, String suffix, String emptyFallback)
+    public Prefixed(String prefix, Description delegate, String empty)
     {
-        this(new Text(prefix), delegate, new Text(suffix), new Text(emptyFallback));
+        this(new Text(prefix), delegate, new Text(empty));
     }
 
 
-    public Enclosed(Description prefix, Description delegate, Description suffix)
+    public Prefixed(Description prefix, Description delegate)
     {
-        this(prefix, delegate, suffix, new Composite(prefix, suffix));
+        this(prefix, delegate, prefix);
     }
 
-    public Enclosed(Description prefix, Description delegate, Description suffix, Description emptyFallback)
+    public Prefixed(Description prefix, Description delegate, Description empty)
     {
         mPrefix = prefix;
-        mSuffix = suffix;
-        mEmptyFallback = emptyFallback;
+        mEmpty = empty;
         mDelegate = delegate;
     }
 
@@ -72,28 +69,24 @@ public final class Enclosed implements Description
     public void describeTo(Scribe scribe)
     {
         AtomicBoolean prefixWritten = new AtomicBoolean();
-        Prefixed prefixed = new Prefixed(scribe, () -> mPrefix.describeTo(scribe), prefixWritten);
-        mDelegate.describeTo(prefixed);
-        if (prefixWritten.get())
+        PrefixedScribe prefixedScribe = new PrefixedScribe(scribe, () -> mPrefix.describeTo(scribe), prefixWritten);
+        mDelegate.describeTo(prefixedScribe);
+        if (!prefixWritten.get())
         {
-            mSuffix.describeTo(scribe);
-        }
-        else
-        {
-            mEmptyFallback.describeTo(scribe);
+            mEmpty.describeTo(scribe);
         }
     }
 
     /**
      * A Scribe that writes a prefix before (and only) if anything else is written.
      */
-    private static final class Prefixed implements Scribe
+    private static final class PrefixedScribe implements Scribe
     {
         private final Scribe mDelegate;
         private final Runnable mWritePrefix;
         private final AtomicBoolean mPrefixWritten;
 
-        private Prefixed(Scribe delegate, Runnable writePrefix, AtomicBoolean prefixWritten)
+        private PrefixedScribe(Scribe delegate, Runnable writePrefix, AtomicBoolean prefixWritten)
         {
             mDelegate = delegate;
             mWritePrefix = writePrefix;
@@ -104,7 +97,7 @@ public final class Enclosed implements Description
         @Override
         public Scribe indented()
         {
-            return new Prefixed(mDelegate.indented(), mWritePrefix, mPrefixWritten);
+            return new PrefixedScribe(mDelegate.indented(), mWritePrefix, mPrefixWritten);
         }
 
         @Override

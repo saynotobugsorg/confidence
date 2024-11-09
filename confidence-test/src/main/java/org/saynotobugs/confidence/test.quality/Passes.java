@@ -28,6 +28,8 @@ import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.AllPassed;
 import org.saynotobugs.confidence.assessment.FailUpdated;
 import org.saynotobugs.confidence.description.*;
+import org.saynotobugs.confidence.description.valuedescription.DescriptionDescription;
+import org.saynotobugs.confidence.description.valuedescription.Value;
 
 import static org.saynotobugs.confidence.description.LiteralDescription.EMPTY;
 import static org.saynotobugs.confidence.description.LiteralDescription.NEW_LINE;

@@ -26,6 +26,8 @@ import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.AnyPassed;
 import org.saynotobugs.confidence.assessment.FailUpdated;
 import org.saynotobugs.confidence.description.*;
+import org.saynotobugs.confidence.description.valuedescription.IterableDescription;
+import org.saynotobugs.confidence.description.valuedescription.Value;
 import org.saynotobugs.confidence.quality.object.Satisfies;
 
 import java.util.Collection;

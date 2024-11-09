@@ -34,7 +34,7 @@ import org.saynotobugs.confidence.assessment.PassIf;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Structured;
 import org.saynotobugs.confidence.description.Text;
-import org.saynotobugs.confidence.description.Value;
+import org.saynotobugs.confidence.description.valuedescription.Value;
 import org.saynotobugs.confidence.utils.UnPaired;
 
 import java.util.Comparator;

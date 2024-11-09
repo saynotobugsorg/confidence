@@ -25,13 +25,13 @@ import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.AllPassed;
-import org.saynotobugs.confidence.description.Composite;
-import org.saynotobugs.confidence.description.Structured;
+import org.saynotobugs.confidence.assessment.iterable.Numbered;
+import org.saynotobugs.confidence.description.Block;
 import org.saynotobugs.confidence.description.Text;
 
 import java.util.ArrayList;
 
-import static org.saynotobugs.confidence.description.LiteralDescription.NEW_LINE;
+import static org.saynotobugs.confidence.description.LiteralDescription.EMPTY;
 
 
 @StaticFactories(
@@ -56,14 +56,14 @@ public final class AllOf<T> extends QualityComposition<T>
     public AllOf(Iterable<? extends Quality<? super T>> delegates)
     {
         super(actual -> new AllPassed(
-                new Text("{ "),
-                new Composite(NEW_LINE, new Text("and"), NEW_LINE),
-                new Text(" }"),
-                new Collected<>(ArrayList::new, new Mapped<>(d -> d.assessmentOf(actual), delegates)).value()),
-            new Structured(
-                new Text("{ "),
-                new Composite(NEW_LINE, new Text("and"), NEW_LINE),
-                new Text(" }"),
-                new Mapped<>(Quality::description, delegates)));
+                new Text("all of"),
+                EMPTY,
+                EMPTY,
+                new Numbered(new Collected<>(ArrayList::new, new Mapped<>(d -> d.assessmentOf(actual), delegates)).value())),
+            new Block(
+                new Text("all of"),
+                EMPTY,
+                EMPTY,
+                new org.saynotobugs.confidence.description.iterable.Numbered(new Mapped<>(Quality::description, delegates))));
     }
 }

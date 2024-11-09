@@ -48,6 +48,6 @@ public final class Structured extends DescriptionComposition
 
     public Structured(Description entry, Description delimiter, Description exit, Iterable<? extends Description> value)
     {
-        super(new Enclosed(entry, new Indented(new Delimited(delimiter, value)), exit));
+        super(new Indented(new Enclosed(entry, new Delimited(delimiter, value), exit)));
     }
 }

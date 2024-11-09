@@ -26,7 +26,7 @@ import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.Scribe;
 import org.saynotobugs.confidence.assessment.FailUpdated;
 import org.saynotobugs.confidence.description.Composite;
-import org.saynotobugs.confidence.description.DescriptionDescription;
+import org.saynotobugs.confidence.description.valuedescription.DescriptionDescription;
 import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.quality.charsequence.MatchesPattern;
 import org.saynotobugs.confidence.quality.object.EqualTo;
