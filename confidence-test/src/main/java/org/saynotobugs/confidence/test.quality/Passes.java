@@ -59,7 +59,7 @@ public final class Passes<T> implements Quality<Quality<? super T>>
     @Override
     public Assessment assessmentOf(Quality<? super T> candidate)
     {
-        return new AllPassed(new Text("matched"), new Composite(NEW_LINE, new Text("and"), NEW_LINE), EMPTY,
+        return new AllPassed(new Text("matched"), new Composite(NEW_LINE, new Text("and")), EMPTY,
             new Mapped<>(
                 value -> new FailUpdated(
                     orig -> new Spaced(new Value(value), new Text("mismatched with"), new DescriptionDescription(orig)),
