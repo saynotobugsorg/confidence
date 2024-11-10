@@ -27,7 +27,7 @@ class ParallelTest
                 new Passes<>(() -> 99, () -> integer.incrementAndGet() % 999),
                 new Fails<>(
                     () -> integer.incrementAndGet() % 1000,
-                    new DescribesAs(new MatchesPattern("executions: ...\\R .+ supplied 999\\R  ..."))),
+                    new DescribesAs(new MatchesPattern("executions\\R  ...\\R  .+ supplied 999\\R  ..."))),
                 new Fails<>(
                     () -> {
                         if (integer.incrementAndGet() % 999 == 0)
@@ -39,7 +39,7 @@ class ParallelTest
                             return 0;
                         }
                     },
-                    new DescribesAs(new MatchesPattern("executions: ...\\R .+ <java.lang.RuntimeException: error>\\R  ..."))),
+                    new DescribesAs(new MatchesPattern("executions\\R  ...\\R  .+ <java.lang.RuntimeException: error>\\R  ..."))),
                 new HasDescription("running 1000 parallel execution, each supplies less than 999")
             ));
     }
@@ -67,7 +67,7 @@ class ParallelTest
                         }
                     },
                     new DescribesAs(new MatchesPattern(
-                        "executions: #0 in thread .* <java.lang.IllegalArgumentException: error>,\\n  #1 in thread .* <java.lang.IllegalArgumentException: error>"))),
+                        "executions\\n  #0 in thread .* <java.lang.IllegalArgumentException: error>\\n  #1 in thread .* <java.lang.IllegalArgumentException: error>"))),
                 new HasDescription(new DescribesAs(new MatchesPattern("running 2 parallel execution, each .*")))
             ));
     }

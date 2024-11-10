@@ -24,7 +24,7 @@ class AllPassedTest
     public void testFail()
     {
         assertThat(new AllPassed(new Text(":"), new Text(","), new Pass(), new Fail(new Text("fail"))),
-            new Is<>(new Failed(new DescribesAs(":\n  ...,\n  fail\n"))));
+            new Is<>(new Failed(new DescribesAs(":\n  ...,\n  fail"))));
     }
 
 
@@ -33,7 +33,7 @@ class AllPassedTest
     {
         assertThat(new AllPassed(new Text(":"), new Text(","), new Fail(new Text("fail1")), new Pass(),
                 new Fail(new Text("fail2")), new Fail(new Text("fail3"))),
-            new Is<>(new Failed(new DescribesAs(":\n  fail1,\n  ...,\n  fail2,\n  fail3\n"))));
+            new Is<>(new Failed(new DescribesAs(":\n  fail1,\n  ...,\n  fail2,\n  fail3"))));
     }
 
 

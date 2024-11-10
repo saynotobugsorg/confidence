@@ -20,7 +20,9 @@ package org.saynotobugs.confidence.description;
 
 import org.dmfs.jems2.comparator.By;
 import org.dmfs.jems2.iterable.Clustered;
+import org.dmfs.jems2.iterable.Expanded;
 import org.dmfs.jems2.iterable.Mapped;
+import org.dmfs.jems2.iterable.Seq;
 import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Description;
 
@@ -32,14 +34,14 @@ import org.saynotobugs.confidence.Description;
  */
 public final class FailDescription extends DescriptionComposition
 {
-    public FailDescription(Description delimiter, Iterable<Assessment> verdicts)
+    public FailDescription(Description delimiter, Iterable<Assessment> assessments)
     {
         super(new Composite(
             new Delimited(delimiter,
-                new Mapped<>(
+                new Expanded<>(
                     cluster -> cluster.iterator().next().isSuccess()
-                        ? new Text("...")
-                        : new Delimited(delimiter, new Mapped<>(Assessment::description, cluster)),
-                    new Clustered<>(new By<>(Assessment::isSuccess), verdicts)))));
+                        ? new Seq<>(new Text("..."))
+                        : new Mapped<>(Assessment::description, cluster),
+                    new Clustered<>(new By<>(Assessment::isSuccess), assessments)))));
     }
 }

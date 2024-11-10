@@ -83,15 +83,31 @@ class IteratesTest
 
 
     @Test
-    void testMultipleMatchers()
+    void testMultipleQualities()
     {
         assertThat(new Iterates<>(new LessThan<>(1), new GreaterThan<>(2), new LessThan<>(3)),
             new AllOf<>(
                 new Passes<>(new Seq<>(0, 3, 2), new Seq<>(-1, 100, 0)),
                 new Fails<Iterable<Integer>>(new EmptyIterable<>(),
                     "iterated [\n  0: missing less than 1\n  1: missing greater than 2\n  2: missing less than 3\n]"),
-                new Fails<Iterable<Integer>>(new Seq<>(0, 2, 3, 4), "iterated [\n  ...\n  1: 2\n  2: 3\n  3: additional 4\n]"),
+                new Fails<Iterable<Integer>>(new Seq<>(0, 2, 3, 4),
+                    "iterated [\n  ...\n  1: 2\n  2: 3\n  3: additional 4\n]"),
                 new HasDescription("iterates [\n  0: less than 1\n  1: greater than 2\n  2: less than 3\n]")
+            ));
+    }
+
+
+    @Test
+    void testNested()
+    {
+        assertThat(new Iterates<>(new Iterates<>(1, 2), new Iterates<>(3, 4)),
+            new AllOf<>(
+                new Passes<Iterable<Iterable<Integer>>>(new Seq<>(new Seq<>(1, 2), new Seq<>(3, 4))),
+                new Fails<Iterable<Iterable<Integer>>>(new EmptyIterable<>(),
+                    "iterated [\n  0: missing iterates [\n    0: 1\n    1: 2\n  ]\n  1: missing iterates [\n    0: 3\n    1: 4\n  ]\n]"),
+                new Fails<Iterable<Iterable<Integer>>>(new Seq<>(new Seq<>(1, 2), new Seq<>(4, 4)),
+                    "iterated [\n  ...\n  1: iterated [\n    0: 4\n    ...\n  ]\n]"),
+                new HasDescription("iterates [\n  0: iterates [\n    0: 1\n    1: 2\n  ]\n  1: iterates [\n    0: 3\n    1: 4\n  ]\n]")
             ));
     }
 

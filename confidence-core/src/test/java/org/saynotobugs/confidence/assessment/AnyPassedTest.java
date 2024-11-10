@@ -31,15 +31,15 @@ class AnyPassedTest
     @Test
     void testOneFail()
     {
-        assertThat(new AnyPassed(new Text("e"), new Text("x"), new Fail(new Text("faaail"))),
-            new Failed(new DescribesAs("efaaail")));
+        assertThat(new AnyPassed(new Text("any of"), new Text(","), new Fail(new Text("fail"))),
+            new Failed(new DescribesAs("any of\n  fail")));
     }
 
 
     @Test
     void testOneFailOnePass()
     {
-        assertThat(new AnyPassed(new Text("e"), new Text("x"), new Fail(new Text("faaail")), new Pass()),
+        assertThat(new AnyPassed(new Text("any of"), new Text("m"), new Fail(new Text("fail")), new Pass()),
             new Passed());
     }
 
@@ -47,18 +47,18 @@ class AnyPassedTest
     @Test
     void testMultipleFail()
     {
-        assertThat(new AnyPassed(new Text("e"), new Text("x"), new Fail(new Text("f1")), new Fail(new Text("f2")),
+        assertThat(new AnyPassed(new Text("any of"), new Text(","), new Fail(new Text("f1")), new Fail(new Text("f2")),
                 new Fail(new Text("f3"))),
-            new Failed(new DescribesAs("ef1xf2xf3")));
+            new Failed(new DescribesAs("any of\n  f1,\n  f2,\n  f3")));
     }
 
 
     @Test
     void testMultipleFailWithExitTest()
     {
-        assertThat(new AnyPassed(new Text("e"), new Text("x"), new Text("--"), new Fail(new Text("f1")),
+        assertThat(new AnyPassed(new Text("any of ["), new Text(","), new Text("]"), new Fail(new Text("f1")),
                 new Fail(new Text("f2")),
                 new Fail(new Text("f3"))),
-            new Failed(new DescribesAs("ef1xf2xf3--")));
+            new Failed(new DescribesAs("any of [\n  f1,\n  f2,\n  f3\n]")));
     }
 }

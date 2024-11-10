@@ -17,9 +17,9 @@ class AnyOfTest
         assertThat(new AnyOf<>(1, 2, 3),
             new AllOf<>(
                 new Passes<>(1, 2, 3),
-                new Fails<>(0, "0 neither 1 nor \n  2 nor \n  3"),
-                new Fails<>(4, "4 neither 1 nor \n  2 nor \n  3"),
-                new HasDescription("1 or 2 or 3")
+                new Fails<>(0, "0 was none of\n  1\n  2\n  3"),
+                new Fails<>(4, "4 was none of\n  1\n  2\n  3"),
+                new HasDescription("any of\n  1\n  2\n  3")
             ));
     }
 
@@ -30,9 +30,9 @@ class AnyOfTest
         assertThat(new AnyOf<>(new EqualTo<>(1), new EqualTo<>(2), new EqualTo<>(3)),
             new AllOf<>(
                 new Passes<>(1, 2, 3),
-                new Fails<>(0, "0 neither 1 nor \n  2 nor \n  3"),
-                new Fails<>(4, "4 neither 1 nor \n  2 nor \n  3"),
-                new HasDescription("1 or 2 or 3")
+                new Fails<>(0, "0 was none of\n  1\n  2\n  3"),
+                new Fails<>(4, "4 was none of\n  1\n  2\n  3"),
+                new HasDescription("any of\n  1\n  2\n  3")
             ));
     }
 }

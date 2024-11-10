@@ -40,7 +40,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import static org.saynotobugs.confidence.description.LiteralDescription.COMMA_NEW_LINE;
 import static org.saynotobugs.confidence.description.LiteralDescription.EMPTY;
 
 
@@ -103,7 +102,7 @@ public final class Parallel<T> implements Quality<T>
             Thread.currentThread().interrupt();
             return new Fail(new Text("interrupted"));
         }
-        return new AllPassed(new Text("executions: "), COMMA_NEW_LINE, EMPTY, results);
+        return new AllPassed(new Text("executions"), EMPTY, EMPTY, results);
     }
 
 

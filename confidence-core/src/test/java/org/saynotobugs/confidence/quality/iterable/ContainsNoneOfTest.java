@@ -38,15 +38,15 @@ class ContainsNoneOfTest
             new AllOf<>(
                 new Passes<>(new Seq<>(), new Seq<>("1", "2", "3")),
                 new Fails<>(new Seq<>("1", "a", "3"),
-                    "contained { ...\n  1: \"a\"\n  ... }"),
+                    "contained {\n  ...\n  1: \"a\"\n  ...\n}"),
                 new Fails<>(new Seq<>("1", "a", "c", "5"),
-                    "contained { ...\n  1: \"a\",\n  2: \"c\"\n  ... }"),
+                    "contained {\n  ...\n  1: \"a\"\n  2: \"c\"\n  ...\n}"),
                 new Fails<>(new Seq<>("c", "b", "a"),
-                    "contained { 0: \"c\",\n  1: \"b\",\n  2: \"a\" }"),
+                    "contained {\n  0: \"c\"\n  1: \"b\"\n  2: \"a\"\n}"),
                 new Fails<>(new Seq<>("a", "a", "a"),
-                    "contained { 0: \"a\",\n  1: \"a\",\n  2: \"a\" }"),
+                    "contained {\n  0: \"a\"\n  1: \"a\"\n  2: \"a\"\n}"),
                 new Fails<>(new Seq<>("a", "a", "a", "b", "b", "b"),
-                    "contained { 0: \"a\",\n  1: \"a\",\n  2: \"a\",\n  3: \"b\",\n  4: \"b\",\n  5: \"b\" }"),
+                    "contained {\n  0: \"a\"\n  1: \"a\"\n  2: \"a\"\n  3: \"b\"\n  4: \"b\"\n  5: \"b\"\n}"),
                 new HasDescription("contains none of { \"a\",\n  \"b\",\n  \"c\" }")
             ));
     }
@@ -58,15 +58,15 @@ class ContainsNoneOfTest
             new AllOf<>(
                 new Passes<>(new Seq<>(), new Seq<>("1", "2", "3")),
                 new Fails<>(new Seq<>("1", "a", "3"),
-                    "contained { ...\n  1: \"a\" { matches pattern /[abc]/ }\n  ... }"),
+                    "contained {\n  ...\n  1: \"a\" {\n    matches pattern /[abc]/\n  }\n  ...\n}"),
                 new Fails<>(new Seq<>("1", "a", "c", "5"),
-                    "contained { ...\n  1: \"a\" { matches pattern /[abc]/ },\n  2: \"c\" { matches pattern /[abc]/ }\n  ... }"),
+                    "contained {\n  ...\n  1: \"a\" {\n    matches pattern /[abc]/\n  }\n  2: \"c\" {\n    matches pattern /[abc]/\n  }\n  ...\n}"),
                 new Fails<>(new Seq<>("c", "b", "a"),
-                    "contained { 0: \"c\" { matches pattern /[abc]/ },\n  1: \"b\" { matches pattern /[abc]/,\n    \"b\" },\n  2: \"a\" { matches pattern /[abc]/ } }"),
+                    "contained {\n  0: \"c\" {\n    matches pattern /[abc]/\n  }\n  1: \"b\" {\n    matches pattern /[abc]/\n    \"b\"\n  }\n  2: \"a\" {\n    matches pattern /[abc]/\n  }\n}"),
                 new Fails<>(new Seq<>("a", "a", "a"),
-                    "contained { 0: \"a\" { matches pattern /[abc]/ },\n  1: \"a\" { matches pattern /[abc]/ },\n  2: \"a\" { matches pattern /[abc]/ } }"),
+                    "contained {\n  0: \"a\" {\n    matches pattern /[abc]/\n  }\n  1: \"a\" {\n    matches pattern /[abc]/\n  }\n  2: \"a\" {\n    matches pattern /[abc]/\n  }\n}"),
                 new Fails<>(new Seq<>("a", "a", "a", "b", "b", "b"),
-                    "contained { 0: \"a\" { matches pattern /[abc]/ },\n  1: \"a\" { matches pattern /[abc]/ },\n  2: \"a\" { matches pattern /[abc]/ },\n  3: \"b\" { matches pattern /[abc]/,\n    \"b\" },\n  4: \"b\" { matches pattern /[abc]/,\n    \"b\" },\n  5: \"b\" { matches pattern /[abc]/,\n    \"b\" } }"),
+                    "contained {\n  0: \"a\" {\n    matches pattern /[abc]/\n  }\n  1: \"a\" {\n    matches pattern /[abc]/\n  }\n  2: \"a\" {\n    matches pattern /[abc]/\n  }\n  3: \"b\" {\n    matches pattern /[abc]/\n    \"b\"\n  }\n  4: \"b\" {\n    matches pattern /[abc]/\n    \"b\"\n  }\n  5: \"b\" {\n    matches pattern /[abc]/\n    \"b\"\n  }\n}"),
                 new HasDescription("contains none of { matches pattern /[abc]/,\n  \"b\" }")
             ));
     }
@@ -78,15 +78,15 @@ class ContainsNoneOfTest
             new AllOf<>(
                 new Passes<>(new Seq<>(), new Seq<>("1", "2", "3")),
                 new Fails<>(new Seq<>("1", "a", "3"),
-                    "contained { ...\n  1: \"a\" { matches pattern /[abc]/ }\n  ... }"),
+                    "contained {\n  ...\n  1: \"a\" {\n    matches pattern /[abc]/\n  }\n  ...\n}"),
                 new Fails<>(new Seq<>("1", "a", "c", "5"),
-                    "contained { ...\n  1: \"a\" { matches pattern /[abc]/ },\n  2: \"c\" { matches pattern /[abc]/ }\n  ... }"),
+                    "contained {\n  ...\n  1: \"a\" {\n    matches pattern /[abc]/\n  }\n  2: \"c\" {\n    matches pattern /[abc]/\n  }\n  ...\n}"),
                 new Fails<>(new Seq<>("c", "b", "a"),
-                    "contained { 0: \"c\" { matches pattern /[abc]/ },\n  1: \"b\" { matches pattern /[abc]/,\n    \"b\" },\n  2: \"a\" { matches pattern /[abc]/ } }"),
+                    "contained {\n  0: \"c\" {\n    matches pattern /[abc]/\n  }\n  1: \"b\" {\n    matches pattern /[abc]/\n    \"b\"\n  }\n  2: \"a\" {\n    matches pattern /[abc]/\n  }\n}"),
                 new Fails<>(new Seq<>("a", "a", "a"),
-                    "contained { 0: \"a\" { matches pattern /[abc]/ },\n  1: \"a\" { matches pattern /[abc]/ },\n  2: \"a\" { matches pattern /[abc]/ } }"),
+                    "contained {\n  0: \"a\" {\n    matches pattern /[abc]/\n  }\n  1: \"a\" {\n    matches pattern /[abc]/\n  }\n  2: \"a\" {\n    matches pattern /[abc]/\n  }\n}"),
                 new Fails<>(new Seq<>("a", "a", "a", "b", "b", "b"),
-                    "contained { 0: \"a\" { matches pattern /[abc]/ },\n  1: \"a\" { matches pattern /[abc]/ },\n  2: \"a\" { matches pattern /[abc]/ },\n  3: \"b\" { matches pattern /[abc]/,\n    \"b\" },\n  4: \"b\" { matches pattern /[abc]/,\n    \"b\" },\n  5: \"b\" { matches pattern /[abc]/,\n    \"b\" } }"),
+                    "contained {\n  0: \"a\" {\n    matches pattern /[abc]/\n  }\n  1: \"a\" {\n    matches pattern /[abc]/\n  }\n  2: \"a\" {\n    matches pattern /[abc]/\n  }\n  3: \"b\" {\n    matches pattern /[abc]/\n    \"b\"\n  }\n  4: \"b\" {\n    matches pattern /[abc]/\n    \"b\"\n  }\n  5: \"b\" {\n    matches pattern /[abc]/\n    \"b\"\n  }\n}"),
                 new HasDescription("contains none of { matches pattern /[abc]/,\n  \"b\" }")
             ));
     }

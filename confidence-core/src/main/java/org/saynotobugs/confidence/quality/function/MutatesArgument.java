@@ -69,7 +69,7 @@ public final class MutatesArgument<Argument, Type> implements Quality<Function<A
         Argument argument = mArgumentGenerator.next();
         Assessment delegateAssessment = mDelegateQuality.assessmentOf(candidate.apply(argument));
         return new AllPassed(
-            LiteralDescription.EMPTY,
+            new Text("mutated argument"),
             LiteralDescription.SPACE,
             mArgumentQuality.assessmentOf(argument),
             delegateAssessment

@@ -32,7 +32,6 @@ import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.quality.grammar.Is;
 import org.saynotobugs.confidence.quality.object.Successfully;
 
-import static org.saynotobugs.confidence.description.LiteralDescription.NEW_LINE;
 import static org.saynotobugs.confidence.description.LiteralDescription.SPACE;
 
 
@@ -86,7 +85,7 @@ public final class WithFinalizer<T> implements Quality<T>
         {
             assessment = new AllPassed(
                 new Composite(mDescription, SPACE),
-                new Composite(new Text(" and"), NEW_LINE),
+                new Text(" and"),
                 assessment,
                 mFinalQuality.assessmentOf(candidate));
         }

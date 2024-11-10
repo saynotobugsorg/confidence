@@ -67,6 +67,8 @@ public final class AllPassed implements Assessment
         mDelimiter = delimiter;
         mResults = new Frozen<>(results);
         mExit = exit;
+        // trigger evaluation of the results
+        this.isSuccess();
     }
 
 

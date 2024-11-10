@@ -42,8 +42,8 @@ class MutatedByTest
         assertThat(new MutatedBy<List<String>>(new Text("appending abc"), l -> l.add("abc"), new Iterates<>("abc")),
             new AllOf<>(
                 new Passes<>(ArrayList::new, LinkedList::new),
-                new Fails<>(() -> new ArrayList<>(asList("123")), "mutated by appending abc iterated [ 0: \"123\",\n  1: additional \"abc\" ]"),
-                new HasDescription("mutated by appending abc iterates [ 0: \"abc\" ]")
+                new Fails<>(() -> new ArrayList<>(asList("123")), "mutated by appending abc iterated [\n  0: \"123\"\n  1: additional \"abc\"\n]"),
+                new HasDescription("mutated by appending abc iterates [\n  0: \"abc\"\n]")
             )
         );
     }

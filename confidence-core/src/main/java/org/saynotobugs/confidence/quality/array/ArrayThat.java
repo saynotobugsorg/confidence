@@ -18,11 +18,12 @@
 
 package org.saynotobugs.confidence.quality.array;
 
+import org.dmfs.jems2.iterable.Seq;
 import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.description.Text;
-import org.saynotobugs.confidence.quality.composite.AllOfFailingFast;
+import org.saynotobugs.confidence.quality.composite.Guarded;
 import org.saynotobugs.confidence.quality.composite.Has;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 import org.saynotobugs.confidence.quality.object.Satisfies;
@@ -42,8 +43,8 @@ public final class ArrayThat extends QualityComposition<Object>
     public <T> ArrayThat(Quality<? super Iterable<T>> delegate)
     {
         super(
-            new AllOfFailingFast<>(
-                new Satisfies<>(a -> a.getClass().isArray(), ignored -> new Text("not an array"), new Text("an array")),
+            new Guarded<>(
+                new Seq<>(new Satisfies<>(a -> a.getClass().isArray(), ignored -> new Text("not an array"), new Text("an array"))),
                 new Has<>(new Text("array that"), new Text("array"), a -> (Iterable<T>) new ArrayIterable(a), delegate)));
     }
 }

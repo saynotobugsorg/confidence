@@ -23,11 +23,12 @@ import org.dmfs.jems2.iterable.Seq;
 import org.dmfs.jems2.optional.First;
 import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Description;
-import org.saynotobugs.confidence.description.Enclosed;
+import org.saynotobugs.confidence.description.Block;
+import org.saynotobugs.confidence.description.Composite;
 import org.saynotobugs.confidence.description.FailDescription;
-import org.saynotobugs.confidence.description.Indented;
 
 import static org.saynotobugs.confidence.description.LiteralDescription.EMPTY;
+import static org.saynotobugs.confidence.description.LiteralDescription.NEW_LINE;
 
 
 /**
@@ -80,8 +81,7 @@ public final class AnyPassed implements Assessment
     {
         return isSuccess()
             ? EMPTY
-            : new Enclosed(mEntry, new Indented(new FailDescription(mDelimiter, mResults)), mExit);
-
+            : new Block(mEntry, EMPTY, mExit, new Seq<>(new FailDescription(new Composite(mDelimiter, NEW_LINE), mResults)), new Composite(mEntry, mExit));
     }
 
 }

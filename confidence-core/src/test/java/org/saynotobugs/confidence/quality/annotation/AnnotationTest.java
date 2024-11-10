@@ -121,7 +121,7 @@ class AnnotationTest
                         return "123";
                     }
                 },
-                    "(1) \"value\""),
+                    "all of\n  ...\n  1: \"value\""),
                 new Fails<>(new FunctionalInterface()
                 {
                     @Override
@@ -130,8 +130,8 @@ class AnnotationTest
                         return FunctionalInterface.class;
                     }
                 },
-                    "(0) instance of <class org.saynotobugs.confidence.quality.annotation.AnnotationTest$5>"),
-                new HasDescription("(0) instance of <interface org.saynotobugs.confidence.quality.annotation.AnnotationTest$TestAnnotation>\n  (1) \"abc\"")));
+                    "all of\n  0: instance of <class org.saynotobugs.confidence.quality.annotation.AnnotationTest$5>"),
+                new HasDescription("all of\n  0: instance of <interface org.saynotobugs.confidence.quality.annotation.AnnotationTest$TestAnnotation>\n  1: \"abc\"")));
     }
 
 
@@ -182,7 +182,7 @@ class AnnotationTest
                         return "123";
                     }
                 },
-                    "(1) { \"value\"\n  ... }"),
+                    "all of\n  ...\n  1: all of\n    0: \"value\"\n    ..."),
                 new Fails<>(new TestAnnotation()
                 {
                     @Override
@@ -203,7 +203,7 @@ class AnnotationTest
                         return "xyz";
                     }
                 },
-                    "(1) { ...\n  \"xyz\" }"),
+                    "all of\n  ...\n  1: all of\n    ...\n    1: \"xyz\""),
                 new Fails<>(new FunctionalInterface()
                 {
                     @Override
@@ -212,7 +212,7 @@ class AnnotationTest
                         return FunctionalInterface.class;
                     }
                 },
-                    "(0) instance of <class org.saynotobugs.confidence.quality.annotation.AnnotationTest$9>"),
-                new HasDescription("(0) instance of <interface org.saynotobugs.confidence.quality.annotation.AnnotationTest$TestAnnotation>\n  (1) { \"abc\"\n    and\n    \"123\" }")));
+                    "all of\n  0: instance of <class org.saynotobugs.confidence.quality.annotation.AnnotationTest$9>"),
+                new HasDescription("all of\n  0: instance of <interface org.saynotobugs.confidence.quality.annotation.AnnotationTest$TestAnnotation>\n  1: all of\n    0: \"abc\"\n    1: \"123\"")));
     }
 }

@@ -32,15 +32,14 @@ import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.AllPassed;
 import org.saynotobugs.confidence.assessment.PassIf;
+import org.saynotobugs.confidence.description.Block;
 import org.saynotobugs.confidence.description.Spaced;
-import org.saynotobugs.confidence.description.Structured;
 import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.description.valuedescription.Value;
 import org.saynotobugs.confidence.utils.UnPaired;
 
 import java.util.Comparator;
 
-import static org.saynotobugs.confidence.description.LiteralDescription.COMMA_NEW_LINE;
 import static org.saynotobugs.confidence.description.LiteralDescription.EMPTY;
 
 
@@ -74,7 +73,7 @@ public final class ImposesOrderOf<T> implements Quality<Comparator<T>>
     @Override
     public Assessment assessmentOf(Comparator<T> candidate)
     {
-        return new AllPassed(new Text("Comparator "), COMMA_NEW_LINE,
+        return new AllPassed(new Text("Comparator "), EMPTY,
             new Mapped<>(
                 new UnPaired<Pair<Integer, ? extends T>, Pair<Integer, ? extends T>, Assessment>(
                     (left, right) -> verdict(candidate, left, right)),
@@ -87,9 +86,9 @@ public final class ImposesOrderOf<T> implements Quality<Comparator<T>>
     @Override
     public Description description()
     {
-        return new Structured(
+        return new Block(
             new Text("imposes the following order: "),
-            COMMA_NEW_LINE,
+            EMPTY,
             EMPTY,
             new Mapped<>(Value::new, mOrderedElements));
     }

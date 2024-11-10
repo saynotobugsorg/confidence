@@ -41,6 +41,7 @@ import org.saynotobugs.confidence.quality.composite.QualityComposition;
 import org.saynotobugs.confidence.quality.object.EqualTo;
 
 import static org.saynotobugs.confidence.description.LiteralDescription.COMMA_NEW_LINE;
+import static org.saynotobugs.confidence.description.LiteralDescription.EMPTY;
 
 
 @StaticFactories(
@@ -90,7 +91,7 @@ public final class ContainsNoneOf<T> extends QualityComposition<Iterable<T>>
     private ContainsNoneOf(Iterable<? extends Quality<? super T>> delegates,
         BiFunction<? super Description, ? super Description, ? extends Description> descriptionFunction)
     {
-        super(actual -> new AllPassed(new Text("contained { "), COMMA_NEW_LINE, new Text(" }"), assess(actual, delegates, descriptionFunction)),
+        super(actual -> new AllPassed(new Text("contained {"), EMPTY, new Text("}"), assess(actual, delegates, descriptionFunction)),
             new Spaced(
                 new Text("contains none of {"),
                 new Structured(COMMA_NEW_LINE, new Mapped<>(Quality::description, delegates)),
@@ -106,7 +107,7 @@ public final class ContainsNoneOf<T> extends QualityComposition<Iterable<T>>
             numberedElement -> new FailUpdated(
                 description -> descriptionFunction.value(new Spaced(new Text(numberedElement.left() + ":"), new Value(numberedElement.right())), description),
                 new AllPassed(
-                    new Text("{ "), COMMA_NEW_LINE, new Text(" }"),
+                    new Text("{"), EMPTY, new Text("}"),
                     new Sieved<>(new Not<>(Assessment::isSuccess),
                         new Mapped<>(
                             delegate -> delegate.assessmentOf(numberedElement.right()).isSuccess()

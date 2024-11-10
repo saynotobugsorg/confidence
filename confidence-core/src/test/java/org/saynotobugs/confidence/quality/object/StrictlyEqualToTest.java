@@ -34,7 +34,7 @@ class StrictlyEqualToTest
         assertThat(new StrictlyEqualTo<>("123"),
             new AllOf<>(
                 new Passes<>("123"),
-                new Fails<Object>("456", "{ ...\n  was not equal to \"123\"\n  and\n  was not symmetric\n  and\n  had hashCode 51669 }"),
+                new Fails<Object>("456", "all of\n  ...\n  2: was not equal to \"123\"\n  3: was not symmetric\n  4: had hashCode 51669"),
                 new Fails<>(new Object()
                 {
                     @Override
@@ -54,7 +54,7 @@ class StrictlyEqualToTest
                     {
                         return "fakeObject1";
                     }
-                }, "{ was not reflexive\n  ...\n  was not equal to \"123\"\n  ... }"),
+                }, "all of\n  0: was not reflexive\n  ...\n  2: was not equal to \"123\"\n  ..."),
                 new Fails<>(new Object()
                 {
                     @Override
@@ -74,7 +74,7 @@ class StrictlyEqualToTest
                     {
                         return "fakeObject2";
                     }
-                }, "{ was not reflexive\n  and\n  was equal to null\n  and\n  was not equal to \"123\"\n  ...\n  had hashCode 51669 }"),
+                }, "all of\n  0: was not reflexive\n  1: was equal to null\n  2: was not equal to \"123\"\n  ...\n  4: had hashCode 51669"),
                 new Fails<>(new Object()
                 {
                     @Override
@@ -94,8 +94,8 @@ class StrictlyEqualToTest
                     {
                         return "fakeObject3";
                     }
-                }, "{ ...\n  was not equal to \"123\"\n  ... }"),
-                new HasDescription("{ is reflexive\n  and\n  is not equal to null\n  and\n  is equal to \"123\"\n  and\n  is symmetric\n  and\n  has hashCode 48690 like \"123\" }")
+                }, "all of\n  ...\n  2: was not equal to \"123\"\n  ..."),
+                new HasDescription("all of\n  0: is reflexive\n  1: is not equal to null\n  2: is equal to \"123\"\n  3: is symmetric\n  4: has hashCode 48690 like \"123\"")
             ));
     }
 }

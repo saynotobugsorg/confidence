@@ -53,7 +53,7 @@ public final class Block extends DescriptionComposition
                 new Prefixed(NEW_LINE,
                     new Delimited(new Composite(elementDelimiter, NEW_LINE), elements),
                     EMPTY)),
-            new Prefixed(NEW_LINE, blockSuffix),
+            new Prefixed(NEW_LINE, blockSuffix, EMPTY),
             emptyFallback));
     }
 }

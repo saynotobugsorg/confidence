@@ -32,7 +32,7 @@ import org.saynotobugs.confidence.quality.composite.QualityComposition;
 import java.util.Comparator;
 import java.util.Iterator;
 
-import static org.saynotobugs.confidence.description.LiteralDescription.NEW_LINE;
+import static org.saynotobugs.confidence.description.LiteralDescription.EMPTY;
 
 @StaticFactories(
     value = "Iterable",
@@ -57,7 +57,7 @@ public final class Ordered<T> extends QualityComposition<Iterable<T>>
      */
     public Ordered(String description, Comparator<? super T> comparator)
     {
-        super(actual -> new AllPassed(new Text("["), NEW_LINE, new Text("]"), () -> new Iterator<Assessment>()
+        super(actual -> new AllPassed(new Text("["), EMPTY, new Text("]"), () -> new Iterator<Assessment>()
             {
                 private final Iterator<T> mDelegate = actual.iterator();
                 private T mCurrent = mDelegate.hasNext() ? mDelegate.next() : null;

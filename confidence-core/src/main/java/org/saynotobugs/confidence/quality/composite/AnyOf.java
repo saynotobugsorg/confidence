@@ -25,11 +25,13 @@ import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.AnyPassed;
 import org.saynotobugs.confidence.assessment.FailUpdated;
-import org.saynotobugs.confidence.description.*;
+import org.saynotobugs.confidence.description.Block;
+import org.saynotobugs.confidence.description.Spaced;
+import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.description.valuedescription.Value;
 import org.saynotobugs.confidence.quality.object.EqualTo;
 
-import static org.saynotobugs.confidence.description.LiteralDescription.NEW_LINE;
+import static org.saynotobugs.confidence.description.LiteralDescription.EMPTY;
 
 
 @StaticFactories(
@@ -54,11 +56,12 @@ public final class AnyOf<T> extends QualityComposition<T>
 
     public AnyOf(Iterable<? extends Quality<? super T>> delegates)
     {
-        super(actual -> new AnyPassed(new Spaced(new Value(actual), new Text("neither ")),
-                new Composite(new Text(" nor "), NEW_LINE),
+        super(actual -> new AnyPassed(new Spaced(new Value(actual), new Text("was none of")),
+                EMPTY,
+                EMPTY,
                 new Mapped<>(
                     d -> new FailUpdated(m -> d.description(), d.assessmentOf(actual)),
                     delegates)),
-            new Structured(new Text(" or "), new Mapped<>(Quality::description, delegates)));
+            new Block(new Text("any of"), EMPTY, EMPTY, new Mapped<>(Quality::description, delegates)));
     }
 }

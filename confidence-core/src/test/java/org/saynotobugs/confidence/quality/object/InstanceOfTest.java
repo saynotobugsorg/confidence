@@ -31,11 +31,11 @@ class InstanceOfTest
         assertThat(new InstanceOf<>(Number.class, new That<>(new Has<>("intValue", Number::intValue, new EqualTo<>(1)))),
             new AllOf<>(
                 new Passes<>(1, 1.001, 1L, 1f),
-                new Fails<>(0.999, "(1) that had intValue 0"),
-                new Fails<>(2, "(1) that had intValue 2"),
-                new Fails<>("string", "(0) instance of <class java.lang.String>"),
-                new Fails<>(new Object(), "(0) instance of <class java.lang.Object>"),
-                new HasDescription("(0) instance of <class java.lang.Number>\n  (1) that has intValue 1")
+                new Fails<>(0.999, "all of\n  ...\n  1: that had intValue 0"),
+                new Fails<>(2, "all of\n  ...\n  1: that had intValue 2"),
+                new Fails<>("string", "all of\n  0: instance of <class java.lang.String>"),
+                new Fails<>(new Object(), "all of\n  0: instance of <class java.lang.Object>"),
+                new HasDescription("all of\n  0: instance of <class java.lang.Number>\n  1: that has intValue 1")
             ));
     }
 }

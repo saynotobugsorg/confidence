@@ -24,11 +24,14 @@ import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.FailPrepended;
 import org.saynotobugs.confidence.assessment.PassIf;
+import org.saynotobugs.confidence.description.Block;
 import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.description.valuedescription.Value;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 import org.saynotobugs.confidence.quality.iterable.Iterates;
 import org.saynotobugs.confidence.utils.ArrayIterable;
+
+import static org.saynotobugs.confidence.description.LiteralDescription.EMPTY;
 
 
 @StaticFactories(
@@ -43,14 +46,12 @@ public final class EqualTo<T> extends QualityComposition<T>
     public EqualTo(T expected)
     {
         super(actual -> expected.getClass().isArray() && actual.getClass().isArray()
-                ?
-                new FailPrepended(
-                    new Text("array that"),
-                    new Iterates<>(new Mapped<>(EqualTo::new, new ArrayIterable(expected))).assessmentOf(new ArrayIterable(actual)))
-                :
-                new PassIf(expected.equals(actual), new Value(actual)),
-            new Value(expected));
+                ? new FailPrepended(
+                new Text("array that"),
+                new Iterates<>(new Mapped<>(EqualTo::new, new ArrayIterable(expected))).assessmentOf(new ArrayIterable(actual)))
+                : new PassIf(expected.equals(actual), new Value(actual)),
+            expected.getClass().isArray()
+                ? new Block(new Text("["), EMPTY, new Text("]"), new Mapped<>(Value::new, new ArrayIterable(expected)))
+                : new Value(expected));
     }
-
-
 }

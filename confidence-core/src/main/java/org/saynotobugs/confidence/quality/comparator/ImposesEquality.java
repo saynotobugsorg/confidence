@@ -39,8 +39,7 @@ import org.saynotobugs.confidence.utils.UnPaired;
 
 import java.util.Comparator;
 
-import static org.saynotobugs.confidence.description.LiteralDescription.COMMA_NEW_LINE;
-import static org.saynotobugs.confidence.description.LiteralDescription.EMPTY;
+import static org.saynotobugs.confidence.description.LiteralDescription.*;
 
 
 @StaticFactories(
@@ -73,7 +72,7 @@ public final class ImposesEquality<T> implements Quality<Comparator<T>>
     @Override
     public Assessment assessmentOf(Comparator<T> candidate)
     {
-        return new AllPassed(new Text("Comparator "), COMMA_NEW_LINE,
+        return new AllPassed(new Text("Comparator"), EMPTY,
             new Mapped<>(
                 new UnPaired<Pair<Integer, ? extends T>, Pair<Integer, ? extends T>, Assessment>(
                     (left, right) -> testPair(candidate, left, right)),
