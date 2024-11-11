@@ -26,7 +26,7 @@ import org.saynotobugs.confidence.assessment.AllPassed;
 import org.saynotobugs.confidence.assessment.PassIf;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
-import org.saynotobugs.confidence.description.valuedescription.Value;
+import org.saynotobugs.confidence.description.Value;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 
 import java.util.Comparator;

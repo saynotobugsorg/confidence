@@ -16,7 +16,7 @@
  *
  */
 
-package org.saynotobugs.confidence.description.valuedescription;
+package org.saynotobugs.confidence.description;
 
 import org.eclipse.jdt.annotation.Nullable;
 import org.saynotobugs.confidence.Description;

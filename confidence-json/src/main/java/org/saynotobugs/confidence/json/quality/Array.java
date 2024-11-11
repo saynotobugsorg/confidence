@@ -26,11 +26,11 @@ import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.Quality;
-import org.saynotobugs.confidence.description.Spaced;
+import org.saynotobugs.confidence.description.Block;
 import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.json.JsonArrayAdapter;
 import org.saynotobugs.confidence.json.JsonElementAdapter;
-import org.saynotobugs.confidence.quality.composite.AllOf;
+import org.saynotobugs.confidence.quality.composite.Guarded;
 import org.saynotobugs.confidence.quality.composite.Has;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 
@@ -38,6 +38,7 @@ import java.lang.Number;
 import java.lang.String;
 
 import static org.dmfs.jems2.confidence.Jems2.present;
+import static org.saynotobugs.confidence.description.LiteralDescription.COMMA;
 
 /**
  * {@link Quality} of a JSON array.
@@ -69,15 +70,32 @@ public final class Array extends QualityComposition<JsonElementAdapter>
 
     private Array(int count, Iterable<? extends Quality<? super JsonElementAdapter>> qualities)
     {
-        this(new AllOf<>(new HasLength(count), new AllOf<>(new Mapped<>(numbered -> new At(numbered.left(), numbered.right()), new Numbered<>(qualities)))));
+        super(
+            new Has<>(
+                (Function<Description, Description>) orig -> orig,
+                orig -> orig,
+                JsonElementAdapter::asArray,
+                present(d -> d,
+                    d -> d,
+                    new Text("not an array"),
+                    new Guarded<>(new Seq<>(new HasLength(count)),
+                        new Conjunction<>(
+                            new Text("["),
+                            COMMA,
+                            new Text("]"),
+                            new Mapped<>(numbered -> new At(numbered.left(), numbered.right()), new Numbered<>(qualities)),
+                            new Text("[]"))))));
     }
 
     public Array(Quality<? super JsonArrayAdapter> delegate)
     {
         super(new Has<>(
-            (Function<Description, Description>) orig -> new Spaced(new Text("array"), orig),
-            orig -> new Spaced(new Text("array"), orig),
+            (Function<Description, Description>) orig -> orig,
+            orig -> orig,
             JsonElementAdapter::asArray,
-            present(d -> d, d -> d, new Text("not an array"), delegate)));
+            present(d -> new Block(new Text("["), COMMA, new Text("]"), new Seq<>(d)),
+                d -> new Block(new Text("["), COMMA, new Text("]"), new Seq<>(d)),
+                new Text("not an array"),
+                delegate)));
     }
 }

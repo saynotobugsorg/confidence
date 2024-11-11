@@ -1,4 +1,4 @@
-package org.saynotobugs.confidence.description.valuedescription;
+package org.saynotobugs.confidence.description;
 
 import org.junit.jupiter.api.Test;
 import org.saynotobugs.confidence.test.quality.DescribesAs;

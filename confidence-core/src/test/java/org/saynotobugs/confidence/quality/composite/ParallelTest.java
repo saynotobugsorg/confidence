@@ -40,7 +40,7 @@ class ParallelTest
                         }
                     },
                     new DescribesAs(new MatchesPattern("executions\\R  ...\\R  .+ <java.lang.RuntimeException: error>\\R  ..."))),
-                new HasDescription("running 1000 parallel execution, each supplies less than 999")
+                new HasDescription("running 1000 parallel execution, supplies less than 999")
             ));
     }
 
@@ -68,7 +68,7 @@ class ParallelTest
                     },
                     new DescribesAs(new MatchesPattern(
                         "executions\\n  #0 in thread .* <java.lang.IllegalArgumentException: error>\\n  #1 in thread .* <java.lang.IllegalArgumentException: error>"))),
-                new HasDescription(new DescribesAs(new MatchesPattern("running 2 parallel execution, each .*")))
+                new HasDescription(new DescribesAs(new MatchesPattern("running 2 parallel execution, .*")))
             ));
     }
 }

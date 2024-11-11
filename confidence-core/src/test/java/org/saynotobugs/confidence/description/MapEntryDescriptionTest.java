@@ -1,4 +1,4 @@
-package org.saynotobugs.confidence.description.valuedescription;
+package org.saynotobugs.confidence.description;
 
 import org.dmfs.jems2.iterable.Seq;
 import org.junit.jupiter.api.Test;

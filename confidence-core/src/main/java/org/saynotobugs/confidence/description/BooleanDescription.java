@@ -16,21 +16,21 @@
  *
  */
 
-package org.saynotobugs.confidence.description.valuedescription;
+package org.saynotobugs.confidence.description;
 
 import org.saynotobugs.confidence.Description;
-import org.saynotobugs.confidence.description.DescriptionComposition;
-import org.saynotobugs.confidence.description.Quoted;
-import org.saynotobugs.confidence.description.Text;
 
 
 /**
- * A {@link Description} that describes an {@link Object} by its {@link Object#toString()} value.
+ * The {@link Description} of a {@link Boolean} value.
  */
-public final class ToStringDescription extends DescriptionComposition
+public final class BooleanDescription extends DescriptionComposition
 {
-    public ToStringDescription(Object value)
+    private final static Description TRUE = new Text(Boolean.TRUE.toString());
+    private final static Description FALSE = new Text(Boolean.FALSE.toString());
+
+    public BooleanDescription(boolean bool)
     {
-        super(new Quoted("<", new Text(value::toString), ">"));
+        super(bool ? TRUE : FALSE);
     }
 }

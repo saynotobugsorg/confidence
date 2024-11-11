@@ -34,13 +34,13 @@ class JsonStringOfTest
         assertThat(new JsonStringOf(new Object(new With("foo", new String("bar")))),
             new AllOf<>(
                 new Passes<>("{\"foo\": \"bar\"}"),
-                new Fails<>("{\"foo\": \"buzz\"}", "JSON object { \"foo\": \"buzz\" }"),
-                new Fails<>("[\"foo\"]", "JSON object not an object"),
-                new Fails<>("\"foo\"", "JSON object not an object"),
-                new Fails<>("true", "JSON object not an object"),
-                new Fails<>("123", "JSON object not an object"),
-                new Fails<>("null", "JSON object not an object"),
-                new HasDescription("JSON object { \"foo\": \"bar\" }")
+                new Fails<>("{\"foo\": \"buzz\"}", "JSON {\n  \"foo\": \"buzz\"\n}"),
+                new Fails<>("[\"foo\"]", "JSON not an object"),
+                new Fails<>("\"foo\"", "JSON not an object"),
+                new Fails<>("true", "JSON not an object"),
+                new Fails<>("123", "JSON not an object"),
+                new Fails<>("null", "JSON not an object"),
+                new HasDescription("JSON {\n  \"foo\": \"bar\"\n}")
             ));
     }
 
@@ -51,13 +51,13 @@ class JsonStringOfTest
         assertThat(new JsonStringOf(new Array(new Object(new With("1")), new Object(new With("2")))),
             new AllOf<>(
                 new Passes<>("[{\"1\": 1},{\"2\": 2}]"),
-                new Fails<>("[\"foo\"]", "JSON array { had length 1\n  and\n  { 0: object not an object\n    and\n    1: missing } }"),
-                new Fails<>("{\"foo\": \"buzz\"}", "JSON array not an array"),
-                new Fails<>("\"foo\"", "JSON array not an array"),
-                new Fails<>("true", "JSON array not an array"),
-                new Fails<>("123", "JSON array not an array"),
-                new Fails<>("null", "JSON array not an array"),
-                new HasDescription("JSON array { has length 2\n  and\n  { 0: object { \"1\": <anything> }\n    and\n    1: object { \"2\": <anything> } } }")
+                new Fails<>("[\"foo\"]", "JSON had length 1"),
+                new Fails<>("{\"foo\": \"buzz\"}", "JSON not an array"),
+                new Fails<>("\"foo\"", "JSON not an array"),
+                new Fails<>("true", "JSON not an array"),
+                new Fails<>("123", "JSON not an array"),
+                new Fails<>("null", "JSON not an array"),
+                new HasDescription("JSON [\n  0: {\n    \"1\": <anything>\n  },\n  1: {\n    \"2\": <anything>\n  }\n]")
             ));
     }
 

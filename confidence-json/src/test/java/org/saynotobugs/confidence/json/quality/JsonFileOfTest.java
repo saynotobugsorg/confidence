@@ -63,9 +63,9 @@ class JsonFileOfTest
         assertThat(new JsonFileOf(new Object(new Anything())),
             new AllOf<>(
                 new Passes<>(jsonFile),
-                new Fails<>(nonJsonFile, "contained \"UTF-8\" text JSON object not an object"),
+                new Fails<>(nonJsonFile, "contained \"UTF-8\" text JSON not an object"),
                 new Fails<>(nonFile, new DescribesAs(new MatchesPattern("threw <java.nio.file.NoSuchFileException.*"))),
-                new HasDescription("contains \"UTF-8\" text JSON object { <anything> }")));
+                new HasDescription("contains \"UTF-8\" text JSON {\n  <anything>\n}")));
     }
 
 }

@@ -26,10 +26,10 @@ import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.FailUpdated;
-import org.saynotobugs.confidence.description.valuedescription.DescriptionDescription;
+import org.saynotobugs.confidence.description.DescriptionDescription;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
-import org.saynotobugs.confidence.description.valuedescription.Value;
+import org.saynotobugs.confidence.description.Value;
 
 import static org.saynotobugs.confidence.description.LiteralDescription.NEW_LINE;
 

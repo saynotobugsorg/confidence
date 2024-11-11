@@ -31,7 +31,7 @@ import org.saynotobugs.confidence.assessment.Fail;
 import org.saynotobugs.confidence.assessment.FailPrepended;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
-import org.saynotobugs.confidence.description.valuedescription.Value;
+import org.saynotobugs.confidence.description.Value;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -109,6 +109,6 @@ public final class Parallel<T> implements Quality<T>
     @Override
     public Description description()
     {
-        return new Spaced(new Text("running " + mThreadCount + " parallel execution, each"), mDelegate.description());
+        return new Spaced(new Text("running " + mThreadCount + " parallel execution,"), mDelegate.description());
     }
 }

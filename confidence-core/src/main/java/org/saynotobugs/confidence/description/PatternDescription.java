@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 dmfs GmbH
+ * Copyright 2022 dmfs GmbH
  *
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,22 +16,25 @@
  *
  */
 
-package org.saynotobugs.confidence.description.valuedescription;
+package org.saynotobugs.confidence.description;
 
-import org.junit.jupiter.api.Test;
-import org.saynotobugs.confidence.test.quality.DescribesAs;
+import org.saynotobugs.confidence.Description;
 
 import java.util.regex.Pattern;
 
-import static org.saynotobugs.confidence.Assertion.assertThat;
+import static org.saynotobugs.confidence.description.LiteralDescription.SLASH;
 
-class PatternDescriptionTest
+
+/**
+ * The {@link Description} of a {@link Pattern} value
+ */
+public final class PatternDescription extends DescriptionComposition
 {
-    @Test
-    void test()
+    /**
+     * Creates a {@link Description} for the given {@link Pattern}.
+     */
+    public PatternDescription(Pattern value)
     {
-        assertThat(new PatternDescription(Pattern.compile("123")),
-            new DescribesAs("/123/"));
+        super(new Quoted(SLASH, new Text(value::pattern)));
     }
-
 }

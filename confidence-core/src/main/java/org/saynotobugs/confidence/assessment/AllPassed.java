@@ -68,7 +68,7 @@ public final class AllPassed implements Assessment
         mResults = new Frozen<>(results);
         mExit = exit;
         // trigger evaluation of the results
-        this.isSuccess();
+        isSuccess();
     }
 
 

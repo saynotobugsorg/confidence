@@ -27,7 +27,7 @@ import org.saynotobugs.confidence.assessment.FailPrepended;
 import org.saynotobugs.confidence.core.quality.Grammar;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
-import org.saynotobugs.confidence.description.valuedescription.Value;
+import org.saynotobugs.confidence.description.Value;
 import org.saynotobugs.confidence.quality.grammar.SoIt;
 
 import java.util.function.Consumer;

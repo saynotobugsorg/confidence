@@ -16,11 +16,7 @@
  *
  */
 
-package org.saynotobugs.confidence.description.valuedescription;
-
-import org.saynotobugs.confidence.description.Composite;
-import org.saynotobugs.confidence.description.DescriptionComposition;
-import org.saynotobugs.confidence.description.Text;
+package org.saynotobugs.confidence.description;
 
 import java.util.Optional;
 

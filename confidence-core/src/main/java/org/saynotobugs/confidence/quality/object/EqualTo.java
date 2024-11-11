@@ -26,7 +26,7 @@ import org.saynotobugs.confidence.assessment.FailPrepended;
 import org.saynotobugs.confidence.assessment.PassIf;
 import org.saynotobugs.confidence.description.Block;
 import org.saynotobugs.confidence.description.Text;
-import org.saynotobugs.confidence.description.valuedescription.Value;
+import org.saynotobugs.confidence.description.Value;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 import org.saynotobugs.confidence.quality.iterable.Iterates;
 import org.saynotobugs.confidence.utils.ArrayIterable;

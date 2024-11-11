@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 dmfs GmbH
+ * Copyright 2023 dmfs GmbH
  *
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,21 +16,22 @@
  *
  */
 
-package org.saynotobugs.confidence.description.valuedescription;
+package org.saynotobugs.confidence.description;
 
-import org.saynotobugs.confidence.Description;
-import org.saynotobugs.confidence.description.DescriptionComposition;
+import org.junit.jupiter.api.Test;
+import org.saynotobugs.confidence.test.quality.DescribesAs;
 
-import java.util.Map;
+import java.util.regex.Pattern;
 
+import static org.saynotobugs.confidence.Assertion.assertThat;
 
-/**
- * A {@link Description} of a {@link Map}.
- */
-public final class MapDescription extends DescriptionComposition
+class PatternDescriptionTest
 {
-    public MapDescription(Map<?, ?> value)
+    @Test
+    void test()
     {
-        super(new SetDescription(value.entrySet()));
+        assertThat(new PatternDescription(Pattern.compile("123")),
+            new DescribesAs("/123/"));
     }
+
 }

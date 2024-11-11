@@ -42,7 +42,7 @@ class StringTest
                     with(JsonElementAdapter::asString, returning(new Present<>("123"))))),
                 new Fails<>(mock("mismatching String", JsonElementAdapter.class,
                     with(JsonElementAdapter::asString, returning(new Present<>("abcdef")))),
-                    "had length 6"),
+                    "\"abcdef\" had length 6"),
                 new Fails<>(mock("no string", JsonElementAdapter.class,
                     with(JsonElementAdapter::asString, returning(new Absent<>()))),
                     "not a string"),

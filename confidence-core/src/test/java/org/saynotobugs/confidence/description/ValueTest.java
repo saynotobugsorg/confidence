@@ -1,8 +1,7 @@
-package org.saynotobugs.confidence.description.valuedescription;
+package org.saynotobugs.confidence.description;
 
 import org.dmfs.jems2.iterable.Seq;
 import org.junit.jupiter.api.Test;
-import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.test.quality.DescribesAs;
 
 import java.util.EnumSet;

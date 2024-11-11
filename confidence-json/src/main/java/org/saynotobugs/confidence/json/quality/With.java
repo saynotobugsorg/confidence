@@ -23,7 +23,7 @@ import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.description.Composite;
 import org.saynotobugs.confidence.description.Text;
-import org.saynotobugs.confidence.description.valuedescription.Value;
+import org.saynotobugs.confidence.description.Value;
 import org.saynotobugs.confidence.json.JsonElementAdapter;
 import org.saynotobugs.confidence.json.JsonObjectAdapter;
 import org.saynotobugs.confidence.quality.composite.Has;

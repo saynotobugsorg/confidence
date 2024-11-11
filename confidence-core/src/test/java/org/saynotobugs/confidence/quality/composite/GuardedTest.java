@@ -19,7 +19,7 @@ class GuardedTest
             new AllOf<>(
                 new Passes<>("abc"),
                 new Fails<>("xyz", "\"xyz\""),
-                new Fails<>("abcd", "had length 4"),
+                new Fails<>("abcd", "\"abcd\" had length 4"),
                 new HasDescription("\"abc\"")
             )
         );

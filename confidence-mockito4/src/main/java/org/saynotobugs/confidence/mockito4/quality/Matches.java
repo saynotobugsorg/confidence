@@ -23,7 +23,7 @@ import org.mockito.ArgumentMatcher;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
-import org.saynotobugs.confidence.description.valuedescription.Value;
+import org.saynotobugs.confidence.description.Value;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 import org.saynotobugs.confidence.quality.object.Satisfies;
 

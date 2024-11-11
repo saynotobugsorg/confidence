@@ -35,7 +35,7 @@ import org.saynotobugs.confidence.assessment.iterable.Numbered;
 import org.saynotobugs.confidence.description.Block;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
-import org.saynotobugs.confidence.description.valuedescription.Value;
+import org.saynotobugs.confidence.description.Value;
 import org.saynotobugs.confidence.quality.object.EqualTo;
 
 import java.util.ArrayList;

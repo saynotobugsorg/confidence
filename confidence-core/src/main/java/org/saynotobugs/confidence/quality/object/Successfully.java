@@ -27,7 +27,7 @@ import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.Fail;
 import org.saynotobugs.confidence.assessment.Pass;
 import org.saynotobugs.confidence.description.Spaced;
-import org.saynotobugs.confidence.description.valuedescription.Value;
+import org.saynotobugs.confidence.description.Value;
 
 
 /**

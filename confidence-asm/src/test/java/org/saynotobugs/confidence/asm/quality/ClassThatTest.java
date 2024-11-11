@@ -44,8 +44,8 @@ class ClassThatTest
             new AllOf<>(
                 new Passes<java.lang.Class<?>>(AnnotatedTestClass.class),
                 new Passes<java.lang.Class<?>>(OuterTestClass.AnnotatedInnerTestClass.class),
-                new Fails<>(TestClassWithoutAnnotation.class, "Class that had annotations iterated [ 0: missing instance of <interface java.lang.annotation.Annotation> ]"),
-                new HasDescription("Class that has annotations iterates [ 0: instance of <interface java.lang.annotation.Annotation> ]")
+                new Fails<>(TestClassWithoutAnnotation.class, "Class that had annotations iterated [\n  0: missing instance of <interface java.lang.annotation.Annotation>\n]"),
+                new HasDescription("Class that has annotations iterates [\n  0: instance of <interface java.lang.annotation.Annotation>\n]")
             ));
     }
 }

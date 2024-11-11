@@ -44,8 +44,8 @@ class ArrayTest
                     with(JsonElementAdapter::asArray, returning(new Present<>(mock(JsonArrayAdapter.class)))))),
                 new Fails<>(mock("not an array", JsonElementAdapter.class,
                     with(JsonElementAdapter::asArray, returning(new Absent<>()))),
-                    "array not an array"),
-                new HasDescription("array <anything>")
+                    "not an array"),
+                new HasDescription("[\n  <anything>\n]")
             ));
     }
 
@@ -56,11 +56,11 @@ class ArrayTest
             new AllOf<>(
                 new Fails<>(mock("JSON Array", JsonElementAdapter.class,
                     with(JsonElementAdapter::asArray, returning(new Present<>(mock("Array Adapter", JsonArrayAdapter.class))))),
-                    "array <Array Adapter>"),
+                    "[\n  <Array Adapter>\n]"),
                 new Fails<>(mock("not an array", JsonElementAdapter.class,
                     with(JsonElementAdapter::asArray, returning(new Absent<>()))),
-                    "array not an array"),
-                new HasDescription("array <nothing>")
+                    "not an array"),
+                new HasDescription("[\n  <nothing>\n]")
             ));
     }
 
@@ -91,11 +91,11 @@ class ArrayTest
                                 with(adapter -> adapter.elementAt(1), returning(
                                     new Present<>(mock(JsonElementAdapter.class,
                                         with(JsonElementAdapter::asString, returning(new Present<>("b")))))))))))),
-                    "array { ...\n  { 0: not a string\n    ... } }"),
+                    "[\n  0: not a string,\n  ...\n]"),
                 new Fails<>(mock("not an array", JsonElementAdapter.class,
                     with(JsonElementAdapter::asArray, returning(new Absent<>()))),
-                    "array not an array"),
-                new HasDescription("array { has length 2\n  and\n  { 0: \"a\"\n    and\n    1: \"b\" } }")
+                    "not an array"),
+                new HasDescription("[\n  0: \"a\",\n  1: \"b\"\n]")
             ));
     }
 
@@ -126,11 +126,11 @@ class ArrayTest
                                 with(adapter -> adapter.elementAt(1), returning(
                                     new Present<>(mock(JsonElementAdapter.class,
                                         with(JsonElementAdapter::asNumber, returning(new Present<>(5)))))))))))),
-                    "array { ...\n  { 0: not a number\n    ... } }"),
+                    "[\n  0: not a number,\n  ...\n]"),
                 new Fails<>(mock("not an array", JsonElementAdapter.class,
                     with(JsonElementAdapter::asArray, returning(new Absent<>()))),
-                    "array not an array"),
-                new HasDescription("array { has length 2\n  and\n  { 0: 1.2d\n    and\n    1: 5 } }")
+                    "not an array"),
+                new HasDescription("[\n  0: 1.2d,\n  1: 5\n]")
             ));
     }
 
@@ -138,7 +138,7 @@ class ArrayTest
     @Test
     void testQualityArray()
     {
-        assertThat(new Array(new AllOf<>(new At(0, "a"), new At(1, "b"))),
+        assertThat(new Array(new AllOf(new At(0, "a"), new At(1, "b"))),
             new AllOf<>(
                 new Passes<>(
                     mock("JSON Array", JsonElementAdapter.class,
@@ -160,11 +160,11 @@ class ArrayTest
                                 with(adapter -> adapter.elementAt(1), returning(
                                     new Present<>(mock(JsonElementAdapter.class,
                                         with(JsonElementAdapter::asString, returning(new Present<>("b")))))))))))),
-                    "array { 0: not a string\n  ... }"),
+                    "[\n  0: not a string\n  ...\n]"),
                 new Fails<>(mock("not an array", JsonElementAdapter.class,
                     with(JsonElementAdapter::asArray, returning(new Absent<>()))),
-                    "array not an array"),
-                new HasDescription("array { 0: \"a\"\n  and\n  1: \"b\" }")
+                    "not an array"),
+                new HasDescription("[\n  0: \"a\"\n  1: \"b\"\n]")
             ));
     }
 

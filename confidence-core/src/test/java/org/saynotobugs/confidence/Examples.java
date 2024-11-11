@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.saynotobugs.confidence.assessment.PassIf;
 import org.saynotobugs.confidence.core.quality.Composite;
-import org.saynotobugs.confidence.description.valuedescription.NumberDescription;
+import org.saynotobugs.confidence.description.NumberDescription;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.quality.comparable.GreaterThan;

@@ -21,7 +21,7 @@ class ArrayThatTest
                 new Passes<Object>(new int[] { 1, 2, 3 }, new int[] { 3 }, new int[] { 3, 3, 3, 3, 3 }),
                 new Fails<Object>(new int[] {}, "array [] did not contain 3"),
                 new Fails<Object>(new int[] { 1, 2, 4 }, "array [ 1, 2, 4 ] did not contain 3"),
-                new Fails<>("abc", "not an array"),
+                new Fails<>("abc", "\"abc\" was not an array"),
                 new HasDescription("array that contains 3")
             ));
     }

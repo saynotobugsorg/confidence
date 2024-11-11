@@ -32,7 +32,7 @@ import org.saynotobugs.confidence.assessment.Pass;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Structured;
 import org.saynotobugs.confidence.description.Text;
-import org.saynotobugs.confidence.description.valuedescription.Value;
+import org.saynotobugs.confidence.description.Value;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 import org.saynotobugs.confidence.quality.object.EqualTo;
 

@@ -9,7 +9,7 @@ import org.saynotobugs.confidence.assessment.Fail;
 import org.saynotobugs.confidence.assessment.FailUpdated;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
-import org.saynotobugs.confidence.description.valuedescription.Value;
+import org.saynotobugs.confidence.description.Value;
 
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;

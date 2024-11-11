@@ -55,7 +55,8 @@ public final class AllOf<T> extends QualityComposition<T>
      */
     public AllOf(Iterable<? extends Quality<? super T>> delegates)
     {
-        super(actual -> new AllPassed(
+        super(
+            actual -> new AllPassed(
                 new Text("all of"),
                 EMPTY,
                 EMPTY,

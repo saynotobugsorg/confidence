@@ -10,7 +10,7 @@ import org.saynotobugs.confidence.assessment.AllPassed;
 import org.saynotobugs.confidence.description.LiteralDescription;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
-import org.saynotobugs.confidence.description.valuedescription.Value;
+import org.saynotobugs.confidence.description.Value;
 
 import java.util.List;
 import java.util.function.Consumer;

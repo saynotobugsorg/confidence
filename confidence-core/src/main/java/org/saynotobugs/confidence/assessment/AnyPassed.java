@@ -66,6 +66,7 @@ public final class AnyPassed implements Assessment
         mDelimiter = delimiter;
         mResults = new Frozen<>(results);
         mExit = exit;
+        isSuccess(); // trigger evaluation
     }
 
 
