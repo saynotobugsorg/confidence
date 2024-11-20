@@ -1,4 +1,4 @@
-package org.saynotobugs.confidence.quality.map;
+package org.saynotobugs.confidence.quality.entry;
 
 import org.junit.jupiter.api.Test;
 import org.saynotobugs.confidence.quality.composite.AllOf;

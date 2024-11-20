@@ -86,17 +86,20 @@ class TransformsSingleTest
             new AllOf<>(
                 new Passes<>(scheduler -> upsteam -> upsteam.onErrorReturnItem(123)),
                 new Fails<>(scheduler -> Single::hide,
-                    "(1) to downstream { completed 0 times\n  and\n  emitted 0 items that iterated [ 0: missing 123 ]\n  ... }"),
+                    "all of\n  ...,\n  1: to downstream all of\n    0: completed 0 times\n    1: emitted 0 items that iterated [\n      0: missing 123\n    ]\n    ..."),
                 new Fails<>(scheduler -> upsteam -> upsteam.delay(10, TimeUnit.SECONDS),
-                    "(1) to downstream { completed 0 times\n  and\n  emitted 0 items that iterated [ 0: missing 123 ]\n  ... }"),
+                    "all of\n  ...,\n  1: to downstream all of\n    0: completed 0 times\n    1: emitted 0 items that iterated [\n      0: missing 123\n    ]\n    ..."),
                 new HasDescription(
                     "SingleTransformer that transforms\n" +
-                        "  (0) upstream { error <java.io.IOException> },\n" +
-                        "    (1) to downstream { completes exactly once\n" +
-                        "      and\n" +
-                        "      emits 1 items that iterates [ 0: 123 ]\n" +
-                        "      and\n" +
-                        "      emits nothing }")
+                        "  all of\n" +
+                        "    0: upstream all of\n" +
+                        "      0: error <java.io.IOException>,\n" +
+                        "    1: to downstream all of\n" +
+                        "      0: completes exactly once\n" +
+                        "      1: emits 1 items that iterates [\n" +
+                        "        0: 123\n" +
+                        "      ]\n" +
+                        "      2: emits nothing")
             ));
     }
 }

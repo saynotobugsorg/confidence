@@ -37,7 +37,7 @@ import org.saynotobugs.confidence.rxjava3.TransformerTestStep;
 import org.saynotobugs.confidence.rxjava3.adapters.RxTestObserver;
 import org.saynotobugs.confidence.rxjava3.adapters.SingleSubjectAdapter;
 
-import static org.saynotobugs.confidence.description.LiteralDescription.COMMA_NEW_LINE;
+import static org.saynotobugs.confidence.description.LiteralDescription.COMMA;
 import static org.saynotobugs.confidence.description.LiteralDescription.NEW_LINE;
 
 
@@ -68,7 +68,7 @@ public final class TransformsSingle<Up, Down> implements
         RxTestObserver<Down> testAdapter = new RxTestObserver<>();
         SingleSubject<Up> upstream = SingleSubject.create();
         candidate.value(t).apply(upstream.hide()).subscribe(testAdapter);
-        return new AllOfFailingFast<RxTestObserver<Down>>(COMMA_NEW_LINE,
+        return new AllOfFailingFast<RxTestObserver<Down>>(COMMA,
             new Expanded<>(e -> e.qualities(t, new SingleSubjectAdapter<>(upstream)), mEvents)
         ).assessmentOf(testAdapter);
     }
@@ -80,7 +80,7 @@ public final class TransformsSingle<Up, Down> implements
         TestScheduler t = new TestScheduler();
         SingleSubject<Up> upstream = SingleSubject.create();
         return new DescribedAs<>(orig -> new Composite(new Text("SingleTransformer that transforms"), new Indented(new Composite(NEW_LINE, orig))),
-            new AllOfFailingFast<>(COMMA_NEW_LINE,
+            new AllOfFailingFast<>(COMMA,
                 new Expanded<>(e -> e.qualities(t, new SingleSubjectAdapter<>(upstream)), mEvents)
             )).description();
     }

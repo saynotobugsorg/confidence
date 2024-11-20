@@ -45,7 +45,7 @@ class ArrayTest
                 new Fails<>(mock("not an array", JsonElementAdapter.class,
                     with(JsonElementAdapter::asArray, returning(new Absent<>()))),
                     "not an array"),
-                new HasDescription("[\n  <anything>\n]")
+                new HasDescription("array,\n  <anything>")
             ));
     }
 
@@ -56,11 +56,11 @@ class ArrayTest
             new AllOf<>(
                 new Fails<>(mock("JSON Array", JsonElementAdapter.class,
                     with(JsonElementAdapter::asArray, returning(new Present<>(mock("Array Adapter", JsonArrayAdapter.class))))),
-                    "[\n  <Array Adapter>\n]"),
+                    "array,\n  <Array Adapter>"),
                 new Fails<>(mock("not an array", JsonElementAdapter.class,
                     with(JsonElementAdapter::asArray, returning(new Absent<>()))),
                     "not an array"),
-                new HasDescription("[\n  <nothing>\n]")
+                new HasDescription("array,\n  <nothing>")
             ));
     }
 
@@ -160,11 +160,11 @@ class ArrayTest
                                 with(adapter -> adapter.elementAt(1), returning(
                                     new Present<>(mock(JsonElementAdapter.class,
                                         with(JsonElementAdapter::asString, returning(new Present<>("b")))))))))))),
-                    "[\n  0: not a string\n  ...\n]"),
+                    "array,\n  all of\n    0: 0: not a string\n    ..."),
                 new Fails<>(mock("not an array", JsonElementAdapter.class,
                     with(JsonElementAdapter::asArray, returning(new Absent<>()))),
                     "not an array"),
-                new HasDescription("[\n  0: \"a\"\n  1: \"b\"\n]")
+                new HasDescription("array,\n  all of\n    0: 0: \"a\"\n    1: 1: \"b\"")
             ));
     }
 

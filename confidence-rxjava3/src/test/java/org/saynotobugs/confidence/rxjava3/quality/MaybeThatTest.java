@@ -38,8 +38,8 @@ class MaybeThatTest
             new AllOf<>(
                 new Passes<>(ignored -> Maybe.empty()),
                 new Fails<>(ignored -> Maybe.error(IOException::new), "Maybe that (0) { completed 0 times\n  ... }"),
-                new Fails<>(ignored -> Maybe.just(124), "Maybe that (0) { ...\n  emitted [ 124 ] }"),
-                new HasDescription("Maybe that (0) { completes exactly once\n    and\n    emits nothing }")
+                new Fails<>(ignored -> Maybe.just(124), "Maybe that all of\n  0: emitted [ 124 ]"),
+                new HasDescription("Maybe that all of\n  0: completes exactly once")
             ));
     }
 

@@ -39,6 +39,7 @@ import java.lang.String;
 
 import static org.dmfs.jems2.confidence.Jems2.present;
 import static org.saynotobugs.confidence.description.LiteralDescription.COMMA;
+import static org.saynotobugs.confidence.description.LiteralDescription.EMPTY;
 
 /**
  * {@link Quality} of a JSON array.
@@ -93,8 +94,8 @@ public final class Array extends QualityComposition<JsonElementAdapter>
             (Function<Description, Description>) orig -> orig,
             orig -> orig,
             JsonElementAdapter::asArray,
-            present(d -> new Block(new Text("["), COMMA, new Text("]"), new Seq<>(d)),
-                d -> new Block(new Text("["), COMMA, new Text("]"), new Seq<>(d)),
+            present(d -> new Block(new Text("array,"), COMMA, EMPTY, new Seq<>(d)),
+                d -> new Block(new Text("array,"), COMMA, EMPTY, new Seq<>(d)),
                 new Text("not an array"),
                 delegate)));
     }

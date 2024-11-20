@@ -35,9 +35,9 @@ class CompletableThatTest
         assertThat(new CompletableThat<>(new IsAlive<>()),
             new AllOf<>(
                 new Passes<>(ignored -> Completable.never()),
-                new Fails<>(ignored -> Completable.error(IOException::new), "Completable that (0) was has error contains <anything>\n  ..."),
-                new Fails<>(ignored -> Completable.complete(), "Completable that (0) was ...\n  completes exactly once\n  ..."),
-                new HasDescription("Completable that (0) alive")
+                new Fails<>(ignored -> Completable.error(IOException::new), "Completable that all of\n  0:was has error contains <anything>\n  ..."),
+                new Fails<>(ignored -> Completable.complete(), "Completable that all of\n  0:was ...\n  completes exactly once\n  ..."),
+                new HasDescription("Completable that all of \n  0:alive")
             ));
     }
 
