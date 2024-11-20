@@ -21,6 +21,7 @@ package org.saynotobugs.confidence.rxjava3.quality;
 import io.reactivex.rxjava3.core.Flowable;
 import org.junit.jupiter.api.Test;
 import org.saynotobugs.confidence.quality.composite.AllOf;
+import org.saynotobugs.confidence.quality.object.Anything;
 import org.saynotobugs.confidence.rxjava3.procedure.Complete;
 import org.saynotobugs.confidence.rxjava3.procedure.Emit;
 import org.saynotobugs.confidence.rxjava3.rxexpectation.Completes;
@@ -46,14 +47,12 @@ class TransformsFlowableTest
         assertThat(new TransformsFlowable<>(new Upstream<>(new Complete()), new Downstream<>(new Completes<>())),
             new AllOf<>(
                 new Passes<>(scheduler -> Flowable::hide),
-                new Fails<>(scheduler -> upsteam -> upsteam.ambWith(Flowable.error(new IOException())), "(1) to downstream { completed 0 times\n  ... }"),
-                new Fails<>(scheduler -> upsteam -> upsteam.delay(10, TimeUnit.SECONDS), "(1) to downstream { completed 0 times\n  ... }"),
+                new Fails<>(scheduler -> upsteam -> upsteam.ambWith(Flowable.error(new IOException())),
+                    // TODO: fix the description when "not" was fixed with https://github.com/saynotobugsorg/confidence/issues/202
+                    new Anything()),
+                new Fails<>(scheduler -> upsteam -> upsteam.delay(10, TimeUnit.SECONDS), "all of\n  ...,\n  1: to downstream completed 0 times"),
                 new HasDescription(
-                    "FlowableTransformer that transforms\n" +
-                        "  (0) upstream { completion },\n" +
-                        "    (1) to downstream { completes exactly once\n" +
-                        "      and\n" +
-                        "      emits nothing }")
+                    "FlowableTransformer that transforms\n  all of\n    0: upstream completion,\n    1: to downstream completes exactly once")
             ));
     }
 
@@ -71,21 +70,14 @@ class TransformsFlowableTest
             new AllOf<>(
                 new Passes<>(scheduler -> upstream -> upstream.map(i -> i * 2)),
                 new Fails<>(scheduler -> upsteam -> upsteam.map(i -> i * 3),
-                    "(1) to downstream emitted 1 items that iterated [ 0: 369 ]"),
+                    "all of\n  ...,\n  1: to downstream emitted 1 items 369"),
                 new Fails<>(scheduler -> upsteam -> upsteam.ambWith(Flowable.error(new IOException())),
-                    "(1) to downstream emitted 0 items that iterated [ 0: missing 246 ]"),
+                    // TODO: fix the description when "not" was fixed with https://github.com/saynotobugsorg/confidence/issues/202
+                    new Anything()),
                 new Fails<>(scheduler -> upsteam -> upsteam.delay(10, TimeUnit.SECONDS, scheduler),
-                    "(1) to downstream emitted 0 items that iterated [ 0: missing 246 ]"),
+                    "all of\n  ...,\n  1: to downstream emitted 0 items had 0 elements"),
                 new HasDescription(
-                    "FlowableTransformer that transforms\n" +
-                        "  (0) upstream { emissions [123] },\n" +
-                        "    (1) to downstream emits 1 items that iterates [ 0: 246 ],\n" +
-                        "    (2) upstream { emissions [200] },\n" +
-                        "    (3) to downstream emits 1 items that iterates [ 0: 400 ],\n" +
-                        "    (4) upstream { completion },\n" +
-                        "    (5) to downstream { completes exactly once\n" +
-                        "      and\n" +
-                        "      emits nothing }"
+                    "FlowableTransformer that transforms\n  all of\n    0: upstream emissions [123],\n    1: to downstream emits 1 items 246,\n    2: upstream emissions [200],\n    3: to downstream emits 1 items 400,\n    4: upstream completion,\n    5: to downstream completes exactly once"
                 )
             ));
     }

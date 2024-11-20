@@ -30,7 +30,7 @@ import org.saynotobugs.confidence.description.Block;
 import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.json.JsonArrayAdapter;
 import org.saynotobugs.confidence.json.JsonElementAdapter;
-import org.saynotobugs.confidence.quality.composite.Guarded;
+import org.saynotobugs.confidence.quality.composite.Implying;
 import org.saynotobugs.confidence.quality.composite.Has;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 
@@ -79,7 +79,7 @@ public final class Array extends QualityComposition<JsonElementAdapter>
                 present(d -> d,
                     d -> d,
                     new Text("not an array"),
-                    new Guarded<>(new Seq<>(new HasLength(count)),
+                    new Implying<>(new Seq<>(new HasLength(count)),
                         new Conjunction<>(
                             new Text("["),
                             COMMA,

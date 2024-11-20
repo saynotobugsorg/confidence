@@ -25,7 +25,7 @@ import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.description.Value;
-import org.saynotobugs.confidence.quality.composite.Guarded;
+import org.saynotobugs.confidence.quality.composite.Implying;
 import org.saynotobugs.confidence.quality.composite.Has;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 import org.saynotobugs.confidence.quality.object.Satisfies;
@@ -45,7 +45,7 @@ public final class ArrayThat extends QualityComposition<Object>
     public <T> ArrayThat(Quality<? super Iterable<T>> delegate)
     {
         super(
-            new Guarded<>(
+            new Implying<>(
                 new Seq<>(new Satisfies<>(a -> a.getClass().isArray(), actual -> new Spaced(new Value(actual), new Text("was not an array")), new Text("an array"))),
                 new Has<>(new Text("array that"), new Text("array"), a -> (Iterable<T>) new ArrayIterable(a), delegate)));
     }

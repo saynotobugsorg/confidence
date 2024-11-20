@@ -32,20 +32,20 @@ import org.saynotobugs.confidence.assessment.Pass;
 @StaticFactories(
     value = "Composite",
     packageName = "org.saynotobugs.confidence.core.quality")
-public final class Guarded<T> extends QualityComposition<T>
+public final class Implying<T> extends QualityComposition<T>
 {
     /**
-     * A {@link Quality} of an object that is described by the delegate but expects the guarding {@link Quality}s
+     * A {@link Quality} of an object that is described by the delegate but expects the implied {@link Quality}s
      * to be satisfied before the delegate is even evaluated.
-     * This is similar to {@link AllOfFailingFast} but does not describe the guarding qualities unless they actually
+     * This is similar to {@link AllOfFailingFast} but does not describe the implied qualities unless they actually
      * fail.
      */
-    public Guarded(Iterable<? extends Quality<? super T>> guards, Quality<? super T> delegate)
+    public Implying(Iterable<? extends Quality<? super T>> implied, Quality<? super T> delegate)
     {
         super(actual ->
                 new Backed<>(
                     new First<>(new Not<>(Assessment::isSuccess),
-                        new Mapped<>(d -> d.assessmentOf(actual), new Joined<Quality<? super T>>(guards, delegate))),
+                        new Mapped<>(d -> d.assessmentOf(actual), new Joined<Quality<? super T>>(implied, delegate))),
                     new Pass()).value(),
             delegate.description());
     }

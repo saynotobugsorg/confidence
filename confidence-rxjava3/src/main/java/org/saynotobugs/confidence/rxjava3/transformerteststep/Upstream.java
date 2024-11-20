@@ -18,7 +18,6 @@
 
 package org.saynotobugs.confidence.rxjava3.transformerteststep;
 
-import io.reactivex.rxjava3.schedulers.TestScheduler;
 import org.dmfs.jems2.iterable.Just;
 import org.dmfs.jems2.iterable.Seq;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
@@ -29,15 +28,20 @@ import org.saynotobugs.confidence.quality.composite.AllOf;
 import org.saynotobugs.confidence.quality.composite.DescribedAs;
 import org.saynotobugs.confidence.quality.object.Satisfies;
 import org.saynotobugs.confidence.rxjava3.RxSubjectAdapter;
-import org.saynotobugs.confidence.rxjava3.RxTestAdapter;
-import org.saynotobugs.confidence.rxjava3.TransformerTestStep;
+import org.saynotobugs.confidence.rxjava3.TransformerTestStepComposition;
 
 
 @StaticFactories(value = "RxJava3", packageName = "org.saynotobugs.confidence.rxjava3")
-public final class Upstream<Up, Down> implements TransformerTestStep<Up, Down>
+public final class Upstream<Up, Down> extends TransformerTestStepComposition<Up, Down>
 {
-    private final Iterable<? extends Quality<? super RxSubjectAdapter<Up>>> mEvents;
 
+    public Upstream(Quality<? super RxSubjectAdapter<Up>> event)
+    {
+        super((scheduler, upstream) -> new Just<>(
+            new DescribedAs<>(orig -> new Spaced(new Text("upstream"), orig),
+                new Satisfies<>(testadapter -> event.assessmentOf(upstream).isSuccess(),
+                    event.description()))));
+    }
 
     @SafeVarargs
     public Upstream(Quality<? super RxSubjectAdapter<Up>>... events)
@@ -48,15 +52,9 @@ public final class Upstream<Up, Down> implements TransformerTestStep<Up, Down>
 
     public Upstream(Iterable<? extends Quality<? super RxSubjectAdapter<Up>>> events)
     {
-        mEvents = events;
-    }
-
-
-    @Override
-    public Iterable<Quality<RxTestAdapter<Down>>> qualities(TestScheduler scheduler, RxSubjectAdapter<Up> upstream)
-    {
-        return new Just<>(
+        super((scheduler, upstream) -> new Just<>(
             new DescribedAs<>(orig -> new Spaced(new Text("upstream"), orig),
-                new Satisfies<>(testadapter -> new AllOf<>(mEvents).assessmentOf(upstream).isSuccess(), new AllOf<>(mEvents).description())));
+                new Satisfies<>(testadapter -> new AllOf<>(events).assessmentOf(upstream).isSuccess(),
+                    new AllOf<>(events).description()))));
     }
 }

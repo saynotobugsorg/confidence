@@ -22,8 +22,10 @@ import org.dmfs.jems2.iterable.Mapped;
 import org.dmfs.jems2.iterable.Seq;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Quality;
-import org.saynotobugs.confidence.quality.composite.Guarded;
+import org.saynotobugs.confidence.quality.composite.Implying;
+import org.saynotobugs.confidence.quality.composite.Has;
 import org.saynotobugs.confidence.quality.composite.Not;
+import org.saynotobugs.confidence.quality.iterable.HasNumberOfElements;
 import org.saynotobugs.confidence.quality.iterable.Iterates;
 import org.saynotobugs.confidence.quality.object.Anything;
 import org.saynotobugs.confidence.quality.object.EqualTo;
@@ -38,12 +40,26 @@ public final class Emits<T> extends RxExpectationComposition<T>
 {
 
     /**
+     * Creates an {@link RxExpectation} that verifies whether the {@link RxTestAdapter} contains the given emission.
+     */
+    public Emits(T emission)
+    {
+        this(1, new Implying<>(new Seq<>(new HasNumberOfElements(1)), new Has<>(i -> i.iterator().next(), emission)));
+    }
+
+
+    /**
      * Creates an {@link RxExpectation} that verifies whether the {@link RxTestAdapter} contains the given emissions in the given order.
      */
     @SafeVarargs
     public Emits(T... emissions)
     {
         this(emissions.length, new Mapped<>(EqualTo::new, new Seq<>(emissions)));
+    }
+
+    public Emits(Quality<? super T> emissionQuality)
+    {
+        this(1, new Implying<>(new Seq<>(new HasNumberOfElements(1)), new Has<>(i -> i.iterator().next(), emissionQuality)));
     }
 
 
@@ -63,7 +79,7 @@ public final class Emits<T> extends RxExpectationComposition<T>
     public Emits(int emissionCount, Quality<? super Iterable<T>> emissionsQuality)
     {
         super(testScheduler ->
-            new Guarded<>(
+            new Implying<>(
                 new Seq<>(new Not<>(new Errors<>(new Anything()))),
                 new org.saynotobugs.confidence.rxjava3.rxexpectation.internal.Emits<>(emissionCount, emissionsQuality)));
     }

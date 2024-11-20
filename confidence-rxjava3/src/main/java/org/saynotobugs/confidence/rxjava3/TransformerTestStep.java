@@ -19,9 +19,11 @@
 package org.saynotobugs.confidence.rxjava3;
 
 import io.reactivex.rxjava3.schedulers.TestScheduler;
+import org.dmfs.srcless.annotations.composable.Composable;
 import org.saynotobugs.confidence.Quality;
 
 
+@Composable
 public interface TransformerTestStep<Up, Down>
 {
     Iterable<Quality<RxTestAdapter<Down>>> qualities(TestScheduler scheduler, RxSubjectAdapter<Up> upstream);

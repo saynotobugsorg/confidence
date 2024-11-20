@@ -20,7 +20,7 @@ package org.saynotobugs.confidence.rxjava3.rxexpectation;
 
 import org.dmfs.jems2.iterable.Seq;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
-import org.saynotobugs.confidence.quality.composite.Guarded;
+import org.saynotobugs.confidence.quality.composite.Implying;
 import org.saynotobugs.confidence.quality.composite.Not;
 import org.saynotobugs.confidence.quality.object.Anything;
 import org.saynotobugs.confidence.rxjava3.RxExpectationComposition;
@@ -34,7 +34,7 @@ public final class Completes<T> extends RxExpectationComposition<T>
     public Completes()
     {
         super(testScheduler ->
-            new Guarded<>(
+            new Implying<>(
                 new Seq<>(
                     new Not<>(new Errors<>(new Anything())),
                     new EmitsNothing<>()),
