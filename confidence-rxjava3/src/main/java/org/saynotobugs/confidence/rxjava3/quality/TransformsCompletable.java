@@ -37,7 +37,7 @@ import org.saynotobugs.confidence.rxjava3.TransformerTestStep;
 import org.saynotobugs.confidence.rxjava3.adapters.CompletableSubjectAdapter;
 import org.saynotobugs.confidence.rxjava3.adapters.RxTestObserver;
 
-import static org.saynotobugs.confidence.description.LiteralDescription.COMMA_NEW_LINE;
+import static org.saynotobugs.confidence.description.LiteralDescription.COMMA;
 import static org.saynotobugs.confidence.description.LiteralDescription.NEW_LINE;
 
 
@@ -67,7 +67,7 @@ public final class TransformsCompletable<Up, Down> implements Quality<Function<?
         RxTestObserver<Down> testAdapter = new RxTestObserver<>();
         CompletableSubject upstream = CompletableSubject.create();
         candidate.value(t).apply(upstream.hide()).subscribe(testAdapter);
-        return new AllOfFailingFast<RxTestObserver<Down>>(COMMA_NEW_LINE,
+        return new AllOfFailingFast<RxTestObserver<Down>>(COMMA,
             new Expanded<>(e -> e.qualities(t, new CompletableSubjectAdapter<>(upstream)), mEvents)
         ).assessmentOf(testAdapter);
     }
@@ -80,7 +80,7 @@ public final class TransformsCompletable<Up, Down> implements Quality<Function<?
         CompletableSubject upstream = CompletableSubject.create();
         return new DescribedAs<>(
             orig -> new Composite(new Text("CompletableTransformer that transforms"), new Indented(new Composite(NEW_LINE, orig))),
-            new AllOfFailingFast<>(COMMA_NEW_LINE,
+            new AllOfFailingFast<>(COMMA,
                 new Expanded<>(e -> e.qualities(t, new CompletableSubjectAdapter<>(upstream)), mEvents)
             )).description();
     }

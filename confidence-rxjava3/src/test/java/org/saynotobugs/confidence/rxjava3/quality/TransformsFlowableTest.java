@@ -21,7 +21,6 @@ package org.saynotobugs.confidence.rxjava3.quality;
 import io.reactivex.rxjava3.core.Flowable;
 import org.junit.jupiter.api.Test;
 import org.saynotobugs.confidence.quality.composite.AllOf;
-import org.saynotobugs.confidence.quality.object.Anything;
 import org.saynotobugs.confidence.rxjava3.procedure.Complete;
 import org.saynotobugs.confidence.rxjava3.procedure.Emit;
 import org.saynotobugs.confidence.rxjava3.rxexpectation.Completes;
@@ -47,9 +46,7 @@ class TransformsFlowableTest
         assertThat(new TransformsFlowable<>(new Upstream<>(new Complete()), new Downstream<>(new Completes<>())),
             new AllOf<>(
                 new Passes<>(scheduler -> Flowable::hide),
-                new Fails<>(scheduler -> upsteam -> upsteam.ambWith(Flowable.error(new IOException())),
-                    // TODO: fix the description when "not" was fixed with https://github.com/saynotobugsorg/confidence/issues/202
-                    new Anything()),
+                new Fails<>(scheduler -> upsteam -> upsteam.ambWith(Flowable.error(new IOException())), "all of\n  ...,\n  1: to downstream had errors [ <java.io.IOException> ]"),
                 new Fails<>(scheduler -> upsteam -> upsteam.delay(10, TimeUnit.SECONDS), "all of\n  ...,\n  1: to downstream completed 0 times"),
                 new HasDescription(
                     "FlowableTransformer that transforms\n  all of\n    0: upstream completion,\n    1: to downstream completes exactly once")
@@ -72,8 +69,7 @@ class TransformsFlowableTest
                 new Fails<>(scheduler -> upsteam -> upsteam.map(i -> i * 3),
                     "all of\n  ...,\n  1: to downstream emitted 1 items 369"),
                 new Fails<>(scheduler -> upsteam -> upsteam.ambWith(Flowable.error(new IOException())),
-                    // TODO: fix the description when "not" was fixed with https://github.com/saynotobugsorg/confidence/issues/202
-                    new Anything()),
+                    "all of\n  ...,\n  1: to downstream had errors [ <java.io.IOException> ]"),
                 new Fails<>(scheduler -> upsteam -> upsteam.delay(10, TimeUnit.SECONDS, scheduler),
                     "all of\n  ...,\n  1: to downstream emitted 0 items had 0 elements"),
                 new HasDescription(

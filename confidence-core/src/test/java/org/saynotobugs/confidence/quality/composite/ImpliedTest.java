@@ -10,12 +10,12 @@ import org.saynotobugs.confidence.test.quality.Passes;
 
 import static org.saynotobugs.confidence.Assertion.assertThat;
 
-class ImplyingTest
+class ImpliedTest
 {
     @Test
     void test()
     {
-        assertThat(new Implying<>(new Seq<>(new HasLength(3)), new EqualTo<>("abc")),
+        assertThat(new Implied<>(new Seq<>(new HasLength(3)), new EqualTo<>("abc")),
             new AllOf<>(
                 new Passes<>("abc"),
                 new Fails<>("xyz", "\"xyz\""),

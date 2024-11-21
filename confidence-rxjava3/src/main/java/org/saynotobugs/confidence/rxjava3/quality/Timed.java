@@ -24,7 +24,7 @@ import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
-import org.saynotobugs.confidence.quality.composite.AllOf;
+import org.saynotobugs.confidence.quality.composite.Both;
 import org.saynotobugs.confidence.quality.composite.Has;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 import org.saynotobugs.confidence.quality.object.EqualTo;
@@ -69,7 +69,7 @@ public final class Timed<T> extends QualityComposition<io.reactivex.rxjava3.sche
 
     public Timed(Instant timestamp, Quality<? super T> valueQuality)
     {
-        super(new AllOf<>(
+        super(new Both<>(
             new Has<>(d -> new Spaced(new Text("has time of"), d, new Text("millis")),
                 (Function<Description, Description>) d -> new Spaced(new Text("had time of"), d, new Text("millis")),
                 timed -> timed.time(TimeUnit.MILLISECONDS),

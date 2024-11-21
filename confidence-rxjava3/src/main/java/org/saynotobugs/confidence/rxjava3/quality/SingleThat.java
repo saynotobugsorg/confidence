@@ -32,6 +32,19 @@ import org.saynotobugs.confidence.rxjava3.adapters.RxTestObserver;
 @StaticFactories(value = "RxJava3", packageName = "org.saynotobugs.confidence.rxjava3")
 public final class SingleThat<T> extends QualityComposition<Function<? super TestScheduler, ? extends SingleSource<? extends T>>>
 {
+
+    public SingleThat(RxExpectation<T> event)
+    {
+        super(new RxWithSchedulerThat<>(
+            new Text("Single that"),
+            singleSource -> {
+                RxTestObserver<T> testObserver = new RxTestObserver<>();
+                singleSource.subscribe(testObserver);
+                return testObserver;
+            },
+            event));
+    }
+
     @SafeVarargs
     public SingleThat(RxExpectation<T>... events)
     {

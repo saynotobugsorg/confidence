@@ -32,6 +32,18 @@ import org.saynotobugs.confidence.rxjava3.adapters.RxTestObserver;
 @StaticFactories(value = "RxJava3", packageName = "org.saynotobugs.confidence.rxjava3")
 public final class MaybeThat<T> extends QualityComposition<Function<? super TestScheduler, ? extends MaybeSource<? extends T>>>
 {
+    public MaybeThat(RxExpectation<T> event)
+    {
+        super(new RxWithSchedulerThat<>(
+            new Text("Maybe that"),
+            maybeSource -> {
+                RxTestObserver<T> testObserver = new RxTestObserver<>();
+                maybeSource.subscribe(testObserver);
+                return testObserver;
+            },
+            event));
+    }
+
     @SafeVarargs
     public MaybeThat(RxExpectation<T>... events)
     {

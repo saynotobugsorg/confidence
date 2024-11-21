@@ -22,17 +22,15 @@ import org.dmfs.jems2.iterable.Mapped;
 import org.dmfs.jems2.iterable.Seq;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Quality;
-import org.saynotobugs.confidence.quality.composite.Implying;
 import org.saynotobugs.confidence.quality.composite.Has;
-import org.saynotobugs.confidence.quality.composite.Not;
+import org.saynotobugs.confidence.quality.composite.Implied;
 import org.saynotobugs.confidence.quality.iterable.HasNumberOfElements;
 import org.saynotobugs.confidence.quality.iterable.Iterates;
-import org.saynotobugs.confidence.quality.object.Anything;
 import org.saynotobugs.confidence.quality.object.EqualTo;
 import org.saynotobugs.confidence.rxjava3.RxExpectation;
 import org.saynotobugs.confidence.rxjava3.RxExpectationComposition;
 import org.saynotobugs.confidence.rxjava3.RxTestAdapter;
-import org.saynotobugs.confidence.rxjava3.rxexpectation.internal.Errors;
+import org.saynotobugs.confidence.rxjava3.rxexpectation.internal.NoErrors;
 
 
 @StaticFactories(value = "RxJava3", packageName = "org.saynotobugs.confidence.rxjava3")
@@ -44,7 +42,7 @@ public final class Emits<T> extends RxExpectationComposition<T>
      */
     public Emits(T emission)
     {
-        this(1, new Implying<>(new Seq<>(new HasNumberOfElements(1)), new Has<>(i -> i.iterator().next(), emission)));
+        this(1, new Implied<>(new Seq<>(new HasNumberOfElements(1)), new Has<>(i -> i.iterator().next(), emission)));
     }
 
 
@@ -59,7 +57,7 @@ public final class Emits<T> extends RxExpectationComposition<T>
 
     public Emits(Quality<? super T> emissionQuality)
     {
-        this(1, new Implying<>(new Seq<>(new HasNumberOfElements(1)), new Has<>(i -> i.iterator().next(), emissionQuality)));
+        this(1, new Implied<>(new Seq<>(new HasNumberOfElements(1)), new Has<>(i -> i.iterator().next(), emissionQuality)));
     }
 
 
@@ -79,8 +77,8 @@ public final class Emits<T> extends RxExpectationComposition<T>
     public Emits(int emissionCount, Quality<? super Iterable<T>> emissionsQuality)
     {
         super(testScheduler ->
-            new Implying<>(
-                new Seq<>(new Not<>(new Errors<>(new Anything()))),
+            new Implied<>(
+                new Seq<>(new NoErrors<>()),
                 new org.saynotobugs.confidence.rxjava3.rxexpectation.internal.Emits<>(emissionCount, emissionsQuality)));
     }
 }

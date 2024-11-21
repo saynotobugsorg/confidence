@@ -18,10 +18,15 @@
 
 package org.saynotobugs.confidence.rxjava3.rxexpectation;
 
+import org.dmfs.jems2.iterable.Seq;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Quality;
-import org.saynotobugs.confidence.quality.composite.AllOf;
+import org.saynotobugs.confidence.description.Spaced;
+import org.saynotobugs.confidence.description.Text;
+import org.saynotobugs.confidence.quality.composite.DescribedAs;
+import org.saynotobugs.confidence.quality.composite.Implied;
 import org.saynotobugs.confidence.quality.iterable.Iterates;
+import org.saynotobugs.confidence.quality.object.Anything;
 import org.saynotobugs.confidence.rxjava3.RxExpectationComposition;
 import org.saynotobugs.confidence.rxjava3.rxexpectation.internal.Emits;
 import org.saynotobugs.confidence.rxjava3.rxexpectation.internal.EmitsNothing;
@@ -47,10 +52,15 @@ public final class CompletesWith<T> extends RxExpectationComposition<T>
 
     public CompletesWith(int elementCount, Quality<? super Iterable<T>> values)
     {
-        super(testScheduler -> new AllOf<>(
-            new IsComplete(),
-            new Emits<>(elementCount, values),
-            new EmitsNothing<>()
-        ));
+        super(testScheduler -> new DescribedAs<>(
+            orig -> orig,
+            orig -> new Spaced(new Text("completes with"), values.description()),
+            new Implied<>(
+                new Seq<>(
+                    new IsComplete(),
+                    new Emits<>(elementCount, values),
+                    new EmitsNothing<>()),
+                new Anything()
+            )));
     }
 }
