@@ -25,13 +25,20 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 
 /**
- * A {@link Description} that encloses a delegate in given openening an closing values. Alternatively a dedicated
- * empty value can be written if the delegate {@link Description} is empty.
+ * A {@link Description} that puts another {@link Description} in front of a delegtate. Unlike {@link Composite}, which
+ * can do that, this also takes an alterntive value in case the delegate {@link Description} is empty.
  *
  * <h2>Example</h2>
  * <pre>{@code
- * new PrefixedScribe(NEW_LINE, delegate, EMPTY);
+ * new Prefixed(NEW_LINE, new Text("abc"), EMPTY);
  * }</pre>
+ * results in {@code "\nabc"}.
+ *
+ * <h2>Example</h2>
+ * <pre>{@code
+ * new Prefixed(NEW_LINE, EMPTY, EMPTY);
+ * }</pre>
+ * results in nothing being appended to the description (not even an empty String).
  */
 public final class Prefixed implements Description
 {
@@ -39,28 +46,15 @@ public final class Prefixed implements Description
     private final Description mEmpty;
     private final Description mDelegate;
 
-
-    public Prefixed(String prefix, Description delegate)
+    public Prefixed(String prefix, Description delegate, String emptyDelegatePrefix)
     {
-        this(new Text(prefix), delegate);
+        this(new Text(prefix), delegate, new Text(emptyDelegatePrefix));
     }
 
-
-    public Prefixed(String prefix, Description delegate, String empty)
-    {
-        this(new Text(prefix), delegate, new Text(empty));
-    }
-
-
-    public Prefixed(Description prefix, Description delegate)
-    {
-        this(prefix, delegate, prefix);
-    }
-
-    public Prefixed(Description prefix, Description delegate, Description empty)
+    public Prefixed(Description prefix, Description delegate, Description emptyDelegatePrefix)
     {
         mPrefix = prefix;
-        mEmpty = empty;
+        mEmpty = emptyDelegatePrefix;
         mDelegate = delegate;
     }
 
