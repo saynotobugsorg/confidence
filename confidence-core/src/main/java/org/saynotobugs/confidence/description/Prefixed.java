@@ -28,13 +28,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * A {@link Description} that puts another {@link Description} in front of a delegtate. Unlike {@link Composite}, which
  * can do that, this also takes an alterntive value in case the delegate {@link Description} is empty.
  *
- * <h2>Example</h2>
+ * <h2>Non-Empty Delegate Example</h2>
  * <pre>{@code
  * new Prefixed(NEW_LINE, new Text("abc"), EMPTY);
  * }</pre>
  * results in {@code "\nabc"}.
  *
- * <h2>Example</h2>
+ * <h2>Empty Delegate Example</h2>
  * <pre>{@code
  * new Prefixed(NEW_LINE, EMPTY, EMPTY);
  * }</pre>
