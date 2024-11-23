@@ -5,11 +5,14 @@ import org.junit.jupiter.api.Test;
 import org.saynotobugs.confidence.quality.composite.AllOf;
 import org.saynotobugs.confidence.rxjava3.rxexpectation.Completes;
 import org.saynotobugs.confidence.rxjava3.rxexpectation.IsAlive;
+import org.saynotobugs.confidence.rxjava3.rxexpectation.Within;
 import org.saynotobugs.confidence.test.quality.Fails;
 import org.saynotobugs.confidence.test.quality.HasDescription;
 import org.saynotobugs.confidence.test.quality.Passes;
 
 import java.io.IOException;
+import java.time.Duration;
+import java.util.concurrent.TimeUnit;
 
 import static org.saynotobugs.confidence.Assertion.assertThat;
 
@@ -39,6 +42,22 @@ class CompletableThatTest
                 // TODO fix description test when "not" provides a better fail description
                 new Fails<>(ignored -> Completable.complete()),
                 new HasDescription("Completable that is alive")
+            ));
+    }
+
+
+    @Test
+    void testMultiple()
+    {
+        assertThat(new CompletableThat<>(new Within<>(Duration.ofMillis(1000), new IsAlive<>()),
+                new Within<>(Duration.ofMillis(1), new Completes<>())),
+            new AllOf<>(
+                new Passes<>(scheduler -> Completable.complete().delay(1001, TimeUnit.MILLISECONDS, scheduler)),
+                new Fails<>(scheduler -> Completable.error(IOException::new), "Completable that all of\n  0: after PT1S had errors [ <java.io.IOException> ]"),
+                // TODO fix description test when "not" provides a better fail description
+                new Fails<>(scheduler -> Completable.complete()),
+                new Fails<>(scheduler -> Completable.never()),
+                new HasDescription("Completable that all of\n  0: after PT1S is alive\n  1: after PT0.001S completes exactly once")
             ));
     }
 
