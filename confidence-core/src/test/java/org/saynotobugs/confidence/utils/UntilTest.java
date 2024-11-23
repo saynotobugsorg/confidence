@@ -3,6 +3,13 @@ package org.saynotobugs.confidence.utils;
 import org.dmfs.jems2.iterable.EmptyIterable;
 import org.dmfs.jems2.iterable.Seq;
 import org.junit.jupiter.api.Test;
+import org.saynotobugs.confidence.description.Text;
+import org.saynotobugs.confidence.quality.composite.Has;
+import org.saynotobugs.confidence.quality.object.MutatedBy;
+import org.saynotobugs.confidence.quality.object.Throwing;
+
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 import static org.saynotobugs.confidence.Assertion.assertThat;
 import static org.saynotobugs.confidence.core.quality.Grammar.is;
@@ -59,6 +66,31 @@ class UntilTest
     {
         assertThat(new Until<>(s -> s.length() > 3, new Seq<>("ab", "cd", "efgh")),
             iterates("ab", "cd", "efgh"));
+    }
+
+
+    @Test
+    void testThrowsAfterLastNotMatches()
+    {
+        assertThat(new Until<>(s -> s.length() > 3, new Seq<>("ab")),
+            new Has<>(iterable -> () -> iterable.iterator(),
+                new MutatedBy<Iterator<String>>(
+                    new Text("get next"),
+                    iterator -> iterator.next(),
+                    new Has<>(iterator -> () -> iterator.next(), new Throwing(NoSuchElementException.class))
+                )));
+    }
+
+    @Test
+    void testThrowsAfterLastMatches()
+    {
+        assertThat(new Until<>(s -> s.length() > 3, new Seq<>("abcd")),
+            new Has<>(iterable -> () -> iterable.iterator(),
+                new MutatedBy<Iterator<String>>(
+                    new Text("get next"),
+                    iterator -> iterator.next(),
+                    new Has<>(iterator -> () -> iterator.next(), new Throwing(NoSuchElementException.class))
+                )));
     }
 
 }
