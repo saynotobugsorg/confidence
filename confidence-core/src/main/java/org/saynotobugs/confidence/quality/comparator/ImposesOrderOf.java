@@ -73,7 +73,7 @@ public final class ImposesOrderOf<T> implements Quality<Comparator<T>>
     @Override
     public Assessment assessmentOf(Comparator<T> candidate)
     {
-        return new AllPassed(new Text("Comparator "), EMPTY,
+        return new AllPassed(new Text("Comparator"), EMPTY,
             new Mapped<>(
                 new UnPaired<Pair<Integer, ? extends T>, Pair<Integer, ? extends T>, Assessment>(
                     (left, right) -> verdict(candidate, left, right)),

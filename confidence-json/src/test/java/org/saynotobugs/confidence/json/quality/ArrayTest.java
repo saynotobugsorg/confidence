@@ -138,7 +138,7 @@ class ArrayTest
     @Test
     void testQualityArray()
     {
-        assertThat(new Array(new AllOf(new At(0, "a"), new At(1, "b"))),
+        assertThat(new Array(new AllOf<>(new At(0, "a"), new At(1, "b"))),
             new AllOf<>(
                 new Passes<>(
                     mock("JSON Array", JsonElementAdapter.class,

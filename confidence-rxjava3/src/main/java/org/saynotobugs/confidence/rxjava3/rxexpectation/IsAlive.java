@@ -50,7 +50,7 @@ public final class IsAlive<T> extends RxExpectationComposition<T>
                     new NoErrors<>(),
                     new Not<>(new IsComplete()),
                     new Not<>(new IsCancelled<>())),
-                new Anything() // this will never by shown, we either pass or fail on one of the above
+                new Anything() // this will never be shown, we either pass or fail on one of the above
             )));
     }
 }

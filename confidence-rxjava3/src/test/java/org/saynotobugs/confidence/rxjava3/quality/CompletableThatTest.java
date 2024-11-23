@@ -3,7 +3,6 @@ package org.saynotobugs.confidence.rxjava3.quality;
 import io.reactivex.rxjava3.core.Completable;
 import org.junit.jupiter.api.Test;
 import org.saynotobugs.confidence.quality.composite.AllOf;
-import org.saynotobugs.confidence.quality.object.Anything;
 import org.saynotobugs.confidence.rxjava3.rxexpectation.Completes;
 import org.saynotobugs.confidence.rxjava3.rxexpectation.IsAlive;
 import org.saynotobugs.confidence.test.quality.Fails;
@@ -37,8 +36,8 @@ class CompletableThatTest
             new AllOf<>(
                 new Passes<>(ignored -> Completable.never()),
                 new Fails<>(ignored -> Completable.error(IOException::new), "Completable that had errors [ <java.io.IOException> ]"),
-                // TODO fix descrption test when "not" was fixed
-                new Fails<>(ignored -> Completable.complete(), new Anything()),
+                // TODO fix description test when "not" provides a better fail description
+                new Fails<>(ignored -> Completable.complete()),
                 new HasDescription("Completable that is alive")
             ));
     }
