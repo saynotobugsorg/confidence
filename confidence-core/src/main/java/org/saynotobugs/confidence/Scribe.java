@@ -21,7 +21,7 @@ package org.saynotobugs.confidence;
 public interface Scribe
 {
     /**
-     * Returns a new {@link Scribe} that adds an indentation to each line.
+     * Returns a new {@link Scribe} that adds an indentation to each new line.
      */
     Scribe indented();
 

@@ -23,17 +23,17 @@ class AllPassedTest
     @Test
     public void testFail()
     {
-        assertThat(new AllPassed(new Text("e"), new Text("x"), new Pass(), new Fail(new Text("fail"))),
-            new Is<>(new Failed(new DescribesAs("e...\n  fail"))));
+        assertThat(new AllPassed(new Text(":"), new Text(","), new Pass(), new Fail(new Text("fail"))),
+            new Is<>(new Failed(new DescribesAs(":\n  ...,\n  fail"))));
     }
 
 
     @Test
     public void testMultipleFail()
     {
-        assertThat(new AllPassed(new Text("e"), new Text("x"), new Fail(new Text("fail1")), new Pass(),
+        assertThat(new AllPassed(new Text(":"), new Text(","), new Fail(new Text("fail1")), new Pass(),
                 new Fail(new Text("fail2")), new Fail(new Text("fail3"))),
-            new Is<>(new Failed(new DescribesAs("efail1\n  ...\n  fail2xfail3"))));
+            new Is<>(new Failed(new DescribesAs(":\n  fail1,\n  ...,\n  fail2,\n  fail3"))));
     }
 
 
@@ -41,8 +41,8 @@ class AllPassedTest
     public void testMultipleFail2()
     {
         assertThat(
-            new AllPassed(new Text("e"), new Text("x"), new Text("<"), new Fail(new Text("fail1")), new Pass(),
+            new AllPassed(new Text("["), new Text(","), new Text("]"), new Fail(new Text("fail1")), new Pass(),
                 new Fail(new Text("fail2")), new Fail(new Text("fail3"))),
-            new Is<>(new Failed(new DescribesAs("efail1\n  ...\n  fail2xfail3<"))));
+            new Is<>(new Failed(new DescribesAs("[\n  fail1,\n  ...,\n  fail2,\n  fail3\n]"))));
     }
 }

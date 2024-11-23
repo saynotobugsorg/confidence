@@ -49,7 +49,7 @@ class PassesTest
                         return new Text("passes");
                     }
                 },
-                    "matched1 mismatched with \n    ----\n    failed\n    ----\n  and\n  2 mismatched with \n    ----\n    failed\n    ----\n  and\n  3 mismatched with \n    ----\n    failed\n    ----"),
+                    "matched\n  1 mismatched with \n    ----\n    failed\n    ----\n  and\n  2 mismatched with \n    ----\n    failed\n    ----\n  and\n  3 mismatched with \n    ----\n    failed\n    ----"),
                 new HasDescription("matches 1\n  and\n  2\n  and\n  3")
             ));
     }

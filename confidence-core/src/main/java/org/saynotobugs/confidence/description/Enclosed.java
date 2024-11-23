@@ -27,12 +27,18 @@ import java.util.concurrent.atomic.AtomicBoolean;
 /**
  * A {@link Description} that encloses a delegate in given openening an closing values. Alternatively a dedicated
  * empty value can be written if the delegate {@link Description} is empty.
+ *
+ * <h2>Example</h2>
+ * <pre>{@code
+ * new Enclosed("[", delegate, "]", "ø");
+ * }</pre>
+ * Results in a description that contains the delegate in {@code [...]} if non-empty and just {@code ø} otherwise.
  */
 public final class Enclosed implements Description
 {
     private final Description mPrefix;
     private final Description mSuffix;
-    private final Description mEmpty;
+    private final Description mEmptyFallback;
     private final Description mDelegate;
 
 
@@ -42,9 +48,9 @@ public final class Enclosed implements Description
     }
 
 
-    public Enclosed(String prefix, Description delegate, String suffix, String empty)
+    public Enclosed(String prefix, Description delegate, String suffix, String emptyFallback)
     {
-        this(new Text(prefix), delegate, new Text(suffix), new Text(empty));
+        this(new Text(prefix), delegate, new Text(suffix), new Text(emptyFallback));
     }
 
 
@@ -53,11 +59,11 @@ public final class Enclosed implements Description
         this(prefix, delegate, suffix, new Composite(prefix, suffix));
     }
 
-    public Enclosed(Description prefix, Description delegate, Description suffix, Description empty)
+    public Enclosed(Description prefix, Description delegate, Description suffix, Description emptyFallback)
     {
         mPrefix = prefix;
         mSuffix = suffix;
-        mEmpty = empty;
+        mEmptyFallback = emptyFallback;
         mDelegate = delegate;
     }
 
@@ -74,12 +80,12 @@ public final class Enclosed implements Description
         }
         else
         {
-            mEmpty.describeTo(scribe);
+            mEmptyFallback.describeTo(scribe);
         }
     }
 
     /**
-     * A Scribe that writes a prefix before (and only) if else anything is written.
+     * A Scribe that writes a prefix before (and only) if anything else is written.
      */
     private static final class Prefixed implements Scribe
     {

@@ -63,9 +63,8 @@ public final class Delimited implements Description
     @Override
     public void describeTo(Scribe scribe)
     {
-        new Intermittent<Description>(() -> {},
+        new Intermittent<Description>(
             () -> mDelimiter.describeTo(scribe),
-            () -> {},
             v -> v.describeTo(scribe))
             .process(mDescriptions);
     }

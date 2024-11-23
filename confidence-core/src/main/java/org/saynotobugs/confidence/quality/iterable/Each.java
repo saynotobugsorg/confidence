@@ -36,7 +36,7 @@ import org.saynotobugs.confidence.quality.composite.QualityComposition;
 
 import java.util.ArrayList;
 
-import static org.saynotobugs.confidence.description.LiteralDescription.COMMA_NEW_LINE;
+import static org.saynotobugs.confidence.description.LiteralDescription.EMPTY;
 
 
 @StaticFactories(
@@ -61,10 +61,10 @@ public final class Each<T> extends QualityComposition<Iterable<T>>
 
     public Each(Quality<? super T> delegate)
     {
-        super(actual -> new AllPassed(new Text("elements ["), COMMA_NEW_LINE, new Text("]"),
+        super(actual -> new AllPassed(new Text("elements ["), EMPTY, new Text("]"),
                 new Collected<>(ArrayList::new,
                     new Mapped<Pair<Integer, Assessment>, Assessment>(
-                        numberedVerdict -> new FailPrepended(new Text(numberedVerdict.left() + ": "), numberedVerdict.right()),
+                        numberedVerdict -> new FailPrepended(new Text(numberedVerdict.left() + ":"), numberedVerdict.right()),
                         new Numbered<>(new Mapped<>(delegate::assessmentOf, actual)))).value()),
             new Spaced(new Text("each element"), delegate.description()));
     }

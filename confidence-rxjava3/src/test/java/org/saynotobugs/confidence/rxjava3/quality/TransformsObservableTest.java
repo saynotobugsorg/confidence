@@ -44,10 +44,10 @@ class TransformsObservableTest
         assertThat(new TransformsObservable<>(new Upstream<>(new Complete()), new Downstream<>(new Completes<>())),
             new AllOf<>(
                 new Passes<>(scheduler -> Observable::hide),
-                new Fails<>(scheduler -> upsteam -> upsteam.ambWith(Observable.error(new IOException())), "(1) to downstream { completed 0 times\n  ... }"),
-                new Fails<>(scheduler -> upsteam -> upsteam.delay(10, TimeUnit.SECONDS), "(1) to downstream { completed 0 times\n  ... }"),
+                new Fails<>(scheduler -> upsteam -> upsteam.ambWith(Observable.error(new IOException())), "all of\n  ...,\n  1: to downstream had errors [ <java.io.IOException> ]"),
+                new Fails<>(scheduler -> upsteam -> upsteam.delay(10, TimeUnit.SECONDS), "all of\n  ...,\n  1: to downstream completed 0 times"),
                 new HasDescription(
-                    "ObservableTransformer that transforms\n  (0) upstream { completion },\n    (1) to downstream { completes exactly once\n      and\n      emits nothing }")
+                    "ObservableTransformer that transforms\n  all of\n    0: upstream completion,\n    1: to downstream completes exactly once")
             ));
     }
 }

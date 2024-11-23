@@ -41,6 +41,16 @@ public final class RxWithSchedulerThat<T, RxType> implements Quality<Function<? 
 
 
     public RxWithSchedulerThat(Description description, Function<? super RxType, ? extends RxTestAdapter<T>> testAdapterFunction,
+        RxExpectation<T> event)
+    {
+        mTestAdapterFunction = testAdapterFunction;
+        mDelegate = scheduler -> new DescribedAs<>(
+            orig -> new Spaced(description, orig),
+            new ActionTriggering<>(event).quality(scheduler));
+    }
+
+
+    public RxWithSchedulerThat(Description description, Function<? super RxType, ? extends RxTestAdapter<T>> testAdapterFunction,
         Iterable<? extends RxExpectation<T>> events)
     {
         mTestAdapterFunction = testAdapterFunction;

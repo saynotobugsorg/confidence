@@ -21,6 +21,9 @@ package org.saynotobugs.confidence.quality.charsequence;
 import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Quality;
+import org.saynotobugs.confidence.description.Spaced;
+import org.saynotobugs.confidence.description.Value;
+import org.saynotobugs.confidence.quality.composite.DescribedAs;
 import org.saynotobugs.confidence.quality.composite.Has;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 import org.saynotobugs.confidence.quality.object.EqualTo;
@@ -52,6 +55,9 @@ public final class HasLength extends QualityComposition<CharSequence>
      */
     public HasLength(Quality<? super Integer> delegate)
     {
-        super(new Has<>("length", CharSequence::length, delegate));
+        super(new DescribedAs<>(
+            (value, description) -> new Spaced(new Value(value), description),
+            description -> description,
+            new Has<>("length", CharSequence::length, delegate)));
     }
 }

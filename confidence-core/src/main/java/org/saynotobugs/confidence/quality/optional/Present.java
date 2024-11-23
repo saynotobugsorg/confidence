@@ -25,8 +25,10 @@ import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.Fail;
 import org.saynotobugs.confidence.assessment.FailUpdated;
+import org.saynotobugs.confidence.description.Enclosed;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
+import org.saynotobugs.confidence.description.Value;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 import org.saynotobugs.confidence.quality.object.Anything;
 import org.saynotobugs.confidence.quality.object.EqualTo;
@@ -63,8 +65,8 @@ public final class Present<T> extends QualityComposition<Optional<T>>
      */
     public Present(Quality<? super T> delegate)
     {
-        this(description -> new Spaced(new Text("present"), description),
-            description -> new Spaced(new Text("present"), description),
+        this(description -> new Enclosed("<", new Spaced(new Text("present"), description), ">"),
+            description -> new Enclosed("<", new Spaced(new Text("present"), description), ">"),
             delegate);
     }
 
@@ -78,7 +80,7 @@ public final class Present<T> extends QualityComposition<Optional<T>>
     {
         super(actual -> actual.isPresent()
                 ? new FailUpdated(failDescription, delegate.assessmentOf(actual.get()))
-                : new Fail(new Text("absent")),
+                : new Fail(new Value(actual)),
             expectationDescription.value(delegate.description()));
     }
 }

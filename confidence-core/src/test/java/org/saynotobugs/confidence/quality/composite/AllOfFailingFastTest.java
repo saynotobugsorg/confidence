@@ -32,7 +32,7 @@ import java.util.List;
 
 import static java.util.Arrays.asList;
 import static org.saynotobugs.confidence.Assertion.assertThat;
-import static org.saynotobugs.confidence.description.LiteralDescription.NEW_LINE;
+import static org.saynotobugs.confidence.description.LiteralDescription.COMMA;
 
 
 class AllOfFailingFastTest
@@ -44,10 +44,10 @@ class AllOfFailingFastTest
         assertThat(new AllOfFailingFast<>(new LessThan<>(10), new LessThan<>(5), new LessThan<>(3)),
             new AllOf<>(
                 new Passes<>(0, 1, 2),
-                new Fails<>(3, "(2) 3"),
-                new Fails<>(5, "(1) 5"),
-                new Fails<>(10, "(0) 10"),
-                new HasDescription("(0) less than 10\n  and\n  (1) less than 5\n  and\n  (2) less than 3")
+                new Fails<>(3, "all of\n  ...\n  2: 3"),
+                new Fails<>(5, "all of\n  ...\n  1: 5"),
+                new Fails<>(10, "all of\n  0: 10"),
+                new HasDescription("all of\n  0: less than 10\n  1: less than 5\n  2: less than 3")
             ));
     }
 
@@ -55,13 +55,13 @@ class AllOfFailingFastTest
     @Test
     void testVarArgsWithDelimiter()
     {
-        assertThat(new AllOfFailingFast<>(NEW_LINE, new LessThan<>(10), new LessThan<>(5), new LessThan<>(3)),
+        assertThat(new AllOfFailingFast<>(COMMA, new LessThan<>(10), new LessThan<>(5), new LessThan<>(3)),
             new AllOf<>(
                 new Passes<>(0, 1, 2),
-                new Fails<>(3, "(2) 3"),
-                new Fails<>(5, "(1) 5"),
-                new Fails<>(10, "(0) 10"),
-                new HasDescription("(0) less than 10\n  (1) less than 5\n  (2) less than 3")
+                new Fails<>(3, "all of\n  ...,\n  2: 3"),
+                new Fails<>(5, "all of\n  ...,\n  1: 5"),
+                new Fails<>(10, "all of\n  0: 10"),
+                new HasDescription("all of\n  0: less than 10,\n  1: less than 5,\n  2: less than 3")
             ));
     }
 

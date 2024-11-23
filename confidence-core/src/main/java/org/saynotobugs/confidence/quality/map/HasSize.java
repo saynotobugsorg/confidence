@@ -30,7 +30,7 @@ import java.util.Map;
 @StaticFactories(
     value = "Map",
     packageName = "org.saynotobugs.confidence.core.quality")
-public final class HasSize extends QualityComposition<Map<?, ?>>
+public final class HasSize<K, V> extends QualityComposition<Map<K, V>>
 {
     /**
      * Creates a {@link Quality} that matches if size of the {@link Map} under test is equal to the given value.

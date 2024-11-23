@@ -51,7 +51,7 @@ class ArrayThatTest
                         with(JsonArrayAdapter::length, returning(1)),
                         with(a -> a.elementAt(0), returning(new Present<>(
                             mock(JsonElementAdapter.class, with(JsonElementAdapter::asString, returning(new Present<>("a")))))))))))),
-                    "array that iterated [ ...\n  1: missing \"b\" ]"),
+                    "array that iterated [\n  ...\n  1: missing \"b\"\n]"),
                 new Fails<>(mock("JSON Array", JsonElementAdapter.class,
                     with(JsonElementAdapter::asArray, returning(new Present<>(mock(JsonArrayAdapter.class,
                         with(JsonArrayAdapter::length, returning(2)),
@@ -59,7 +59,7 @@ class ArrayThatTest
                             mock(JsonElementAdapter.class, with(JsonElementAdapter::asString, returning(new Present<>("x"))))))),
                         with(a -> a.elementAt(1), returning(new Present<>(
                             mock(JsonElementAdapter.class, with(JsonElementAdapter::asString, returning(new Present<>("b")))))))))))),
-                    "array that iterated [ 0: \"x\"\n  ... ]"),
+                    "array that iterated [\n  0: \"x\"\n  ...\n]"),
                 new Fails<>(mock("JSON Array", JsonElementAdapter.class,
                     with(JsonElementAdapter::asArray, returning(new Present<>(mock(JsonArrayAdapter.class,
                         with(JsonArrayAdapter::length, returning(3)),
@@ -69,13 +69,12 @@ class ArrayThatTest
                             mock(JsonElementAdapter.class, with(JsonElementAdapter::asString, returning(new Present<>("b"))))))),
                         with(a -> a.elementAt(2), returning(new Present<>(
                             mock("additional Element", JsonElementAdapter.class, with(JsonElementAdapter::asString, returning(new Present<>("c")))))))))))),
-                    "array that iterated [ ...\n  2: additional <additional Element> ]"),
+                    "array that iterated [\n  ...\n  2: additional <additional Element>\n]"),
                 new Fails<>(mock("JSON Array", JsonElementAdapter.class,
                     with(JsonElementAdapter::asArray, returning(new Absent<>()))),
-                    "array not an array"),
-                new HasDescription("array that iterates [ 0: \"a\",\n  1: \"b\" ]")
+                    "not an array"),
+                new HasDescription("array that iterates [\n  0: \"a\"\n  1: \"b\"\n]")
             )
         );
     }
-
 }

@@ -59,7 +59,7 @@ class AutoClosableThatTest
             with(Objects::toString, returning("foo")));
         assertThat(new AutoClosableThat<>(new Is<>(new Not<>(new SameAs<>(autoCloseable)))),
             new AllOf<>(
-                new Fails<>(autoCloseable, "AutoClosable that was <foo> ( same instance as <foo> )\n  ..."),
+                new Fails<>(autoCloseable, "AutoClosable that \n  was <foo> ( same instance as <foo> ) and\n  ..."),
                 new HasDescription("AutoClosable that is not ( same instance as <foo> ) and is closed")
             ));
     }
@@ -73,7 +73,7 @@ class AutoClosableThatTest
             with(Objects::toString, returning("foo")));
         assertThat(new AutoClosableThat<>(new Is<>(new SameAs<>(autoCloseable))),
             new AllOf<>(
-                new Fails<>(autoCloseable, "AutoClosable that ...\n  was closed throwing <java.io.IOException>"),
+                new Fails<>(autoCloseable, "AutoClosable that \n  ... and\n  was closed throwing <java.io.IOException>"),
                 new HasDescription("AutoClosable that is same instance as <foo> and is closed")
             ));
     }
@@ -87,7 +87,7 @@ class AutoClosableThatTest
             with(Objects::toString, returning("foo")));
         assertThat(new AutoClosableThat<>(new Is<>(new Not<>(new SameAs<>(autoCloseable)))),
             new AllOf<>(
-                new Fails<>(autoCloseable, "AutoClosable that was <foo> ( same instance as <foo> ) and\n  was closed throwing <java.io.IOException>"),
+                new Fails<>(autoCloseable, "AutoClosable that \n  was <foo> ( same instance as <foo> ) and\n  was closed throwing <java.io.IOException>"),
                 new HasDescription("AutoClosable that is not ( same instance as <foo> ) and is closed")
             ));
     }

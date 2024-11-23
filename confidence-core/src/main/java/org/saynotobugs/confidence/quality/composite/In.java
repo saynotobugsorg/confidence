@@ -25,13 +25,17 @@ import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.AnyPassed;
 import org.saynotobugs.confidence.assessment.FailUpdated;
-import org.saynotobugs.confidence.description.*;
+import org.saynotobugs.confidence.description.Block;
+import org.saynotobugs.confidence.description.Spaced;
+import org.saynotobugs.confidence.description.Text;
+import org.saynotobugs.confidence.description.IterableDescription;
+import org.saynotobugs.confidence.description.Value;
 import org.saynotobugs.confidence.quality.object.Satisfies;
 
 import java.util.Collection;
 
 import static java.util.Arrays.asList;
-import static org.saynotobugs.confidence.description.LiteralDescription.COMMA_NEW_LINE;
+import static org.saynotobugs.confidence.description.LiteralDescription.COMMA;
 
 
 @StaticFactories(
@@ -66,15 +70,13 @@ public final class In<T> extends QualityComposition<T>
     public In(Iterable<? extends Quality<? super T>> delegates)
     {
         super(actual -> new AnyPassed(
-                new Spaced(new Value(actual), new Text("not in { ")),
-                COMMA_NEW_LINE,
-                new Text(" }"),
+                new Spaced(new Value(actual), new Text("not in {")),
+                COMMA,
+                new Text("}"),
                 new Mapped<>(d -> new FailUpdated(m -> d.description(), d.assessmentOf(actual)), delegates)),
-            new Spaced(
-                new Text("in"),
-                new Structured(new Text("{ "),
-                    COMMA_NEW_LINE,
-                    new Text(" }"),
-                    new Mapped<>(Quality::description, delegates))));
+            new Block(new Text("in {"),
+                COMMA,
+                new Text("}"),
+                new Mapped<>(Quality::description, delegates)));
     }
 }

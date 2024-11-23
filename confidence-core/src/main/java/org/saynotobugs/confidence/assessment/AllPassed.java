@@ -24,9 +24,12 @@ import org.dmfs.jems2.optional.First;
 import org.dmfs.jems2.predicate.Not;
 import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Description;
+import org.saynotobugs.confidence.description.Block;
+import org.saynotobugs.confidence.description.Composite;
 import org.saynotobugs.confidence.description.FailDescription;
 
 import static org.saynotobugs.confidence.description.LiteralDescription.EMPTY;
+import static org.saynotobugs.confidence.description.LiteralDescription.NEW_LINE;
 
 
 /**
@@ -64,6 +67,8 @@ public final class AllPassed implements Assessment
         mDelimiter = delimiter;
         mResults = new Frozen<>(results);
         mExit = exit;
+        // trigger evaluation of the results
+        isSuccess();
     }
 
 
@@ -79,7 +84,7 @@ public final class AllPassed implements Assessment
     {
         return isSuccess()
             ? EMPTY
-            : new FailDescription(mEntry, mDelimiter, mExit, mResults);
+            : new Block(mEntry, EMPTY, mExit, new Seq<>(new FailDescription(new Composite(mDelimiter, NEW_LINE), mResults)), new Composite(mEntry, mExit));
 
     }
 

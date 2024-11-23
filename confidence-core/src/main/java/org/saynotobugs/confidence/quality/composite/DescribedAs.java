@@ -18,6 +18,7 @@
 
 package org.saynotobugs.confidence.quality.composite;
 
+import org.dmfs.jems2.BiFunction;
 import org.dmfs.jems2.Function;
 import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
@@ -47,6 +48,17 @@ public final class DescribedAs<T> extends QualityComposition<T>
     {
         super(
             actual -> new FailUpdated(mismatchUpdate, delegate.assessmentOf(actual)),
+            expectationUpdate.value(delegate.description()));
+    }
+
+
+    public DescribedAs(
+        BiFunction<? super T, Description, ? extends Description> mismatchUpdate,
+        Function<Description, ? extends Description> expectationUpdate,
+        Quality<T> delegate)
+    {
+        super(
+            actual -> new FailUpdated(description -> mismatchUpdate.value(actual, description), delegate.assessmentOf(actual)),
             expectationUpdate.value(delegate.description()));
     }
 }

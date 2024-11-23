@@ -42,8 +42,8 @@ class ObjectTest
             new AllOf<>(
                 new Passes<>(mock(JsonElementAdapter.class, with(JsonElementAdapter::asObject, returning(new Present<>(mock(JsonObjectAdapter.class)))))),
                 new Fails<>(mock(JsonElementAdapter.class, with(JsonElementAdapter::asObject, returning(new Absent<>()))),
-                    "object not an object"),
-                new HasDescription("object { <anything> }")
+                    "not an object"),
+                new HasDescription("{\n  <anything>\n}")
             ));
     }
 
@@ -53,10 +53,10 @@ class ObjectTest
         assertThat(new Object(new Nothing()),
             new AllOf<>(
                 new Fails<>(mock(JsonElementAdapter.class, with(JsonElementAdapter::asObject, returning(new Present<>(mock("Object Adapter", JsonObjectAdapter.class))))),
-                    "object { <Object Adapter> }"),
+                    "{\n  <Object Adapter>\n}"),
                 new Fails<>(mock(JsonElementAdapter.class, with(JsonElementAdapter::asObject, returning(new Absent<>()))),
-                    "object not an object"),
-                new HasDescription("object { <nothing> }")
+                    "not an object"),
+                new HasDescription("{\n  <nothing>\n}")
             ));
     }
 
@@ -80,10 +80,10 @@ class ObjectTest
                                 with(JsonElementAdapter::asString, returning(new Present<>("b"))))))),
                             with(a -> a.member("c"), returning(new Present<>(mock(JsonElementAdapter.class,
                                 with(JsonElementAdapter::asNumber, returning(new Present<>(124)))))))))))),
-                    "object { ...\n  \"c\": 124 }"),
+                    "{\n  ...,\n  \"c\": 124\n}"),
                 new Fails<>(mock(JsonElementAdapter.class, with(JsonElementAdapter::asObject, returning(new Absent<>()))),
-                    "object not an object"),
-                new HasDescription("object { \"a\": \"b\"\n  and\n  \"c\": 123 }")
+                    "not an object"),
+                new HasDescription("{\n  \"a\": \"b\",\n  \"c\": 123\n}")
             ));
     }
 }

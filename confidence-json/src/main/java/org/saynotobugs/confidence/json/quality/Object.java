@@ -24,15 +24,14 @@ import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.Quality;
-import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.json.JsonElementAdapter;
 import org.saynotobugs.confidence.json.JsonObjectAdapter;
-import org.saynotobugs.confidence.quality.composite.AllOf;
 import org.saynotobugs.confidence.quality.composite.Has;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 
 import static org.dmfs.jems2.confidence.Jems2.present;
+import static org.saynotobugs.confidence.description.LiteralDescription.COMMA;
 
 @StaticFactories(
     value = "Json",
@@ -49,9 +48,9 @@ public final class Object extends QualityComposition<JsonElementAdapter>
     public Object(Iterable<? extends Quality<? super JsonObjectAdapter>> delegates)
     {
         super(new Has<>(
-            (Function<Description, Description>) orig -> new Spaced(new Text("object"), orig),
-            orig -> new Spaced(new Text("object"), orig),
+            (Function<Description, Description>) orig -> orig,
+            orig -> orig,
             JsonElementAdapter::asObject,
-            present(d -> d, d -> d, new Text("not an object"), new AllOf<>(delegates))));
+            present(d -> d, d -> d, new Text("not an object"), new Conjunction<>(new Text("{"), COMMA, new Text("}"), delegates, new Text("{}")))));
     }
 }

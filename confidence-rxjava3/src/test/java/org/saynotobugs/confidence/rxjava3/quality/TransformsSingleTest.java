@@ -47,17 +47,11 @@ class TransformsSingleTest
             new AllOf<>(
                 new Passes<>(scheduler -> Single::hide),
                 new Fails<>(scheduler -> upsteam -> upsteam.ambWith(Single.error(new IOException())),
-                    "(1) to downstream { completed 0 times\n  and\n  emitted 0 items that iterated [ 0: missing 123 ]\n  ... }"),
+                    "all of\n  ...,\n  1: to downstream completed 0 times"),
                 new Fails<>(scheduler -> upsteam -> upsteam.delay(10, TimeUnit.SECONDS),
-                    "(1) to downstream { completed 0 times\n  and\n  emitted 0 items that iterated [ 0: missing 123 ]\n  ... }"),
+                    "all of\n  ...,\n  1: to downstream completed 0 times"),
                 new HasDescription(
-                    "SingleTransformer that transforms\n" +
-                        "  (0) upstream { emissions [123] },\n" +
-                        "    (1) to downstream { completes exactly once\n" +
-                        "      and\n" +
-                        "      emits 1 items that iterates [ 0: 123 ]\n" +
-                        "      and\n" +
-                        "      emits nothing }")
+                    "SingleTransformer that transforms\n  all of\n    0: upstream emissions [123],\n    1: to downstream completes with iterates [\n      0: 123\n    ]")
             ));
     }
 
@@ -68,13 +62,11 @@ class TransformsSingleTest
         assertThat(new TransformsSingle<Integer, Integer>(new Upstream<>(new Emit<>(123)), new Downstream<>(new Errors<>(IOException.class))),
             new AllOf<>(
                 new Passes<>(scheduler -> upsteam -> upsteam.ambWith(Single.error(new IOException()))),
-                new Fails<>(scheduler -> Single::hide, "(1) to downstream had errors that iterated [ 0: missing instance of <class java.io.IOException> ]"),
+                new Fails<>(scheduler -> Single::hide, "all of\n  ...,\n  1: to downstream had errors that iterated [\n    0: missing instance of <class java.io.IOException>\n  ]"),
                 new Fails<>(scheduler -> upsteam -> upsteam.delay(10, TimeUnit.SECONDS),
-                    "(1) to downstream had errors that iterated [ 0: missing instance of <class java.io.IOException> ]"),
+                    "all of\n  ...,\n  1: to downstream had errors that iterated [\n    0: missing instance of <class java.io.IOException>\n  ]"),
                 new HasDescription(
-                    "SingleTransformer that transforms\n" +
-                        "  (0) upstream { emissions [123] },\n" +
-                        "    (1) to downstream has errors that iterates [ 0: instance of <class java.io.IOException> ]")
+                    "SingleTransformer that transforms\n  all of\n    0: upstream emissions [123],\n    1: to downstream has errors that iterates [\n      0: instance of <class java.io.IOException>\n    ]")
             ));
     }
 
@@ -86,17 +78,11 @@ class TransformsSingleTest
             new AllOf<>(
                 new Passes<>(scheduler -> upsteam -> upsteam.onErrorReturnItem(123)),
                 new Fails<>(scheduler -> Single::hide,
-                    "(1) to downstream { completed 0 times\n  and\n  emitted 0 items that iterated [ 0: missing 123 ]\n  ... }"),
+                    "all of\n  ...,\n  1: to downstream completed 0 times"),
                 new Fails<>(scheduler -> upsteam -> upsteam.delay(10, TimeUnit.SECONDS),
-                    "(1) to downstream { completed 0 times\n  and\n  emitted 0 items that iterated [ 0: missing 123 ]\n  ... }"),
+                    "all of\n  ...,\n  1: to downstream completed 0 times"),
                 new HasDescription(
-                    "SingleTransformer that transforms\n" +
-                        "  (0) upstream { error <java.io.IOException> },\n" +
-                        "    (1) to downstream { completes exactly once\n" +
-                        "      and\n" +
-                        "      emits 1 items that iterates [ 0: 123 ]\n" +
-                        "      and\n" +
-                        "      emits nothing }")
+                    "SingleTransformer that transforms\n  all of\n    0: upstream error <java.io.IOException>,\n    1: to downstream completes with iterates [\n      0: 123\n    ]")
             ));
     }
 }

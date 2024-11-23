@@ -58,7 +58,7 @@ public final class Emits<T> implements Quality<RxTestAdapter<T>>
             new Spaced(
                 new Text("emitted"),
                 new NumberDescription(values.size()),
-                new Text("items that")),
+                new Text("items")),
             result);
     }
 
@@ -69,7 +69,7 @@ public final class Emits<T> implements Quality<RxTestAdapter<T>>
         return new Spaced(
             new Text("emits"),
             new NumberDescription(mEmissionCount),
-            new Text("items that"),
+            new Text("items"),
             mEmissionQualities.description());
     }
 }

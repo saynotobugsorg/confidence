@@ -22,13 +22,14 @@ class ImposesEqualityTest
             new AllOf<>(
                 new Passes<>(comparingInt(String::length)),
                 new Fails<Comparator<String>>(naturalOrder(),
-                    "Comparator ...\n" +
-                        "  compared elements \"123\" at index 0 and \"abc\" at index 1 incorrectly to -48,\n" +
-                        "  compared elements \"123\" at index 0 and \"xyz\" at index 2 incorrectly to -71,\n" +
+                    "Comparator\n" +
+                        "  ...\n" +
+                        "  compared elements \"123\" at index 0 and \"abc\" at index 1 incorrectly to -48\n" +
+                        "  compared elements \"123\" at index 0 and \"xyz\" at index 2 incorrectly to -71\n" +
                         "  compared elements \"abc\" at index 1 and \"123\" at index 0 incorrectly to 48\n" +
                         "  ...\n" +
-                        "  compared elements \"abc\" at index 1 and \"xyz\" at index 2 incorrectly to -23,\n" +
-                        "  compared elements \"xyz\" at index 2 and \"123\" at index 0 incorrectly to 71,\n" +
+                        "  compared elements \"abc\" at index 1 and \"xyz\" at index 2 incorrectly to -23\n" +
+                        "  compared elements \"xyz\" at index 2 and \"123\" at index 0 incorrectly to 71\n" +
                         "  compared elements \"xyz\" at index 2 and \"abc\" at index 1 incorrectly to 23\n" +
                         "  ..."),
                 new HasDescription("imposes equality on \"123\",\n  \"abc\",\n  \"xyz\"")

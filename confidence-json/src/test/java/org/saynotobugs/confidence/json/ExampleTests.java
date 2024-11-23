@@ -117,14 +117,13 @@ class ExampleTests
                 "  null,\n" +
                 "  true\n" +
                 "]",
-            allOf(
-                is(jsonStringOf(array(
-                    string("a"),
-                    object(with("b", string("xyz"))),
-                    number(123),
-                    nullValue(),
-                    bool(true)
-                )))));
+            is(jsonStringOf(array(
+                string("a"),
+                object(with("b", string("xyz"))),
+                number(123),
+                nullValue(),
+                bool(true)
+            ))));
     }
 
 

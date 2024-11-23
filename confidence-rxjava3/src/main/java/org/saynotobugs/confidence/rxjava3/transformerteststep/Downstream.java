@@ -18,24 +18,24 @@
 
 package org.saynotobugs.confidence.rxjava3.transformerteststep;
 
-import io.reactivex.rxjava3.schedulers.TestScheduler;
+import org.dmfs.jems2.iterable.Just;
 import org.dmfs.jems2.iterable.Mapped;
 import org.dmfs.jems2.iterable.Seq;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
-import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.quality.composite.DescribedAs;
 import org.saynotobugs.confidence.rxjava3.RxExpectation;
-import org.saynotobugs.confidence.rxjava3.RxSubjectAdapter;
-import org.saynotobugs.confidence.rxjava3.RxTestAdapter;
-import org.saynotobugs.confidence.rxjava3.TransformerTestStep;
+import org.saynotobugs.confidence.rxjava3.TransformerTestStepComposition;
 
 
 @StaticFactories(value = "RxJava3", packageName = "org.saynotobugs.confidence.rxjava3")
-public final class Downstream<Up, Down> implements TransformerTestStep<Up, Down>
+public final class Downstream<Up, Down> extends TransformerTestStepComposition<Up, Down>
 {
-    private final Iterable<? extends RxExpectation<Down>> mEvents;
+    public Downstream(RxExpectation<Down> event)
+    {
+        super((scheduler, upstream) -> new Just<>(new DescribedAs<>(orig -> new Spaced(new Text("to downstream"), orig), event.quality(scheduler))));
+    }
 
 
     @SafeVarargs
@@ -47,15 +47,8 @@ public final class Downstream<Up, Down> implements TransformerTestStep<Up, Down>
 
     public Downstream(Iterable<? extends RxExpectation<Down>> events)
     {
-        mEvents = events;
-    }
-
-
-    @Override
-    public Iterable<Quality<RxTestAdapter<Down>>> qualities(TestScheduler scheduler, RxSubjectAdapter<Up> upstream)
-    {
-        return new Mapped<>(
+        super((scheduler, upstream) -> new Mapped<>(
             downstreamTestEvent -> new DescribedAs<>(orig -> new Spaced(new Text("to downstream"), orig), downstreamTestEvent.quality(scheduler)),
-            mEvents);
+            events));
     }
 }

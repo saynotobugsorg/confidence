@@ -27,8 +27,6 @@ import org.saynotobugs.confidence.description.Value;
 import org.saynotobugs.confidence.quality.composite.AllOfFailingFast;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 
-import static org.saynotobugs.confidence.description.LiteralDescription.NEW_LINE;
-
 
 @StaticFactories(
     value = "Object",
@@ -52,7 +50,7 @@ public final class InstanceOf<T> extends QualityComposition<T>
      */
     public <V extends T> InstanceOf(Class<? extends V> expectation, Quality<? super V> delegate)
     {
-        super((Quality<T>) new AllOfFailingFast<>(NEW_LINE, new InstanceOf<>(expectation), delegate));
+        super((Quality<T>) new AllOfFailingFast<>(new InstanceOf<>(expectation), delegate));
     }
 
     /**

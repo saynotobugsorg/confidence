@@ -21,7 +21,7 @@ class AbsentTest
             new AllOf<>(
                 new Passes<Optional<Integer>>(Optional.empty()),
                 new Fails<>(Optional.of(123), "<present 123>"),
-                new HasDescription("<absent>")
+                new HasDescription("<empty>")
             ));
     }
 

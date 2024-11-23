@@ -32,6 +32,19 @@ import org.saynotobugs.confidence.rxjava3.adapters.RxTestObserver;
 @StaticFactories(value = "RxJava3", packageName = "org.saynotobugs.confidence.rxjava3")
 public final class CompletableThat<T> extends QualityComposition<Function<? super TestScheduler, ? extends CompletableSource>>
 {
+
+    public CompletableThat(RxExpectation<Object> event)
+    {
+        super(new RxWithSchedulerThat<>(
+            new Text("Completable that"),
+            completableSource -> {
+                RxTestObserver<Object> observer = new RxTestObserver<>();
+                completableSource.subscribe(observer);
+                return observer;
+            },
+            event));
+    }
+
     @SafeVarargs
     public CompletableThat(RxExpectation<Object>... events)
     {

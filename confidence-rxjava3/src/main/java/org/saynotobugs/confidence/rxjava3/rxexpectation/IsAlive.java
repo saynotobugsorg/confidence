@@ -18,18 +18,19 @@
 
 package org.saynotobugs.confidence.rxjava3.rxexpectation;
 
+import org.dmfs.jems2.iterable.Seq;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.quality.composite.DescribedAs;
-import org.saynotobugs.confidence.quality.composite.Has;
-import org.saynotobugs.confidence.quality.composite.NoneOf;
-import org.saynotobugs.confidence.quality.iterable.Contains;
+import org.saynotobugs.confidence.quality.composite.Implied;
+import org.saynotobugs.confidence.quality.composite.Not;
 import org.saynotobugs.confidence.quality.object.Anything;
 import org.saynotobugs.confidence.rxjava3.RxExpectation;
 import org.saynotobugs.confidence.rxjava3.RxExpectationComposition;
 import org.saynotobugs.confidence.rxjava3.RxTestAdapter;
 import org.saynotobugs.confidence.rxjava3.rxexpectation.internal.IsCancelled;
 import org.saynotobugs.confidence.rxjava3.rxexpectation.internal.IsComplete;
+import org.saynotobugs.confidence.rxjava3.rxexpectation.internal.NoErrors;
 
 
 @StaticFactories(value = "RxJava3", packageName = "org.saynotobugs.confidence.rxjava3")
@@ -43,11 +44,13 @@ public final class IsAlive<T> extends RxExpectationComposition<T>
     {
         super(testScheduler -> new DescribedAs<>(
             orig -> orig,
-            orig -> new Text("alive"),
-            new NoneOf<>(
-                new Has<>("error", RxTestAdapter::errors, new Contains<>(new Anything())),
-                new IsComplete(),
-                new IsCancelled<>()
+            orig -> new Text("is alive"),
+            new Implied<>(
+                new Seq<>(
+                    new NoErrors<>(),
+                    new Not<>(new IsComplete()),
+                    new Not<>(new IsCancelled<>())),
+                new Anything() // this will never be shown, we either pass or fail on one of the above
             )));
     }
 }

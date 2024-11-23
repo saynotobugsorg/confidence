@@ -37,7 +37,7 @@ import org.saynotobugs.confidence.rxjava3.TransformerTestStep;
 import org.saynotobugs.confidence.rxjava3.adapters.MaybeSubjectAdapter;
 import org.saynotobugs.confidence.rxjava3.adapters.RxTestObserver;
 
-import static org.saynotobugs.confidence.description.LiteralDescription.COMMA_NEW_LINE;
+import static org.saynotobugs.confidence.description.LiteralDescription.COMMA;
 import static org.saynotobugs.confidence.description.LiteralDescription.NEW_LINE;
 
 
@@ -67,7 +67,7 @@ public final class TransformsMaybe<Up, Down> implements Quality<Function<? super
         RxTestObserver<Down> testAdapter = new RxTestObserver<>();
         MaybeSubject<Up> upstream = MaybeSubject.create();
         candidate.value(t).apply(upstream.hide()).subscribe(testAdapter);
-        return new AllOfFailingFast<RxTestObserver<Down>>(COMMA_NEW_LINE,
+        return new AllOfFailingFast<RxTestObserver<Down>>(COMMA,
             new Expanded<>(e -> e.qualities(t, new MaybeSubjectAdapter<>(upstream)), mEvents)
         ).assessmentOf(testAdapter);
     }
@@ -79,7 +79,7 @@ public final class TransformsMaybe<Up, Down> implements Quality<Function<? super
         TestScheduler t = new TestScheduler();
         MaybeSubject<Up> upstream = MaybeSubject.create();
         return new DescribedAs<>(orig -> new Composite(new Text("MaybeTransformer that transforms"), new Indented(new Composite(NEW_LINE, orig))),
-            new AllOfFailingFast<>(COMMA_NEW_LINE,
+            new AllOfFailingFast<>(COMMA,
                 new Expanded<>(e -> e.qualities(t, new MaybeSubjectAdapter<>(upstream)), mEvents)
             )).description();
     }

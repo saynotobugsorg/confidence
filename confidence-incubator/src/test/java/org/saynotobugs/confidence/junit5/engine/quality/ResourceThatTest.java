@@ -87,7 +87,7 @@ class ResourceThatTest
                         };
                     }
                 },
-                    "{ had single use { ...\n    had value [ \"1\", \"2\" ] }\n  and\n  had parallel use { ...\n    elements [0:  had value [ \"1\", \"2\" ]] } }"),
+                    "all of\n  0: had single use all of\n    ...\n    1: had value [ \"1\", \"2\" ]\n  1: had parallel use all of\n    ...\n    2: elements [\n      0: had value [ \"1\", \"2\" ]\n    ]"),
                 new Fails<>(() -> new Resource<List<String>>()
                 {
                     private final List<String> resource = new ArrayList<>(asList("1"));
@@ -112,7 +112,7 @@ class ResourceThatTest
                         };
                     }
                 },
-                    "{ had single use { AutoClosable that had value iterated [ ...\n        1: missing \"2\" ]\n      ...\n    ... }\n  and\n  had parallel use { ...\n    elements [0:  AutoClosable that had value iterated [ ...\n          1: missing \"2\" ]\n        ...]\n    ... } }"),
+                    "all of\n  0: had single use all of\n    0: AutoClosable that \n      had value iterated [\n        ...\n        1: missing \"2\"\n      ] and\n      ...\n    ...\n  1: had parallel use all of\n    ...\n    1: elements [\n      0: AutoClosable that \n        had value iterated [\n          ...\n          1: missing \"2\"\n        ] and\n        ...\n    ]\n    ..."),
                 new Fails<>(() -> new Resource<List<String>>()
                 {
                     private final List<String> resource = new ArrayList<>(asList("1"));
@@ -136,8 +136,8 @@ class ResourceThatTest
                         };
                     }
                 },
-                    "{ had single use { AutoClosable that had value iterated [ ...\n        1: missing \"2\" ]\n      ...\n    and\n    had value [ \"1\" ] }\n  and\n  had parallel use { ...\n    elements [0:  AutoClosable that had value iterated [ ...\n          1: missing \"2\" ]\n        ...]\n    and\n    elements [0:  had value [ \"1\" ]] } }"),
-                new HasDescription("{ has single use { AutoClosable that has value iterates [ 0: \"1\",\n      1: \"2\" ] and is closed\n    and\n    has value <empty> }\n  and\n  has parallel use { running 1 parallel execution, each each element has value <anything>\n    and\n    each element AutoClosable that has value iterates [ 0: \"1\",\n      1: \"2\" ] and is closed\n    and\n    each element has value <empty> } }")
+                    "all of\n  0: had single use all of\n    0: AutoClosable that \n      had value iterated [\n        ...\n        1: missing \"2\"\n      ] and\n      ...\n    1: had value [ \"1\" ]\n  1: had parallel use all of\n    ...\n    1: elements [\n      0: AutoClosable that \n        had value iterated [\n          ...\n          1: missing \"2\"\n        ] and\n        ...\n    ]\n    2: elements [\n      0: had value [ \"1\" ]\n    ]"),
+                new HasDescription("all of\n  0: has single use all of\n    0: AutoClosable that has value iterates [\n      0: \"1\"\n      1: \"2\"\n    ] and is closed\n    1: has value <empty>\n  1: has parallel use all of\n    0: running 1 parallel execution, each element has value <anything>\n    1: each element AutoClosable that has value iterates [\n      0: \"1\"\n      1: \"2\"\n    ] and is closed\n    2: each element has value <empty>")
             )
         );
     }

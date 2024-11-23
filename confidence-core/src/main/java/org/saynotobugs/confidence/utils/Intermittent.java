@@ -23,17 +23,13 @@ import org.dmfs.jems2.Procedure;
 
 public final class Intermittent<T> implements Procedure<Iterable<? extends T>>
 {
-    private final Runnable mBefore;
     private final Runnable mBetween;
-    private final Runnable mAfter;
     private final Procedure<? super T> mEach;
 
 
-    public Intermittent(Runnable before, Runnable between, Runnable after, Procedure<? super T> each)
+    public Intermittent(Runnable between, Procedure<? super T> each)
     {
-        mBefore = before;
         mBetween = between;
-        mAfter = after;
         mEach = each;
     }
 
@@ -41,7 +37,6 @@ public final class Intermittent<T> implements Procedure<Iterable<? extends T>>
     @Override
     public void process(Iterable<? extends T> arg)
     {
-        mBefore.run();
         boolean first = true;
         for (T a : arg)
         {
@@ -55,6 +50,5 @@ public final class Intermittent<T> implements Procedure<Iterable<? extends T>>
             }
             mEach.process(a);
         }
-        mAfter.run();
     }
 }

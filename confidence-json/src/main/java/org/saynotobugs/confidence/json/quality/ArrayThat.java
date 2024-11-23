@@ -18,17 +18,21 @@
 
 package org.saynotobugs.confidence.json.quality;
 
+import org.dmfs.jems2.Function;
 import org.dmfs.jems2.generatable.Sequence;
 import org.dmfs.jems2.iterable.First;
 import org.dmfs.jems2.iterable.Mapped;
 import org.dmfs.jems2.iterable.PresentValues;
 import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
+import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.json.JsonElementAdapter;
 import org.saynotobugs.confidence.quality.composite.Has;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
+
+import static org.dmfs.jems2.confidence.Jems2.present;
 
 /**
  * {@link Quality} of a JSON array that delegates to a normal {@link Iterable} {@link Quality}.
@@ -45,13 +49,19 @@ public final class ArrayThat extends QualityComposition<JsonElementAdapter>
 {
     public ArrayThat(Quality<? super Iterable<JsonElementAdapter>> delegate)
     {
-        super(new Array(
-            new Has<>(
-                new Text("that"),
-                new Text("that"),
-                array -> new PresentValues<>(
-                    new Mapped<>(array::elementAt,
-                        new First<>(array.length(),
-                            new Sequence<>(0, i -> i + 1)))), delegate)));
+        super(new Has<>(
+            (Function<Description, Description>) orig -> orig,
+            orig -> orig,
+            JsonElementAdapter::asArray,
+            present(d -> d,
+                d -> d,
+                new Text("not an array"),
+                new Has<>(
+                    new Text("array that"),
+                    new Text("array that"),
+                    array -> new PresentValues<>(
+                        new Mapped<>(array::elementAt,
+                            new First<>(array.length(),
+                                new Sequence<>(0, i -> i + 1)))), delegate))));
     }
 }

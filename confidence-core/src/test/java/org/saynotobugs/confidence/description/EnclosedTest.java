@@ -10,12 +10,6 @@ import static org.saynotobugs.confidence.description.LiteralDescription.NEW_LINE
 
 class EnclosedTest
 {
-    @Test
-    void testNonEmptyStringPrefixAndSuffix()
-    {
-        assertThat(new Enclosed("(", new Text("foo"), ")"),
-            new DescribesAs("(foo)"));
-    }
 
     @Test
     void testEmptyStringPrefixAndSuffix()
@@ -25,18 +19,27 @@ class EnclosedTest
     }
 
     @Test
-    void testNonEmptyStringPrefixAndSuffixWithEmpty()
+    void testEmptyStringPrefixAndSuffixWithEmptyFallback()
     {
-        assertThat(new Enclosed("(", new Text("foo"), ")", "--"),
-            new DescribesAs("(foo)"));
+        assertThat(new Enclosed("(", EMPTY, ")", "ø"),
+            new DescribesAs("ø"));
     }
 
     @Test
-    void testEmptyStringPrefixAndSuffixWithEmpty()
+    void testNonEmptyStringPrefixAndSuffix()
     {
-        assertThat(new Enclosed("(", EMPTY, ")", "--"),
-            new DescribesAs("--"));
+        assertThat(new Enclosed("(", new Text("foo"), ")"),
+            new DescribesAs("(foo)"));
     }
+
+
+    @Test
+    void testNonEmptyStringPrefixAndSuffixWithEmptyFallback()
+    {
+        assertThat(new Enclosed("(", new Text("foo"), ")", "ø"),
+            new DescribesAs("(foo)"));
+    }
+
 
     @Test
     void testComplexStringPrefixAndSuffix()

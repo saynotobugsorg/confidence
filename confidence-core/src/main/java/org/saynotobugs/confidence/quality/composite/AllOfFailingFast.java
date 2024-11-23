@@ -19,24 +19,19 @@
 package org.saynotobugs.confidence.quality.composite;
 
 import org.dmfs.jems2.iterable.Mapped;
-import org.dmfs.jems2.iterable.Numbered;
 import org.dmfs.jems2.iterable.Seq;
-import org.dmfs.jems2.optional.First;
 import org.dmfs.jems2.predicate.Not;
-import org.dmfs.jems2.single.Backed;
 import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.Quality;
-import org.saynotobugs.confidence.assessment.FailPrepended;
-import org.saynotobugs.confidence.assessment.Pass;
-import org.saynotobugs.confidence.description.Composite;
-import org.saynotobugs.confidence.description.Spaced;
-import org.saynotobugs.confidence.description.Structured;
+import org.saynotobugs.confidence.assessment.AllPassed;
+import org.saynotobugs.confidence.description.Block;
 import org.saynotobugs.confidence.description.Text;
+import org.saynotobugs.confidence.utils.Until;
 
-import static org.saynotobugs.confidence.description.LiteralDescription.NEW_LINE;
+import static org.saynotobugs.confidence.description.LiteralDescription.EMPTY;
 
 
 @StaticFactories(
@@ -79,7 +74,7 @@ public final class AllOfFailingFast<T> extends QualityComposition<T>
      */
     public AllOfFailingFast(Iterable<? extends Quality<? super T>> delegates)
     {
-        this(new Composite(NEW_LINE, new Text("and"), NEW_LINE), delegates);
+        this(EMPTY, delegates);
     }
 
 
@@ -92,15 +87,15 @@ public final class AllOfFailingFast<T> extends QualityComposition<T>
     public AllOfFailingFast(Description delimiter, Iterable<? extends Quality<? super T>> delegates)
     {
         super(actual ->
-                new Backed<>(
-                    new First<>(new Not<>(Assessment::isSuccess),
-                        new Mapped<>(
-                            d -> new FailPrepended(new Text("(" + d.left() + ")"), d.right().assessmentOf(actual)),
-                            new Numbered<>(delegates))),
-                    new Pass()).value(),
-            new Structured(
+                new AllPassed(new Text("all of"), delimiter, EMPTY,
+                    new Until<>(new Not<>(Assessment::isSuccess),
+                        new org.saynotobugs.confidence.assessment.iterable.Numbered(
+                            new Mapped<>(d -> d.assessmentOf(actual), delegates)))),
+            new Block(
+                new Text("all of"),
                 delimiter,
-                new org.saynotobugs.confidence.description.iterable.Numbered((i, d) -> new Spaced(new Text("(" + i + ")"), d),
+                EMPTY,
+                new org.saynotobugs.confidence.description.iterable.Numbered(
                     new Mapped<>(Quality::description, delegates))));
     }
 }

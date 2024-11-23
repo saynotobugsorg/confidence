@@ -28,13 +28,11 @@ import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.AllPassed;
 import org.saynotobugs.confidence.assessment.Fail;
 import org.saynotobugs.confidence.assessment.Pass;
-import org.saynotobugs.confidence.description.Composite;
-import org.saynotobugs.confidence.description.Structured;
+import org.saynotobugs.confidence.description.Block;
 import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.quality.object.EqualTo;
 
 import static org.saynotobugs.confidence.description.LiteralDescription.EMPTY;
-import static org.saynotobugs.confidence.description.LiteralDescription.NEW_LINE;
 
 
 @StaticFactories(
@@ -70,7 +68,7 @@ public final class NoneOf<T> implements Quality<T>
     public Assessment assessmentOf(T candidate)
     {
         return new AllPassed(
-            new Text("was "), new Composite(new Text(" and"), NEW_LINE), EMPTY,
+            new Text("was"), EMPTY, EMPTY,
             new Mapped<>(
                 delegate -> {
                     Assessment result = delegate.assessmentOf(candidate);
@@ -87,7 +85,7 @@ public final class NoneOf<T> implements Quality<T>
     @Override
     public Description description()
     {
-        return new Structured(new Text("None of "), new Composite(NEW_LINE, new Text("and"), NEW_LINE), EMPTY,
+        return new Block(new Text("None of"), EMPTY, EMPTY,
             new Mapped<>(Quality::description, mDelegates));
     }
 }

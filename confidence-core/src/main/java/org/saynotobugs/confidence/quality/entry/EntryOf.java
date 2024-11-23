@@ -16,8 +16,9 @@
  *
  */
 
-package org.saynotobugs.confidence.quality.map;
+package org.saynotobugs.confidence.quality.entry;
 
+import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.description.Composite;
@@ -32,7 +33,10 @@ import org.saynotobugs.confidence.quality.object.EqualTo;
 import java.util.Map;
 
 
-@StaticFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality")
+@StaticFactories(
+    value = "Entry",
+    packageName = "org.saynotobugs.confidence.quality",
+    deprecates = @DeprecatedFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality"))
 public final class EntryOf<K, V> extends QualityComposition<Map.Entry<K, V>>
 {
     public EntryOf(K key)
