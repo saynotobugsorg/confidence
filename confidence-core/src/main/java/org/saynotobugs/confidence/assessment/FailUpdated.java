@@ -22,8 +22,6 @@ import org.dmfs.jems2.Function;
 import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Description;
 
-import static org.saynotobugs.confidence.description.LiteralDescription.EMPTY;
-
 
 public final class FailUpdated implements Assessment
 {
@@ -48,7 +46,7 @@ public final class FailUpdated implements Assessment
     @Override
     public Description description()
     {
-        return isSuccess() ? EMPTY : mDescriptionFunction.value(mDelegate.description());
+        return isSuccess() ? mDelegate.description() : mDescriptionFunction.value(mDelegate.description());
     }
 
 }

@@ -19,6 +19,7 @@
 package org.saynotobugs.confidence.assessment;
 
 import org.dmfs.jems2.iterable.Frozen;
+import org.dmfs.jems2.iterable.Mapped;
 import org.dmfs.jems2.iterable.Seq;
 import org.dmfs.jems2.optional.First;
 import org.dmfs.jems2.predicate.Not;
@@ -83,7 +84,7 @@ public final class AllPassed implements Assessment
     public Description description()
     {
         return isSuccess()
-            ? EMPTY
+            ? new Block(mEntry, EMPTY, mExit, new Mapped<>(Assessment::description, mResults), new Composite(mEntry, mExit))
             : new Block(mEntry, EMPTY, mExit, new Seq<>(new FailDescription(new Composite(mDelimiter, NEW_LINE), mResults)), new Composite(mEntry, mExit));
 
     }

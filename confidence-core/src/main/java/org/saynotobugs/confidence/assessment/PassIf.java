@@ -24,14 +24,14 @@ import org.saynotobugs.confidence.Description;
 
 public final class PassIf extends AssessmentComposition
 {
-    public PassIf(boolean result, Description mismatch)
+    public PassIf(boolean result, Description passDescription, Description failDescription)
     {
-        this(result, () -> mismatch);
+        this(result, () -> passDescription, () -> failDescription);
     }
 
 
-    public PassIf(boolean result, Single<Description> mismatch)
+    public PassIf(boolean result, Single<Description> passDescription, Single<Description> failDescription)
     {
-        super(result ? new Pass() : new Fail(mismatch.value()));
+        super(result ? new Pass(passDescription.value()) : new Fail(failDescription.value()));
     }
 }
