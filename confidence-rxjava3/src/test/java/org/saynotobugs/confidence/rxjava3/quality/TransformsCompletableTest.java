@@ -19,12 +19,20 @@
 package org.saynotobugs.confidence.rxjava3.quality;
 
 import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.CompletableTransformer;
+import io.reactivex.rxjava3.core.Scheduler;
+import org.dmfs.jems2.Function;
 import org.junit.jupiter.api.Test;
 import org.saynotobugs.confidence.quality.composite.AllOf;
+import org.saynotobugs.confidence.quality.grammar.To;
+import org.saynotobugs.confidence.rxjava3.function.At;
+import org.saynotobugs.confidence.rxjava3.function.Scheduled;
 import org.saynotobugs.confidence.rxjava3.procedure.Complete;
 import org.saynotobugs.confidence.rxjava3.procedure.Error;
 import org.saynotobugs.confidence.rxjava3.rxexpectation.Completes;
 import org.saynotobugs.confidence.rxjava3.rxexpectation.Errors;
+import org.saynotobugs.confidence.rxjava3.rxexpectation.IsAlive;
+import org.saynotobugs.confidence.rxjava3.rxexpectation.Within;
 import org.saynotobugs.confidence.rxjava3.transformerteststep.Downstream;
 import org.saynotobugs.confidence.rxjava3.transformerteststep.Upstream;
 import org.saynotobugs.confidence.test.quality.Fails;
@@ -32,8 +40,10 @@ import org.saynotobugs.confidence.test.quality.HasDescription;
 import org.saynotobugs.confidence.test.quality.Passes;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.saynotobugs.confidence.Assertion.assertThat;
 
 
@@ -77,8 +87,34 @@ class TransformsCompletableTest
             new AllOf<>(
                 new Passes<>(scheduler -> upsteam -> upsteam.onErrorComplete()),
                 new Fails<>(scheduler -> Completable::hide, "all of\n  ...,\n  1: to downstream had errors [ <java.io.IOException> ]"),
-                new Fails<>(scheduler -> upsteam -> upsteam.delay(10, TimeUnit.SECONDS), "all of\n  ...,\n  1: to downstream completed 0 times"),
+                new Fails<>(scheduler -> upsteam -> upsteam.delay(10, TimeUnit.SECONDS, scheduler), "all of\n  ...,\n  1: to downstream completed 0 times"),
                 new HasDescription("CompletableTransformer that transforms\n  all of\n    0: upstream error <java.io.IOException>,\n    1: to downstream completes exactly once")
             ));
+    }
+
+
+    @Test
+    void testWithScheduledCompletable()
+    {
+        assertThat((Function<Scheduler, ? extends CompletableTransformer>) scheduler -> upstream -> upstream.delay(100, MILLISECONDS, scheduler),
+            new TransformsCompletable<>(
+                new Scheduled<>(new At<>(100, new Complete())),
+                new To<>(new CompletableThat<>(
+                    new Within<>(Duration.ofMillis(199), new IsAlive()),
+                    new Within<>(Duration.ofMillis(1), new Completes<>())
+                ))));
+    }
+
+
+    @Test
+    void testWithScheduledCompletableErroring()
+    {
+        assertThat((Function<Scheduler, ? extends CompletableTransformer>) scheduler -> upstream -> upstream.delay(100, MILLISECONDS, scheduler),
+            new TransformsCompletable<>(
+                new Scheduled<>(new At<>(100, new Error(new IOException()))),
+                new To<>(new CompletableThat<>(
+                    new Within<>(Duration.ofMillis(99), new IsAlive()),
+                    new Within<>(Duration.ofMillis(1), new Errors<>(IOException.class))
+                ))));
     }
 }

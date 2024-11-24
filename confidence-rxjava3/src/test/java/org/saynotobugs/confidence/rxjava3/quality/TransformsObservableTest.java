@@ -21,8 +21,13 @@ package org.saynotobugs.confidence.rxjava3.quality;
 import io.reactivex.rxjava3.core.Observable;
 import org.junit.jupiter.api.Test;
 import org.saynotobugs.confidence.quality.composite.AllOf;
+import org.saynotobugs.confidence.quality.grammar.To;
+import org.saynotobugs.confidence.rxjava3.function.After;
+import org.saynotobugs.confidence.rxjava3.function.At;
+import org.saynotobugs.confidence.rxjava3.function.Scheduled;
 import org.saynotobugs.confidence.rxjava3.procedure.Complete;
-import org.saynotobugs.confidence.rxjava3.rxexpectation.Completes;
+import org.saynotobugs.confidence.rxjava3.procedure.Emit;
+import org.saynotobugs.confidence.rxjava3.rxexpectation.*;
 import org.saynotobugs.confidence.rxjava3.transformerteststep.Downstream;
 import org.saynotobugs.confidence.rxjava3.transformerteststep.Upstream;
 import org.saynotobugs.confidence.test.quality.Fails;
@@ -30,8 +35,10 @@ import org.saynotobugs.confidence.test.quality.HasDescription;
 import org.saynotobugs.confidence.test.quality.Passes;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.saynotobugs.confidence.Assertion.assertThat;
 
 
@@ -49,5 +56,25 @@ class TransformsObservableTest
                 new HasDescription(
                     "ObservableTransformer that transforms\n  all of\n    0: upstream completion,\n    1: to downstream completes exactly once")
             ));
+    }
+
+
+    @Test
+    void testWithScheduledObservable()
+    {
+        assertThat(scheduler -> upstream -> upstream.delay(100, MILLISECONDS, scheduler),
+            new TransformsObservable<>(
+                new Scheduled<>(
+                    new At<>(100, new Emit<>(123)),
+                    new After<>(Duration.ofMillis(100), new Emit<>(456)),
+                    new After<>(Duration.ofMillis(100), new Complete())),
+                new To<>(new ObservableThat<>(
+                    new Within<>(Duration.ofMillis(199), new EmitsNothing<>()),
+                    new Within<>(Duration.ofMillis(1), new Emits<>(123)),
+                    new Within<>(Duration.ofMillis(99), new EmitsNothing<>()),
+                    new Within<>(Duration.ofMillis(1), new Emits<>(456)),
+                    new Within<>(Duration.ofMillis(99), new IsAlive<>()),
+                    new Within<>(Duration.ofMillis(1), new Completes<>())
+                ))));
     }
 }

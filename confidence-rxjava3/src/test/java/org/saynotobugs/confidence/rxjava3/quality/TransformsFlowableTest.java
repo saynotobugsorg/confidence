@@ -21,17 +21,20 @@ package org.saynotobugs.confidence.rxjava3.quality;
 import io.reactivex.rxjava3.core.Flowable;
 import org.junit.jupiter.api.Test;
 import org.saynotobugs.confidence.quality.composite.AllOf;
+import org.saynotobugs.confidence.quality.grammar.To;
+import org.saynotobugs.confidence.rxjava3.function.After;
+import org.saynotobugs.confidence.rxjava3.function.At;
+import org.saynotobugs.confidence.rxjava3.function.Scheduled;
 import org.saynotobugs.confidence.rxjava3.procedure.Complete;
 import org.saynotobugs.confidence.rxjava3.procedure.Emit;
-import org.saynotobugs.confidence.rxjava3.rxexpectation.Completes;
-import org.saynotobugs.confidence.rxjava3.rxexpectation.Emits;
+import org.saynotobugs.confidence.rxjava3.rxexpectation.*;
 import org.saynotobugs.confidence.rxjava3.transformerteststep.Downstream;
-import org.saynotobugs.confidence.rxjava3.transformerteststep.Upstream;
 import org.saynotobugs.confidence.test.quality.Fails;
 import org.saynotobugs.confidence.test.quality.HasDescription;
 import org.saynotobugs.confidence.test.quality.Passes;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 import static org.saynotobugs.confidence.Assertion.assertThat;
@@ -43,7 +46,7 @@ class TransformsFlowableTest
     @Test
     void test()
     {
-        assertThat(new TransformsFlowable<>(new Upstream<>(new Complete()), new Downstream<>(new Completes<>())),
+        assertThat(new TransformsFlowable<>(new org.saynotobugs.confidence.rxjava3.transformerteststep.Upstream<>(new Complete()), new Downstream<>(new Completes<>())),
             new AllOf<>(
                 new Passes<>(scheduler -> Flowable::hide),
                 new Fails<>(scheduler -> upsteam -> upsteam.ambWith(Flowable.error(new IOException())), "all of\n  ...,\n  1: to downstream had errors [ <java.io.IOException> ]"),
@@ -58,11 +61,11 @@ class TransformsFlowableTest
     void testMultipleSteps()
     {
         assertThat(new TransformsFlowable<>(
-                new Upstream<>(new Emit<>(123), new Emit<>(4)),
+                new org.saynotobugs.confidence.rxjava3.transformerteststep.Upstream<>(new Emit<>(123), new Emit<>(4)),
                 new Downstream<>(new Emits<>(246, 8)),
-                new Upstream<>(new Emit<>(200)),
+                new org.saynotobugs.confidence.rxjava3.transformerteststep.Upstream<>(new Emit<>(200)),
                 new Downstream<>(new Emits<>(400)),
-                new Upstream<>(new Complete()),
+                new org.saynotobugs.confidence.rxjava3.transformerteststep.Upstream<>(new Complete()),
                 new Downstream<>(new Completes<>())),
             new AllOf<>(
                 new Passes<>(scheduler -> upstream -> upstream.map(i -> i * 2)),
@@ -76,5 +79,35 @@ class TransformsFlowableTest
                     "FlowableTransformer that transforms\n  all of\n    0: upstream all of\n      0: emissions [123]\n      1: emissions [4],\n    1: to downstream emits 2 items iterates [\n      0: 246\n      1: 8\n    ],\n    2: upstream emissions [200],\n    3: to downstream emits 1 items 400,\n    4: upstream completion,\n    5: to downstream completes exactly once"
                 )
             ));
+    }
+
+
+    @Test
+    void testWithScheduledFlowable()
+    {
+        assertThat(scheduler -> upstream -> upstream.map(x -> x + "x"),
+            new TransformsFlowable<>(
+                new Scheduled<>(new At<>(100, new Emit<>("a"))),
+                new To<>(new PublisherThat<>(
+                    new Within<>(Duration.ofMillis(99), new EmitsNothing<>()),
+                    new Within<>(Duration.ofMillis(1), new Emits<>("ax"))
+                ))));
+    }
+
+
+    @Test
+    void testScheduledFlowableWithComplete()
+    {
+        assertThat(scheduler -> upstream -> upstream.map(x -> x + "x"),
+            new TransformsFlowable<>(
+                new Scheduled<>(
+                    new At<>(100, new Emit<>("a", "b", "c")),
+                    new After<>(Duration.ofMillis(1000), new Complete())),
+                new To<>(new PublisherThat<>(
+                    new Within<>(Duration.ofMillis(99), new EmitsNothing<>()),
+                    new Within<>(Duration.ofMillis(1), new Emits<>("ax", "bx", "cx")),
+                    new Within<>(Duration.ofMillis(999), new IsAlive<>()),
+                    new Within<>(Duration.ofMillis(1), new Completes<>())
+                ))));
     }
 }
