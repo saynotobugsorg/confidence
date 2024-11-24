@@ -21,10 +21,15 @@ package org.saynotobugs.confidence.rxjava3.quality;
 import io.reactivex.rxjava3.core.Single;
 import org.junit.jupiter.api.Test;
 import org.saynotobugs.confidence.quality.composite.AllOf;
+import org.saynotobugs.confidence.quality.grammar.To;
+import org.saynotobugs.confidence.rxjava3.function.At;
+import org.saynotobugs.confidence.rxjava3.function.Scheduled;
 import org.saynotobugs.confidence.rxjava3.procedure.Emit;
 import org.saynotobugs.confidence.rxjava3.procedure.Error;
 import org.saynotobugs.confidence.rxjava3.rxexpectation.CompletesWith;
+import org.saynotobugs.confidence.rxjava3.rxexpectation.EmitsNothing;
 import org.saynotobugs.confidence.rxjava3.rxexpectation.Errors;
+import org.saynotobugs.confidence.rxjava3.rxexpectation.Within;
 import org.saynotobugs.confidence.rxjava3.transformerteststep.Downstream;
 import org.saynotobugs.confidence.rxjava3.transformerteststep.Upstream;
 import org.saynotobugs.confidence.test.quality.Fails;
@@ -32,8 +37,10 @@ import org.saynotobugs.confidence.test.quality.HasDescription;
 import org.saynotobugs.confidence.test.quality.Passes;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.saynotobugs.confidence.Assertion.assertThat;
 
 
@@ -84,5 +91,18 @@ class TransformsSingleTest
                 new HasDescription(
                     "SingleTransformer that transforms\n  all of\n    0: upstream error <java.io.IOException>,\n    1: to downstream completes with iterates [\n      0: 123\n    ]")
             ));
+    }
+
+
+    @Test
+    void testWithScheduledSingle()
+    {
+        assertThat(scheduler -> upstream -> upstream.delay(100, MILLISECONDS, scheduler),
+            new TransformsSingle<>(
+                new Scheduled<>(new At<>(100, new Emit<>(123))),
+                new To<>(new SingleThat<>(
+                    new Within<>(Duration.ofMillis(199), new EmitsNothing<>()),
+                    new Within<>(Duration.ofMillis(1), new CompletesWith<>(123))
+                ))));
     }
 }

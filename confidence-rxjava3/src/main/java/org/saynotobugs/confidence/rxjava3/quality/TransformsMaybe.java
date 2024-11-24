@@ -18,13 +18,16 @@
 
 package org.saynotobugs.confidence.rxjava3.quality;
 
+import io.reactivex.rxjava3.core.Maybe;
 import io.reactivex.rxjava3.core.MaybeTransformer;
+import io.reactivex.rxjava3.core.Scheduler;
 import io.reactivex.rxjava3.schedulers.TestScheduler;
 import io.reactivex.rxjava3.subjects.MaybeSubject;
 import org.dmfs.jems2.Function;
 import org.dmfs.jems2.iterable.Expanded;
 import org.dmfs.jems2.iterable.Seq;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
+import org.reactivestreams.Publisher;
 import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.Quality;
@@ -33,6 +36,8 @@ import org.saynotobugs.confidence.description.Indented;
 import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.quality.composite.AllOfFailingFast;
 import org.saynotobugs.confidence.quality.composite.DescribedAs;
+import org.saynotobugs.confidence.quality.composite.Has;
+import org.saynotobugs.confidence.quality.composite.QualityComposition;
 import org.saynotobugs.confidence.rxjava3.TransformerTestStep;
 import org.saynotobugs.confidence.rxjava3.adapters.MaybeSubjectAdapter;
 import org.saynotobugs.confidence.rxjava3.adapters.RxTestObserver;
@@ -42,45 +47,65 @@ import static org.saynotobugs.confidence.description.LiteralDescription.NEW_LINE
 
 
 @StaticFactories(value = "RxJava3", packageName = "org.saynotobugs.confidence.rxjava3")
-public final class TransformsMaybe<Up, Down> implements Quality<Function<? super TestScheduler, ? extends MaybeTransformer<Up, Down>>>
+public final class TransformsMaybe<Up, Down> extends QualityComposition<Function<? super TestScheduler, ? extends MaybeTransformer<Up, Down>>>
 {
-    private final Iterable<? extends TransformerTestStep<Up, Down>> mEvents;
-
 
     @SafeVarargs
-    public TransformsMaybe(TransformerTestStep<Up, Down>... events)
+    public TransformsMaybe(TransformerTestStep<Up, Down>... testSteps)
     {
-        this(new Seq<>(events));
+        this(new Seq<>(testSteps));
     }
 
 
-    public TransformsMaybe(Iterable<? extends TransformerTestStep<Up, Down>> events)
+    public TransformsMaybe(Iterable<? extends TransformerTestStep<Up, Down>> testSteps)
     {
-        mEvents = events;
+        super(new TransformsTestSteps<>(testSteps));
     }
 
 
-    @Override
-    public Assessment assessmentOf(Function<? super TestScheduler, ? extends MaybeTransformer<Up, Down>> candidate)
+    public TransformsMaybe(
+        Function<? super Scheduler, ? extends Publisher<Up>> upstream,
+        Quality<? super Function<? super TestScheduler, ? extends Maybe<? extends Down>>> downStreamQualities)
     {
-        TestScheduler t = new TestScheduler();
-        RxTestObserver<Down> testAdapter = new RxTestObserver<>();
-        MaybeSubject<Up> upstream = MaybeSubject.create();
-        candidate.value(t).apply(upstream.hide()).subscribe(testAdapter);
-        return new AllOfFailingFast<RxTestObserver<Down>>(COMMA,
-            new Expanded<>(e -> e.qualities(t, new MaybeSubjectAdapter<>(upstream)), mEvents)
-        ).assessmentOf(testAdapter);
+        super(new Has<>(
+            transformerFunction -> (Function<TestScheduler, Maybe<Down>>)
+                scheduler -> Maybe.fromPublisher(upstream.value(scheduler))
+                    .compose(transformerFunction.value(scheduler)),
+            downStreamQualities));
     }
 
-
-    @Override
-    public Description description()
+    private static class TransformsTestSteps<Up, Down> implements Quality<Function<? super TestScheduler, ? extends MaybeTransformer<Up, Down>>>
     {
-        TestScheduler t = new TestScheduler();
-        MaybeSubject<Up> upstream = MaybeSubject.create();
-        return new DescribedAs<>(orig -> new Composite(new Text("MaybeTransformer that transforms"), new Indented(new Composite(NEW_LINE, orig))),
-            new AllOfFailingFast<>(COMMA,
+        private final Iterable<? extends TransformerTestStep<Up, Down>> mEvents;
+
+        public TransformsTestSteps(Iterable<? extends TransformerTestStep<Up, Down>> events)
+        {
+            mEvents = events;
+        }
+
+
+        @Override
+        public Assessment assessmentOf(Function<? super TestScheduler, ? extends MaybeTransformer<Up, Down>> candidate)
+        {
+            TestScheduler t = new TestScheduler();
+            RxTestObserver<Down> testAdapter = new RxTestObserver<>();
+            MaybeSubject<Up> upstream = MaybeSubject.create();
+            candidate.value(t).apply(upstream.hide()).subscribe(testAdapter);
+            return new AllOfFailingFast<RxTestObserver<Down>>(COMMA,
                 new Expanded<>(e -> e.qualities(t, new MaybeSubjectAdapter<>(upstream)), mEvents)
-            )).description();
+            ).assessmentOf(testAdapter);
+        }
+
+
+        @Override
+        public Description description()
+        {
+            TestScheduler t = new TestScheduler();
+            MaybeSubject<Up> upstream = MaybeSubject.create();
+            return new DescribedAs<>(orig -> new Composite(new Text("MaybeTransformer that transforms"), new Indented(new Composite(NEW_LINE, orig))),
+                new AllOfFailingFast<>(COMMA,
+                    new Expanded<>(e -> e.qualities(t, new MaybeSubjectAdapter<>(upstream)), mEvents)
+                )).description();
+        }
     }
 }
