@@ -36,6 +36,7 @@ import java.util.concurrent.TimeUnit;
 @StaticFactories(value = "RxJava3", packageName = "org.saynotobugs.confidence.rxjava3")
 public final class Within<T> implements RxExpectation<T>
 {
+    private final Description mDescription;
     private final Duration mDuration;
     private final RxExpectation<T> mDelegate;
 
@@ -47,10 +48,21 @@ public final class Within<T> implements RxExpectation<T>
      */
     public Within(Duration duration, RxExpectation<T> delegate)
     {
+        this(new Spaced(new Text("after"), new Text(duration.toString())), duration, delegate);
+    }
+
+    /**
+     * Creates an {@link RxExpectation} that expects the given {@link RxExpectation} to match within the given {@link Duration}.
+     * <p>
+     * It does so by forwarding the {@link TestScheduler} by the given {@link Duration} and delegating to the given {@link RxExpectation}.
+     */
+    Within(Description description, Duration duration, RxExpectation<T> delegate)
+    {
         if (duration.isNegative())
         {
             throw new IllegalArgumentException("Unsupported negative duration: " + duration);
         }
+        mDescription = description;
         mDuration = duration;
         mDelegate = delegate;
     }
@@ -67,14 +79,14 @@ public final class Within<T> implements RxExpectation<T>
             {
                 scheduler.advanceTimeBy(mDuration.toMillis(), TimeUnit.MILLISECONDS);
                 scheduler.triggerActions();
-                return new FailPrepended(new Text("after " + mDuration), delegate.assessmentOf(candidate));
+                return new FailPrepended(mDescription, delegate.assessmentOf(candidate));
             }
 
 
             @Override
             public Description description()
             {
-                return new Spaced(new Text("after " + mDuration), delegate.description());
+                return new Spaced(mDescription, delegate.description());
             }
         };
     }
