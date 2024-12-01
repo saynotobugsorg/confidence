@@ -42,8 +42,13 @@ class ClassThatTest
     {
         assertThat(new ClassThat(new Has<>("annotations", ClassAdapter::declaredAnnotations, new Iterates<>(new InstanceOf<>(Annotation.class)))),
             new AllOf<>(
-                new Passes<java.lang.Class<?>>(AnnotatedTestClass.class),
-                new Passes<java.lang.Class<?>>(OuterTestClass.AnnotatedInnerTestClass.class),
+                new Passes<java.lang.Class<?>>(AnnotatedTestClass.class, "Class that had annotations iterated [\n" +
+                    "  0: instance of <class jdk.proxy3.$Proxy15>\n" +
+                    "]"),
+                new Passes<java.lang.Class<?>>(OuterTestClass.AnnotatedInnerTestClass.class, "" +
+                    "Class that had annotations iterated [\n" +
+                    "  0: instance of <class jdk.proxy3.$Proxy15>\n" +
+                    "]"),
                 new Fails<>(TestClassWithoutAnnotation.class, "Class that had annotations iterated [\n  0: missing instance of <interface java.lang.annotation.Annotation>\n]"),
                 new HasDescription("Class that has annotations iterates [\n  0: instance of <interface java.lang.annotation.Annotation>\n]")
             ));

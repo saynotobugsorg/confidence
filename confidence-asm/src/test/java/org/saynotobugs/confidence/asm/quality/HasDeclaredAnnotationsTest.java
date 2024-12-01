@@ -43,7 +43,7 @@ class HasDeclaredAnnotationsTest
     {
         assertThat(new ClassThat(new HasDeclaredAnnotations(new Contains<>(new Annotation(TestAnnotation.class)))),
             new AllOf<>(
-                new Passes<Class<?>>(AnnotatedTestClass.class),
+                new Passes<Class<?>>(AnnotatedTestClass.class, "Class that had annotations contained instance of <interface org.saynotobugs.confidence.asm.quality.testclasses.TestAnnotation>"),
                 new Fails<>(TestClassWithoutAnnotation.class, "Class that had annotations [] did not contain instance of <interface org.saynotobugs.confidence.asm.quality.testclasses.TestAnnotation>"),
                 new HasDescription("Class that has annotations contains instance of <interface org.saynotobugs.confidence.asm.quality.testclasses.TestAnnotation>")
             ));
@@ -53,11 +53,13 @@ class HasDeclaredAnnotationsTest
     void testWithDelegate()
     {
         assertThat(new ClassThat(new HasDeclaredAnnotations(new Contains<>(new Annotation(TestAnnotation.class,
-                new Has<>(TestAnnotation::defaultString, "def"))))),
+                new Has<>("defaultString", TestAnnotation::defaultString, "def"))))),
             new AllOf<>(
-                new Passes<Class<?>>(AnnotatedTestClass.class),
-                new Fails<>(TestClassWithoutAnnotation.class, "Class that had annotations [] did not contain all of\n  0: instance of <interface org.saynotobugs.confidence.asm.quality.testclasses.TestAnnotation>\n  1: \"def\""),
-                new HasDescription("Class that has annotations contains all of\n  0: instance of <interface org.saynotobugs.confidence.asm.quality.testclasses.TestAnnotation>\n  1: \"def\"")
+                new Passes<Class<?>>(AnnotatedTestClass.class, "Class that had annotations contained all of\n" +
+                    "  0: instance of <interface org.saynotobugs.confidence.asm.quality.testclasses.TestAnnotation>\n" +
+                    "  1: has defaultString \"def\""),
+                new Fails<>(TestClassWithoutAnnotation.class, "Class that had annotations [] did not contain all of\n  0: instance of <interface org.saynotobugs.confidence.asm.quality.testclasses.TestAnnotation>\n  1: has defaultString \"def\""),
+                new HasDescription("Class that has annotations contains all of\n  0: instance of <interface org.saynotobugs.confidence.asm.quality.testclasses.TestAnnotation>\n  1: has defaultString \"def\"")
             ));
     }
 
@@ -68,7 +70,10 @@ class HasDeclaredAnnotationsTest
         assertThat(new ClassThat(new HasDeclaredAnnotations(new Contains<>(new Annotation(FunctionalInterface.class,
                 new HasToString(FunctionalInterface.class.getCanonicalName()))))),
             new AllOf<>(
-                new Passes<Class<?>>(FunctionalTestClass.class),
+                new Passes<Class<?>>(FunctionalTestClass.class, "" +
+                    "Class that had annotations contained all of\n" +
+                    "  0: instance of <interface java.lang.FunctionalInterface>\n" +
+                    "  1: has toString() \"java.lang.FunctionalInterface\""),
                 new Fails<>(TestClassWithoutAnnotation.class, "Class that had annotations [] did not contain all of\n  0: instance of <interface java.lang.FunctionalInterface>\n  1: has toString() \"java.lang.FunctionalInterface\""),
                 new HasDescription("Class that has annotations contains all of\n  0: instance of <interface java.lang.FunctionalInterface>\n  1: has toString() \"java.lang.FunctionalInterface\"")
             ));
