@@ -20,7 +20,12 @@ class ImposesOrderOfTest
     {
         assertThat(new ImposesOrderOf<>(1, 2, 3, 4, 5),
             new AllOf<>(
-                new Passes<Comparator<Integer>>(naturalOrder(), ""),
+                new Passes<Comparator<Integer>>(naturalOrder(), "imposed the following order: \n" +
+                    "  1\n" +
+                    "  2\n" +
+                    "  3\n" +
+                    "  4\n" +
+                    "  5"),
                 // construct broken comparators
                 new Fails<Comparator<Integer>>((l, r) -> l.equals(2) && r.equals(3) ? 1 : l - r,
                     "Comparator\n  ...\n  compared elements 2 at index 1 and 3 at index 2 incorrectly to 1\n  ..."),

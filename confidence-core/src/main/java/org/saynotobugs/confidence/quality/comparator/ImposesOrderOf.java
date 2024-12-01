@@ -31,11 +31,14 @@ import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.AllPassed;
+import org.saynotobugs.confidence.assessment.DescriptionUpdated;
 import org.saynotobugs.confidence.assessment.PassIf;
 import org.saynotobugs.confidence.description.Block;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.description.Value;
+import org.saynotobugs.confidence.description.bifunction.Just;
+import org.saynotobugs.confidence.description.bifunction.Original;
 import org.saynotobugs.confidence.utils.UnPaired;
 
 import java.util.Comparator;
@@ -73,13 +76,21 @@ public final class ImposesOrderOf<T> implements Quality<Comparator<T>>
     @Override
     public Assessment assessmentOf(Comparator<T> candidate)
     {
-        return new AllPassed(new Text("Comparator"), EMPTY,
-            new Mapped<>(
-                new UnPaired<Pair<Integer, ? extends T>, Pair<Integer, ? extends T>, Assessment>(
-                    (left, right) -> verdict(candidate, left, right)),
-                new Expanded<>(
-                    element -> new Mapped<>(e -> new ValuePair<>(element, e), new Numbered<>(mOrderedElements)),
-                    new Numbered<>(mOrderedElements))));
+        return
+            new DescriptionUpdated(
+                new Just<>(new Block(
+                    new Text("imposed the following order: "),
+                    EMPTY,
+                    EMPTY,
+                    new Mapped<>(Value::new, mOrderedElements))),
+                new Original<>(),
+                new AllPassed(new Text("Comparator"), EMPTY,
+                    new Mapped<>(
+                        new UnPaired<Pair<Integer, ? extends T>, Pair<Integer, ? extends T>, Assessment>(
+                            (left, right) -> verdict(candidate, left, right)),
+                        new Expanded<>(
+                            element -> new Mapped<>(e -> new ValuePair<>(element, e), new Numbered<>(mOrderedElements)),
+                            new Numbered<>(mOrderedElements)))));
     }
 
 
