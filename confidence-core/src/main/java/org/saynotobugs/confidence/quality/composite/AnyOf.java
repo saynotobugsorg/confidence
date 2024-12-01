@@ -29,6 +29,7 @@ import org.saynotobugs.confidence.description.Block;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.description.Value;
+import org.saynotobugs.confidence.description.iterable.Numbered;
 import org.saynotobugs.confidence.quality.object.EqualTo;
 
 import static org.saynotobugs.confidence.description.LiteralDescription.EMPTY;
@@ -56,12 +57,12 @@ public final class AnyOf<T> extends QualityComposition<T>
 
     public AnyOf(Iterable<? extends Quality<? super T>> delegates)
     {
-        super(actual -> new AnyPassed(new Spaced(new Value(actual), new Text("was none of")),
+        super(actual -> new AnyPassed(new Spaced(new Value(actual), new Text("was")),
                 EMPTY,
                 EMPTY,
                 new Mapped<>(
                     d -> new FailUpdated(m -> d.description(), d.assessmentOf(actual)),
                     delegates)),
-            new Block(new Text("any of"), EMPTY, EMPTY, new Mapped<>(Quality::description, delegates)));
+            new Block(new Text("any of"), EMPTY, EMPTY, new Numbered(new Mapped<>(Quality::description, delegates))));
     }
 }

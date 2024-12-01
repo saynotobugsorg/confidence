@@ -18,21 +18,15 @@
 
 package org.saynotobugs.confidence.test.quality;
 
-import org.dmfs.jems2.iterable.Mapped;
-import org.dmfs.jems2.iterable.Seq;
 import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.Quality;
-import org.saynotobugs.confidence.assessment.AllPassed;
-import org.saynotobugs.confidence.assessment.FailUpdated;
-import org.saynotobugs.confidence.description.*;
-import org.saynotobugs.confidence.description.DescriptionDescription;
+import org.saynotobugs.confidence.assessment.PassIf;
+import org.saynotobugs.confidence.description.Spaced;
+import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.description.Value;
-
-import static org.saynotobugs.confidence.description.LiteralDescription.EMPTY;
-import static org.saynotobugs.confidence.description.LiteralDescription.NEW_LINE;
 
 
 @StaticFactories(
@@ -40,39 +34,43 @@ import static org.saynotobugs.confidence.description.LiteralDescription.NEW_LINE
     deprecates = @DeprecatedFactories(value = "Test"))
 public final class Passes<T> implements Quality<Quality<? super T>>
 {
-    private final Iterable<? extends T> mMatchingValues;
+    private final T mPassingValue;
+    private final Quality<? super Description> mPassDescriptionQuality;
 
 
-    @SafeVarargs
-    public Passes(T... matchingValues)
+    public Passes(T passingValue, String passDescription)
     {
-        this(new Seq<>(matchingValues));
+        this(passingValue, new DescribesAs(passDescription));
     }
 
-
-    public Passes(Iterable<? extends T> matchingValues)
+    public Passes(T passingValue, Quality<? super Description> passDescriptionQuality)
     {
-        mMatchingValues = matchingValues;
+        mPassingValue = passingValue;
+        mPassDescriptionQuality = passDescriptionQuality;
     }
 
 
     @Override
     public Assessment assessmentOf(Quality<? super T> candidate)
     {
-        return new AllPassed(new Text("matched"), new Composite(NEW_LINE, new Text("and")), EMPTY,
-            new Mapped<>(
-                value -> new FailUpdated(
-                    orig -> new Spaced(new Value(value), new Text("mismatched with"), new DescriptionDescription(orig)),
-                    candidate.assessmentOf(value)),
-                mMatchingValues
-            ));
+        Assessment result = candidate.assessmentOf(mPassingValue);
+        return new PassIf(
+            result.isSuccess() && mPassDescriptionQuality.assessmentOf(result.description()).isSuccess(),
+            new Spaced(new Text("passed"), new Value(mPassingValue),
+                new Text("with description"), new Value(mPassDescriptionQuality.description())),
+            new Spaced(result.isSuccess() ? new Text("passed") : new Text("failed"), new Value(mPassingValue),
+                new Text("with description"), new Value(result.description()))
+        );
     }
 
 
     @Override
     public Description description()
     {
-        return new Structured(new Text("matches "), new Composite(NEW_LINE, new Text("and"), NEW_LINE), EMPTY,
-            new Mapped<>(Value::new, mMatchingValues));
+        return new Spaced(
+            new Text("passes"),
+            new Value(mPassingValue),
+            new Text("with desciption"),
+            new Value(mPassDescriptionQuality.description()));
     }
 }

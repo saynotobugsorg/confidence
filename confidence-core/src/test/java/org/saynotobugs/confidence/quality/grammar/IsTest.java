@@ -1,9 +1,11 @@
 package org.saynotobugs.confidence.quality.grammar;
 
 import org.junit.jupiter.api.Test;
+import org.saynotobugs.confidence.quality.charsequence.MatchesPattern;
 import org.saynotobugs.confidence.quality.composite.AllOf;
 import org.saynotobugs.confidence.quality.object.Anything;
 import org.saynotobugs.confidence.quality.object.Nothing;
+import org.saynotobugs.confidence.test.quality.DescribesAs;
 import org.saynotobugs.confidence.test.quality.Fails;
 import org.saynotobugs.confidence.test.quality.HasDescription;
 import org.saynotobugs.confidence.test.quality.Passes;
@@ -18,7 +20,7 @@ class IsTest
     {
         assertThat(new Is<>(3),
             new AllOf<>(
-                new Passes<>(3),
+                new Passes<>(3, "was 3"),
                 new Fails<>(4, "was 4"),
                 new HasDescription("is 3")));
     }
@@ -29,7 +31,9 @@ class IsTest
     {
         assertThat(new Is<>(new Anything()),
             new AllOf<>(
-                new Passes<>("12", 1, new Object()),
+                new Passes<>("12", "was \"12\""),
+                new Passes<>(1, "was 1"),
+                new Passes<>(new Object(), new DescribesAs(new MatchesPattern("was <.*>"))),
                 new HasDescription("is <anything>")));
     }
 

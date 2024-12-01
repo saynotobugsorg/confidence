@@ -33,7 +33,7 @@ class StrictlyEqualToTest
     {
         assertThat(new StrictlyEqualTo<>("123"),
             new AllOf<>(
-                new Passes<>("123"),
+                new Passes<>("123", "strictly equal to \"123\""),
                 new Fails<Object>("456", "all of\n  ...\n  2: was not equal to \"123\"\n  3: was not symmetric\n  4: had hashCode 51669"),
                 new Fails<>(new Object()
                 {

@@ -42,6 +42,10 @@ public final class To<T> extends QualityComposition<T>
 
     public To(Quality<T> delegate)
     {
-        super(new DescribedAs<>(d -> new Spaced(new Text("to"), d), d -> new Spaced(new Text("to"), d), delegate));
+        super(new DescribedAs<>(
+            (actual, d) -> new Spaced(new Text("to"), d),
+            (actual, d) -> new Spaced(new Text("to"), d),
+            d -> new Spaced(new Text("to"), d),
+            delegate));
     }
 }

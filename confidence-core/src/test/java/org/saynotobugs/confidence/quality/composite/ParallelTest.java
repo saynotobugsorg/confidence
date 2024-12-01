@@ -3,6 +3,7 @@ package org.saynotobugs.confidence.quality.composite;
 import org.junit.jupiter.api.Test;
 import org.saynotobugs.confidence.quality.charsequence.MatchesPattern;
 import org.saynotobugs.confidence.quality.comparable.LessThan;
+import org.saynotobugs.confidence.quality.object.Anything;
 import org.saynotobugs.confidence.quality.object.EqualTo;
 import org.saynotobugs.confidence.quality.supplier.Supplies;
 import org.saynotobugs.confidence.test.quality.DescribesAs;
@@ -24,7 +25,8 @@ class ParallelTest
 
         assertThat(new Parallel<>(new Supplies<>(new LessThan<>(999))),
             new AllOf<>(
-                new Passes<>(() -> 99, () -> integer.incrementAndGet() % 999),
+                new Passes<>(() -> 99, new Anything(/* TODO, how to imrove this? */)),
+                new Passes<>(() -> integer.incrementAndGet() % 999, new Anything(/* TODO, how to imrove this? */)),
                 new Fails<>(
                     () -> integer.incrementAndGet() % 1000,
                     new DescribesAs(new MatchesPattern("executions\\R  ...\\R  .+ supplied 999\\R  ..."))),

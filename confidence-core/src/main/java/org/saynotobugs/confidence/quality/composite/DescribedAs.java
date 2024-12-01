@@ -24,6 +24,7 @@ import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.Quality;
+import org.saynotobugs.confidence.assessment.DescriptionUpdated;
 import org.saynotobugs.confidence.assessment.FailUpdated;
 
 
@@ -59,6 +60,21 @@ public final class DescribedAs<T> extends QualityComposition<T>
     {
         super(
             actual -> new FailUpdated(description -> mismatchUpdate.value(actual, description), delegate.assessmentOf(actual)),
+            expectationUpdate.value(delegate.description()));
+    }
+
+
+    public DescribedAs(
+        BiFunction<? super T, Description, ? extends Description> matchUpdate,
+        BiFunction<? super T, Description, ? extends Description> mismatchUpdate,
+        Function<Description, ? extends Description> expectationUpdate,
+        Quality<T> delegate)
+    {
+        super(
+            actual -> new DescriptionUpdated(
+                description -> matchUpdate.value(actual, description),
+                description -> mismatchUpdate.value(actual, description),
+                delegate.assessmentOf(actual)),
             expectationUpdate.value(delegate.description()));
     }
 }

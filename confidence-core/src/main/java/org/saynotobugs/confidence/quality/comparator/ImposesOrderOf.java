@@ -106,12 +106,14 @@ public final class ImposesOrderOf<T> implements Quality<Comparator<T>>
     private Assessment testPair(Comparator<? super T> actual, Predicate<Integer> comparator, Pair<Integer, ? extends T> left, Pair<Integer, ? extends T> right)
     {
         int result = actual.compare(left.right(), right.right());
-        return new PassIf(comparator.satisfiedBy(result), new Spaced(
-            new Text("compared elements"),
-            new Value(left.right()),
-            new Text("at index " + left.left() + " and"),
-            new Value(right.right()),
-            new Text("at index " + right.left() + " incorrectly to"),
-            new Value(result)));
+        return new PassIf(comparator.satisfiedBy(result),
+            this.description(),
+            new Spaced(
+                new Text("compared elements"),
+                new Value(left.right()),
+                new Text("at index " + left.left() + " and"),
+                new Value(right.right()),
+                new Text("at index " + right.left() + " incorrectly to"),
+                new Value(result)));
     }
 }

@@ -111,8 +111,8 @@ public final class ContainsNoneOf<T> extends QualityComposition<Iterable<T>>
                     new Sieved<>(new Not<>(Assessment::isSuccess),
                         new Mapped<>(
                             delegate -> delegate.assessmentOf(numberedElement.right()).isSuccess()
-                                ? new Fail(delegate.description())
-                                : new Pass(),
+                                ? new Fail(delegate.assessmentOf(numberedElement.right()).description())
+                                : new Pass(delegate.assessmentOf(numberedElement.right()).description()),
                             delegates)))),
             new Numbered<>(actual)
         );

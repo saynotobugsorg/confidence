@@ -49,7 +49,7 @@ public final class EqualTo<T> extends QualityComposition<T>
                 ? new FailPrepended(
                 new Text("array that"),
                 new Iterates<>(new Mapped<>(EqualTo::new, new ArrayIterable(expected))).assessmentOf(new ArrayIterable(actual)))
-                : new PassIf(expected.equals(actual), new Value(actual)),
+                : new PassIf(expected.equals(actual), new Value(actual), new Value(actual)),
             expected.getClass().isArray()
                 ? new Block(new Text("["), EMPTY, new Text("]"), new Mapped<>(Value::new, new ArrayIterable(expected)))
                 : new Value(expected));

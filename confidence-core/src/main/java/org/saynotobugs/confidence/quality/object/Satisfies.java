@@ -20,26 +20,52 @@ package org.saynotobugs.confidence.quality.object;
 
 import org.dmfs.jems2.Function;
 import org.dmfs.jems2.Predicate;
-import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.PassIf;
+import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.description.Value;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 
 
 @StaticFactories(
     value = "Object",
-    packageName = "org.saynotobugs.confidence.core.quality",
-    deprecates = @DeprecatedFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality"))
+    packageName = "org.saynotobugs.confidence.core.quality")
 public final class Satisfies<T> extends QualityComposition<T>
 {
+    /**
+     * A simple {@link Quality} that's satiffied when the given {@link Predicate} is satisfied.
+     * Example
+     * <pre>
+     * assertThat("",
+     *     satisfies(String::isEmpty));
+     * </pre>
+     * <p>
+     * To alter the desciptions (primarily for composite {@link Quality}s),
+     * decorate this with {@link org.saynotobugs.confidence.quality.composite.DescribedAs}.
+     * <p>
+     * Example
+     * <pre>
+     * describesAs(
+     *     new ValueAndText("was empty"), // pass description
+     *     new ValueAndText("was not empty"), // fail description
+     *     new Just("is empty"), // expectation description
+     *     satisfies(String::isEmpty));
+     * </pre>
+     */
+    public Satisfies(Predicate<? super T> predicate)
+    {
+        super(actual -> new PassIf(predicate.satisfiedBy(actual), () -> new Value(actual), () -> new Value(actual)),
+            new Text("satisfies predicate"));
+    }
+
+
     public Satisfies(
         Predicate<? super T> predicate,
         Description matchDescription)
     {
-        super(actual -> new PassIf(predicate.satisfiedBy(actual), () -> new Value(actual)),
+        super(actual -> new PassIf(predicate.satisfiedBy(actual), () -> new Value(actual), () -> new Value(actual)),
             matchDescription);
     }
 
@@ -61,7 +87,7 @@ public final class Satisfies<T> extends QualityComposition<T>
         Function<? super T, ? extends Description> mismatchDescriptionFunction,
         Description matchDescription)
     {
-        super(actual -> new PassIf(predicate.satisfiedBy(actual), () -> mismatchDescriptionFunction.value(actual)),
+        super(actual -> new PassIf(predicate.satisfiedBy(actual), () -> matchDescription, () -> mismatchDescriptionFunction.value(actual)),
             matchDescription);
     }
 }

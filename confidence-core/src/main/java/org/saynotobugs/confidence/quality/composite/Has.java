@@ -24,11 +24,13 @@ import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.Quality;
+import org.saynotobugs.confidence.assessment.DescriptionUpdated;
 import org.saynotobugs.confidence.assessment.Fail;
-import org.saynotobugs.confidence.assessment.FailUpdated;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.description.Value;
+import org.saynotobugs.confidence.description.bifunction.Original;
+import org.saynotobugs.confidence.description.bifunction.TextAndOriginal;
 import org.saynotobugs.confidence.quality.object.EqualTo;
 import org.saynotobugs.confidence.utils.FailSafe;
 
@@ -41,8 +43,8 @@ public final class Has<T, V> extends QualityComposition<T>
 {
     public Has(ThrowingFunction<? super T, ? extends V> featureFunction, V value)
     {
-        this(delegateFeatureDescription -> delegateFeatureDescription,
-            featureMismatchDescription -> featureMismatchDescription,
+        this(new Original<>(),
+            new Original<>(),
             featureFunction,
             new EqualTo<>(value));
     }
@@ -50,8 +52,8 @@ public final class Has<T, V> extends QualityComposition<T>
 
     public Has(ThrowingFunction<? super T, ? extends V> featureFunction, Quality<? super V> delegate)
     {
-        this(delegateFeatureDescription -> delegateFeatureDescription,
-            featureMismatchDescription -> featureMismatchDescription,
+        this(new Original<>(),
+            new Original<>(),
             featureFunction,
             delegate);
     }
@@ -75,41 +77,41 @@ public final class Has<T, V> extends QualityComposition<T>
     }
 
 
-    public Has(Description featureDescription,
-        Description featureMismatchDescription,
+    public Has(Description simplePresentDescription,
+        Description simplePastDescription,
         ThrowingFunction<? super T, ? extends V> featureFunction,
         Quality<? super V> delegate)
     {
-        this((Function<Description, Description>) delegateFeatureDescription -> new Spaced(featureDescription, delegateFeatureDescription),
-            mismatchDescription -> new Spaced(featureMismatchDescription, mismatchDescription),
+        this(new TextAndOriginal<>(simplePresentDescription),
+            new TextAndOriginal<>(simplePastDescription),
             featureFunction,
             delegate
         );
     }
 
 
-    public Has(Function<Description, Description> featureDescription,
-        Function<Description, Description> featureMismatchDescription,
+    public Has(Function<Description, Description> simplePresentDescriptionFunction,
+        Function<Description, Description> simplePastDescriptionFunction,
         ThrowingFunction<? super T, ? extends V> featureFunction,
         Quality<? super V> delegate)
     {
-        this(featureDescription,
-            featureMismatchDescription,
+        this(simplePresentDescriptionFunction,
+            simplePastDescriptionFunction,
             throwable -> new Spaced(new Text("threw"), new Value(throwable)),
             featureFunction,
             delegate);
     }
 
 
-    public Has(Function<Description, Description> featureDescription,
-        Function<Description, Description> featureMismatchDescription,
-        Function<? super Throwable, ? extends Description> throwsDescription,
+    public Has(Function<Description, Description> simplePresentDescriptionFunction,
+        Function<Description, Description> simplePastDescriptionFunction,
+        Function<? super Throwable, ? extends Description> throwsDescriptionFunction,
         ThrowingFunction<? super T, ? extends V> featureFunction,
         Quality<? super V> delegate)
     {
         super(new FailSafe<>(
-                throwable -> new Fail(throwsDescription.value(throwable)),
-                actual -> new FailUpdated(featureMismatchDescription, delegate.assessmentOf(featureFunction.value(actual)))),
-            featureDescription.value(delegate.description()));
+                throwable -> new Fail(throwsDescriptionFunction.value(throwable)),
+                actual -> new DescriptionUpdated(simplePastDescriptionFunction, simplePastDescriptionFunction, delegate.assessmentOf(featureFunction.value(actual)))),
+            simplePresentDescriptionFunction.value(delegate.description()));
     }
 }

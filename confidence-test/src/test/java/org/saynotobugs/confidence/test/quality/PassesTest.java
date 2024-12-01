@@ -17,14 +17,14 @@ class PassesTest
     @Test
     void test()
     {
-        assertThat(new Passes<>(1, 2, 3),
+        assertThat(new Passes<>(1, "1"),
             new AllOf<>(
                 new Passes<Quality<Integer>>(new Quality<Integer>()
                 {
                     @Override
                     public Assessment assessmentOf(Integer candidate)
                     {
-                        return new Pass();
+                        return new Pass(new Text("123"));
                     }
 
 
@@ -33,7 +33,7 @@ class PassesTest
                     {
                         return new Text("passes");
                     }
-                }),
+                }, "passed 1"),
                 new Fails<>(new Quality<Integer>()
                 {
                     @Override
@@ -49,8 +49,8 @@ class PassesTest
                         return new Text("passes");
                     }
                 },
-                    "matched\n  1 mismatched with \n    ----\n    failed\n    ----\n  and\n  2 mismatched with \n    ----\n    failed\n    ----\n  and\n  3 mismatched with \n    ----\n    failed\n    ----"),
-                new HasDescription("matches 1\n  and\n  2\n  and\n  3")
+                    "failed 1"),
+                new HasDescription("passes 1")
             ));
     }
 

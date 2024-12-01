@@ -38,7 +38,8 @@ class SoItTest
     {
         assertThat(new SoIt<>(new Contains<>("123")),
             new AllOf<>(
-                new Passes<>(singletonList("123"), asList("1", "2", "123", "4")),
+                new Passes<>(singletonList("123"), "so it contained \"123\""),
+                new Passes<>(asList("1", "2", "123", "4"), "so it contained \"123\""),
                 new Fails<>(asList("1", "2", "4"), "but [ \"1\", \"2\", \"4\" ] did not contain \"123\""),
                 new HasDescription("so it contains \"123\"")
             ));

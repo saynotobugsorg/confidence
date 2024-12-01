@@ -19,7 +19,9 @@
 package org.saynotobugs.confidence.quality.path;
 
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
-import org.saynotobugs.confidence.description.Text;
+import org.saynotobugs.confidence.description.bifunction.Just;
+import org.saynotobugs.confidence.description.bifunction.TextAndValue;
+import org.saynotobugs.confidence.quality.composite.DescribedAs;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 import org.saynotobugs.confidence.quality.object.Satisfies;
 
@@ -33,6 +35,10 @@ public final class Readable extends QualityComposition<Path>
 {
     public Readable()
     {
-        super(new Satisfies<>(Files::isReadable, file -> new Text("not readable"), new Text("readable")));
+        super(new DescribedAs<>(
+            new TextAndValue<>("readable"),
+            new Just<>("not readable"),
+            new Just<>("readable"),
+            new Satisfies<>(Files::isReadable)));
     }
 }

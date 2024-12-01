@@ -42,6 +42,7 @@ import static org.saynotobugs.confidence.core.quality.Map.containsEntry;
 import static org.saynotobugs.confidence.core.quality.Object.equalTo;
 import static org.saynotobugs.confidence.core.quality.Object.unsafeInstanceOf;
 
+
 @Disabled
 public final class Examples
 {
@@ -188,27 +189,27 @@ public final class Examples
     void testMatches()
     {
         assertThat(new Quality<String>()
-        {
-            @Override
-            public Assessment assessmentOf(String candidate)
-            {
-                return new PassIf(candidate.length() == 3, new Spaced(
-                    new Text("String length was"),
-                    new NumberDescription(candidate.length())));
-            }
+                   {
+                       @Override
+                       public Assessment assessmentOf(String candidate)
+                       {
+                           return new PassIf(candidate.length() == 3, new Text(""), new Spaced(
+                               new Text("String length was"),
+                               new NumberDescription(candidate.length())));
+                       }
 
 
-            @Override
-            public Description description()
-            {
-                return new Text("String with length 3");
-            }
-        }, new Passes<>(
-            "123",
-            "456",
-            "7654",
-            "12"
-        ));
+                       @Override
+                       public Description description()
+                       {
+                           return new Text("String with length 3");
+                       }
+                   },
+            new AllOf<>(
+                new Passes<>("123", ""),
+                new Passes<>("456", ""),
+                new Passes<>("7654", ""),
+                new Passes<>("12", "")));
     }
 
 
@@ -220,7 +221,7 @@ public final class Examples
                        @Override
                        public Assessment assessmentOf(String candidate)
                        {
-                           return new PassIf(candidate.length() == 3, new Spaced(
+                           return new PassIf(candidate.length() == 3, new Text(""), new Spaced(
                                new Text("String length was"),
                                new NumberDescription(candidate.length())));
                        }

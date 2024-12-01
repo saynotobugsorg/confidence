@@ -25,7 +25,7 @@ class HasDescriptionTest
                     @Override
                     public Assessment assessmentOf(Object candidate)
                     {
-                        return new Pass();
+                        return new Pass(new Text("abd"));
                     }
 
 
@@ -34,13 +34,13 @@ class HasDescriptionTest
                     {
                         return new Text("abc");
                     }
-                }),
+                }, "description described as\n  ----\n  \"abc\"\n  ----"),
                 new Fails<Quality<Object>>(new Quality<Object>()
                 {
                     @Override
                     public Assessment assessmentOf(Object candidate)
                     {
-                        return new Pass();
+                        return new Pass(new Text("anything"));
                     }
 
 
@@ -65,7 +65,7 @@ class HasDescriptionTest
                     @Override
                     public Assessment assessmentOf(Object candidate)
                     {
-                        return new Pass();
+                        return new Pass(new Text("abc"));
                     }
 
 
@@ -74,13 +74,13 @@ class HasDescriptionTest
                     {
                         return new Text("1abc2");
                     }
-                }),
+                }, "description describes as\n  ----\n  matches pattern /\\\\dabc\\\\d/\n  ----"),
                 new Fails<Quality<Object>>(new Quality<Object>()
                 {
                     @Override
                     public Assessment assessmentOf(Object candidate)
                     {
-                        return new Pass();
+                        return new Pass(new Text("abc"));
                     }
 
 

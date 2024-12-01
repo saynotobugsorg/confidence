@@ -42,7 +42,7 @@ public final class Emits<T> extends RxExpectationComposition<T>
      */
     public Emits(T emission)
     {
-        this(1, new Implied<>(new Seq<>(new HasNumberOfElements(1)), new Has<>(i -> i.iterator().next(), emission)));
+        this(1, new Implied<>(new HasNumberOfElements(1), new Has<>(i -> i.iterator().next(), emission)));
     }
 
 
@@ -57,7 +57,7 @@ public final class Emits<T> extends RxExpectationComposition<T>
 
     public Emits(Quality<? super T> emissionQuality)
     {
-        this(1, new Implied<>(new Seq<>(new HasNumberOfElements(1)), new Has<>(i -> i.iterator().next(), emissionQuality)));
+        this(1, new Implied<>(new HasNumberOfElements(1), new Has<>(i -> i.iterator().next(), emissionQuality)));
     }
 
 
@@ -78,7 +78,7 @@ public final class Emits<T> extends RxExpectationComposition<T>
     {
         super(testScheduler ->
             new Implied<>(
-                new Seq<>(new NoErrors<>()),
+                new NoErrors<>(),
                 new org.saynotobugs.confidence.rxjava3.rxexpectation.internal.Emits<>(emissionCount, emissionsQuality)));
     }
 }

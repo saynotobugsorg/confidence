@@ -74,6 +74,7 @@ public final class Ordered<T> extends QualityComposition<Iterable<T>>
                 {
                     T next = mDelegate.next();
                     Assessment result = new PassIf(comparator.compare(mCurrent, next) <= 0,
+                        new Text("ordered" + (description.isEmpty() ? "" : " " + description)),
                         new Spaced(
                             new Text(mIndex + ":"),
                             new Value(mCurrent),

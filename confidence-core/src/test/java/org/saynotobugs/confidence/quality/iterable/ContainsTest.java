@@ -22,7 +22,8 @@ class ContainsTest
     {
         assertThat(new Contains<>(123),
             new AllOf<>(
-                new Passes<>(new Seq<>(123), new Seq<>(1, 2, 3, 123)),
+                new Passes<>(new Seq<>(123), ""),
+                new Passes<>(new Seq<>(1, 2, 3, 123), ""),
                 new Fails<Iterable<Integer>>(emptyIterable(), "[] did not contain 123"),
                 new Fails<Iterable<Integer>>(new Seq<>(1, 2, 3), "[ 1, 2, 3 ] did not contain 123"),
                 new HasDescription("contains 123")
@@ -35,7 +36,8 @@ class ContainsTest
     {
         assertThat(new Contains<>(new EqualTo<>(123)),
             new AllOf<>(
-                new Passes<>(new Seq<>(123), new Seq<>(1, 2, 3, 123)),
+                new Passes<>(new Seq<>(123), "contained 123"),
+                new Passes<>(new Seq<>(1, 2, 3, 123), "contained 123"),
                 new Fails<Iterable<Integer>>(emptyIterable(), "[] did not contain 123"),
                 new Fails<Iterable<Integer>>(new Seq<>(1, 2, 3), "[ 1, 2, 3 ] did not contain 123"),
                 new HasDescription("contains 123")
@@ -48,11 +50,15 @@ class ContainsTest
         assertThat(new Contains<>(1, 2, 3),
             new AllOf<>(
                 new Passes<>(
-                    new Seq<>(1, 2, 3),
-                    new Seq<>(3, 1, 2),
-                    new Seq<>(3, 3, 3, 1, 1, 1, 2, 2, 2),
-                    new Seq<>(0, 1, 2, 3, 123),
-                    new Seq<>(3, 2, 3, 123, 1)),
+                    new Seq<>(1, 2, 3), ""),
+                new Passes<>(
+                    new Seq<>(3, 1, 2), ""),
+                new Passes<>(
+                    new Seq<>(3, 3, 3, 1, 1, 1, 2, 2, 2), ""),
+                new Passes<>(
+                    new Seq<>(0, 1, 2, 3, 123), ""),
+                new Passes<>(
+                    new Seq<>(3, 2, 3, 123, 1), ""),
                 new Fails<Iterable<Integer>>(emptyIterable(),
                     "[] did not contain { 1,\n  2,\n  3 }"),
                 new Fails<Iterable<Integer>>(new Seq<>(1, 2), "[ 1, 2 ] did not contain { 3 }"),
@@ -68,11 +74,15 @@ class ContainsTest
         assertThat(new Contains<>(new LessThan<>(1), new EqualTo<>(2), new GreaterThan<>(3)),
             new AllOf<>(
                 new Passes<>(
-                    new Seq<>(0, 2, 4),
-                    new Seq<>(4, 2, 0),
-                    new Seq<>(4, 4, 4, 2, 2, 2, 0, 0, 0),
-                    new Seq<>(1, 0, 2, 3, 123),
-                    new Seq<>(4, 2, 3, 123, 0)),
+                    new Seq<>(0, 2, 4), ""),
+                new Passes<>(
+                    new Seq<>(4, 2, 0), ""),
+                new Passes<>(
+                    new Seq<>(4, 4, 4, 2, 2, 2, 0, 0, 0), ""),
+                new Passes<>(
+                    new Seq<>(1, 0, 2, 3, 123), ""),
+                new Passes<>(
+                    new Seq<>(4, 2, 3, 123, 0), ""),
                 new Fails<Iterable<Integer>>(emptyIterable(),
                     "[] did not contain { less than 1,\n  2,\n  greater than 3 }"),
                 new Fails<Iterable<Integer>>(new Seq<>(2), "[ 2 ] did not contain { less than 1,\n  greater than 3 }"),
@@ -91,11 +101,15 @@ class ContainsTest
         assertThat(new Contains<>(new Seq<>(new LessThan<>(1), new EqualTo<>(2), new GreaterThan<>(3))),
             new AllOf<>(
                 new Passes<>(
-                    new Seq<>(0, 2, 4),
-                    new Seq<>(4, 2, 0),
-                    new Seq<>(4, 4, 4, 2, 2, 2, 0, 0, 0),
-                    new Seq<>(1, 0, 2, 3, 123),
-                    new Seq<>(4, 2, 3, 123, 0)),
+                    new Seq<>(0, 2, 4), ""),
+                new Passes<>(
+                    new Seq<>(4, 2, 0), ""),
+                new Passes<>(
+                    new Seq<>(4, 4, 4, 2, 2, 2, 0, 0, 0), ""),
+                new Passes<>(
+                    new Seq<>(1, 0, 2, 3, 123), ""),
+                new Passes<>(
+                    new Seq<>(4, 2, 3, 123, 0), ""),
                 new Fails<Iterable<Integer>>(emptyIterable(),
                     "[] did not contain { less than 1,\n  2,\n  greater than 3 }"),
                 new Fails<Iterable<Integer>>(new Seq<>(2), "[ 2 ] did not contain { less than 1,\n  greater than 3 }"),

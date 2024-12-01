@@ -16,7 +16,7 @@ class EmptyCharSequenceTest
     {
         assertThat(new EmptyCharSequence(),
             new AllOf<>(
-                new Passes<>(""),
+                new Passes<>("", "\"\""),
                 new Fails<>(" ", "\" \""),
                 new Fails<>("123", "\"123\""),
                 new HasDescription("<empty>")

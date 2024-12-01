@@ -35,6 +35,10 @@ public final class That<T> extends QualityComposition<T>
 {
     public That(Quality<T> delegate)
     {
-        super(new DescribedAs<>(d -> new Spaced(new Text("that"), d), d -> new Spaced(new Text("that"), d), delegate));
+        super(new DescribedAs<>(
+            (actual, d) -> new Spaced(new Text("that"), d),
+            (actual, d) -> new Spaced(new Text("that"), d),
+            d -> new Spaced(new Text("that"), d),
+            delegate));
     }
 }

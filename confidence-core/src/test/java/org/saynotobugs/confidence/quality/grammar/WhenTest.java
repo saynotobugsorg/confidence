@@ -34,7 +34,7 @@ class WhenTest
     {
         assertThat(new When<>(new EqualTo<>("123")),
             new AllOf<>(
-                new Passes<>("123"),
+                new Passes<>("123", "when \"123\""),
                 new Fails<>("1234", "when \"1234\""),
                 new HasDescription("when \"123\"")
             ));

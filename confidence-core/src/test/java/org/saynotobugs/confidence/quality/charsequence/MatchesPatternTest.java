@@ -16,7 +16,8 @@ class MatchesPatternTest
     {
         assertThat(new MatchesPattern("^.*123.*$"),
             new AllOf<>(
-                new Passes<>("123", "abc123xyz"),
+                new Passes<>("123", "\"123\""),
+                new Passes<>("abc123xyz", "\"abc123xyz\""),
                 new Fails<>("12", "\"12\" mismatched pattern /^.*123.*$/"),
                 new Fails<>("abc", "\"abc\" mismatched pattern /^.*123.*$/"),
                 new HasDescription("matches pattern /^.*123.*$/")

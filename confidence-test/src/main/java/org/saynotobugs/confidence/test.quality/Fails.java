@@ -67,12 +67,12 @@ public final class Fails<T> implements Quality<Quality<? super T>>
             ? new Fail(
             new Spaced(
                 new Value(mMismatchingValue),
-                new Text("matched"),
+                new Text("passed"),
                 candidate.description()))
             : new FailUpdated(
             orig -> new Spaced(
                 new Value(mMismatchingValue),
-                new Text("mismatched with diff"),
+                new Text("failed with diff"),
                 orig),
             mDiffQuality.assessmentOf(matcherAssessment.description()));
     }
@@ -82,7 +82,7 @@ public final class Fails<T> implements Quality<Quality<? super T>>
     public Description description()
     {
         return new Spaced(
-            new Text("mismatches"),
+            new Text("fails"),
             new Value(mMismatchingValue),
             new Text("with diff"),
             mDiffQuality.description());

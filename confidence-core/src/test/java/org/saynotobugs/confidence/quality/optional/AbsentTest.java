@@ -19,7 +19,7 @@ class AbsentTest
     {
         assertThat(new Absent(),
             new AllOf<>(
-                new Passes<Optional<Integer>>(Optional.empty()),
+                new Passes<Optional<Integer>>(Optional.empty(), "<empty>"),
                 new Fails<>(Optional.of(123), "<present 123>"),
                 new HasDescription("<empty>")
             ));

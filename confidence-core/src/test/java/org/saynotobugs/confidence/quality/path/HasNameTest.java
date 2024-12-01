@@ -35,7 +35,7 @@ class HasNameTest
     {
         assertThat(new HasName("someFile"),
             new AllOf<>(
-                new Passes<>(new Path[] { Path.of("path", "someFile") }),
+                new Passes<>(Path.of("path", "someFile"), "had name \"someFile\""),
                 new Fails<>(Path.of("path", "otherFile"), "had name \"otherFile\""),
                 new HasDescription("has name \"someFile\"")));
     }

@@ -16,14 +16,12 @@ class ResultOfTest
     {
         assertThat(new ResultOf<>(1, new Maps<>(30, new To<>(34))),
             new AllOf<>(
-                new Passes<>(
-                    // 1 + 3 + 30
-                    delegate -> x -> delegate.apply(x + 100) + 3 + x,
-                    // 34
-                    delegate -> x -> 34,
-                    // 1 + 33
-                    delegate -> x -> delegate.apply(-100) + 33
-                ),
+                // 1 + 3 + 30
+                new Passes<>(delegate -> x -> delegate.apply(x + 100) + 3 + x, "mapped 30 to 34"),
+                // 34
+                new Passes<>(delegate -> x -> 34, "mapped 30 to 34"),
+                // 1 + 33
+                new Passes<>(delegate -> x -> delegate.apply(-100) + 33, "mapped 30 to 34"),
                 new Fails<>(
                     delegate -> x -> delegate.apply(100),
                     "delegate which outputs 1 resulted in outer function mapped 30 to 1"

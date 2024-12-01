@@ -42,7 +42,7 @@ class ConsumerThatAffectsTest
         assertThat(new ConsumerThatAffects<>(
                 new Spaced(new Text("adds <a> to list")), ArrayList::new, new SoIt<>(new Contains<>("a"))),
             new AllOf<>(
-                new Passes<>(l -> l.add("a")),
+                new Passes<>(l -> l.add("a"), ""),
                 new Fails<>(l -> l.add("b"), "Consumer that adds <a> to list but [ \"b\" ] did not contain \"a\""),
                 new HasDescription("Consumer that adds <a> to list so it contains \"a\"")
             ));
@@ -54,7 +54,7 @@ class ConsumerThatAffectsTest
     {
         assertThat(new ConsumerThatAffects<>(ArrayList::new, new SoIt<>(new Contains<>("a"))),
             new AllOf<>(
-                new Passes<>(l -> l.add("a")),
+                new Passes<>(l -> l.add("a"), ""),
                 new Fails<>(l -> l.add("b"), "Consumer that affects [] but [ \"b\" ] did not contain \"a\""),
                 new HasDescription("Consumer that affects [] so it contains \"a\"")
             ));

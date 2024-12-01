@@ -36,7 +36,8 @@ class ContainsNoneOfTest
     {
         assertThat(new ContainsNoneOf<>("a", "b", "c"),
             new AllOf<>(
-                new Passes<>(new Seq<>(), new Seq<>("1", "2", "3")),
+                new Passes<>(new Seq<String>(), ""),
+                new Passes<>(new Seq<>("1", "2", "3"), ""),
                 new Fails<>(new Seq<>("1", "a", "3"),
                     "contained {\n  ...\n  1: \"a\"\n  ...\n}"),
                 new Fails<>(new Seq<>("1", "a", "c", "5"),
@@ -56,7 +57,8 @@ class ContainsNoneOfTest
     {
         assertThat(new ContainsNoneOf<>(new MatchesPattern("[abc]"), new EqualTo<>("b")),
             new AllOf<>(
-                new Passes<>(new Seq<>(), new Seq<>("1", "2", "3")),
+                new Passes<Iterable<String>>(new Seq<>(), ""),
+                new Passes<>(new Seq<>("1", "2", "3"), ""),
                 new Fails<>(new Seq<>("1", "a", "3"),
                     "contained {\n  ...\n  1: \"a\" {\n    matches pattern /[abc]/\n  }\n  ...\n}"),
                 new Fails<>(new Seq<>("1", "a", "c", "5"),
@@ -76,7 +78,8 @@ class ContainsNoneOfTest
     {
         assertThat(new ContainsNoneOf<>(new Seq<>(new MatchesPattern("[abc]"), new EqualTo<>("b"))),
             new AllOf<>(
-                new Passes<>(new Seq<>(), new Seq<>("1", "2", "3")),
+                new Passes<Iterable<String>>(new Seq<>(), ""),
+                new Passes<>(new Seq<>("1", "2", "3"), ""),
                 new Fails<>(new Seq<>("1", "a", "3"),
                     "contained {\n  ...\n  1: \"a\" {\n    matches pattern /[abc]/\n  }\n  ...\n}"),
                 new Fails<>(new Seq<>("1", "a", "c", "5"),

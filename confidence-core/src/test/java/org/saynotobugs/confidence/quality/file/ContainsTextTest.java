@@ -54,7 +54,7 @@ class ContainsTextTest
         }
         assertThat(new ContainsText(UTF_8, new EqualTo<>("0123456789")),
             new AllOf<>(
-                new Passes<>(file10Bytes),
+                new Passes<>(file10Bytes, "contained \"UTF-8\" text \"0123456789\""),
                 new Fails<>(tempDir, new DescribesAs(new MatchesPattern("threw <java.io.IOException: [^>]+> while reading"))),
                 new Fails<>(emptyFile, "contained \"UTF-8\" text \"\""),
                 new HasDescription("contains \"UTF-8\" text \"0123456789\"")
@@ -74,7 +74,7 @@ class ContainsTextTest
         }
         assertThat(new ContainsText("0123456789"),
             new AllOf<>(
-                new Passes<>(file10Bytes),
+                new Passes<>(file10Bytes, "contained \"UTF-8\" text \"0123456789\""),
                 new Fails<>(tempDir, new DescribesAs(new MatchesPattern("threw <java.io.IOException: [^>]+> while reading"))),
                 new Fails<>(emptyFile, "contained \"UTF-8\" text \"\""),
                 new HasDescription("contains \"UTF-8\" text \"0123456789\"")

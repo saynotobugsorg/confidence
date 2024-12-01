@@ -19,6 +19,7 @@
 package org.saynotobugs.confidence.quality.composite;
 
 import org.dmfs.jems2.iterable.Joined;
+import org.dmfs.jems2.iterable.Just;
 import org.dmfs.jems2.iterable.Mapped;
 import org.dmfs.jems2.optional.First;
 import org.dmfs.jems2.predicate.Not;
@@ -34,6 +35,12 @@ import org.saynotobugs.confidence.assessment.Pass;
     packageName = "org.saynotobugs.confidence.core.quality")
 public final class Implied<T> extends QualityComposition<T>
 {
+
+    public Implied(Quality<? super T> implied, Quality<? super T> delegate)
+    {
+        this(new Just<>(implied), delegate);
+    }
+
     /**
      * A {@link Quality} of an object that is described by the delegate but expects the implied {@link Quality}s
      * to be satisfied before the delegate is even evaluated.
@@ -46,7 +53,7 @@ public final class Implied<T> extends QualityComposition<T>
                 new Backed<>(
                     new First<>(new Not<>(Assessment::isSuccess),
                         new Mapped<>(d -> d.assessmentOf(actual), new Joined<Quality<? super T>>(implied, delegate))),
-                    new Pass()).value(),
+                    new Pass(delegate.description())).value(),
             delegate.description());
     }
 }

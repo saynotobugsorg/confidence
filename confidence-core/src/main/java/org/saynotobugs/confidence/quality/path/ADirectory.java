@@ -19,7 +19,9 @@
 package org.saynotobugs.confidence.quality.path;
 
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
-import org.saynotobugs.confidence.description.Text;
+import org.saynotobugs.confidence.description.bifunction.Just;
+import org.saynotobugs.confidence.description.bifunction.TextAndValue;
+import org.saynotobugs.confidence.quality.composite.DescribedAs;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 import org.saynotobugs.confidence.quality.object.Satisfies;
 
@@ -33,6 +35,10 @@ public final class ADirectory extends QualityComposition<Path>
 {
     public ADirectory()
     {
-        super(new Satisfies<>(Files::isDirectory, file -> new Text("not a directory"), new Text("a directory")));
+        super(new DescribedAs<>(
+            new TextAndValue<>("directory"),
+            new Just<>("not a directory"),
+            new Just<>("a directory"),
+            new Satisfies<>(Files::isDirectory)));
     }
 }

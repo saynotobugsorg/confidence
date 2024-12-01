@@ -42,6 +42,9 @@ public final class Is<T> extends QualityComposition<T>
 
     public Is(Quality<T> delegate)
     {
-        super(new DescribedAs<>(d -> new Spaced(new Text("was"), d), d -> new Spaced(new Text("is"), d), delegate));
+        super(new DescribedAs<>(
+            (value, d) -> new Spaced(new Text("was"), d),
+            (value, d) -> new Spaced(new Text("was"), d),
+            d -> new Spaced(new Text("is"), d), delegate));
     }
 }

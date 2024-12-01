@@ -19,9 +19,9 @@ class EmptyIterableTest
     {
         assertThat(new EmptyIterable(),
             new AllOf<>(
-                new Passes<>(emptyList()),
+                new Passes<Iterable<Integer>>(emptyList(), "[]"),
                 new Fails<>(new Seq<>(1, 2, 3), "[ 1, 2, 3 ]"),
-                new HasDescription("<empty>")
+                new HasDescription("[]")
             ));
     }
 }

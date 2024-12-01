@@ -20,7 +20,9 @@ package org.saynotobugs.confidence.quality.file;
 
 import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
-import org.saynotobugs.confidence.description.Text;
+import org.saynotobugs.confidence.description.bifunction.Just;
+import org.saynotobugs.confidence.description.bifunction.TextAndValue;
+import org.saynotobugs.confidence.quality.composite.DescribedAs;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 import org.saynotobugs.confidence.quality.object.Satisfies;
 
@@ -34,6 +36,10 @@ public final class AFile extends QualityComposition<File>
 {
     public AFile()
     {
-        super(new Satisfies<>(File::isFile, file -> new Text("not a file"), new Text("a file")));
+        super(new DescribedAs<>(
+            new TextAndValue<>("file"),
+            new Just<>("not a file"),
+            new Just<>("a file"),
+            new Satisfies<>(File::isFile)));
     }
 }

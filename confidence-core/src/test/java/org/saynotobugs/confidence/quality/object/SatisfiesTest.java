@@ -16,12 +16,23 @@ class SatisfiesTest
 {
 
     @Test
-    void test()
+    void testPlain()
+    {
+        assertThat(new Satisfies<>(String::isEmpty),
+            new AllOf<>(
+                new Passes<>("", "\"\""),
+                new Fails<>("abc", "\"abc\""),
+                new HasDescription("satisfies predicate")
+            ));
+    }
+
+    @Test
+    void testWithDescriptions()
     {
         assertThat(new Satisfies<>(String::isEmpty,
                 s -> new Spaced(new Value(s), new Text("was not empty")), new Text("is empty")),
             new AllOf<>(
-                new Passes<>(""),
+                new Passes<>("", "is empty"),
                 new Fails<>("abc", "\"abc\" was not empty"),
                 new HasDescription("is empty")
             ));

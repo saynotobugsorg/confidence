@@ -12,6 +12,7 @@ import org.saynotobugs.confidence.test.quality.Passes;
 import org.saynotobugs.confidence.test.quality.PassesPostMutation;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
@@ -26,7 +27,9 @@ class EachTest
     {
         assertThat(new Each<>(new LessThan<>(3)),
             new AllOf<>(
-                new Passes<>(asList(0, 1, 2), asList(0, 0, 0), emptyList()),
+                new Passes<>(asList(0, 1, 2), ""),
+                new Passes<>(asList(0, 0, 0), ""),
+                new Passes<List<Integer>>(emptyList(), ""),
                 new Fails<>(asList(1, 4, 2), "elements [\n  ...\n  1: 4\n  ...\n]"),
                 new HasDescription("each element less than 3")
             ));
@@ -38,7 +41,9 @@ class EachTest
     {
         assertThat(new Each<>(new LessThan<>(3), new GreaterThan<>(0)),
             new AllOf<>(
-                new Passes<Iterable<Integer>>(asList(1, 1, 2), asList(2, 2, 2), emptyList()),
+                new Passes<Iterable<Integer>>(asList(1, 1, 2), ""),
+                new Passes<>(asList(2, 2, 2), ""),
+                new Passes<List<Integer>>(emptyList(), ""),
                 new Fails<Iterable<Integer>>(asList(0, 4, 2), "elements [\n  0: all of\n    ...\n    1: 0\n  1: all of\n    0: 4\n    ...\n  ...\n]"),
                 new Fails<Iterable<Integer>>(asList(1, 4, 2), "elements [\n  ...\n  1: all of\n    0: 4\n    ...\n  ...\n]"),
                 new HasDescription("each element all of\n  0: less than 3\n  1: greater than 0")

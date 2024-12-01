@@ -20,13 +20,12 @@ package org.saynotobugs.confidence.quality.predicate;
 
 import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
-import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.description.Value;
-import org.saynotobugs.confidence.quality.composite.Has;
+import org.saynotobugs.confidence.quality.composite.DescribedAs;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
-import org.saynotobugs.confidence.quality.object.EqualTo;
+import org.saynotobugs.confidence.quality.object.Satisfies;
 
 import java.util.function.Predicate;
 
@@ -39,10 +38,10 @@ public final class SatisfiedBy<T> extends QualityComposition<Predicate<T>>
 {
     public SatisfiedBy(T testee)
     {
-        super(new Has<>(
-            (Description orig) -> new Spaced(new Text("satisfied by"), new Value(testee)),
-            orig -> new Spaced(new Text("not satisfied by"), new Value(testee)),
-            actual -> actual.test(testee),
-            new EqualTo<>(true)));
+        super(new DescribedAs<>(
+            (actual, passDescription) -> new Spaced(new Text("satisfied by"), new Value(testee)),
+            (actual, failDescription) -> new Spaced(new Text("not satisfied by"), new Value(testee)),
+            orig -> new Spaced(new Text("satisfied by"), new Value(testee)),
+            new Satisfies<>(actual -> actual.test(testee))));
     }
 }

@@ -144,7 +144,7 @@ public final class IteratesInAnyOrder<T> implements Quality<Iterable<T>>
     {
         if (candidates.isEmpty() || qualities.isEmpty())
         {
-            return new PassIf(candidates.size() == qualities.size(), new Text(""));
+            return new PassIf(candidates.size() == qualities.size(), new Text(""), new Text(""));
         }
         for (int i = 0; i < candidates.size(); ++i)
         {

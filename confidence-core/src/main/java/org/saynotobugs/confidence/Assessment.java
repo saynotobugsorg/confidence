@@ -35,7 +35,7 @@ public interface Assessment
     /**
      * Provides a {@link Description} of this {@link Assessment}. In case of a failure this describes the
      * {@link Quality}s that didn't pass the assessemnt. In case of success, the result describes the {@link Quality}s
-     * that passed. Often, not always, that's the description of the {@link Quality} itself.
+     * that passed. Often that's the simple past version of the description of the {@link Quality} itself.
      */
     Description description();
 }

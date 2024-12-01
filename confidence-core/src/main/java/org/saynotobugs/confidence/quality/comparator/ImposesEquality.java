@@ -39,7 +39,8 @@ import org.saynotobugs.confidence.utils.UnPaired;
 
 import java.util.Comparator;
 
-import static org.saynotobugs.confidence.description.LiteralDescription.*;
+import static org.saynotobugs.confidence.description.LiteralDescription.COMMA_NEW_LINE;
+import static org.saynotobugs.confidence.description.LiteralDescription.EMPTY;
 
 
 @StaticFactories(
@@ -96,12 +97,14 @@ public final class ImposesEquality<T> implements Quality<Comparator<T>>
     private Assessment testPair(Comparator<? super T> actual, Pair<Integer, ? extends T> left, Pair<Integer, ? extends T> right)
     {
         int result = actual.compare(left.right(), right.right());
-        return new PassIf(result == 0, new Spaced(
-            new Text("compared elements"),
-            new Value(left.right()),
-            new Text("at index " + left.left() + " and"),
-            new Value(right.right()),
-            new Text("at index " + right.left() + " incorrectly to"),
-            new Value(result)));
+        return new PassIf(result == 0,
+            this.description(),
+            new Spaced(
+                new Text("compared elements"),
+                new Value(left.right()),
+                new Text("at index " + left.left() + " and"),
+                new Value(right.right()),
+                new Text("at index " + right.left() + " incorrectly to"),
+                new Value(result)));
     }
 }

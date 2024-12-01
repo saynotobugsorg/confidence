@@ -15,15 +15,15 @@ class AllPassedTest
     @Test
     public void testPass()
     {
-        assertThat(new AllPassed(new Text("e"), new Text("x"), new Pass(), new Pass()),
-            new Passed());
+        assertThat(new AllPassed(new Text(":"), new Text(","), new Pass(new Text("pass1")), new Pass(new Text("pass2"))),
+            new Passed(new DescribesAs(":\n  pass1\n  pass2")));
     }
 
 
     @Test
     public void testFail()
     {
-        assertThat(new AllPassed(new Text(":"), new Text(","), new Pass(), new Fail(new Text("fail"))),
+        assertThat(new AllPassed(new Text(":"), new Text(","), new Pass(new Text("pass1")), new Fail(new Text("fail"))),
             new Is<>(new Failed(new DescribesAs(":\n  ...,\n  fail"))));
     }
 
@@ -31,7 +31,7 @@ class AllPassedTest
     @Test
     public void testMultipleFail()
     {
-        assertThat(new AllPassed(new Text(":"), new Text(","), new Fail(new Text("fail1")), new Pass(),
+        assertThat(new AllPassed(new Text(":"), new Text(","), new Fail(new Text("fail1")), new Pass(new Text("pass1")),
                 new Fail(new Text("fail2")), new Fail(new Text("fail3"))),
             new Is<>(new Failed(new DescribesAs(":\n  fail1,\n  ...,\n  fail2,\n  fail3"))));
     }
@@ -41,7 +41,7 @@ class AllPassedTest
     public void testMultipleFail2()
     {
         assertThat(
-            new AllPassed(new Text("["), new Text(","), new Text("]"), new Fail(new Text("fail1")), new Pass(),
+            new AllPassed(new Text("["), new Text(","), new Text("]"), new Fail(new Text("fail1")), new Pass(new Text("pass1")),
                 new Fail(new Text("fail2")), new Fail(new Text("fail3"))),
             new Is<>(new Failed(new DescribesAs("[\n  fail1,\n  ...,\n  fail2,\n  fail3\n]"))));
     }

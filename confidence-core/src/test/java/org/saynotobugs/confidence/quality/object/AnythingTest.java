@@ -18,11 +18,12 @@ class AnythingTest
         assertThat(
             new Anything(),
             new AllOf<>(
-                new Passes<>(123),
-                new Passes<Object>("abc"),
-                new Passes<Object>(new String[] { "a", "b", "c" }, new int[] { 1, 2, 3 }),
-                new Passes<>(new Object[] { null }),
-                new Passes<Object>(new Seq<>(1, 2, 3)),
+                new Passes<>(123, "123"),
+                new Passes<>("abc", "\"abc\""),
+                new Passes<>(new String[] { "a", "b", "c" }, "[ \"a\", \"b\", \"c\" ]"),
+                new Passes<>(new int[] { 1, 2, 3 }, "[ 1, 2, 3 ]"),
+                new Passes<>(null, "<null>"),
+                new Passes<>(new Seq<>(1, 2, 3), "[ 1, 2, 3 ]"),
                 new HasDescription("<anything>")));
     }
 

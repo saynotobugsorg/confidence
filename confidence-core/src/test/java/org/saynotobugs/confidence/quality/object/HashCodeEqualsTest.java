@@ -33,7 +33,8 @@ class HashCodeEqualsTest
     {
         assertThat(new HashCodeEquals(123),
             new AllOf<>(
-                new Passes<>(123, 123L),
+                new Passes<>(123, "had hashCode 123"),
+                new Passes<Number>(123L, "had hashCode 123"),
                 new Fails<>(124, "had hashCode 124"),
                 new HasDescription("has hashCode 123")
             ));
@@ -44,7 +45,7 @@ class HashCodeEqualsTest
     {
         assertThat(new HashCodeEquals("123"),
             new AllOf<>(
-                new Passes<>("123"),
+                new Passes<>("123", "had hashCode 48690 like \"123\""),
                 new Fails<Object>(321, "had hashCode 321"),
                 new HasDescription("has hashCode 48690 like \"123\"")
             ));

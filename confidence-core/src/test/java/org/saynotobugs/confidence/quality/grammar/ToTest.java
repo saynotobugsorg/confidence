@@ -35,7 +35,7 @@ class ToTest
     {
         assertThat(new To<>(3),
             new AllOf<>(
-                new Passes<>(3),
+                new Passes<>(3, "to 3"),
                 new Fails<>(4, "to 4"),
                 new HasDescription("to 3")));
     }
@@ -46,7 +46,9 @@ class ToTest
     {
         assertThat(new To<>(new Anything()),
             new AllOf<>(
-                new Passes<>("12", 1, new Object()),
+                new Passes<>("12", "to \"12\""),
+                new Passes<>(1, "to 1"),
+                new Passes<>(new Object(), new Anything()),
                 new HasDescription("to <anything>")));
     }
 

@@ -20,7 +20,7 @@ class ImposesEqualityTest
     {
         assertThat(new ImposesEquality<>("123", "abc", "xyz"),
             new AllOf<>(
-                new Passes<>(comparingInt(String::length)),
+                new Passes<>(comparingInt(String::length), ""),
                 new Fails<Comparator<String>>(naturalOrder(),
                     "Comparator\n" +
                         "  ...\n" +

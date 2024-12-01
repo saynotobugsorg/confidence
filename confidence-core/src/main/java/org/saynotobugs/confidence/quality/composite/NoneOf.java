@@ -74,9 +74,9 @@ public final class NoneOf<T> implements Quality<T>
                     Assessment result = delegate.assessmentOf(candidate);
                     if (result.isSuccess())
                     {
-                        return new Fail(delegate.description());
+                        return new Fail(result.description());
                     }
-                    return new Pass();
+                    return new Pass(this.description());
                 },
                 mDelegates));
     }

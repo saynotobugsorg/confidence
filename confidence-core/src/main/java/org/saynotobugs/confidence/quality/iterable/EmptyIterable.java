@@ -35,6 +35,6 @@ public final class EmptyIterable extends QualityComposition<Iterable<?>>
 {
     public EmptyIterable()
     {
-        super(new Satisfies<>(new Not<>(actual -> actual.iterator().hasNext()), Value::new, new Text("<empty>")));
+        super(new Satisfies<>(new Not<>(actual -> actual.iterator().hasNext()), Value::new, new Text("[]")));
     }
 }

@@ -19,7 +19,9 @@ class ThrowingTest
     {
         assertThat(new Throwing(new Anything()),
             new AllOf<>(
-                new Passes<>((Throwing.Breakable) () -> {throw new NoSuchElementException();}),
+                new Passes<>((Throwing.Breakable) () -> {
+                    throw new NoSuchElementException();
+                }, "throwing <java.util.NoSuchElementException>"),
                 new Fails<>(() -> {}, "not throwing <anything>"),
                 new HasDescription("throwing <anything>")
             ));
@@ -43,7 +45,9 @@ class ThrowingTest
     {
         assertThat(new Throwing(NoSuchElementException.class),
             new AllOf<>(
-                new Passes<>((Throwing.Breakable) () -> {throw new NoSuchElementException();}),
+                new Passes<>((Throwing.Breakable) () -> {
+                    throw new NoSuchElementException();
+                }, "throwing instance of <class java.util.NoSuchElementException>"),
                 new Fails<>(() -> {}, "not throwing instance of <class java.util.NoSuchElementException>"),
                 new HasDescription("throwing instance of <class java.util.NoSuchElementException>")
             ));

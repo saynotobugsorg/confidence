@@ -21,6 +21,7 @@ package org.saynotobugs.confidence.quality.object;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.assessment.Pass;
 import org.saynotobugs.confidence.description.Text;
+import org.saynotobugs.confidence.description.Value;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 
 
@@ -32,6 +33,6 @@ public final class Anything extends QualityComposition<Object>
 {
     public Anything()
     {
-        super(actual -> new Pass(), new Text("<anything>"));
+        super(actual -> new Pass(new Value(actual)), new Text("<anything>"));
     }
 }

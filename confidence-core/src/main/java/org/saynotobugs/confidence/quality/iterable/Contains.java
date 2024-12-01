@@ -62,6 +62,7 @@ public final class Contains<T> extends QualityComposition<Iterable<T>>
     public Contains(Quality<? super T> quality)
     {
         super(actual -> new PassIf(new First<>(element -> quality.assessmentOf(element).isSuccess(), actual).isPresent(),
+                new Spaced(new Text("contained"), quality.description()),
                 new Spaced(new Value(actual), new Text("did not contain"), quality.description())),
             new Spaced(new Text("contains"), quality.description()));
     }

@@ -27,7 +27,7 @@ class ContainsFileTest
         dir.mkdir();
         assertThat(new ContainsFile("somefile"),
             new AllOf<>(
-                new Passes<>(tempDir),
+                new Passes<>(tempDir, ""),
                 new Fails<>(file, "contained \"somefile\" that did not exist"),
                 new Fails<>(dir, "contained \"somefile\" that did not exist"),
                 new Fails<>(new File(tempDir, "nonExistentFile"), "contained \"somefile\" that did not exist"),
@@ -43,7 +43,7 @@ class ContainsFileTest
         dir.mkdir();
         assertThat(new ContainsFile("someDir"),
             new AllOf<>(
-                new Passes<>(tempDir),
+                new Passes<>(tempDir, ""),
                 new Fails<>(file, "contained \"someDir\" that did not exist"),
                 new Fails<>(dir, "contained \"someDir\" that did not exist"),
                 new Fails<>(new File(tempDir, "nonExistentFile"), "contained \"someDir\" that did not exist"),
@@ -59,7 +59,7 @@ class ContainsFileTest
         dir.mkdir();
         assertThat(new ContainsFile("somefile", new Is<>(new AFile())),
             new AllOf<>(
-                new Passes<>(tempDir),
+                new Passes<>(tempDir, ""),
                 new Fails<>(file, "contained \"somefile\" was not a file"),
                 new Fails<>(dir, "contained \"somefile\" was not a file"),
                 new Fails<>(new File(tempDir, "nonExistentFile"), "contained \"somefile\" was not a file"),
@@ -75,7 +75,7 @@ class ContainsFileTest
         dir.mkdir();
         assertThat(new ContainsFile("someDir", new Is<>(new ADirectory())),
             new AllOf<>(
-                new Passes<>(tempDir),
+                new Passes<>(tempDir, ""),
                 new Fails<>(file, "contained \"someDir\" was not a directory"),
                 new Fails<>(dir, "contained \"someDir\" was not a directory"),
                 new Fails<>(new File(tempDir, "nonExistentFile"), "contained \"someDir\" was not a directory"),

@@ -17,7 +17,8 @@ class HasToStringTest
     {
         assertThat(new HasToString("123"),
             new AllOf<>(
-                new Passes<>("123", 123),
+                new Passes<>("123", "had toString() \"123\""),
+                new Passes<Object>(123, "had toString() \"123\""),
                 new Fails<>("1234", "had toString() \"1234\""),
                 new HasDescription("has toString() \"123\"")));
     }

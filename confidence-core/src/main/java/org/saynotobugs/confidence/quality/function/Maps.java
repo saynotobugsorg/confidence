@@ -24,6 +24,8 @@ import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.description.Value;
+import org.saynotobugs.confidence.description.bifunction.TextAndOriginal;
+import org.saynotobugs.confidence.description.bifunction.TextAndValueAndText;
 import org.saynotobugs.confidence.quality.composite.Has;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 import org.saynotobugs.confidence.quality.object.EqualTo;
@@ -46,11 +48,10 @@ public final class Maps<Argument, Result> extends QualityComposition<Function<Ar
     public Maps(Argument argument, Quality<? super Result> resultQuality)
     {
         super(new Has<>(
-            description -> new Spaced(new Text("maps"), new Value(argument), description),
-            description -> new Spaced(new Text("mapped"), new Value(argument), description),
-            throwable -> new Spaced(new Text("threw"), new Value(throwable), new Text("for argument"), new Value(argument)),
+            new TextAndOriginal<>(new Spaced(new Text("maps"), new Value(argument))),
+            new TextAndOriginal<>(new Spaced(new Text("mapped"), new Value(argument))),
+            new TextAndValueAndText<>(new Text("threw"), new Spaced(new Text("for argument"), new Value(argument))),
             candidate -> candidate.apply(argument),
-            resultQuality
-        ));
+            resultQuality));
     }
 }

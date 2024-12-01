@@ -37,7 +37,8 @@ class MapsTest
     {
         assertThat(new Maps<>("abc", 3),
             new AllOf<>(
-                new Passes<Function<String, Integer>>(String::length, x -> 3),
+                new Passes<Function<String, Integer>>(String::length, "mapped \"abc\" 3"),
+                new Passes<>(x -> 3, "mapped \"abc\" 3"),
                 new Fails<Function<String, Integer>>(x -> 4, "mapped \"abc\" 4"),
                 new HasDescription("maps \"abc\" 3")
             ));
@@ -49,7 +50,8 @@ class MapsTest
     {
         assertThat(new Maps<>("abc", new EqualTo<>(3)),
             new AllOf<>(
-                new Passes<Function<String, Integer>>(String::length, x -> 3),
+                new Passes<Function<String, Integer>>(String::length, "mapped \"abc\" 3"),
+                new Passes<>(x -> 3, "mapped \"abc\" 3"),
                 new Fails<Function<String, Integer>>(x -> 4, "mapped \"abc\" 4"),
                 new Fails<Function<String, Integer>>(x -> {
                     throw new RuntimeException("error");

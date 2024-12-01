@@ -61,7 +61,7 @@ class AnnotationTest
                     {
                         return "123";
                     }
-                }),
+                }, "instance of <class org.saynotobugs.confidence.quality.annotation.AnnotationTest$1>"),
                 new Fails<>(new FunctionalInterface()
                 {
                     @Override
@@ -99,7 +99,9 @@ class AnnotationTest
                     {
                         return "123";
                     }
-                }),
+                }, "all of\n" +
+                    "  0: instance of <class org.saynotobugs.confidence.quality.annotation.AnnotationTest$3>\n" +
+                    "  1: \"abc\""),
                 new Fails<>(new TestAnnotation()
                 {
                     @Override
@@ -161,7 +163,11 @@ class AnnotationTest
                     {
                         return "123";
                     }
-                }),
+                }, "all of\n" +
+                    "  0: instance of <class org.saynotobugs.confidence.quality.annotation.AnnotationTest$6>\n" +
+                    "  1: all of\n" +
+                    "    0: \"abc\"\n" +
+                    "    1: \"123\""),
                 new Fails<>(new TestAnnotation()
                 {
                     @Override

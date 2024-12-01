@@ -20,7 +20,9 @@ package org.saynotobugs.confidence.quality.file;
 
 import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
-import org.saynotobugs.confidence.description.Text;
+import org.saynotobugs.confidence.description.bifunction.Just;
+import org.saynotobugs.confidence.description.bifunction.ValueAndText;
+import org.saynotobugs.confidence.quality.composite.DescribedAs;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 import org.saynotobugs.confidence.quality.object.Satisfies;
 
@@ -34,6 +36,10 @@ public final class Exists extends QualityComposition<File>
 {
     public Exists()
     {
-        super(new Satisfies<>(File::exists, file -> new Text("did not exist"), new Text("exists")));
+        super(new DescribedAs<>(
+            new ValueAndText<>("existed"),
+            new ValueAndText<>("did not exist"),
+            new Just("exists"),
+            new Satisfies<>(File::exists)));
     }
 }

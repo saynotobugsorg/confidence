@@ -19,10 +19,12 @@
 package org.saynotobugs.confidence.quality.object;
 
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
-import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.description.Value;
+import org.saynotobugs.confidence.description.bifunction.TextAndOriginal;
+import org.saynotobugs.confidence.description.bifunction.TextAndOriginalAndText;
+import org.saynotobugs.confidence.quality.composite.DescribedAs;
 import org.saynotobugs.confidence.quality.composite.Has;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 
@@ -39,8 +41,11 @@ public final class HashCodeEquals extends QualityComposition<Object>
 
     public HashCodeEquals(Object referenceObject)
     {
-        super(new Has<>((Description orig) -> new Spaced(new Text("has hashCode"), orig, new Text("like"), new Value(referenceObject)),
-            orig -> new Spaced(new Text("had hashCode"), orig),
-            Object::hashCode, new EqualTo<>(referenceObject.hashCode())));
+        super(
+            new DescribedAs<>(
+                new TextAndOriginalAndText<>(new Text("had hashCode"), new Spaced(new Text("like"), new Value(referenceObject))),
+                new TextAndOriginal<>("had hashCode"),
+                new TextAndOriginalAndText<>(new Text("has hashCode"), new Spaced(new Text("like"), new Value(referenceObject))),
+                new Has<>(Object::hashCode, new EqualTo<>(referenceObject.hashCode()))));
     }
 }

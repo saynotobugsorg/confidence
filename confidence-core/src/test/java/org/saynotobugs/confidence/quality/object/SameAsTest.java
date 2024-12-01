@@ -18,7 +18,7 @@ class SameAsTest
         Integer i = new Integer(123);
         assertThat(new SameAs<>(i),
             new AllOf<>(
-                new Passes<>(i),
+                new Passes<>(i, "123"),
                 new Fails<>(123, "123"),
                 new HasDescription("same instance as 123")));
     }

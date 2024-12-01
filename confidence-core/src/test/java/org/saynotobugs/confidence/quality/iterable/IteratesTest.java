@@ -27,7 +27,7 @@ class IteratesTest
     {
         assertThat(new Iterates<>(/* nothing */),
             new AllOf<>(
-                new Passes<>(new EmptyIterable<>()),
+                new Passes<Iterable<Integer>>(new EmptyIterable<>(), "iterated []"),
                 new Fails<>(new Seq<>(1), "iterated [\n  0: additional 1\n]"),
                 new Fails<>(new Seq<>(1, 2, 3), "iterated [\n  0: additional 1\n  1: additional 2\n  2: additional 3\n]"),
                 new HasDescription("iterates []")
@@ -40,7 +40,7 @@ class IteratesTest
     {
         assertThat(new Iterates<>(1),
             new AllOf<>(
-                new Passes<Iterable<Integer>>(new Seq<>(1), new Seq<>(1)),
+                new Passes<>(new Seq<>(1), "iterated [\n  0: 1\n]"),
                 new Fails<Iterable<Integer>>(new EmptyIterable<>(), "iterated [\n  0: missing 1\n]"),
                 new Fails<Iterable<Integer>>(new Seq<>(1, 2, 3), "iterated [\n  ...\n  1: additional 2\n  2: additional 3\n]"),
                 new HasDescription("iterates [\n  0: 1\n]")
@@ -53,7 +53,11 @@ class IteratesTest
     {
         assertThat(new Iterates<>(1, 2, 3),
             new AllOf<>(
-                new Passes<>(new Seq<>(1, 2, 3), new Seq<>(1, 2, 3)),
+                new Passes<>(new Seq<>(1, 2, 3), "iterated [\n" +
+                    "  0: 1\n" +
+                    "  1: 2\n" +
+                    "  2: 3\n" +
+                    "]"),
                 new Fails<Iterable<Integer>>(new EmptyIterable<>(), "iterated [\n  0: missing 1\n  1: missing 2\n  2: missing 3\n]"),
                 new Fails<Iterable<Integer>>(new Seq<>(0, 2, 3, 4), "iterated [\n  0: 0\n  ...\n  3: additional 4\n]"),
                 new HasDescription("iterates [\n" +
@@ -70,7 +74,12 @@ class IteratesTest
     {
         assertThat(new Iterates<>(new LessThan<>(1)),
             new AllOf<>(
-                new Passes<>(new Seq<>(-1), new Seq<>(0)),
+                new Passes<>(new Seq<>(-1), "iterated [\n" +
+                    "  0: -1\n" +
+                    "]"),
+                new Passes<>(new Seq<>(0), "iterated [\n" +
+                    "  0: 0\n" +
+                    "]"),
                 new Fails<Iterable<Integer>>(new EmptyIterable<>(), "iterated [\n" +
                     "  0: missing less than 1\n" +
                     "]"),
@@ -87,7 +96,16 @@ class IteratesTest
     {
         assertThat(new Iterates<>(new LessThan<>(1), new GreaterThan<>(2), new LessThan<>(3)),
             new AllOf<>(
-                new Passes<>(new Seq<>(0, 3, 2), new Seq<>(-1, 100, 0)),
+                new Passes<>(new Seq<>(0, 3, 2), "iterated [\n" +
+                    "  0: 0\n" +
+                    "  1: 3\n" +
+                    "  2: 2\n" +
+                    "]"),
+                new Passes<>(new Seq<>(-1, 100, 0), "iterated [\n" +
+                    "  0: -1\n" +
+                    "  1: 100\n" +
+                    "  2: 0\n" +
+                    "]"),
                 new Fails<Iterable<Integer>>(new EmptyIterable<>(),
                     "iterated [\n  0: missing less than 1\n  1: missing greater than 2\n  2: missing less than 3\n]"),
                 new Fails<Iterable<Integer>>(new Seq<>(0, 2, 3, 4),
@@ -102,7 +120,16 @@ class IteratesTest
     {
         assertThat(new Iterates<>(new Iterates<>(1, 2), new Iterates<>(3, 4)),
             new AllOf<>(
-                new Passes<Iterable<Iterable<Integer>>>(new Seq<>(new Seq<>(1, 2), new Seq<>(3, 4))),
+                new Passes<Iterable<Iterable<Integer>>>(new Seq<>(new Seq<>(1, 2), new Seq<>(3, 4)), "iterated [\n" +
+                    "  0: iterated [\n" +
+                    "    0: 1\n" +
+                    "    1: 2\n" +
+                    "  ]\n" +
+                    "  1: iterated [\n" +
+                    "    0: 3\n" +
+                    "    1: 4\n" +
+                    "  ]\n" +
+                    "]"),
                 new Fails<Iterable<Iterable<Integer>>>(new EmptyIterable<>(),
                     "iterated [\n  0: missing iterates [\n    0: 1\n    1: 2\n  ]\n  1: missing iterates [\n    0: 3\n    1: 4\n  ]\n]"),
                 new Fails<Iterable<Iterable<Integer>>>(new Seq<>(new Seq<>(1, 2), new Seq<>(4, 4)),
@@ -118,6 +145,4 @@ class IteratesTest
         assertThat(new Iterates<>(1),
             new PassesPostMutation<>(() -> new ArrayList<>(singletonList(1)), new Text("clear list"), List::clear));
     }
-
-
 }

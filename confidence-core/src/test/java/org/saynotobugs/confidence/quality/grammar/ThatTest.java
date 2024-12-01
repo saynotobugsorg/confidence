@@ -34,7 +34,7 @@ class ThatTest
     {
         assertThat(new That<>(new Is<>("12")),
             new AllOf<>(
-                new Passes<>("12"),
+                new Passes<>("12", "that was \"12\""),
                 new Fails<>("ab", "that was \"ab\""),
                 new HasDescription("that is \"12\"")));
     }

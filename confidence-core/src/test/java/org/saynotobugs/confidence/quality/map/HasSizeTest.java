@@ -37,7 +37,8 @@ class HasSizeTest
     {
         assertThat(new HasSize<>(0),
             new AllOf<>(
-                new Passes<>(new HashMap<>(), Collections.EMPTY_MAP),
+                new Passes<>(new HashMap<>(), "had size 0"),
+                new Passes<>(Collections.EMPTY_MAP, "had size 0"),
                 new Fails<>(Collections.singletonMap("a", 1), "had size 1"),
                 new HasDescription("has size 0")
             ));
@@ -51,7 +52,7 @@ class HasSizeTest
                 new Passes<>(new HashMap<String, Integer>()
                 {{
                     put("key1", 1);
-                }}),
+                }}, "had size 1"),
                 new Fails<Map<String, Integer>>(Collections.emptyMap(), "had size 0"),
                 new Fails<>(new HashMap<String, Integer>()
                 {{
@@ -73,7 +74,7 @@ class HasSizeTest
                     put("key1", 1);
                     put("key2", 2);
                     put("key3", 3);
-                }}),
+                }}, "had size 3"),
                 new Fails<Map<String, Integer>>(Collections.emptyMap(), "had size 0"),
                 new Fails<>(new HashMap<String, Integer>()
                 {{

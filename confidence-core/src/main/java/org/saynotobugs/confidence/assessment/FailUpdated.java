@@ -23,30 +23,14 @@ import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Description;
 
 
-public final class FailUpdated implements Assessment
+/**
+ * @deprecated use {@link DescriptionUpdated} to update pass and fail {@link Description}.
+ */
+@Deprecated
+public final class FailUpdated extends AssessmentComposition
 {
-    private final Function<? super Description, ? extends Description> mDescriptionFunction;
-    private final Assessment mDelegate;
-
-
     public FailUpdated(Function<? super Description, ? extends Description> descriptionFunction, Assessment delegate)
     {
-        mDescriptionFunction = descriptionFunction;
-        mDelegate = delegate;
+        super(new DescriptionUpdated(description -> description, descriptionFunction, delegate));
     }
-
-
-    @Override
-    public boolean isSuccess()
-    {
-        return mDelegate.isSuccess();
-    }
-
-
-    @Override
-    public Description description()
-    {
-        return isSuccess() ? mDelegate.description() : mDescriptionFunction.value(mDelegate.description());
-    }
-
 }

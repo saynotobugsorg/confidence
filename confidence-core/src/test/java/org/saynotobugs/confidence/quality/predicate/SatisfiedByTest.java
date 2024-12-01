@@ -17,7 +17,8 @@ class SatisfiedByTest
     {
         assertThat(new SatisfiedBy<>("12"),
             new AllOf<>(
-                new Passes<>("12"::equals, s -> s.length() == 2),
+                new Passes<>("12"::equals, "satisfied by \"12\""),
+                new Passes<>(s -> s.length() == 2, "satisfied by \"12\""),
                 new Fails<>("123"::equals, "not satisfied by \"12\""),
                 new HasDescription("satisfied by \"12\"")));
     }

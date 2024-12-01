@@ -19,7 +19,9 @@
 package org.saynotobugs.confidence.assessment;
 
 import org.dmfs.jems2.iterable.Frozen;
+import org.dmfs.jems2.iterable.Mapped;
 import org.dmfs.jems2.iterable.Seq;
+import org.dmfs.jems2.iterable.Sieved;
 import org.dmfs.jems2.optional.First;
 import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Description;
@@ -27,8 +29,7 @@ import org.saynotobugs.confidence.description.Block;
 import org.saynotobugs.confidence.description.Composite;
 import org.saynotobugs.confidence.description.FailDescription;
 
-import static org.saynotobugs.confidence.description.LiteralDescription.EMPTY;
-import static org.saynotobugs.confidence.description.LiteralDescription.NEW_LINE;
+import static org.saynotobugs.confidence.description.LiteralDescription.*;
 
 
 /**
@@ -81,7 +82,7 @@ public final class AnyPassed implements Assessment
     public Description description()
     {
         return isSuccess()
-            ? EMPTY
+            ? new Block(mEntry, COMMA, mExit, new Mapped<>(Assessment::description, new Sieved<>(Assessment::isSuccess, mResults)), new Composite(mEntry, mExit))
             : new Block(mEntry, EMPTY, mExit, new Seq<>(new FailDescription(new Composite(mDelimiter, NEW_LINE), mResults)), new Composite(mEntry, mExit));
     }
 

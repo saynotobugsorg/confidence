@@ -16,7 +16,8 @@ class LessThanTest
     {
         assertThat(new LessThan<>(10),
             new AllOf<>(
-                new Passes<>(9, 8, 7, 9, -1),
+                new Passes<>(9, "9"),
+                new Passes<>(-1, "-1"),
                 new Fails<>(10, "10"),
                 new Fails<>(11, "11"),
                 new HasDescription("less than 10")

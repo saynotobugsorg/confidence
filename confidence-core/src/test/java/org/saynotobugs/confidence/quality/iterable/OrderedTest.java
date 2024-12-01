@@ -36,11 +36,11 @@ class OrderedTest
     {
         assertThat(new Ordered<>(new By<>(String::length)),
             new AllOf<>(
-                new Passes<>(new Seq<>("1", "2", "3"),
-                    new Seq<>("1", "12", "123"),
-                    new Seq<>("1", "12"),
-                    new Seq<>("1"),
-                    new EmptyIterable<>()),
+                new Passes<>(new Seq<>("1", "2", "3"), ""),
+                new Passes<>(new Seq<>("1", "12", "123"), ""),
+                new Passes<>(new Seq<>("1", "12"), ""),
+                new Passes<>(new Seq<>("1"), ""),
+                new Passes<Iterable<String>>(new EmptyIterable<>(), ""),
                 new Fails<>(new Seq<>("123", "12", "1"), "[\n  0: \"123\" > 1: \"12\"\n  1: \"12\" > 2: \"1\"\n]"),
                 new Fails<>(new Seq<>("1", "2", "12", "1"), "[\n  ...\n  2: \"12\" > 3: \"1\"\n]"),
                 new HasDescription("ordered")
@@ -53,11 +53,11 @@ class OrderedTest
     {
         assertThat(new Ordered<>("by length", new By<>(String::length)),
             new AllOf<>(
-                new Passes<>(new Seq<>("1", "2", "3"),
-                    new Seq<>("1", "12", "123"),
-                    new Seq<>("1", "12"),
-                    new Seq<>("1"),
-                    new EmptyIterable<>()),
+                new Passes<>(new Seq<>("1", "2", "3"), ""),
+                new Passes<>(new Seq<>("1", "12", "123"), ""),
+                new Passes<>(new Seq<>("1", "12"), ""),
+                new Passes<>(new Seq<>("1"), ""),
+                new Passes<Iterable<String>>(new EmptyIterable<>(), ""),
                 new Fails<>(new Seq<>("123", "12", "1"), "[\n  0: \"123\" > 1: \"12\"\n  1: \"12\" > 2: \"1\"\n]"),
                 new Fails<>(new Seq<>("1", "2", "12", "1"), "[\n  ...\n  2: \"12\" > 3: \"1\"\n]"),
                 new HasDescription("ordered by length")

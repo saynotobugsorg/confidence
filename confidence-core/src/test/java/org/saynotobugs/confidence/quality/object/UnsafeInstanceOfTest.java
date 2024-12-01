@@ -38,7 +38,18 @@ class UnsafeInstanceOfTest
     {
         assertThat(new UnsafeInstanceOf<>(Number.class, new That<>(new Has<>("intValue", Number::intValue, new EqualTo<>(1)))),
             new AllOf<>(
-                new Passes<>(1, 1.001, 1L, 1f),
+                new Passes<>(1, "all of\n" +
+                    "  0: instance of <class java.lang.Integer>\n" +
+                    "  1: that had intValue 1"),
+                new Passes<>(1.001, "all of\n" +
+                    "  0: instance of <class java.lang.Double>\n" +
+                    "  1: that had intValue 1"),
+                new Passes<>(1L, "all of\n" +
+                    "  0: instance of <class java.lang.Long>\n" +
+                    "  1: that had intValue 1"),
+                new Passes<>(1f, "all of\n" +
+                    "  0: instance of <class java.lang.Float>\n" +
+                    "  1: that had intValue 1"),
                 new Fails<>(0.999, "all of\n  ...\n  1: that had intValue 0"),
                 new Fails<>(2, "all of\n  ...\n  1: that had intValue 2"),
                 new Fails<>("string", "all of\n  0: instance of <class java.lang.String>"),
@@ -52,7 +63,13 @@ class UnsafeInstanceOfTest
     {
         assertThat(new UnsafeInstanceOf<>(Iterable.class, new That<>(new Iterates<>(1, "abc", true))),
             new AllOf<>(
-                new Passes<>(new Seq<Object>(1, "abc", true), new Seq(1, "abc", true)),
+                new Passes<>(new Seq<Object>(1, "abc", true), "all of\n" +
+                    "  0: instance of <class org.dmfs.jems2.iterable.Seq>\n" +
+                    "  1: that iterated [\n" +
+                    "    0: 1\n" +
+                    "    1: \"abc\"\n" +
+                    "    2: true\n" +
+                    "  ]"),
                 new Fails<>(new Seq<Object>(1.1, "abc", true), "all of\n  ...\n  1: that iterated [\n    0: 1.1d\n    ...\n  ]"),
                 new Fails<>(2, "all of\n  0: instance of <class java.lang.Integer>"),
                 new Fails<>("string", "all of\n  0: instance of <class java.lang.String>"),

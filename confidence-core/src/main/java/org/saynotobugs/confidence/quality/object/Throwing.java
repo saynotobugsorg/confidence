@@ -23,10 +23,11 @@ import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.Quality;
+import org.saynotobugs.confidence.assessment.DescriptionUpdated;
 import org.saynotobugs.confidence.assessment.Fail;
-import org.saynotobugs.confidence.assessment.FailPrepended;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
+import org.saynotobugs.confidence.description.bifunction.TextAndOriginal;
 
 
 @StaticFactories(
@@ -66,7 +67,7 @@ public final class Throwing implements Quality<Throwing.Breakable>
         }
         catch (Throwable e)
         {
-            return new FailPrepended(new Text("throwing"), mDelegate.assessmentOf(e));
+            return new DescriptionUpdated(new TextAndOriginal<>("throwing"), mDelegate.assessmentOf(e));
         }
     }
 

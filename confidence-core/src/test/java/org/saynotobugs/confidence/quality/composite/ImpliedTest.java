@@ -15,9 +15,9 @@ class ImpliedTest
     @Test
     void test()
     {
-        assertThat(new Implied<>(new Seq<>(new HasLength(3)), new EqualTo<>("abc")),
+        assertThat(new Implied<>(new HasLength(3), new EqualTo<>("abc")),
             new AllOf<>(
-                new Passes<>("abc"),
+                new Passes<>("abc", "\"abc\""),
                 new Fails<>("xyz", "\"xyz\""),
                 new Fails<>("abcd", "\"abcd\" had length 4"),
                 new HasDescription("\"abc\"")

@@ -39,6 +39,10 @@ public final class SoIt<T> extends QualityComposition<T>
      */
     public SoIt(Quality<T> delegate)
     {
-        super(new DescribedAs<>(d -> new Spaced(new Text("but"), d), d -> new Spaced(new Text("so it"), d), delegate));
+        super(new DescribedAs<>(
+            (actual, d) -> new Spaced(new Text("so it"), d),
+            (actual, d) -> new Spaced(new Text("but"), d),
+            d -> new Spaced(new Text("so it"), d),
+            delegate));
     }
 }

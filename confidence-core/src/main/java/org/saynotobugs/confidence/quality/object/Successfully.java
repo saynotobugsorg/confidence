@@ -64,7 +64,7 @@ public final class Successfully<T> implements Quality<T>
         try
         {
             mCall.process(candidate);
-            return new Pass();
+            return new Pass(mExpectationDescription);
         }
         catch (Exception e)
         {

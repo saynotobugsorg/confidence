@@ -34,7 +34,7 @@ class EqualToTest
     {
         assertThat(new EqualTo<>("123"),
             new AllOf<>(
-                new Passes<Object>("123"),
+                new Passes<Object>("123", "\"123\""),
                 new Fails<>(new String[] { "123" }, "[ \"123\" ]"),
                 new Fails<>("1234", "\"1234\""),
                 new HasDescription("\"123\"")
@@ -47,8 +47,8 @@ class EqualToTest
     {
         assertThat(new EqualTo<>(new String[] { "1", "2", "3" }),
             new AllOf<>(
-                new Passes<>((Object[]) new String[][] { { "1", "2", "3" } }),
-                new Fails<>("123", "\"123\""),
+                new Passes<Object>(new String[] { "1", "2", "3" }, "iterated [\n  0: \"1\"\n  1: \"2\"\n  2: \"3\"\n]"),
+                new Fails<Object>("123", "\"123\""),
                 new Fails<>(new String[] { "1", "2" }, "array that iterated [\n  ...\n  2: missing \"3\"\n]"),
                 new HasDescription("[\n  \"1\"\n  \"2\"\n  \"3\"\n]")
             ));

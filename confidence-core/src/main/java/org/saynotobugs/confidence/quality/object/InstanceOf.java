@@ -24,7 +24,10 @@ import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.description.Value;
+import org.saynotobugs.confidence.description.bifunction.Just;
+import org.saynotobugs.confidence.description.bifunction.TextAndValue;
 import org.saynotobugs.confidence.quality.composite.AllOfFailingFast;
+import org.saynotobugs.confidence.quality.composite.DescribedAs;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 
 
@@ -58,8 +61,11 @@ public final class InstanceOf<T> extends QualityComposition<T>
      */
     public <V extends T> InstanceOf(Class<? extends V> expectation)
     {
-        super(new Satisfies<>(expectation::isInstance,
-            actual -> new Spaced(new Text("instance of"), new Value(actual.getClass())),
-            new Spaced(new Text("instance of"), new Value(expectation))));
+        super(
+            new DescribedAs<>(
+                new TextAndValue<>("instance of", v -> new Value(v.getClass())),
+                new TextAndValue<>("instance of", v -> new Value(v.getClass())),
+                new Just<>(new Spaced(new Text("instance of"), new Value(expectation))),
+                new Satisfies<>(expectation::isInstance)));
     }
 }

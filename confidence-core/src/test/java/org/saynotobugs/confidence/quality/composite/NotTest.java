@@ -18,18 +18,18 @@ class NotTest
     {
         assertThat(new Not<>("123"),
             new AllOf<>(
-                new Fails<>("123", "\"123\" ( \"123\" )"),
-                new HasDescription("not ( \"123\" )")));
+                new Fails<>("123", "\"123\""),
+                new HasDescription("not \"123\"")));
 
         assertThat(new Not<>(new Anything()),
             new AllOf<>(
-                new Fails<>("123", "\"123\" ( <anything> )"),
-                new HasDescription("not ( <anything> )")));
+                new Fails<>("123", "\"123\""),
+                new HasDescription("not <anything>")));
 
         assertThat(new Not<>(new Nothing()),
             new AllOf<>(
-                new Passes<>("123"),
-                new HasDescription("not ( <nothing> )")));
+                new Passes<>("123", "\"123\""),
+                new HasDescription("not <nothing>")));
     }
 
 }

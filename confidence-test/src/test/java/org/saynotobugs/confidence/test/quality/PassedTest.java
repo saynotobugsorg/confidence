@@ -16,9 +16,9 @@ class PassedTest
     @Test
     void test()
     {
-        assertThat(new Passed(),
+        assertThat(new Passed(new DescribesAs("abc")),
             new AllOf<>(
-                new Passes<>(new Pass()),
+                new Passes<>(new Pass(new Text("abc")), "abc"),
                 new Fails<Assessment>(new Assessment()
                 {
                     @Override
@@ -31,11 +31,11 @@ class PassedTest
                     @Override
                     public org.saynotobugs.confidence.Description description()
                     {
-                        return new Text("should not exist");
+                        return new Text("oops");
                     }
-                }, "passed but described failure described as\n  ----\n  \"should not exist\"\n  ----"),
-                new Fails<>(new Fail(new Text("failed")), "failed"),
-                new HasDescription("passed")
+                }, "both,\n  ... and\n  had description described as\n    ----\n    \"oops\"\n    ----"),
+                new Fails<>(new Fail(new Text("failed")), "both,\n  failed and\n  had description described as\n    ----\n    \"failed\"\n    ----"),
+                new HasDescription("both,\n  passes and\n  has description describes as\n    ----\n    \"abc\"\n    ----")
             ));
     }
 

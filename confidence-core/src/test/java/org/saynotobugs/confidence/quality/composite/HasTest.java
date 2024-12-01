@@ -22,7 +22,8 @@ class HasTest
     {
         assertThat(new Has<>(Object::toString, new EqualTo<>("123")),
             new AllOf<>(
-                new Passes<>("123", 123),
+                new Passes<Object>("123", "\"123\""),
+                new Passes<>(123, "\"123\""),
                 new Fails<>(124, "\"124\""),
                 new HasDescription("\"123\"")));
     }
@@ -33,7 +34,8 @@ class HasTest
     {
         assertThat(new Has<>(Object::toString, "123"),
             new AllOf<>(
-                new Passes<>("123", 123),
+                new Passes<Object>("123", "\"123\""),
+                new Passes<>(123, "\"123\""),
                 new Fails<>(124, "\"124\""),
                 new HasDescription("\"123\"")));
     }
@@ -44,7 +46,8 @@ class HasTest
     {
         assertThat(new Has<>("toString", Object::toString, new EqualTo<>("123")),
             new AllOf<>(
-                new Passes<>("123", 123),
+                new Passes<Object>("123", "had toString \"123\""),
+                new Passes<>(123, "had toString \"123\""),
                 new Fails<>(124, "had toString \"124\""),
                 new HasDescription("has toString \"123\"")));
     }
@@ -55,7 +58,8 @@ class HasTest
     {
         assertThat(new Has<>("toString", Object::toString, "123"),
             new AllOf<>(
-                new Passes<>("123", 123),
+                new Passes<Object>("123", "had toString \"123\""),
+                new Passes<>(123, "had toString \"123\""),
                 new Fails<>(124, "had toString \"124\""),
                 new HasDescription("has toString \"123\"")));
     }
@@ -69,7 +73,8 @@ class HasTest
                 Object::toString,
                 new EqualTo<>("123")),
             new AllOf<>(
-                new Passes<Object>("123", 123),
+                new Passes<Object>("123", "123"),
+                new Passes<>(123, "123"),
                 new Fails<>(124, "\"124\" fail"),
                 new HasDescription("\"123\" pass")));
     }
@@ -84,7 +89,8 @@ class HasTest
                 Object::toString,
                 new EqualTo<>("123")),
             new AllOf<>(
-                new Passes<>("123", 123),
+                new Passes<Object>("123", "match \"123\""),
+                new Passes<>(123, "match \"123\""),
                 new Fails<>(124, "mismatch \"124\""),
                 new HasDescription("match \"123\"")));
     }
@@ -100,7 +106,7 @@ class HasTest
                 Supplier::get,
                 new EqualTo<>("123")),
             new AllOf<>(
-                new Passes<Supplier<String>>(() -> "123"),
+                new Passes<Supplier<String>>(() -> "123", "123"),
                 new Fails<>(() -> "124", "mismatch \"124\""),
                 new Fails<>(() -> {throw new RuntimeException("error");}, "yikes <java.lang.RuntimeException: error>"),
                 new HasDescription("match \"123\"")));

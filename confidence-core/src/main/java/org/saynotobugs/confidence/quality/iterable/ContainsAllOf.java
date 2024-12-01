@@ -101,7 +101,10 @@ public final class ContainsAllOf<T> extends QualityComposition<Iterable<T>>
                     new Structured(COMMA_NEW_LINE, new Mapped<>(Quality::description, missing)),
                     new Text("}")));
         }
-        return new Pass();
+        return new Pass(new Spaced(
+            new Text("contains all of {"),
+            new Structured(COMMA_NEW_LINE, new Mapped<>(Quality::description, delegates)),
+            new Text("}")));
     }
 
 

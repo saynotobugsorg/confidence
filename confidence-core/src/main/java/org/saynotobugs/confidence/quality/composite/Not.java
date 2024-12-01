@@ -24,7 +24,6 @@ import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.PassIf;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
-import org.saynotobugs.confidence.description.Value;
 import org.saynotobugs.confidence.quality.object.EqualTo;
 
 
@@ -46,7 +45,8 @@ public final class Not<T> extends QualityComposition<T>
         super(
             actual -> new PassIf(
                 !delegate.assessmentOf(actual).isSuccess(),
-                new Spaced(new Value(actual), new Text("("), delegate.description(), new Text(")"))),
-            new Spaced(new Text("not ("), delegate.description(), new Text(")")));
+                delegate.assessmentOf(actual).description(),
+                delegate.assessmentOf(actual).description()),
+            new Spaced(new Text("not"), delegate.description()));
     }
 }

@@ -20,7 +20,9 @@ package org.saynotobugs.confidence.quality.path;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import org.saynotobugs.confidence.quality.charsequence.MatchesPattern;
 import org.saynotobugs.confidence.quality.composite.AllOf;
+import org.saynotobugs.confidence.test.quality.DescribesAs;
 import org.saynotobugs.confidence.test.quality.Fails;
 import org.saynotobugs.confidence.test.quality.HasDescription;
 import org.saynotobugs.confidence.test.quality.Passes;
@@ -46,7 +48,8 @@ class ReadableTest
         unreadableFile.toFile().setReadable(false);
         assertThat(new Readable(),
             new AllOf<>(
-                new Passes<>(tempDir, readableFile),
+                new Passes<>(tempDir, new DescribesAs(new MatchesPattern("readable </.*>"))),
+                new Passes<>(readableFile, new DescribesAs(new MatchesPattern("readable </.*>"))),
                 new Fails<>(unreadableFile, "not readable"),
                 new Fails<>(tempDir.resolve("nonExistentFile"), "not readable"),
                 new HasDescription("readable")));

@@ -17,7 +17,7 @@ class SuppliesTest
     {
         assertThat(new Supplies<>(123),
             new AllOf<>(
-                new Passes<>(() -> 123),
+                new Passes<>(() -> 123, "supplied 123"),
                 new Fails<>(() -> null, "supplied <null>"),
                 new Fails<>(() -> 1234, "supplied 1234"),
                 new HasDescription("supplies 123")

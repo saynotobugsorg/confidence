@@ -15,10 +15,10 @@ class PassTest
     @Test
     void test()
     {
-        assertThat(new Pass(),
+        assertThat(new Pass(new Text("pass")),
             new AllOf<>(
                 new Satisfies<>(Assessment::isSuccess, new Text("passes")),
-                new Has<>(Assessment::description, new DescribesAs(""))
+                new Has<>(Assessment::description, new DescribesAs("pass"))
             ));
     }
 

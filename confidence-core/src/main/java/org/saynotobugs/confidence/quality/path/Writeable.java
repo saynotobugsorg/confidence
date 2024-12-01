@@ -19,7 +19,9 @@
 package org.saynotobugs.confidence.quality.path;
 
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
-import org.saynotobugs.confidence.description.Text;
+import org.saynotobugs.confidence.description.bifunction.Just;
+import org.saynotobugs.confidence.description.bifunction.TextAndValue;
+import org.saynotobugs.confidence.quality.composite.DescribedAs;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 import org.saynotobugs.confidence.quality.object.Satisfies;
 
@@ -33,6 +35,10 @@ public final class Writeable extends QualityComposition<Path>
 {
     public Writeable()
     {
-        super(new Satisfies<>(Files::isWritable, file -> new Text("not writeable"), new Text("writeable")));
+        super(new DescribedAs<>(
+            new TextAndValue<>("writeable"),
+            new Just<>("not writeable"),
+            new Just<>("writeable"),
+            new Satisfies<>(Files::isWritable)));
     }
 }

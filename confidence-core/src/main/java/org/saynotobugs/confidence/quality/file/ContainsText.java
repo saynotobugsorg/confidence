@@ -23,11 +23,12 @@ import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.Quality;
+import org.saynotobugs.confidence.assessment.DescriptionUpdated;
 import org.saynotobugs.confidence.assessment.Fail;
-import org.saynotobugs.confidence.assessment.FailPrepended;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.description.Value;
+import org.saynotobugs.confidence.description.bifunction.TextAndOriginal;
 import org.saynotobugs.confidence.quality.object.EqualTo;
 
 import java.io.File;
@@ -77,11 +78,13 @@ public final class ContainsText implements Quality<File>
             {
                 builder.append(buffer, 0, read);
             }
-            return new FailPrepended(
-                new Spaced(
-                    new Text("contained"),
-                    new Value(mCharset.name()),
-                    new Text("text")), mDelegate.assessmentOf(builder.toString()));
+            return new DescriptionUpdated(
+                new TextAndOriginal<>(
+                    new Spaced(
+                        new Text("contained"),
+                        new Value(mCharset.name()),
+                        new Text("text"))),
+                mDelegate.assessmentOf(builder.toString()));
         }
         catch (IOException exception)
         {

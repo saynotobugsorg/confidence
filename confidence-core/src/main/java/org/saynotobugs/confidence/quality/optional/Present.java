@@ -23,8 +23,8 @@ import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.Quality;
+import org.saynotobugs.confidence.assessment.DescriptionUpdated;
 import org.saynotobugs.confidence.assessment.Fail;
-import org.saynotobugs.confidence.assessment.FailUpdated;
 import org.saynotobugs.confidence.description.Enclosed;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
@@ -79,7 +79,7 @@ public final class Present<T> extends QualityComposition<Optional<T>>
         Quality<? super T> delegate)
     {
         super(actual -> actual.isPresent()
-                ? new FailUpdated(failDescription, delegate.assessmentOf(actual.get()))
+                ? new DescriptionUpdated(description -> expectationDescription.value(description), failDescription, delegate.assessmentOf(actual.get()))
                 : new Fail(new Value(actual)),
             expectationDescription.value(delegate.description()));
     }

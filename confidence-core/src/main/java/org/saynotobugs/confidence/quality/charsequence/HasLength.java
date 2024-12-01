@@ -57,6 +57,7 @@ public final class HasLength extends QualityComposition<CharSequence>
     {
         super(new DescribedAs<>(
             (value, description) -> new Spaced(new Value(value), description),
+            (value, description) -> new Spaced(new Value(value), description),
             description -> description,
             new Has<>("length", CharSequence::length, delegate)));
     }

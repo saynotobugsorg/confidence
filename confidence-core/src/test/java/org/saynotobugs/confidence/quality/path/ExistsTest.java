@@ -20,7 +20,9 @@ package org.saynotobugs.confidence.quality.path;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import org.saynotobugs.confidence.quality.charsequence.MatchesPattern;
 import org.saynotobugs.confidence.quality.composite.AllOf;
+import org.saynotobugs.confidence.test.quality.DescribesAs;
 import org.saynotobugs.confidence.test.quality.Fails;
 import org.saynotobugs.confidence.test.quality.HasDescription;
 import org.saynotobugs.confidence.test.quality.Passes;
@@ -43,8 +45,9 @@ class ExistsTest
         Files.createFile(file);
         assertThat(new Exists(),
             new AllOf<>(
-                new Passes<>(tempDir, file),
-                new Fails<>(tempDir.resolve("nonExistentFile"), "does not exist"),
+                new Passes<>(tempDir, new DescribesAs(new MatchesPattern("</.*> existed"))),
+                new Passes<>(file, new DescribesAs(new MatchesPattern("</.*> existed"))),
+                new Fails<>(tempDir.resolve("nonExistentFile"), new DescribesAs(new MatchesPattern("</.*> did not exist"))),
                 new HasDescription("exists")));
     }
 }

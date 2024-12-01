@@ -35,7 +35,7 @@ class HasParentTest
     {
         assertThat(new HasParent(new HasName("path")),
             new AllOf<>(
-                new Passes<>(new File("path", "someFile")),
+                new Passes<>(new File("path", "someFile"), "had parent had name \"path\""),
                 new Fails<>(new File("otherPath", "otherFile"), "had parent had name \"otherPath\""),
                 new HasDescription("has parent has name \"path\"")));
     }
@@ -45,7 +45,7 @@ class HasParentTest
     {
         assertThat(new HasParent(new File("path")),
             new AllOf<>(
-                new Passes<>(new File("path", "someFile")),
+                new Passes<>(new File("path", "someFile"), "had parent <path>"),
                 new Fails<>(new File("otherPath", "otherFile"), "had parent <otherPath>"),
                 new HasDescription("has parent <path>")));
     }

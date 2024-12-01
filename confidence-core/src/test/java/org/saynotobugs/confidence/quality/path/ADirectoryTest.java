@@ -20,7 +20,9 @@ package org.saynotobugs.confidence.quality.path;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import org.saynotobugs.confidence.quality.charsequence.MatchesPattern;
 import org.saynotobugs.confidence.quality.composite.AllOf;
+import org.saynotobugs.confidence.test.quality.DescribesAs;
 import org.saynotobugs.confidence.test.quality.Fails;
 import org.saynotobugs.confidence.test.quality.HasDescription;
 import org.saynotobugs.confidence.test.quality.Passes;
@@ -43,7 +45,7 @@ class ADirectoryTest
         Files.createFile(file);
         assertThat(new ADirectory(),
             new AllOf<>(
-                new Passes<>(new Path[] { tempDir }),
+                new Passes<>(tempDir, new DescribesAs(new MatchesPattern("directory </.*>"))),
                 new Fails<>(file, "not a directory"),
                 new Fails<>(tempDir.resolve("nonExistentFile"), "not a directory"),
                 new HasDescription("a directory")));

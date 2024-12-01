@@ -84,7 +84,7 @@ public final class AllPassed implements Assessment
     public Description description()
     {
         return isSuccess()
-            ? new Block(mEntry, EMPTY, mExit, new Mapped<>(Assessment::description, mResults), new Composite(mEntry, mExit))
+            ? new Block(mEntry, mDelimiter, mExit, new Mapped<>(Assessment::description, mResults), new Composite(mEntry, mExit))
             : new Block(mEntry, EMPTY, mExit, new Seq<>(new FailDescription(new Composite(mDelimiter, NEW_LINE), mResults)), new Composite(mEntry, mExit));
 
     }

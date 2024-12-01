@@ -35,6 +35,10 @@ public final class When<T> extends QualityComposition<T>
 {
     public When(Quality<T> delegate)
     {
-        super(new DescribedAs<>(d -> new Spaced(new Text("when"), d), d -> new Spaced(new Text("when"), d), delegate));
+        super(new DescribedAs<>(
+            (actual, description) -> new Spaced(new Text("when"), description),
+            (actual, description) -> new Spaced(new Text("when"), description),
+            description -> new Spaced(new Text("when"), description),
+            delegate));
     }
 }

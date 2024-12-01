@@ -17,8 +17,9 @@ class MapsArgumentTest
         assertThat(new MapsArgument<Integer, Integer, Integer>(1, new EqualTo<>(2)),
             new AllOf<>(
                 new Passes<>(
-                    delegate -> x -> delegate.apply(x * 2),
-                    delegate -> x -> delegate.apply(2) + 1
+                    delegate -> x -> delegate.apply(x * 2), "2"),
+                new Passes<>(
+                    delegate -> x -> delegate.apply(2) + 1, "2"
                 ),
                 new Fails<>(
                     delegate -> x -> delegate.apply(x * 10),
