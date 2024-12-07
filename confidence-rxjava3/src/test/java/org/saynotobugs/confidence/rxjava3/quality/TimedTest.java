@@ -39,7 +39,10 @@ class TimedTest
     {
         assertThat(new Timed<>(Instant.ofEpochMilli(123), new EqualTo<>(456)),
             new AllOf<>(
-                new Passes<>(new io.reactivex.rxjava3.schedulers.Timed<>(456, 123, TimeUnit.MILLISECONDS)),
+                new Passes<>(new io.reactivex.rxjava3.schedulers.Timed<>(456, 123, TimeUnit.MILLISECONDS),
+                    "both,\n" +
+                        "  had time of 123l millis and\n" +
+                        "  had value 456"),
                 new Fails<>(new io.reactivex.rxjava3.schedulers.Timed<>(789, 123, TimeUnit.MILLISECONDS), "both,\n  ... and\n  had value 789"),
                 new Fails<>(new io.reactivex.rxjava3.schedulers.Timed<>(456, 789, TimeUnit.MILLISECONDS), "both,\n  had time of 789l millis and\n  ..."),
                 new Fails<>(new io.reactivex.rxjava3.schedulers.Timed<>(987, 789, TimeUnit.MILLISECONDS), "both,\n  had time of 789l millis and\n  had value 987"),
@@ -53,7 +56,10 @@ class TimedTest
     {
         assertThat(new Timed<>(Instant.ofEpochMilli(123), 456),
             new AllOf<>(
-                new Passes<>(new io.reactivex.rxjava3.schedulers.Timed<>(456, 123, TimeUnit.MILLISECONDS)),
+                new Passes<>(new io.reactivex.rxjava3.schedulers.Timed<>(456, 123, TimeUnit.MILLISECONDS),
+                    "both,\n" +
+                        "  had time of 123l millis and\n" +
+                        "  had value 456"),
                 new Fails<>(new io.reactivex.rxjava3.schedulers.Timed<>(789, 123, TimeUnit.MILLISECONDS), "both,\n  ... and\n  had value 789"),
                 new Fails<>(new io.reactivex.rxjava3.schedulers.Timed<>(456, 789, TimeUnit.MILLISECONDS), "both,\n  had time of 789l millis and\n  ..."),
                 new Fails<>(new io.reactivex.rxjava3.schedulers.Timed<>(987, 789, TimeUnit.MILLISECONDS), "both,\n  had time of 789l millis and\n  had value 987"),
@@ -67,7 +73,10 @@ class TimedTest
     {
         assertThat(new Timed<>(Duration.ofMillis(123), new EqualTo<>(456)),
             new AllOf<>(
-                new Passes<>(new io.reactivex.rxjava3.schedulers.Timed<>(456, 123, TimeUnit.MILLISECONDS)),
+                new Passes<>(new io.reactivex.rxjava3.schedulers.Timed<>(456, 123, TimeUnit.MILLISECONDS),
+                    "both,\n" +
+                        "  had time of 123l millis and\n" +
+                        "  had value 456"),
                 new Fails<>(new io.reactivex.rxjava3.schedulers.Timed<>(789, 123, TimeUnit.MILLISECONDS), "both,\n  ... and\n  had value 789"),
                 new Fails<>(new io.reactivex.rxjava3.schedulers.Timed<>(456, 789, TimeUnit.MILLISECONDS), "both,\n  had time of 789l millis and\n  ..."),
                 new Fails<>(new io.reactivex.rxjava3.schedulers.Timed<>(987, 789, TimeUnit.MILLISECONDS), "both,\n  had time of 789l millis and\n  had value 987"),
@@ -81,7 +90,10 @@ class TimedTest
     {
         assertThat(new Timed<>(Duration.ofMillis(123), 456),
             new AllOf<>(
-                new Passes<>(new io.reactivex.rxjava3.schedulers.Timed<>(456, 123, TimeUnit.MILLISECONDS)),
+                new Passes<>(new io.reactivex.rxjava3.schedulers.Timed<>(456, 123, TimeUnit.MILLISECONDS),
+                    "both,\n" +
+                        "  had time of 123l millis and\n" +
+                        "  had value 456"),
                 new Fails<>(new io.reactivex.rxjava3.schedulers.Timed<>(789, 123, TimeUnit.MILLISECONDS), "both,\n  ... and\n  had value 789"),
                 new Fails<>(new io.reactivex.rxjava3.schedulers.Timed<>(456, 789, TimeUnit.MILLISECONDS), "both,\n  had time of 789l millis and\n  ..."),
                 new Fails<>(new io.reactivex.rxjava3.schedulers.Timed<>(987, 789, TimeUnit.MILLISECONDS), "both,\n  had time of 789l millis and\n  had value 987"),
@@ -95,7 +107,10 @@ class TimedTest
     {
         assertThat(new Timed<>(123, new EqualTo<>(456)),
             new AllOf<>(
-                new Passes<>(new io.reactivex.rxjava3.schedulers.Timed<>(456, 123, TimeUnit.MILLISECONDS)),
+                new Passes<>(new io.reactivex.rxjava3.schedulers.Timed<>(456, 123, TimeUnit.MILLISECONDS),
+                    "both,\n" +
+                        "  had time of 123l millis and\n" +
+                        "  had value 456"),
                 new Fails<>(new io.reactivex.rxjava3.schedulers.Timed<>(789, 123, TimeUnit.MILLISECONDS), "both,\n  ... and\n  had value 789"),
                 new Fails<>(new io.reactivex.rxjava3.schedulers.Timed<>(456, 789, TimeUnit.MILLISECONDS), "both,\n  had time of 789l millis and\n  ..."),
                 new Fails<>(new io.reactivex.rxjava3.schedulers.Timed<>(987, 789, TimeUnit.MILLISECONDS), "both,\n  had time of 789l millis and\n  had value 987"),
@@ -109,7 +124,10 @@ class TimedTest
     {
         assertThat(new Timed<>(123, 456),
             new AllOf<>(
-                new Passes<>(new io.reactivex.rxjava3.schedulers.Timed<>(456, 123, TimeUnit.MILLISECONDS)),
+                new Passes<>(new io.reactivex.rxjava3.schedulers.Timed<>(456, 123, TimeUnit.MILLISECONDS),
+                    "both,\n" +
+                        "  had time of 123l millis and\n" +
+                        "  had value 456"),
                 new Fails<>(new io.reactivex.rxjava3.schedulers.Timed<>(789, 123, TimeUnit.MILLISECONDS), "both,\n  ... and\n  had value 789"),
                 new Fails<>(new io.reactivex.rxjava3.schedulers.Timed<>(456, 789, TimeUnit.MILLISECONDS), "both,\n  had time of 789l millis and\n  ..."),
                 new Fails<>(new io.reactivex.rxjava3.schedulers.Timed<>(987, 789, TimeUnit.MILLISECONDS), "both,\n  had time of 789l millis and\n  had value 987"),

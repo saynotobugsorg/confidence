@@ -16,10 +16,14 @@ class NoneOfTest
     {
         assertThat(new NoneOf<>(1, 2, 3),
             new AllOf<>(
-                new Passes<>(0, ""),
-                new Passes<>(4, ""),
-                new Passes<>(5, ""),
-                new Passes<>(6, ""),
+                new Passes<>(0, "was\n" +
+                    "  0\n" +
+                    "  0\n" +
+                    "  0"),
+                new Passes<>(4, "was\n" +
+                    "  4\n" +
+                    "  4\n" +
+                    "  4"),
                 new Fails<>(1, "was\n  1\n  ..."),
                 new Fails<>(2, "was\n  ...\n  2\n  ..."),
                 new Fails<>(3, "was\n  ...\n  3"),
@@ -32,10 +36,14 @@ class NoneOfTest
     {
         assertThat(new NoneOf<>(new EqualTo<>(1), new EqualTo<>(2), new EqualTo<>(3)),
             new AllOf<>(
-                new Passes<>(0, ""),
-                new Passes<>(4, ""),
-                new Passes<>(5, ""),
-                new Passes<>(6, ""),
+                new Passes<>(0, "was\n" +
+                    "  0\n" +
+                    "  0\n" +
+                    "  0"),
+                new Passes<>(4, "was\n" +
+                    "  4\n" +
+                    "  4\n" +
+                    "  4"),
                 new Fails<>(1, "was\n  1\n  ..."),
                 new Fails<>(2, "was\n  ...\n  2\n  ..."),
                 new Fails<>(3, "was\n  ...\n  3"),

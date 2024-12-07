@@ -37,7 +37,9 @@ class JsonValueOfTest
     {
         assertThat(new JsonValueOf(new Object(new Anything())),
             new AllOf<>(
-                new Passes<JsonValue>(new org.dmfs.express.json.elementary.Object()),
+                new Passes<JsonValue>(new org.dmfs.express.json.elementary.Object(), "JsonValue {\n" +
+                    "  <{}>\n" +
+                    "}"),
                 new Fails<>(new org.dmfs.express.json.elementary.Array(), "JsonValue not an object"),
                 new Fails<>(new org.dmfs.express.json.elementary.String("123"), "JsonValue not an object"),
                 new HasDescription("JsonValue {\n  <anything>\n}")));

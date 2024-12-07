@@ -16,7 +16,11 @@ class DescribesAsTest
     {
         assertThat(new DescribesAs("123"),
             new AllOf<>(
-                new Passes<>(scribe -> scribe.append("123"), "described as 123"),
+                new Passes<>(scribe -> scribe.append("123"),
+                    "described as\n" +
+                        "  ----\n" +
+                        "  \"123\"\n" +
+                        "  ----"),
                 new Fails<>(scribe -> scribe.append("abc"), "described as\n  ----\n  \"abc\"\n  ----"),
                 new HasDescription("describes as\n  ----\n  \"123\"\n  ----")
             ));
@@ -28,7 +32,11 @@ class DescribesAsTest
     {
         assertThat(new DescribesAs(Pattern.compile("\\w123\\w")),
             new AllOf<>(
-                new Passes<>(scribe -> scribe.append("a123b"), "described as /\\w123\\w/"),
+                new Passes<>(scribe -> scribe.append("a123b"),
+                    "described as\n" +
+                        "  ----\n" +
+                        "  matches pattern /\\\\w123\\\\w/\n" +
+                        "  ----"),
                 new Fails<>(scribe -> scribe.append("ab123"), "described as\n  ----\n  \"ab123\" mismatched pattern /\\\\w123\\\\w/\n  ----"),
                 new HasDescription("describes as\n  ----\n  matches pattern /\\\\w123\\\\w/\n  ----")
             ));

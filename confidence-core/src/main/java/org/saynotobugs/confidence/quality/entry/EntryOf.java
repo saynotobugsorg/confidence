@@ -22,7 +22,11 @@ import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.description.Composite;
+import org.saynotobugs.confidence.description.Enclosed;
 import org.saynotobugs.confidence.description.Text;
+import org.saynotobugs.confidence.description.Value;
+import org.saynotobugs.confidence.description.bifunction.Just;
+import org.saynotobugs.confidence.description.bifunction.TextAndValue;
 import org.saynotobugs.confidence.quality.composite.AllOf;
 import org.saynotobugs.confidence.quality.composite.DescribedAs;
 import org.saynotobugs.confidence.quality.composite.Has;
@@ -59,15 +63,13 @@ public final class EntryOf<K, V> extends QualityComposition<Map.Entry<K, V>>
 
     public EntryOf(Quality<? super K> key, Quality<? super V> value)
     {
-        super(new DescribedAs<>(description -> new Composite(
-            new Text("Entry ( "),
-            key.description(),
-            new Text(": "),
-            value.description(),
-            new Text(" )")),
+        super(new DescribedAs<>(
+            new TextAndValue<>("Entry", entry -> new Enclosed("(", new Value(entry), ")")),
+            new TextAndValue<>("Entry", entry -> new Enclosed("(", new Value(entry), ")")),
+            new Just<>(new Composite(new Text("Entry ("), key.description(), new Text(": "), value.description(), new Text(")"))),
             new AllOf<>(
-                new Has<>(Map.Entry::getKey, key),
-                new Has<>(Map.Entry::getValue, value)
+                new Has<>("key", Map.Entry::getKey, key),
+                new Has<>("value", Map.Entry::getValue, value)
             )));
     }
 }

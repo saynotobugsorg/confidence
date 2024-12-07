@@ -36,7 +36,7 @@ class NullTest
         assertThat(new Null(),
             new AllOf<>(
                 new Passes<>(mock("null value", JsonElementAdapter.class,
-                    with(JsonElementAdapter::isNull, returning(true)))),
+                    with(JsonElementAdapter::isNull, returning(true))), "<null>"),
                 new Fails<>(mock("JSON value", JsonElementAdapter.class,
                     with(JsonElementAdapter::isNull, returning(false))),
                     "<JSON value>"),

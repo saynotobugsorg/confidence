@@ -40,7 +40,7 @@ class ErrorTest
         assertThat(new Error(exception),
             new AllOf<>(
                 new Passes<RxSubjectAdapter<Object>>(
-                    mock(RxSubjectAdapter.class, withVoid(adapter -> adapter.onError(exception), doingNothing()))),
+                    mock(RxSubjectAdapter.class, withVoid(adapter -> adapter.onError(exception), doingNothing())), "error <java.io.IOException>"),
                 new Fails<RxSubjectAdapter<Object>>(
                     mock(RxSubjectAdapter.class, withVoid(adapter -> adapter.onError(exception), throwing(new RuntimeException("fail")))),
                     "error failed with <java.lang.RuntimeException: fail>"),

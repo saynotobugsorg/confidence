@@ -68,15 +68,15 @@ class HasTest
     @Test
     void testWithDescriptionFunction()
     {
-        assertThat(new Has<>((Description pass) -> new Spaced(pass, new Text("pass")),
-                (Description fail) -> new Spaced(fail, new Text("fail")),
+        assertThat(new Has<>((Description pass) -> new Spaced(pass, new Text("present")),
+                (Description fail) -> new Spaced(fail, new Text("past")),
                 Object::toString,
                 new EqualTo<>("123")),
             new AllOf<>(
-                new Passes<Object>("123", "123"),
-                new Passes<>(123, "123"),
-                new Fails<>(124, "\"124\" fail"),
-                new HasDescription("\"123\" pass")));
+                new Passes<Object>("123", "\"123\" past"),
+                new Passes<>(123, "\"123\" past"),
+                new Fails<>(124, "\"124\" past"),
+                new HasDescription("\"123\" present")));
     }
 
 
@@ -84,15 +84,15 @@ class HasTest
     void testDescriptions()
     {
         assertThat(new Has<>(
-                new Text("match"),
-                new Text("mismatch"),
+                new Text("present"),
+                new Text("past"),
                 Object::toString,
                 new EqualTo<>("123")),
             new AllOf<>(
-                new Passes<Object>("123", "match \"123\""),
-                new Passes<>(123, "match \"123\""),
-                new Fails<>(124, "mismatch \"124\""),
-                new HasDescription("match \"123\"")));
+                new Passes<Object>("123", "past \"123\""),
+                new Passes<>(123, "past \"123\""),
+                new Fails<>(124, "past \"124\""),
+                new HasDescription("present \"123\"")));
     }
 
 
@@ -100,15 +100,15 @@ class HasTest
     void testThrowing()
     {
         assertThat(new Has<>(
-                description -> new Spaced(new Text("match"), description),
-                description -> new Spaced(new Text("mismatch"), description),
+                description -> new Spaced(new Text("present"), description),
+                description -> new Spaced(new Text("past"), description),
                 throwable -> new Spaced(new Text("yikes"), new Value(throwable)),
                 Supplier::get,
                 new EqualTo<>("123")),
             new AllOf<>(
-                new Passes<Supplier<String>>(() -> "123", "123"),
-                new Fails<>(() -> "124", "mismatch \"124\""),
+                new Passes<Supplier<String>>(() -> "123", "past \"123\""),
+                new Fails<>(() -> "124", "past \"124\""),
                 new Fails<>(() -> {throw new RuntimeException("error");}, "yikes <java.lang.RuntimeException: error>"),
-                new HasDescription("match \"123\"")));
+                new HasDescription("present \"123\"")));
     }
 }

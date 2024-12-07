@@ -39,7 +39,7 @@ class StringTest
         assertThat(new String(new HasLength(3)),
             new AllOf<>(
                 new Passes<>(mock("matching String", JsonElementAdapter.class,
-                    with(JsonElementAdapter::asString, returning(new Present<>("123"))))),
+                    with(JsonElementAdapter::asString, returning(new Present<>("123")))), "\"123\" had length 3"),
                 new Fails<>(mock("mismatching String", JsonElementAdapter.class,
                     with(JsonElementAdapter::asString, returning(new Present<>("abcdef")))),
                     "\"abcdef\" had length 6"),
@@ -56,7 +56,7 @@ class StringTest
         assertThat(new String("123"),
             new AllOf<>(
                 new Passes<>(mock("matching String", JsonElementAdapter.class,
-                    with(JsonElementAdapter::asString, returning(new Present<>("123"))))),
+                    with(JsonElementAdapter::asString, returning(new Present<>("123")))), "\"123\""),
                 new Fails<>(mock("mismatching String", JsonElementAdapter.class,
                     with(JsonElementAdapter::asString, returning(new Present<>("abcdef")))),
                     "\"abcdef\""),

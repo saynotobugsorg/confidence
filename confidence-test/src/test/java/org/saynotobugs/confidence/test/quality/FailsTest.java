@@ -32,7 +32,10 @@ class FailsTest
                     {
                         return new Text("expects");
                     }
-                }, "passed 123"),
+                }, "\n" +
+                    "  ----\n" +
+                    "  xyz\n" +
+                    "  ----"),
                 new Fails<>(new Quality<Integer>()
                 {
                     @Override
@@ -72,7 +75,10 @@ class FailsTest
                     {
                         return new Text("expects");
                     }
-                }, "passed 123"),
+                }, "described as\n" +
+                    "  ----\n" +
+                    "  \"mismatch\"\n" +
+                    "  ----"),
                 new Fails<>(new Quality<Integer>()
                 {
                     @Override

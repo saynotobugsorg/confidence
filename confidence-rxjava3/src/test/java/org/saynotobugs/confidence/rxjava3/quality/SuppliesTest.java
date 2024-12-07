@@ -37,7 +37,7 @@ class SuppliesTest
     {
         assertThat(new Supplies<>(123),
             new AllOf<>(
-                new Passes<>(() -> 123),
+                new Passes<>(() -> 123, "supplied 123"),
                 new Fails<>(() -> null, "supplied <null>"),
                 new Fails<>(() -> 1234, "supplied 1234"),
                 new Fails<>(() -> {throw new IOException("fail");}, "threw <java.io.IOException: fail>"),

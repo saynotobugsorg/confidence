@@ -21,13 +21,13 @@ package org.saynotobugs.confidence.quality.composite;
 import org.dmfs.jems2.iterable.Joined;
 import org.dmfs.jems2.iterable.Just;
 import org.dmfs.jems2.iterable.Mapped;
-import org.dmfs.jems2.optional.First;
 import org.dmfs.jems2.predicate.Not;
 import org.dmfs.jems2.single.Backed;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Quality;
-import org.saynotobugs.confidence.assessment.Pass;
+import org.saynotobugs.confidence.utils.Last;
+import org.saynotobugs.confidence.utils.Until;
 
 
 @StaticFactories(
@@ -51,9 +51,10 @@ public final class Implied<T> extends QualityComposition<T>
     {
         super(actual ->
                 new Backed<>(
-                    new First<>(new Not<>(Assessment::isSuccess),
-                        new Mapped<>(d -> d.assessmentOf(actual), new Joined<Quality<? super T>>(implied, delegate))),
-                    new Pass(delegate.description())).value(),
+                    new Last<>(
+                        new Until<>(new Not<>(Assessment::isSuccess),
+                            new Mapped<>(d -> d.assessmentOf(actual), new Joined<Quality<? super T>>(implied, delegate)))),
+                    () -> {throw new RuntimeException();}).value(),
             delegate.description());
     }
 }

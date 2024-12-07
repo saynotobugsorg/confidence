@@ -23,10 +23,14 @@ import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.AllPassed;
+import org.saynotobugs.confidence.assessment.DescriptionUpdated;
 import org.saynotobugs.confidence.assessment.PassIf;
+import org.saynotobugs.confidence.description.Prefixed;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.description.Value;
+import org.saynotobugs.confidence.description.bifunction.Just;
+import org.saynotobugs.confidence.description.bifunction.Original;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 
 import java.util.Comparator;
@@ -57,34 +61,37 @@ public final class Ordered<T> extends QualityComposition<Iterable<T>>
      */
     public Ordered(String description, Comparator<? super T> comparator)
     {
-        super(actual -> new AllPassed(new Text("["), EMPTY, new Text("]"), () -> new Iterator<Assessment>()
-            {
-                private final Iterator<T> mDelegate = actual.iterator();
-                private T mCurrent = mDelegate.hasNext() ? mDelegate.next() : null;
-                private int mIndex = 0;
-
-                @Override
-                public boolean hasNext()
+        super(actual -> new DescriptionUpdated(
+                new Just<>(new Prefixed("ordered ", description.isEmpty() ? EMPTY : new Text(description), "ordered")),
+                new Original<>(),
+                new AllPassed(new Text("["), EMPTY, new Text("]"), () -> new Iterator<Assessment>()
                 {
-                    return mDelegate.hasNext();
-                }
+                    private final Iterator<T> mDelegate = actual.iterator();
+                    private T mCurrent = mDelegate.hasNext() ? mDelegate.next() : null;
+                    private int mIndex = 0;
 
-                @Override
-                public Assessment next()
-                {
-                    T next = mDelegate.next();
-                    Assessment result = new PassIf(comparator.compare(mCurrent, next) <= 0,
-                        new Text("ordered" + (description.isEmpty() ? "" : " " + description)),
-                        new Spaced(
-                            new Text(mIndex + ":"),
-                            new Value(mCurrent),
-                            new Text(">"),
-                            new Text(++mIndex + ":"),
-                            new Value(next)));
-                    mCurrent = next;
-                    return result;
-                }
-            }),
+                    @Override
+                    public boolean hasNext()
+                    {
+                        return mDelegate.hasNext();
+                    }
+
+                    @Override
+                    public Assessment next()
+                    {
+                        T next = mDelegate.next();
+                        Assessment result = new PassIf(comparator.compare(mCurrent, next) <= 0,
+                            new Text("ordered" + (description.isEmpty() ? "" : " " + description)),
+                            new Spaced(
+                                new Text(mIndex + ":"),
+                                new Value(mCurrent),
+                                new Text(">"),
+                                new Text(++mIndex + ":"),
+                                new Value(next)));
+                        mCurrent = next;
+                        return result;
+                    }
+                })),
             new Text("ordered" + (description.isEmpty() ? "" : " " + description)));
     }
 }

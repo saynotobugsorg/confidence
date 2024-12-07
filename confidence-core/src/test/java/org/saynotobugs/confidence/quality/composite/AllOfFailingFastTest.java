@@ -43,9 +43,14 @@ class AllOfFailingFastTest
     {
         assertThat(new AllOfFailingFast<>(new LessThan<>(10), new LessThan<>(5), new LessThan<>(3)),
             new AllOf<>(
-                new Passes<>(0, ""),
-                new Passes<>(1, ""),
-                new Passes<>(2, ""),
+                new Passes<>(0, "all of\n" +
+                    "  0: 0\n" +
+                    "  1: 0\n" +
+                    "  2: 0"),
+                new Passes<>(1, "all of\n" +
+                    "  0: 1\n" +
+                    "  1: 1\n" +
+                    "  2: 1"),
                 new Fails<>(3, "all of\n  ...\n  2: 3"),
                 new Fails<>(5, "all of\n  ...\n  1: 5"),
                 new Fails<>(10, "all of\n  0: 10"),
@@ -59,9 +64,14 @@ class AllOfFailingFastTest
     {
         assertThat(new AllOfFailingFast<>(COMMA, new LessThan<>(10), new LessThan<>(5), new LessThan<>(3)),
             new AllOf<>(
-                new Passes<>(0, ""),
-                new Passes<>(1, ""),
-                new Passes<>(2, ""),
+                new Passes<>(0, "all of\n" +
+                    "  0: 0,\n" +
+                    "  1: 0,\n" +
+                    "  2: 0"),
+                new Passes<>(1, "all of\n" +
+                    "  0: 1,\n" +
+                    "  1: 1,\n" +
+                    "  2: 1"),
                 new Fails<>(3, "all of\n  ...,\n  2: 3"),
                 new Fails<>(5, "all of\n  ...,\n  1: 5"),
                 new Fails<>(10, "all of\n  0: 10"),

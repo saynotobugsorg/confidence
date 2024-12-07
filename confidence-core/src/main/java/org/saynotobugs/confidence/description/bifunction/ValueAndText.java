@@ -10,6 +10,11 @@ public final class ValueAndText<T> extends DelegatingBiFunction<T, Description, 
 {
     public ValueAndText(String text)
     {
-        super((value, description) -> new Spaced(new Value(value), new Text(text)));
+        this(new Text(text));
+    }
+
+    public ValueAndText(Description text)
+    {
+        super((value, description) -> new Spaced(new Value(value), text));
     }
 }

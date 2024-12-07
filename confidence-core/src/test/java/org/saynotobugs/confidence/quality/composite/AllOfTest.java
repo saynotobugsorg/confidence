@@ -21,9 +21,10 @@ class AllOfTest
     @Test
     void testMatch()
     {
-        assertThat(new AllOf<>(), new Passes<>(123, "all of\n  0: 123"));
-        assertThat(new AllOf<>(new Anything()), new Passes<>(123, "all of\n  0: <anything>"));
-        assertThat(new AllOf<>(new Anything(), new Anything()), new Passes<>(123, "all of\n  0: <anything>\n  1: <anything>"));
+        // TODO, the "empty" case should probably be impossible
+        assertThat(new AllOf<>(), new Passes<>(123, "all of"));
+        assertThat(new AllOf<>(new Anything()), new Passes<>(123, "all of\n  0: 123"));
+        assertThat(new AllOf<>(new Anything(), new Anything()), new Passes<>(123, "all of\n  0: 123\n  1: 123"));
     }
 
 

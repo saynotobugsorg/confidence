@@ -41,7 +41,7 @@ class HasSubscribersTest
         singleSubject.test();
         assertThat(new HasSubscribers(),
             new AllOf<>(
-                new Passes<>(new SingleSubjectAdapter<>(singleSubject)),
+                new Passes<>(new SingleSubjectAdapter<>(singleSubject), "has subscribers"),
                 new Fails<>(new SingleSubjectAdapter<>(SingleSubject.create()), "had no subscribers"),
                 new HasDescription("has subscribers")
             ));
@@ -54,7 +54,7 @@ class HasSubscribersTest
         publishSubject.test();
         assertThat(new HasSubscribers(),
             new AllOf<>(
-                new Passes<>(new PublishSubjectAdapter<>(publishSubject)),
+                new Passes<>(new PublishSubjectAdapter<>(publishSubject), "has subscribers"),
                 new Fails<>(new PublishSubjectAdapter<>(PublishSubject.create()), "had no subscribers"),
                 new HasDescription("has subscribers")
             ));
@@ -68,7 +68,7 @@ class HasSubscribersTest
         publishProcessor.test();
         assertThat(new HasSubscribers(),
             new AllOf<>(
-                new Passes<>(new PublishProcessorAdapter<>(publishProcessor)),
+                new Passes<>(new PublishProcessorAdapter<>(publishProcessor), "has subscribers"),
                 new Fails<>(new PublishProcessorAdapter<>(PublishProcessor.create()), "had no subscribers"),
                 new HasDescription("has subscribers")
             ));
@@ -82,7 +82,7 @@ class HasSubscribersTest
         maybeSubject.test();
         assertThat(new HasSubscribers(),
             new AllOf<>(
-                new Passes<>(new MaybeSubjectAdapter<>(maybeSubject)),
+                new Passes<>(new MaybeSubjectAdapter<>(maybeSubject), "has subscribers"),
                 new Fails<>(new MaybeSubjectAdapter<>(MaybeSubject.create()), "had no subscribers"),
                 new HasDescription("has subscribers")
             ));
@@ -96,7 +96,7 @@ class HasSubscribersTest
         completableSubject.test();
         assertThat(new HasSubscribers(),
             new AllOf<>(
-                new Passes<>(new CompletableSubjectAdapter<>(completableSubject)),
+                new Passes<>(new CompletableSubjectAdapter<>(completableSubject), "has subscribers"),
                 new Fails<>(new CompletableSubjectAdapter<>(CompletableSubject.create()), "had no subscribers"),
                 new HasDescription("has subscribers")
             ));

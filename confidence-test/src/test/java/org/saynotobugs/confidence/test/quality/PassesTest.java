@@ -24,7 +24,7 @@ class PassesTest
                     @Override
                     public Assessment assessmentOf(Integer candidate)
                     {
-                        return new Pass(new Text("123"));
+                        return new Pass(new Text("1"));
                     }
 
 
@@ -33,7 +33,13 @@ class PassesTest
                     {
                         return new Text("passes");
                     }
-                }, "passed 1"),
+                }, "passed 1 with description \n" +
+                    "  ----\n" +
+                    "  describes as\n" +
+                    "    ----\n" +
+                    "    \"1\"\n" +
+                    "    ----\n" +
+                    "  ----"),
                 new Fails<>(new Quality<Integer>()
                 {
                     @Override
@@ -49,8 +55,8 @@ class PassesTest
                         return new Text("passes");
                     }
                 },
-                    "failed 1"),
-                new HasDescription("passes 1")
+                    "failed 1 with description \n  ----\n  failed\n  ----"),
+                new HasDescription("passes 1 with desciption \n  ----\n  describes as\n    ----\n    \"1\"\n    ----\n  ----")
             ));
     }
 

@@ -77,41 +77,44 @@ public final class Has<T, V> extends QualityComposition<T>
     }
 
 
-    public Has(Description simplePresentDescription,
-        Description simplePastDescription,
+    public Has(Description beforeTheFactDescription,
+        Description afterTheFactDescription,
         ThrowingFunction<? super T, ? extends V> featureFunction,
         Quality<? super V> delegate)
     {
-        this(new TextAndOriginal<>(simplePresentDescription),
-            new TextAndOriginal<>(simplePastDescription),
+        this(new TextAndOriginal<>(beforeTheFactDescription),
+            new TextAndOriginal<>(afterTheFactDescription),
             featureFunction,
             delegate
         );
     }
 
 
-    public Has(Function<Description, Description> simplePresentDescriptionFunction,
-        Function<Description, Description> simplePastDescriptionFunction,
+    public Has(Function<Description, Description> beforeTheFactDescriptionFunction,
+        Function<Description, Description> afterTheFactDescriptionFunction,
         ThrowingFunction<? super T, ? extends V> featureFunction,
         Quality<? super V> delegate)
     {
-        this(simplePresentDescriptionFunction,
-            simplePastDescriptionFunction,
+        this(beforeTheFactDescriptionFunction,
+            afterTheFactDescriptionFunction,
             throwable -> new Spaced(new Text("threw"), new Value(throwable)),
             featureFunction,
             delegate);
     }
 
 
-    public Has(Function<Description, Description> simplePresentDescriptionFunction,
-        Function<Description, Description> simplePastDescriptionFunction,
+    public Has(Function<Description, Description> beforeTheFactDescriptionFunction,
+        Function<Description, Description> afterTheFactDescriptionFunction,
         Function<? super Throwable, ? extends Description> throwsDescriptionFunction,
         ThrowingFunction<? super T, ? extends V> featureFunction,
         Quality<? super V> delegate)
     {
         super(new FailSafe<>(
                 throwable -> new Fail(throwsDescriptionFunction.value(throwable)),
-                actual -> new DescriptionUpdated(simplePastDescriptionFunction, simplePastDescriptionFunction, delegate.assessmentOf(featureFunction.value(actual)))),
-            simplePresentDescriptionFunction.value(delegate.description()));
+                actual -> new DescriptionUpdated(
+                    afterTheFactDescriptionFunction,
+                    afterTheFactDescriptionFunction,
+                    delegate.assessmentOf(featureFunction.value(actual)))),
+            beforeTheFactDescriptionFunction.value(delegate.description()));
     }
 }

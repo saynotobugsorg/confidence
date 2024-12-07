@@ -16,7 +16,7 @@ class AllPassedTest
     public void testPass()
     {
         assertThat(new AllPassed(new Text(":"), new Text(","), new Pass(new Text("pass1")), new Pass(new Text("pass2"))),
-            new Passed(new DescribesAs(":\n  pass1\n  pass2")));
+            new Passed(new DescribesAs(":\n  pass1,\n  pass2")));
     }
 
 

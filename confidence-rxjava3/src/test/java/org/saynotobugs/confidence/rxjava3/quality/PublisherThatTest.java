@@ -23,7 +23,13 @@ class PublisherThatTest
     {
         assertThat(new PublisherThat<>(new Within<>(Duration.ofSeconds(2), new Emits<>(1, 2, 3))),
             new AllOf<>(
-                new Passes<>(scheduler -> Flowable.just(1, 2, 3).delay(2, TimeUnit.SECONDS, scheduler)),
+                new Passes<>(scheduler -> Flowable.just(1, 2, 3).delay(2, TimeUnit.SECONDS, scheduler),
+                    "all of\n" +
+                        "  0: emits 3 items iterates [\n" +
+                        "    0: 1\n" +
+                        "    1: 2\n" +
+                        "    2: 3\n" +
+                        "  ]"),
                 new Fails<>(scheduler -> Flowable.just(1, 2, 3).delay(30, TimeUnit.SECONDS, scheduler),
                     "Publisher that all of\n  0: after PT2S emitted 0 items iterated [\n    0: missing 1\n    1: missing 2\n    2: missing 3\n  ]"),
                 new HasDescription("Publisher that all of\n  0: after PT2S emits 3 items iterates [\n    0: 1\n    1: 2\n    2: 3\n  ]")
@@ -35,7 +41,13 @@ class PublisherThatTest
     {
         assertThat(new PublisherThat<>(new InExactly<>(Duration.ofSeconds(2), new Emits<>(1, 2, 3))),
             new AllOf<>(
-                new Passes<>(scheduler -> Flowable.just(1, 2, 3).delay(2, TimeUnit.SECONDS, scheduler)),
+                new Passes<>(scheduler -> Flowable.just(1, 2, 3).delay(2, TimeUnit.SECONDS, scheduler),
+                    "all of\n" +
+                        "  0: in exactly PT2S emits 3 items iterates [\n" +
+                        "    0: 1\n" +
+                        "    1: 2\n" +
+                        "    2: 3\n" +
+                        "  ]"),
                 new Fails<>(scheduler -> Flowable.just(1, 2, 3).delay(1, TimeUnit.SECONDS, scheduler),
                     "Publisher that all of\n  0: in less than PT2S emitted [ 1, 2, 3 ]"),
                 new Fails<>(scheduler -> Flowable.<Integer>empty().delay(1, TimeUnit.SECONDS, scheduler), "Publisher that all of\n  0: immediately completes exactly once"),

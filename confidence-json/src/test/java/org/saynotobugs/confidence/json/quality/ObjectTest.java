@@ -40,7 +40,9 @@ class ObjectTest
     {
         assertThat(new Object(new Anything()),
             new AllOf<>(
-                new Passes<>(mock(JsonElementAdapter.class, with(JsonElementAdapter::asObject, returning(new Present<>(mock(JsonObjectAdapter.class)))))),
+                new Passes<>(mock(JsonElementAdapter.class, with(JsonElementAdapter::asObject, returning(new Present<>(mock("JSON Object", JsonObjectAdapter.class))))), "{\n" +
+                    "  <JSON Object>\n" +
+                    "}"),
                 new Fails<>(mock(JsonElementAdapter.class, with(JsonElementAdapter::asObject, returning(new Absent<>()))),
                     "not an object"),
                 new HasDescription("{\n  <anything>\n}")
@@ -72,7 +74,11 @@ class ObjectTest
                             with(a -> a.member("a"), returning(new Present<>(mock(JsonElementAdapter.class,
                                 with(JsonElementAdapter::asString, returning(new Present<>("b"))))))),
                             with(a -> a.member("c"), returning(new Present<>(mock(JsonElementAdapter.class,
-                                with(JsonElementAdapter::asNumber, returning(new Present<>(123))))))))))))),
+                                with(JsonElementAdapter::asNumber, returning(new Present<>(123)))))))))))),
+                    "{\n" +
+                        "  \"a\": \"b\",\n" +
+                        "  \"c\": 123\n" +
+                        "}"),
                 new Fails<>(mock(JsonElementAdapter.class,
                     with(JsonElementAdapter::asObject, returning(new Present<>(
                         mock("Object Adapter", JsonObjectAdapter.class,

@@ -52,7 +52,9 @@ public final class Matches<T> implements Quality<T>
     {
         if (mDelegate.matches(candidate))
         {
-            return new Pass();
+            org.hamcrest.Description description = new StringDescription();
+            mDelegate.describeTo(description);
+            return new Pass(new Text(description.toString()));
         }
         org.hamcrest.Description mismatch = new StringDescription();
         mDelegate.describeMismatch(candidate, mismatch);

@@ -50,7 +50,11 @@ class TransformsMaybeTest
     {
         assertThat(new TransformsMaybe<>(new Upstream<>(new Emit<>(123)), new Downstream<>(new CompletesWith<>(123))),
             new AllOf<>(
-                new Passes<>(scheduler -> Maybe::hide),
+                new Passes<>(scheduler -> Maybe::hide, "all of\n" +
+                    "  0: upstream emissions [123],\n" +
+                    "  1: to downstream completed with iterates [\n" +
+                    "    0: 123\n" +
+                    "  ]"),
                 new Fails<>(scheduler -> upsteam -> upsteam.ambWith(Maybe.error(new IOException())),
                     "all of\n  ...,\n  1: to downstream completed 0 times"),
                 new Fails<>(scheduler -> upsteam -> upsteam.delay(10, TimeUnit.SECONDS, scheduler),
@@ -66,7 +70,10 @@ class TransformsMaybeTest
     {
         assertThat(new TransformsMaybe<>(new Upstream<>(new Complete()), new Downstream<>(new Completes<>())),
             new AllOf<>(
-                new Passes<>(scheduler -> Maybe::hide),
+                new Passes<>(scheduler -> Maybe::hide,
+                    "all of\n" +
+                        "  0: upstream completion,\n" +
+                        "  1: to downstream completes exactly once"),
                 new Fails<>(scheduler -> upsteam -> upsteam.ambWith(Maybe.error(new IOException())),
                     "all of\n  ...,\n  1: to downstream had errors [ <java.io.IOException> ]"),
                 new Fails<>(scheduler -> upsteam -> upsteam.delay(10, TimeUnit.SECONDS),
@@ -82,7 +89,12 @@ class TransformsMaybeTest
     {
         assertThat(new TransformsMaybe<Integer, Integer>(new Upstream<>(new Emit<>(123)), new Downstream<>(new Errors<>(IOException.class))),
             new AllOf<>(
-                new Passes<>(scheduler -> upsteam -> upsteam.ambWith(Maybe.error(new IOException()))),
+                new Passes<>(scheduler -> upsteam -> upsteam.ambWith(Maybe.error(new IOException())),
+                    "all of\n" +
+                        "  0: upstream emissions [123],\n" +
+                        "  1: to downstream had errors that iterated [\n" +
+                        "    0: instance of <class java.io.IOException>\n" +
+                        "  ]"),
                 new Fails<>(scheduler -> Maybe::hide, "all of\n  ...,\n  1: to downstream had errors that iterated [\n    0: missing instance of <class java.io.IOException>\n  ]"),
                 new Fails<>(scheduler -> upsteam -> upsteam.delay(10, TimeUnit.SECONDS),
                     "all of\n  ...,\n  1: to downstream had errors that iterated [\n    0: missing instance of <class java.io.IOException>\n  ]"),
@@ -97,7 +109,12 @@ class TransformsMaybeTest
     {
         assertThat(new TransformsMaybe<Integer, Integer>(new Upstream<>(new Error(new IOException())), new Downstream<>(new CompletesWith<>(123))),
             new AllOf<>(
-                new Passes<>(scheduler -> upsteam -> upsteam.onErrorReturnItem(123)),
+                new Passes<>(scheduler -> upsteam -> upsteam.onErrorReturnItem(123),
+                    "all of\n" +
+                        "  0: upstream error <java.io.IOException>,\n" +
+                        "  1: to downstream completed with iterates [\n" +
+                        "    0: 123\n" +
+                        "  ]"),
                 new Fails<>(scheduler -> Maybe::hide,
                     "all of\n  ...,\n  1: to downstream completed 0 times"),
                 new Fails<>(scheduler -> upsteam -> upsteam.delay(10, TimeUnit.SECONDS),

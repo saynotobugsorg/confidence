@@ -22,7 +22,13 @@ class ObservableThatTest
     {
         assertThat(new ObservableThat<>(new Within<>(Duration.ofSeconds(2), new Emits<>(1, 2, 3))),
             new AllOf<>(
-                new Passes<>(scheduler -> Observable.just(1, 2, 3).delay(2, TimeUnit.SECONDS, scheduler)),
+                new Passes<>(scheduler -> Observable.just(1, 2, 3).delay(2, TimeUnit.SECONDS, scheduler),
+                    "all of\n" +
+                    "  0: emits 3 items iterates [\n" +
+                    "    0: 1\n" +
+                    "    1: 2\n" +
+                    "    2: 3\n" +
+                    "  ]"),
                 new Fails<>(scheduler -> Observable.just(1, 2, 3).delay(30, TimeUnit.SECONDS, scheduler),
                     "Observable that all of\n  0: after PT2S emitted 0 items iterated [\n    0: missing 1\n    1: missing 2\n    2: missing 3\n  ]"),
                 new HasDescription("Observable that all of\n  0: after PT2S emits 3 items iterates [\n    0: 1\n    1: 2\n    2: 3\n  ]")

@@ -34,7 +34,7 @@ class MatchesTest
     {
         assertThat(new Matches<>(Matchers.equalTo(123)),
             new AllOf<>(
-                new Passes<>(123),
+                new Passes<>(123, "<123>"),
                 new Fails<>(12, "was <12>"),
                 new HasDescription("<123>")
             ));

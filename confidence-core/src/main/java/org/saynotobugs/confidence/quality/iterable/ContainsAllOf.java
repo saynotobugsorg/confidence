@@ -29,8 +29,8 @@ import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.Fail;
 import org.saynotobugs.confidence.assessment.Pass;
+import org.saynotobugs.confidence.description.Block;
 import org.saynotobugs.confidence.description.Spaced;
-import org.saynotobugs.confidence.description.Structured;
 import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.description.Value;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
@@ -38,7 +38,7 @@ import org.saynotobugs.confidence.quality.object.EqualTo;
 
 import java.util.ArrayList;
 
-import static org.saynotobugs.confidence.description.LiteralDescription.COMMA_NEW_LINE;
+import static org.saynotobugs.confidence.description.LiteralDescription.EMPTY;
 
 
 @StaticFactories(
@@ -82,10 +82,11 @@ public final class ContainsAllOf<T> extends QualityComposition<Iterable<T>>
     public ContainsAllOf(Iterable<? extends Quality<? super T>> delegates)
     {
         super(actual -> assess(actual, delegates),
-            new Spaced(
+            new Block(
                 new Text("contains all of {"),
-                new Structured(COMMA_NEW_LINE, new Mapped<>(Quality::description, delegates)),
-                new Text("}")));
+                EMPTY,
+                new Text("}"),
+                new Mapped<>(Quality::description, delegates)));
     }
 
 
@@ -95,16 +96,17 @@ public final class ContainsAllOf<T> extends QualityComposition<Iterable<T>>
         if (missing.iterator().hasNext())
         {
             return new Fail(
-                new Spaced(
-                    new Value(actual),
-                    new Text("did not contain {"),
-                    new Structured(COMMA_NEW_LINE, new Mapped<>(Quality::description, missing)),
-                    new Text("}")));
+                new Block(
+                    new Spaced(new Value(actual), new Text("did not contain {")),
+                    EMPTY,
+                    new Text("}"),
+                    new Mapped<>(Quality::description, missing)));
         }
-        return new Pass(new Spaced(
-            new Text("contains all of {"),
-            new Structured(COMMA_NEW_LINE, new Mapped<>(Quality::description, delegates)),
-            new Text("}")));
+        return new Pass(new Block(
+            new Text("contained all of {"),
+            EMPTY,
+            new Text("}"),
+            new Mapped<>(Quality::description, delegates)));
     }
 
 

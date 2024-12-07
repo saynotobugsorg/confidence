@@ -20,11 +20,9 @@ class EntryOfTest
     {
         assertThat(new EntryOf<>(new EqualTo<>(12), new EqualTo<>("abc")),
             new AllOf<>(
-                new Passes<>(entry(12, "abc"), "all of\n" +
-                    "  0: 12\n" +
-                    "  1: \"abc\""),
-                new Fails<>(entry(13, "ab"), "Entry ( 12: \"abc\" )"),
-                new HasDescription("Entry ( 12: \"abc\" )")
+                new Passes<>(entry(12, "abc"), "Entry (12: \"abc\")"),
+                new Fails<>(entry(13, "ab"), "Entry (13: \"ab\")"),
+                new HasDescription("Entry (12: \"abc\")")
             ));
     }
 
@@ -34,9 +32,9 @@ class EntryOfTest
     {
         assertThat(new EntryOf<>(12, "abc"),
             new AllOf<>(
-                new Passes<>(entry(12, "abc"), ""),
-                new Fails<>(entry(13, "ab"), "Entry ( 12: \"abc\" )"),
-                new HasDescription("Entry ( 12: \"abc\" )")
+                new Passes<>(entry(12, "abc"), "Entry (12: \"abc\")"),
+                new Fails<>(entry(13, "ab"), "Entry (13: \"ab\")"),
+                new HasDescription("Entry (12: \"abc\")")
             ));
     }
 
@@ -46,9 +44,9 @@ class EntryOfTest
     {
         assertThat(new EntryOf<>(12, new EqualTo<>("abc")),
             new AllOf<>(
-                new Passes<>(entry(12, "abc"), ""),
-                new Fails<>(entry(13, "ab"), "Entry ( 12: \"abc\" )"),
-                new HasDescription("Entry ( 12: \"abc\" )")
+                new Passes<>(entry(12, "abc"), "Entry (12: \"abc\")"),
+                new Fails<>(entry(13, "ab"), "Entry (13: \"ab\")"),
+                new HasDescription("Entry (12: \"abc\")")
             ));
     }
 
@@ -58,9 +56,9 @@ class EntryOfTest
     {
         assertThat(new EntryOf<>(12),
             new AllOf<>(
-                new Passes<>(entry(12, "abc"), ""),
-                new Fails<>(entry(13, "ab"), "Entry ( 12: <anything> )"),
-                new HasDescription("Entry ( 12: <anything> )")
+                new Passes<>(entry(12, "abc"), "Entry (12: \"abc\")"),
+                new Fails<>(entry(13, "ab"), "Entry (13: \"ab\")"),
+                new HasDescription("Entry (12: <anything>)")
             ));
     }
 

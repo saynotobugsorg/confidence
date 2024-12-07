@@ -23,11 +23,12 @@ import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.Quality;
-import org.saynotobugs.confidence.assessment.FailPrepended;
+import org.saynotobugs.confidence.assessment.DescriptionUpdated;
 import org.saynotobugs.confidence.core.quality.Grammar;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.description.Value;
+import org.saynotobugs.confidence.description.bifunction.TextAndOriginal;
 import org.saynotobugs.confidence.quality.grammar.SoIt;
 
 import java.util.function.Consumer;
@@ -78,7 +79,9 @@ public final class ConsumerThatAffects<T> implements Quality<Consumer<T>>
     {
         T value = mValueSupplier.get();
         candidate.accept(value);
-        return new FailPrepended(new Spaced(new Text("Consumer that"), mValueDescription),
+        return new DescriptionUpdated(
+            new TextAndOriginal<>(new Spaced(new Text("Consumer that"), mValueDescription)),
+            new TextAndOriginal<>(new Spaced(new Text("Consumer that"), mValueDescription)),
             mValueQuality.assessmentOf(value));
     }
 

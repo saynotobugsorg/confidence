@@ -36,7 +36,8 @@ class SatisfiedByTest
     {
         assertThat(new SatisfiedBy<>("12"),
             new AllOf<>(
-                new Passes<>("12"::equals, s -> s.length() == 2),
+                new Passes<>("12"::equals, "not satisfied by \"12\""),
+                new Passes<>(s -> s.length() == 2, "not satisfied by \"12\""),
                 new Fails<>("123"::equals, "not satisfied by \"12\""),
                 new Fails<>(x -> {throw new IOException("failed");}, "threw <java.io.IOException: failed>"),
                 new HasDescription("satisfied by \"12\"")));

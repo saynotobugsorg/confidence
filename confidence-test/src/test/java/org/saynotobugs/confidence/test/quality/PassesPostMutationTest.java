@@ -40,7 +40,7 @@ class PassesPostMutationTest
     {
         assertThat(new PassesPostMutation<>(() -> new ArrayList<>(singletonList(1)), new Text("List::clear"), List::clear),
             new AllOf<>(
-                new Passes<Quality<List<Integer>>>(new Satisfies<>(anything -> true, new Text("pass")), "123"),
+                new Passes<Quality<List<Integer>>>(new Satisfies<>(anything -> true, new Text("pass")), "[]"),
                 new Fails<>(new Quality<List<Integer>>()
                 {
                     @Override

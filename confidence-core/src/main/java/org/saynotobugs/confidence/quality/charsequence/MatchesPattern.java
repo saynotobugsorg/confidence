@@ -20,10 +20,12 @@ package org.saynotobugs.confidence.quality.charsequence;
 
 import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
-import org.saynotobugs.confidence.description.CharSequenceDescription;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.description.Value;
+import org.saynotobugs.confidence.description.bifunction.Just;
+import org.saynotobugs.confidence.description.bifunction.ValueAndText;
+import org.saynotobugs.confidence.quality.composite.DescribedAs;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 import org.saynotobugs.confidence.quality.object.Satisfies;
 
@@ -44,9 +46,11 @@ public final class MatchesPattern extends QualityComposition<CharSequence>
 
     public MatchesPattern(Pattern pattern)
     {
-        super(new Satisfies<>(
-            actual -> pattern.matcher(actual).matches(),
-            actual -> new Spaced(new CharSequenceDescription(actual), new Text("mismatched pattern"), new Value(pattern)),
-            new Spaced(new Text("matches pattern"), new Value(pattern))));
+
+        super(new DescribedAs<>(
+            new ValueAndText<>(new Spaced(new Text("matched pattern"), new Value(pattern))),
+            new ValueAndText<>(new Spaced(new Text("mismatched pattern"), new Value(pattern))),
+            new Just<>(new Spaced(new Text("matches pattern"), new Value(pattern))),
+            new Satisfies<>(actual -> pattern.matcher(actual).matches())));
     }
 }

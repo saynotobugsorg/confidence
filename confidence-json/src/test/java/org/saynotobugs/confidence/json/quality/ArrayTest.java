@@ -41,7 +41,8 @@ class ArrayTest
         assertThat(new Array(new Anything()),
             new AllOf<>(
                 new Passes<>(mock(JsonElementAdapter.class,
-                    with(JsonElementAdapter::asArray, returning(new Present<>(mock(JsonArrayAdapter.class)))))),
+                    with(JsonElementAdapter::asArray, returning(new Present<>(mock("JSON Array", JsonArrayAdapter.class))))), "array,\n" +
+                    "  <JSON Array>"),
                 new Fails<>(mock("not an array", JsonElementAdapter.class,
                     with(JsonElementAdapter::asArray, returning(new Absent<>()))),
                     "not an array"),
@@ -79,7 +80,11 @@ class ArrayTest
                                         with(JsonElementAdapter::asString, returning(new Present<>("a"))))))),
                                 with(adapter -> adapter.elementAt(1), returning(
                                     new Present<>(mock(JsonElementAdapter.class,
-                                        with(JsonElementAdapter::asString, returning(new Present<>("b"))))))))))))),
+                                        with(JsonElementAdapter::asString, returning(new Present<>("b")))))))))))),
+                    "[\n" +
+                        "  0: \"a\",\n" +
+                        "  1: \"b\"\n" +
+                        "]"),
                 new Fails<>(
                     mock("JSON Array", JsonElementAdapter.class,
                         with(JsonElementAdapter::asArray, returning(
@@ -114,7 +119,11 @@ class ArrayTest
                                         with(JsonElementAdapter::asNumber, returning(new Present<>(1.2))))))),
                                 with(adapter -> adapter.elementAt(1), returning(
                                     new Present<>(mock(JsonElementAdapter.class,
-                                        with(JsonElementAdapter::asNumber, returning(new Present<>(5))))))))))))),
+                                        with(JsonElementAdapter::asNumber, returning(new Present<>(5)))))))))))),
+                    "[\n" +
+                        "  0: 1.2d,\n" +
+                        "  1: 5\n" +
+                        "]"),
                 new Fails<>(
                     mock("JSON Array", JsonElementAdapter.class,
                         with(JsonElementAdapter::asArray, returning(
@@ -149,7 +158,11 @@ class ArrayTest
                                         with(JsonElementAdapter::asString, returning(new Present<>("a"))))))),
                                 with(adapter -> adapter.elementAt(1), returning(
                                     new Present<>(mock(JsonElementAdapter.class,
-                                        with(JsonElementAdapter::asString, returning(new Present<>("b"))))))))))))),
+                                        with(JsonElementAdapter::asString, returning(new Present<>("b")))))))))))),
+                    "array,\n" +
+                        "  all of\n" +
+                        "    0: 0: \"a\"\n" +
+                        "    1: 1: \"b\""),
                 new Fails<>(
                     mock("JSON Array", JsonElementAdapter.class,
                         with(JsonElementAdapter::asArray, returning(

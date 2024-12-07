@@ -34,7 +34,10 @@ class HasDescriptionTest
                     {
                         return new Text("abc");
                     }
-                }, "description described as\n  ----\n  \"abc\"\n  ----"),
+                }, "description described as\n" +
+                    "  ----\n" +
+                    "  \"abc\"\n" +
+                    "  ----"),
                 new Fails<Quality<Object>>(new Quality<Object>()
                 {
                     @Override
@@ -74,7 +77,10 @@ class HasDescriptionTest
                     {
                         return new Text("1abc2");
                     }
-                }, "description describes as\n  ----\n  matches pattern /\\\\dabc\\\\d/\n  ----"),
+                }, "description described as\n" +
+                    "  ----\n" +
+                    "  matches pattern /\\\\dabc\\\\d/\n" +
+                    "  ----"),
                 new Fails<Quality<Object>>(new Quality<Object>()
                 {
                     @Override

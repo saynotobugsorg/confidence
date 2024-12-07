@@ -40,7 +40,7 @@ class AtTest
     {
         assertThat(new At(1, new Anything()),
             new AllOf<>(
-                new Passes<>(mock(JsonArrayAdapter.class, with(a -> a.elementAt(1), returning(new Present<>(mock(JsonElementAdapter.class)))))),
+                new Passes<>(mock(JsonArrayAdapter.class, with(a -> a.elementAt(1), returning(new Present<>(mock("JSON Element", JsonElementAdapter.class))))), "1: <JSON Element>"),
                 new Fails<>(mock(JsonArrayAdapter.class, with(a -> a.elementAt(1), returning(new Absent<>()))),
                     "1: missing"),
                 new HasDescription("1: <anything>")
@@ -68,7 +68,7 @@ class AtTest
                 new Passes<>(mock(JsonArrayAdapter.class,
                     with(a -> a.elementAt(1), returning(new Present<>(
                         mock("JSON Element", JsonElementAdapter.class,
-                            with(JsonElementAdapter::asNumber, returning(new Present<>(123))))))))),
+                            with(JsonElementAdapter::asNumber, returning(new Present<>(123)))))))), "1: 123"),
                 new Fails<>(mock(JsonArrayAdapter.class,
                     with(a -> a.elementAt(1), returning(new Present<>(
                         mock("JSON Element", JsonElementAdapter.class,
@@ -89,7 +89,7 @@ class AtTest
                 new Passes<>(mock(JsonArrayAdapter.class,
                     with(a -> a.elementAt(1), returning(new Present<>(
                         mock("JSON Element", JsonElementAdapter.class,
-                            with(JsonElementAdapter::asString, returning(new Present<>("abc"))))))))),
+                            with(JsonElementAdapter::asString, returning(new Present<>("abc")))))))), "1: \"abc\""),
                 new Fails<>(mock(JsonArrayAdapter.class,
                     with(a -> a.elementAt(1), returning(new Present<>(
                         mock("JSON Element", JsonElementAdapter.class,

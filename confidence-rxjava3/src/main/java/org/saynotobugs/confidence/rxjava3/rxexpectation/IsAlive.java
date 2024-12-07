@@ -20,7 +20,8 @@ package org.saynotobugs.confidence.rxjava3.rxexpectation;
 
 import org.dmfs.jems2.iterable.Seq;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
-import org.saynotobugs.confidence.description.Text;
+import org.saynotobugs.confidence.description.bifunction.Just;
+import org.saynotobugs.confidence.description.bifunction.Original;
 import org.saynotobugs.confidence.quality.composite.DescribedAs;
 import org.saynotobugs.confidence.quality.composite.Implied;
 import org.saynotobugs.confidence.quality.composite.Not;
@@ -43,8 +44,9 @@ public final class IsAlive<T> extends RxExpectationComposition<T>
     public IsAlive()
     {
         super(testScheduler -> new DescribedAs<>(
-            orig -> orig,
-            orig -> new Text("is alive"),
+            new Just<>("is alive"),
+            new Original<>(),
+            new Just<>("is alive"),
             new Implied<>(
                 new Seq<>(
                     new NoErrors<>(),

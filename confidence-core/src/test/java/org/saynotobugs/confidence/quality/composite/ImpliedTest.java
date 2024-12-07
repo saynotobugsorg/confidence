@@ -1,7 +1,7 @@
 package org.saynotobugs.confidence.quality.composite;
 
-import org.dmfs.jems2.iterable.Seq;
 import org.junit.jupiter.api.Test;
+import org.saynotobugs.confidence.description.bifunction.TextAndOriginal;
 import org.saynotobugs.confidence.quality.charsequence.HasLength;
 import org.saynotobugs.confidence.quality.object.EqualTo;
 import org.saynotobugs.confidence.test.quality.Fails;
@@ -15,12 +15,16 @@ class ImpliedTest
     @Test
     void test()
     {
-        assertThat(new Implied<>(new HasLength(3), new EqualTo<>("abc")),
+        assertThat(new Implied<>(new HasLength(3), new DescribedAs<String>(
+                new TextAndOriginal<>("was equal to"),
+                new TextAndOriginal<>("was not equal to"),
+                new TextAndOriginal<>("is equal to"),
+                new EqualTo<>("abc"))),
             new AllOf<>(
-                new Passes<>("abc", "\"abc\""),
-                new Fails<>("xyz", "\"xyz\""),
+                new Passes<>("abc", "was equal to \"abc\""),
+                new Fails<>("xyz", "was not equal to \"xyz\""),
                 new Fails<>("abcd", "\"abcd\" had length 4"),
-                new HasDescription("\"abc\"")
+                new HasDescription("is equal to \"abc\"")
             )
         );
     }

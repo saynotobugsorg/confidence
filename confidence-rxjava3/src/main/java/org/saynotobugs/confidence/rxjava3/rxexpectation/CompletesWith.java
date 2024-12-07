@@ -23,6 +23,8 @@ import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
+import org.saynotobugs.confidence.description.bifunction.Just;
+import org.saynotobugs.confidence.description.bifunction.Original;
 import org.saynotobugs.confidence.quality.composite.DescribedAs;
 import org.saynotobugs.confidence.quality.composite.Implied;
 import org.saynotobugs.confidence.quality.iterable.Iterates;
@@ -53,8 +55,9 @@ public final class CompletesWith<T> extends RxExpectationComposition<T>
     public CompletesWith(int elementCount, Quality<? super Iterable<T>> values)
     {
         super(testScheduler -> new DescribedAs<>(
-            orig -> orig,
-            orig -> new Spaced(new Text("completes with"), values.description()),
+            new Just<>(new Spaced(new Text("completed with"), values.description())),
+            new Original<>(),
+            new Just<>(new Spaced(new Text("completes with"), values.description())),
             new Implied<>(
                 new Seq<>(
                     new IsComplete(),

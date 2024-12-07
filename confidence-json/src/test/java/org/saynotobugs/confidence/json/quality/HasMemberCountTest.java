@@ -36,7 +36,7 @@ class HasMemberCountTest
     {
         assertThat(new HasMemberCount(4),
             new AllOf<>(
-                new Passes<>(mock(JsonObjectAdapter.class, with(JsonObjectAdapter::length, returning(4)))),
+                new Passes<>(mock(JsonObjectAdapter.class, with(JsonObjectAdapter::length, returning(4))), "had member count 4"),
                 new Fails<>(mock(JsonObjectAdapter.class, with(JsonObjectAdapter::length, returning(3))),
                     "had member count 3"),
                 new HasDescription("has member count 4")
@@ -48,8 +48,8 @@ class HasMemberCountTest
     {
         assertThat(new HasMemberCount(new GreaterThan<>(3)),
             new AllOf<>(
-                new Passes<>(mock(JsonObjectAdapter.class, with(JsonObjectAdapter::length, returning(4))),
-                    mock(JsonObjectAdapter.class, with(JsonObjectAdapter::length, returning(100)))),
+                new Passes<>(mock(JsonObjectAdapter.class, with(JsonObjectAdapter::length, returning(4))), "had member count 4"),
+                new Passes<>(mock(JsonObjectAdapter.class, with(JsonObjectAdapter::length, returning(100))), "had member count 100"),
                 new Fails<>(mock(JsonObjectAdapter.class, with(JsonObjectAdapter::length, returning(3))),
                     "had member count 3"),
                 new Fails<>(mock(JsonObjectAdapter.class, with(JsonObjectAdapter::length, returning(0))),

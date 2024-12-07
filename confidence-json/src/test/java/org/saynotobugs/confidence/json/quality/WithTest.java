@@ -38,7 +38,7 @@ class WithTest
     {
         assertThat(new With("abc"),
             new AllOf<>(
-                new Passes<>(mock(JsonObjectAdapter.class, with(o -> o.member("abc"), returning(new Present<>(mock(JsonElementAdapter.class)))))),
+                new Passes<>(mock(JsonObjectAdapter.class, with(o -> o.member("abc"), returning(new Present<>(mock("JSON Element", JsonElementAdapter.class))))), "\"abc\": <JSON Element>"),
                 new Fails<>(mock(JsonObjectAdapter.class, with(o -> o.member("abc"), returning(new Absent<>()))), "\"abc\": not a member"),
                 new HasDescription("\"abc\": <anything>")
             ));
@@ -51,7 +51,7 @@ class WithTest
             new AllOf<>(
                 new Passes<>(mock(JsonObjectAdapter.class, with(o -> o.member("abc"),
                     returning(new Present<>(mock(JsonElementAdapter.class,
-                        with(JsonElementAdapter::asString, returning(new Present<>("123"))))))))),
+                        with(JsonElementAdapter::asString, returning(new Present<>("123")))))))), "\"abc\": \"123\""),
                 new Fails<>(mock(JsonObjectAdapter.class, with(o -> o.member("abc"),
                     returning(new Present<>(mock(JsonElementAdapter.class,
                         with(JsonElementAdapter::asString, returning(new Absent<>()))))))), "\"abc\": not a string"),
@@ -69,7 +69,7 @@ class WithTest
             new AllOf<>(
                 new Passes<>(mock(JsonObjectAdapter.class, with(o -> o.member("abc"),
                     returning(new Present<>(mock(JsonElementAdapter.class,
-                        with(JsonElementAdapter::asNumber, returning(new Present<>(123))))))))),
+                        with(JsonElementAdapter::asNumber, returning(new Present<>(123)))))))), "\"abc\": 123"),
                 new Fails<>(mock(JsonObjectAdapter.class, with(o -> o.member("abc"),
                     returning(new Present<>(mock(JsonElementAdapter.class,
                         with(JsonElementAdapter::asNumber, returning(new Absent<>()))))))), "\"abc\": not a number"),

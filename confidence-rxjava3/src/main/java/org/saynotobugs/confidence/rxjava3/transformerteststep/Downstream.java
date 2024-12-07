@@ -24,6 +24,7 @@ import org.dmfs.jems2.iterable.Seq;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
+import org.saynotobugs.confidence.description.bifunction.TextAndOriginal;
 import org.saynotobugs.confidence.quality.composite.DescribedAs;
 import org.saynotobugs.confidence.rxjava3.RxExpectation;
 import org.saynotobugs.confidence.rxjava3.TransformerTestStepComposition;
@@ -34,7 +35,11 @@ public final class Downstream<Up, Down> extends TransformerTestStepComposition<U
 {
     public Downstream(RxExpectation<Down> event)
     {
-        super((scheduler, upstream) -> new Just<>(new DescribedAs<>(orig -> new Spaced(new Text("to downstream"), orig), event.quality(scheduler))));
+        super((scheduler, upstream) -> new Just<>(new DescribedAs<>(
+            new TextAndOriginal<>("to downstream"),
+            new TextAndOriginal<>("to downstream"),
+            new TextAndOriginal<>("to downstream"),
+            event.quality(scheduler))));
     }
 
 

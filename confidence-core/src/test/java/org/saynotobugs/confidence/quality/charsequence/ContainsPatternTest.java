@@ -16,8 +16,8 @@ class ContainsPatternTest
     {
         assertThat(new ContainsPattern("123"),
             new AllOf<>(
-                new Passes<>("123", "\"123\""),
-                new Passes<>("abc123xyz", "\"abc123xyz\""),
+                new Passes<>("123", "\"123\" contained pattern /123/"),
+                new Passes<>("abc123xyz", "\"abc123xyz\" contained pattern /123/"),
                 new Fails<>("12", "\"12\" did not contain pattern /123/"),
                 new Fails<>("abc", "\"abc\" did not contain pattern /123/"),
                 new HasDescription("contains pattern /123/")

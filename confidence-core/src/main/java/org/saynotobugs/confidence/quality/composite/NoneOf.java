@@ -76,7 +76,7 @@ public final class NoneOf<T> implements Quality<T>
                     {
                         return new Fail(result.description());
                     }
-                    return new Pass(this.description());
+                    return new Pass(result.description());
                 },
                 mDelegates));
     }

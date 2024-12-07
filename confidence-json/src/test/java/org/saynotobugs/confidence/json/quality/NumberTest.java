@@ -39,7 +39,7 @@ class NumberTest
         assertThat(new Number(new EqualTo<>(3)),
             new AllOf<>(
                 new Passes<>(mock("matching number", JsonElementAdapter.class,
-                    with(JsonElementAdapter::asNumber, returning(new Present<>(3))))),
+                    with(JsonElementAdapter::asNumber, returning(new Present<>(3)))), "3"),
                 new Fails<>(mock("mismatching number", JsonElementAdapter.class,
                     with(JsonElementAdapter::asNumber, returning(new Present<>(4)))),
                     "4"),
@@ -56,7 +56,7 @@ class NumberTest
         assertThat(new Number(3d),
             new AllOf<>(
                 new Passes<>(mock("matching number", JsonElementAdapter.class,
-                    with(JsonElementAdapter::asNumber, returning(new Present<>(3))))),
+                    with(JsonElementAdapter::asNumber, returning(new Present<>(3)))), "differs from 3.0 by less than 4.440892098500626E-16"),
                 new Fails<>(mock("mismatching number", JsonElementAdapter.class,
                     with(JsonElementAdapter::asNumber, returning(new Present<>(4)))),
                     "4 differs from 3.0 by 1.0, which exceeds the ε of 4.440892098500626E-16"),
@@ -74,7 +74,7 @@ class NumberTest
         assertThat(new Number(3f),
             new AllOf<>(
                 new Passes<>(mock("matching number", JsonElementAdapter.class,
-                    with(JsonElementAdapter::asNumber, returning(new Present<>(3))))),
+                    with(JsonElementAdapter::asNumber, returning(new Present<>(3)))), "differs from 3.0 by less than 2.3841858E-7"),
                 new Fails<>(mock("mismatching number", JsonElementAdapter.class,
                     with(JsonElementAdapter::asNumber, returning(new Present<>(4)))),
                     "4 differs from 3.0 by 1.0, which exceeds the ε of 2.3841858E-7"),
@@ -92,7 +92,7 @@ class NumberTest
         assertThat(new Number(3),
             new AllOf<>(
                 new Passes<>(mock("matching number", JsonElementAdapter.class,
-                    with(JsonElementAdapter::asNumber, returning(new Present<>(3))))),
+                    with(JsonElementAdapter::asNumber, returning(new Present<>(3)))), "3"),
                 new Fails<>(mock("mismatching number", JsonElementAdapter.class,
                     with(JsonElementAdapter::asNumber, returning(new Present<>(4)))),
                     "4"),
@@ -110,7 +110,7 @@ class NumberTest
         assertThat(new Number(3L),
             new AllOf<>(
                 new Passes<>(mock("matching number", JsonElementAdapter.class,
-                    with(JsonElementAdapter::asNumber, returning(new Present<>(3L))))),
+                    with(JsonElementAdapter::asNumber, returning(new Present<>(3L)))), "3l"),
                 new Fails<>(mock("mismatching number", JsonElementAdapter.class,
                     with(JsonElementAdapter::asNumber, returning(new Present<>(4L)))),
                     "4l"),
@@ -128,7 +128,7 @@ class NumberTest
         assertThat(new Number((java.lang.Number) 3),
             new AllOf<>(
                 new Passes<>(mock("matching number", JsonElementAdapter.class,
-                    with(JsonElementAdapter::asNumber, returning(new Present<>(3))))),
+                    with(JsonElementAdapter::asNumber, returning(new Present<>(3)))), "3"),
                 new Fails<>(mock("mismatching number", JsonElementAdapter.class,
                     with(JsonElementAdapter::asNumber, returning(new Present<>(4)))),
                     "4"),

@@ -40,7 +40,8 @@ class EmitTest
                     mock(RxSubjectAdapter.class, withVoid(adapter -> adapter.onNext(1), doingNothing()),
                         withVoid(adapter -> adapter.onNext(2), doingNothing()),
                         withVoid(adapter -> adapter.onNext(3), doingNothing()), with(Object::toString, returning("klklklk"))
-                    )
+                    ),
+                    "emissions [1,2,3]"
                 ),
                 new Fails<RxSubjectAdapter<Object>>(mock(RxSubjectAdapter.class, withVoid(adapter -> adapter.onNext(1), doingNothing()),
                     withVoid(adapter -> adapter.onNext(2), throwing(new RuntimeException("fail"))),

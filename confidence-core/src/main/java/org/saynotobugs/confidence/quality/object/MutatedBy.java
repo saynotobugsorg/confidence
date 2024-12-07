@@ -25,9 +25,10 @@ import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.Quality;
-import org.saynotobugs.confidence.assessment.FailPrepended;
+import org.saynotobugs.confidence.assessment.DescriptionUpdated;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
+import org.saynotobugs.confidence.description.bifunction.TextAndOriginal;
 
 
 @StaticFactories(
@@ -54,7 +55,7 @@ public final class MutatedBy<T> implements Quality<Generator<T>>
     {
         T value = candidate.next();
         mMutator.process(value);
-        return new FailPrepended(new Spaced(new Text("mutated by"), mValueDescription),
+        return new DescriptionUpdated(new TextAndOriginal<>(new Spaced(new Text("mutated by"), mValueDescription)),
             mValueQuality.assessmentOf(value));
     }
 

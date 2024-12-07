@@ -38,7 +38,7 @@ class BoolTest
         assertThat(new Bool(true),
             new AllOf<>(
                 new Passes<>(mock("matching boolean", JsonElementAdapter.class,
-                    with(JsonElementAdapter::asBoolean, returning(new Present<>(true))))),
+                    with(JsonElementAdapter::asBoolean, returning(new Present<>(true)))), "true"),
                 new Fails<>(mock("mismatching boolean", JsonElementAdapter.class,
                     with(JsonElementAdapter::asBoolean, returning(new Present<>(false)))),
                     "false"),
@@ -55,7 +55,7 @@ class BoolTest
         assertThat(new Bool(false),
             new AllOf<>(
                 new Passes<>(mock("matching boolean", JsonElementAdapter.class,
-                    with(JsonElementAdapter::asBoolean, returning(new Present<>(false))))),
+                    with(JsonElementAdapter::asBoolean, returning(new Present<>(false)))), "false"),
                 new Fails<>(mock("mismatching boolean", JsonElementAdapter.class,
                     with(JsonElementAdapter::asBoolean, returning(new Present<>(true)))),
                     "true"),

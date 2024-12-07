@@ -33,7 +33,9 @@ class JsonStringOfTest
     {
         assertThat(new JsonStringOf(new Object(new With("foo", new String("bar")))),
             new AllOf<>(
-                new Passes<>("{\"foo\": \"bar\"}"),
+                new Passes<>("{\"foo\": \"bar\"}", "JSON {\n" +
+                    "  \"foo\": \"bar\"\n" +
+                    "}"),
                 new Fails<>("{\"foo\": \"buzz\"}", "JSON {\n  \"foo\": \"buzz\"\n}"),
                 new Fails<>("[\"foo\"]", "JSON not an object"),
                 new Fails<>("\"foo\"", "JSON not an object"),
@@ -50,7 +52,14 @@ class JsonStringOfTest
     {
         assertThat(new JsonStringOf(new Array(new Object(new With("1")), new Object(new With("2")))),
             new AllOf<>(
-                new Passes<>("[{\"1\": 1},{\"2\": 2}]"),
+                new Passes<>("[{\"1\": 1},{\"2\": 2}]", "JSON [\n" +
+                    "  0: {\n" +
+                    "    \"1\": <anything>\n" +
+                    "  },\n" +
+                    "  1: {\n" +
+                    "    \"2\": <anything>\n" +
+                    "  }\n" +
+                    "]"),
                 new Fails<>("[\"foo\"]", "JSON had length 1"),
                 new Fails<>("{\"foo\": \"buzz\"}", "JSON not an array"),
                 new Fails<>("\"foo\"", "JSON not an array"),
@@ -62,11 +71,11 @@ class JsonStringOfTest
     }
 
     @Test
-    void test2()
+    void testString()
     {
         assertThat(new JsonStringOf(new String("123")),
             new AllOf<>(
-                new Passes<>("\"123\""),
+                new Passes<>("\"123\"", "JSON \"123\""),
                 new Fails<>("\"foo\"", "JSON \"foo\""),
                 new Fails<>("[\"foo\"]", "JSON not a string"),
                 new Fails<>("{\"foo\": \"buzz\"}", "JSON not a string"),

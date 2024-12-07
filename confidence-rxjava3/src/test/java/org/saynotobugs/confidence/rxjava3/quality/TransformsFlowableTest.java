@@ -48,7 +48,10 @@ class TransformsFlowableTest
     {
         assertThat(new TransformsFlowable<>(new org.saynotobugs.confidence.rxjava3.transformerteststep.Upstream<>(new Complete()), new Downstream<>(new Completes<>())),
             new AllOf<>(
-                new Passes<>(scheduler -> Flowable::hide),
+                new Passes<>(scheduler -> Flowable::hide,
+                    "all of\n" +
+                        "  0: upstream completion,\n" +
+                        "  1: to downstream completes exactly once"),
                 new Fails<>(scheduler -> upsteam -> upsteam.ambWith(Flowable.error(new IOException())), "all of\n  ...,\n  1: to downstream had errors [ <java.io.IOException> ]"),
                 new Fails<>(scheduler -> upsteam -> upsteam.delay(10, TimeUnit.SECONDS), "all of\n  ...,\n  1: to downstream completed 0 times"),
                 new HasDescription(
@@ -68,7 +71,17 @@ class TransformsFlowableTest
                 new org.saynotobugs.confidence.rxjava3.transformerteststep.Upstream<>(new Complete()),
                 new Downstream<>(new Completes<>())),
             new AllOf<>(
-                new Passes<>(scheduler -> upstream -> upstream.map(i -> i * 2)),
+                new Passes<>(scheduler -> upstream -> upstream.map(i -> i * 2),
+                    "all of\n" +
+                        "  0: upstream emissions [123] emissions [4],\n" +
+                        "  1: to downstream emits 2 items iterates [\n" +
+                        "    0: 246\n" +
+                        "    1: 8\n" +
+                        "  ],\n" +
+                        "  2: upstream emissions [200],\n" +
+                        "  3: to downstream emits 1 items 400,\n" +
+                        "  4: upstream completion,\n" +
+                        "  5: to downstream completes exactly once"),
                 new Fails<>(scheduler -> upsteam -> upsteam.map(i -> i * 3),
                     "all of\n  ...,\n  1: to downstream emitted 2 items iterated [\n    0: 369\n    1: 12\n  ]"),
                 new Fails<>(scheduler -> upsteam -> upsteam.ambWith(Flowable.error(new IOException())),

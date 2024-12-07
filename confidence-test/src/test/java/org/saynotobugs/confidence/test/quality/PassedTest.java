@@ -18,7 +18,12 @@ class PassedTest
     {
         assertThat(new Passed(new DescribesAs("abc")),
             new AllOf<>(
-                new Passes<>(new Pass(new Text("abc")), "abc"),
+                new Passes<>(new Pass(new Text("abc")), "both,\n" +
+                    "  passes and\n" +
+                    "  had description described as\n" +
+                    "    ----\n" +
+                    "    \"abc\"\n" +
+                    "    ----"),
                 new Fails<Assessment>(new Assessment()
                 {
                     @Override
