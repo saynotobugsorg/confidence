@@ -16,8 +16,12 @@ class BothTest
     {
         assertThat(new Both<>(new LessThan<>(10), new GreaterThan<>(5)),
             new AllOf<>(
-                new Passes<>(6, ""),
-                new Passes<>(9, ""),
+                new Passes<>(6, "both,\n" +
+                    "  6 and\n" +
+                    "  6"),
+                new Passes<>(9, "both,\n" +
+                    "  9 and\n" +
+                    "  9"),
                 new Fails<>(10, "both,\n  10 and\n  ..."),
                 new Fails<>(3, "both,\n  ... and\n  3"),
                 new HasDescription("both,\n  less than 10 and\n  greater than 5")
