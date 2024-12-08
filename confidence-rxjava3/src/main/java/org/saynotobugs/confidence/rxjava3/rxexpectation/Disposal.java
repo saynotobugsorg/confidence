@@ -34,6 +34,6 @@ public final class Disposal<T> extends RxExpectationComposition<T>
      */
     public Disposal()
     {
-        super(testScheduFler -> new Successfully<>(new Text("disposal"), new Text("disposal"), RxTestAdapter::cancel));
+        super(testScheduFler -> new Successfully<>(new Text("disposal"), new Text("disposal"), new Text("disposal"), RxTestAdapter::cancel));
     }
 }

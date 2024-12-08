@@ -37,11 +37,11 @@ class CompleteTest
         assertThat(new Complete(),
             new AllOf<>(
                 new Passes<RxSubjectAdapter<Object>>(
-                    mock(RxSubjectAdapter.class, withVoid(RxSubjectAdapter::onComplete, doingNothing())), "completion"),
+                    mock(RxSubjectAdapter.class, withVoid(RxSubjectAdapter::onComplete, doingNothing())), "complete"),
                 new Fails<RxSubjectAdapter<Object>>(
                     mock(RxSubjectAdapter.class, withVoid(RxSubjectAdapter::onComplete, throwing(new RuntimeException("fail")))),
                     "completion failed with <java.lang.RuntimeException: fail>"),
-                new HasDescription("completion")
+                new HasDescription("complete")
             ));
     }
 }

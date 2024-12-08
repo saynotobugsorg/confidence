@@ -40,13 +40,13 @@ class SystemOutTest
             new ResourceThat<Generator<String>>(
                 1, allOf(
                 has("generated", Generator::next, emptyCharSequence()),
-                successfully(new Text("Writes to System.out"), new Text("Writes to System.out"),
+                successfully(new Text("Wrote to System.out"), new Text("Wrote to System.out"), new Text("Writes to System.out"),
                     (Generator<?> systemOut) -> System.out.print("Hello Test")),
                 has("generated", Generator::next, equalTo("Hello Test"))
             ),
                 allOf(
                     has("generated", Generator::next, equalTo("Hello Test")),
-                    successfully(new Text("Writes to System.out"), new Text("Writes to System.out"),
+                    successfully(new Text("Wrote to System.out"), new Text("Wrote to System.out"), new Text("Writes to System.out"),
                         (Generator<?> systemOut) -> System.out.print("More Output")),
                     // no further changes expected
                     has("generated", Generator::next, equalTo("Hello Test"))

@@ -23,9 +23,10 @@ import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.Quality;
-import org.saynotobugs.confidence.assessment.FailPrepended;
+import org.saynotobugs.confidence.assessment.DescriptionUpdated;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
+import org.saynotobugs.confidence.description.bifunction.TextAndOriginal;
 import org.saynotobugs.confidence.rxjava3.RxExpectation;
 import org.saynotobugs.confidence.rxjava3.RxTestAdapter;
 
@@ -79,7 +80,9 @@ public final class Within<T> implements RxExpectation<T>
             {
                 scheduler.advanceTimeBy(mDuration.toMillis(), TimeUnit.MILLISECONDS);
                 scheduler.triggerActions();
-                return new FailPrepended(mDescription, delegate.assessmentOf(candidate));
+                return new DescriptionUpdated(
+                    new TextAndOriginal<>(mDescription),
+                    delegate.assessmentOf(candidate));
             }
 
 

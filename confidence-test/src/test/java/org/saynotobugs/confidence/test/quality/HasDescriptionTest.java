@@ -79,7 +79,7 @@ class HasDescriptionTest
                     }
                 }, "description described as\n" +
                     "  ----\n" +
-                    "  matches pattern /\\\\dabc\\\\d/\n" +
+                    "  \"1abc2\" matched pattern /\\\\dabc\\\\d/\n" +
                     "  ----"),
                 new Fails<Quality<Object>>(new Quality<Object>()
                 {

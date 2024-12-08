@@ -46,7 +46,7 @@ class WithFinalizerTest
         assertThat(new WithFinalizer<>(Closeable::close, new Text("Closable that"), new SameAs<>(mockClosable)),
             new AllOf<>(
                 new Passes<>(mockClosable, "Closable that\n  <bar> and\n  was finalized"),
-                new HasDescription("Closable that same instance as <bar> and is finalized")
+                new HasDescription("Closable that same instance as <bar> and finalizes")
             ));
         verify(mockClosable).close();
     }
@@ -61,7 +61,7 @@ class WithFinalizerTest
         assertThat(new WithFinalizer<>(Closeable::close, new Text("Closable that"), new Not<>(new SameAs<>(mockClosable))),
             new AllOf<>(
                 new Fails<>(mockClosable, "Closable that\n  <bar> and\n  ..."),
-                new HasDescription("Closable that not same instance as <bar> and is finalized")
+                new HasDescription("Closable that not same instance as <bar> and finalizes")
             ));
         verify(mockClosable).close();
     }
@@ -75,8 +75,8 @@ class WithFinalizerTest
             with(Objects::toString, returning("bar")));
         assertThat(new WithFinalizer<>(Closeable::close, new Text("Closable that"), new SameAs<>(mockClosable)),
             new AllOf<>(
-                new Fails<>(mockClosable, "Closable that\n  ... and\n  was throwing <java.io.IOException: error>"),
-                new HasDescription("Closable that same instance as <bar> and is finalized")
+                new Fails<>(mockClosable, "Closable that\n  ... and\n  threw <java.io.IOException: error>"),
+                new HasDescription("Closable that same instance as <bar> and finalizes")
             ));
         verify(mockClosable).close();
     }
@@ -90,8 +90,8 @@ class WithFinalizerTest
             with(Objects::toString, returning("bar")));
         assertThat(new WithFinalizer<>(Closeable::close, new Text("Closable that"), new Not<>(new SameAs<>(mockClosable))),
             new AllOf<>(
-                new Fails<>(mockClosable, "Closable that\n  <bar> and\n  was throwing <java.io.IOException: error>"),
-                new HasDescription("Closable that not same instance as <bar> and is finalized")
+                new Fails<>(mockClosable, "Closable that\n  <bar> and\n  threw <java.io.IOException: error>"),
+                new HasDescription("Closable that not same instance as <bar> and finalizes")
             ));
         verify(mockClosable).close();
     }

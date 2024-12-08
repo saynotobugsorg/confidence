@@ -21,10 +21,11 @@ package org.saynotobugs.confidence.rxjava3.rxexpectation.internal;
 import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.Quality;
-import org.saynotobugs.confidence.assessment.FailPrepended;
+import org.saynotobugs.confidence.assessment.DescriptionUpdated;
 import org.saynotobugs.confidence.description.NumberDescription;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
+import org.saynotobugs.confidence.description.bifunction.TextAndOriginal;
 import org.saynotobugs.confidence.rxjava3.RxTestAdapter;
 
 import java.util.Collection;
@@ -54,11 +55,11 @@ public final class Emits<T> implements Quality<RxTestAdapter<T>>
         {
             candidate.ack(values.size());
         }
-        return new FailPrepended(
-            new Spaced(
+        return new DescriptionUpdated(
+            new TextAndOriginal<>(new Spaced(
                 new Text("emitted"),
                 new NumberDescription(values.size()),
-                new Text("items")),
+                new Text("items"))),
             result);
     }
 

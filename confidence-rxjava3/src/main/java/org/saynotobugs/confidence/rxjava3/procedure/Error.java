@@ -43,6 +43,7 @@ public final class Error extends QualityComposition<RxSubjectAdapter<?>>
         super(new Successfully<>(
             new Spaced(new Text("error"), new Value(error.value())),
             new Text("error failed with"),
+            new Spaced(new Text("error"), new Value(error.value())),
             rxSubjectAdapter -> new ForEach<>(error).process(rxSubjectAdapter::onError)));
     }
 

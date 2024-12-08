@@ -35,7 +35,7 @@ class DescribesAsTest
                 new Passes<>(scribe -> scribe.append("a123b"),
                     "described as\n" +
                         "  ----\n" +
-                        "  matches pattern /\\\\w123\\\\w/\n" +
+                        "  \"a123b\" matched pattern /\\\\w123\\\\w/\n" +
                         "  ----"),
                 new Fails<>(scribe -> scribe.append("ab123"), "described as\n  ----\n  \"ab123\" mismatched pattern /\\\\w123\\\\w/\n  ----"),
                 new HasDescription("describes as\n  ----\n  matches pattern /\\\\w123\\\\w/\n  ----")

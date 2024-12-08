@@ -44,6 +44,7 @@ public final class AutoClosableThat<T extends AutoCloseable> extends QualityComp
                 new Successfully<>(
                     new Text("closed"),
                     new Text("closed throwing"),
+                    new Text("closed"),
                     AutoCloseable::close)),
             new Text("AutoClosable that"),
             delegate

@@ -57,12 +57,12 @@ class TransformsCompletableTest
             new AllOf<>(
                 new Passes<>(scheduler -> Completable::hide,
                     "all of\n" +
-                        "  0: upstream completion,\n" +
+                        "  0: upstream complete,\n" +
                         "  1: to downstream completes exactly once"),
                 new Fails<>(scheduler -> upsteam -> upsteam.andThen(Completable.error(new IOException())), "all of\n  ...,\n  1: to downstream had errors [ <java.io.IOException> ]"),
                 new Fails<>(scheduler -> upsteam -> upsteam.delay(10, TimeUnit.SECONDS, scheduler), "all of\n  ...,\n  1: to downstream completed 0 times"),
                 new HasDescription(
-                    "CompletableTransformer that transforms\n  all of\n    0: upstream completion,\n    1: to downstream completes exactly once")
+                    "CompletableTransformer that transforms\n  all of\n    0: upstream complete,\n    1: to downstream completes exactly once")
             ));
     }
 
@@ -74,7 +74,7 @@ class TransformsCompletableTest
             new AllOf<>(
                 new Passes<>(scheduler -> upsteam -> upsteam.andThen(Completable.error(new IOException())), "" +
                     "all of\n" +
-                    "  0: upstream completion,\n" +
+                    "  0: upstream complete,\n" +
                     "  1: to downstream had errors that iterated [\n" +
                     "    0: instance of <class java.io.IOException>\n" +
                     "  ]"),
@@ -83,7 +83,7 @@ class TransformsCompletableTest
                 new Fails<>(scheduler -> upsteam -> upsteam.delay(10, TimeUnit.SECONDS, scheduler),
                     "all of\n  ...,\n  1: to downstream had errors that iterated [\n    0: missing instance of <class java.io.IOException>\n  ]"),
                 new HasDescription(
-                    "CompletableTransformer that transforms\n  all of\n    0: upstream completion,\n    1: to downstream has errors that iterates [\n      0: instance of <class java.io.IOException>\n    ]")
+                    "CompletableTransformer that transforms\n  all of\n    0: upstream complete,\n    1: to downstream has errors that iterates [\n      0: instance of <class java.io.IOException>\n    ]")
             ));
     }
 

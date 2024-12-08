@@ -54,10 +54,10 @@ class JsonStringOfTest
             new AllOf<>(
                 new Passes<>("[{\"1\": 1},{\"2\": 2}]", "JSON [\n" +
                     "  0: {\n" +
-                    "    \"1\": <anything>\n" +
+                    "    \"1\": <1>\n" +
                     "  },\n" +
                     "  1: {\n" +
-                    "    \"2\": <anything>\n" +
+                    "    \"2\": <2>\n" +
                     "  }\n" +
                     "]"),
                 new Fails<>("[\"foo\"]", "JSON had length 1"),

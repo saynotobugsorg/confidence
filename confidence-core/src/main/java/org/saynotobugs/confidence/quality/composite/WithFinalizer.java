@@ -28,7 +28,6 @@ import org.saynotobugs.confidence.assessment.AllPassed;
 import org.saynotobugs.confidence.assessment.Fail;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
-import org.saynotobugs.confidence.quality.grammar.Is;
 import org.saynotobugs.confidence.quality.object.Successfully;
 
 
@@ -52,7 +51,7 @@ public final class WithFinalizer<T> implements Quality<T>
         Description description,
         Quality<? super T> delegate)
     {
-        this(new Is<>(new Successfully<>(new Text("finalized"), new Text("throwing"), finalizer)),
+        this(new Successfully<>(new Text("was finalized"), new Text("threw"), new Text("finalizes"), finalizer),
             description,
             delegate);
     }

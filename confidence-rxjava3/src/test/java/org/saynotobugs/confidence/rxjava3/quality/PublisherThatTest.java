@@ -25,7 +25,7 @@ class PublisherThatTest
             new AllOf<>(
                 new Passes<>(scheduler -> Flowable.just(1, 2, 3).delay(2, TimeUnit.SECONDS, scheduler),
                     "all of\n" +
-                        "  0: emits 3 items iterates [\n" +
+                        "  0: after PT2S emitted 3 items iterated [\n" +
                         "    0: 1\n" +
                         "    1: 2\n" +
                         "    2: 3\n" +
@@ -43,7 +43,7 @@ class PublisherThatTest
             new AllOf<>(
                 new Passes<>(scheduler -> Flowable.just(1, 2, 3).delay(2, TimeUnit.SECONDS, scheduler),
                     "all of\n" +
-                        "  0: in exactly PT2S emits 3 items iterates [\n" +
+                        "  0: in exactly PT2S emitted 3 items iterated [\n" +
                         "    0: 1\n" +
                         "    1: 2\n" +
                         "    2: 3\n" +

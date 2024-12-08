@@ -39,7 +39,7 @@ class ConsumerThatAcceptsTest
                 new Passes<>(x -> {}, "Consumer that accepted \"a\""),
                 new Fails<>(x -> {
                     throw new RuntimeException();
-                }, "Consumer that accepts \"a\" threw <java.lang.RuntimeException>"),
+                }, "Consumer that accepted \"a\" threw <java.lang.RuntimeException>"),
                 new HasDescription("Consumer that accepts \"a\"")
             ));
     }
@@ -53,7 +53,7 @@ class ConsumerThatAcceptsTest
                 new Passes<>(x -> {}, "Consumer that accepted \"a\""),
                 new Fails<>(x -> {
                     throw new RuntimeException();
-                }, "Consumer that accepts \"a\" threw <java.lang.RuntimeException>"),
+                }, "Consumer that accepted \"a\" threw <java.lang.RuntimeException>"),
                 new HasDescription("Consumer that accepts \"a\"")
             ));
     }
@@ -62,11 +62,11 @@ class ConsumerThatAcceptsTest
     @Test
     void testSuppliedValueWithDescription()
     {
-        assertThat(new ConsumerThatAccepts<>(new Text("Pass"), new Text("Fail"), () -> "a"),
+        assertThat(new ConsumerThatAccepts<>(new Text("Pass"), new Text("Fail"),new Text("Consumes"), () -> "a"),
             new AllOf<>(
                 new Passes<>(x -> {}, "Pass"),
                 new Fails<>(x -> {throw new RuntimeException();}, "Fail <java.lang.RuntimeException>"),
-                new HasDescription("Pass")
+                new HasDescription("Consumes")
             ));
     }
 }

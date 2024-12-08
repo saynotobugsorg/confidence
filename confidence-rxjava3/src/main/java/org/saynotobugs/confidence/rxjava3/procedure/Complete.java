@@ -30,6 +30,6 @@ public final class Complete extends QualityComposition<RxSubjectAdapter<?>>
 {
     public Complete()
     {
-        super(new Successfully<>(new Text("completion"), new Text("completion failed with"), RxSubjectAdapter::onComplete));
+        super(new Successfully<>(new Text("complete"), new Text("completion failed with"), new Text("complete"), RxSubjectAdapter::onComplete));
     }
 }

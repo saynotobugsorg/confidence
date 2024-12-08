@@ -22,7 +22,7 @@ class MaybeThatTest
     {
         assertThat(new MaybeThat<>(new Emits<>(new EqualTo<>(123))),
             new AllOf<>(
-                new Passes<>(ignored -> Maybe.just(123), "emits 1 items 123"),
+                new Passes<>(ignored -> Maybe.just(123), "emitted 1 items 123"),
                 new Fails<>(ignored -> Maybe.error(IOException::new), "Maybe that had errors [ <java.io.IOException> ]"),
                 new Fails<>(ignored -> Maybe.empty(), "Maybe that emitted 0 items had 0 elements"),
                 new Fails<>(ignored -> Maybe.just(124), "Maybe that emitted 1 items 124"),

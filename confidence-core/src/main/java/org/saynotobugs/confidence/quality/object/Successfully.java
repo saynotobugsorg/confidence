@@ -42,18 +42,21 @@ import org.saynotobugs.confidence.description.Value;
     deprecates = @DeprecatedFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality"))
 public final class Successfully<T> implements Quality<T>
 {
-    private final Description mExpectationDescription;
+    private final Description mPassDescription;
     private final Description mFailDescription;
+    private final Description mExpectationDescription;
     private final FragileProcedure<? super T, Exception> mCall;
 
 
     public Successfully(
-        Description expectationDescription,
+        Description passDescription,
         Description failDescription,
+        Description expectationDescription,
         FragileProcedure<? super T, Exception> call)
     {
-        mExpectationDescription = expectationDescription;
+        mPassDescription = passDescription;
         mFailDescription = failDescription;
+        mExpectationDescription = expectationDescription;
         mCall = call;
     }
 
@@ -64,7 +67,7 @@ public final class Successfully<T> implements Quality<T>
         try
         {
             mCall.process(candidate);
-            return new Pass(mExpectationDescription);
+            return new Pass(mPassDescription);
         }
         catch (Exception e)
         {

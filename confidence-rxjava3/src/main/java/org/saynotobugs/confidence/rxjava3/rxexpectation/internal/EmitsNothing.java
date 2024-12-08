@@ -18,9 +18,10 @@
 
 package org.saynotobugs.confidence.rxjava3.rxexpectation.internal;
 
-import org.saynotobugs.confidence.description.Spaced;
-import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.description.Value;
+import org.saynotobugs.confidence.description.bifunction.Just;
+import org.saynotobugs.confidence.description.bifunction.TextAndValue;
+import org.saynotobugs.confidence.quality.composite.DescribedAs;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 import org.saynotobugs.confidence.quality.object.Satisfies;
 import org.saynotobugs.confidence.rxjava3.RxTestAdapter;
@@ -30,10 +31,11 @@ public final class EmitsNothing<T> extends QualityComposition<RxTestAdapter<T>>
 {
     public EmitsNothing()
     {
-        super(new Satisfies<>(actual -> actual.newValues(Integer.MAX_VALUE).isEmpty(),
-            actual -> new Spaced(
-                new Text("emitted"),
-                new Value(actual.newValues(Integer.MAX_VALUE))),
-            new Text("emits nothing")));
+        super(
+            new DescribedAs<>(
+                new Just<>("emitted nothing"),
+                new TextAndValue<>("emitted", value -> new Value(value.newValues(Integer.MAX_VALUE))),
+                new Just<>("emits nothing"),
+                new Satisfies<>(actual -> actual.newValues(Integer.MAX_VALUE).isEmpty())));
     }
 }

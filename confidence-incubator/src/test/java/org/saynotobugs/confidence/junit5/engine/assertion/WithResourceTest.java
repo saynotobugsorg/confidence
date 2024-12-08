@@ -54,7 +54,7 @@ class WithResourceTest
                 mock(Function.class,
                     with(f -> f.value(resourceDummy), returning(mock(Assertion.class,
                         withVoid(Assertion::verify, doingNothing())))))),
-            new Successfully<>(new Text("Verifies"), new Text("Failed"), Assertion::verify)
+            new Successfully<>(new Text("Verified"), new Text("Failed"), new Text("Verifies"), Assertion::verify)
         );
 
         verify(mockResourceHandle).close();
@@ -116,7 +116,7 @@ class WithResourceTest
                 mock(BiFunction.class,
                     with(f -> f.value(resourceDummy1, resourceDummy2), returning(mock(Assertion.class,
                         withVoid(Assertion::verify, doingNothing())))))),
-            new Successfully<>(new Text("Verifies"), new Text("Failed"), Assertion::verify)
+            new Successfully<>(new Text("Verified"), new Text("Failed"), new Text("Verifies"), Assertion::verify)
         );
 
         verify(mockResourceHandle1).close();

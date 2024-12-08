@@ -50,12 +50,12 @@ class TransformsFlowableTest
             new AllOf<>(
                 new Passes<>(scheduler -> Flowable::hide,
                     "all of\n" +
-                        "  0: upstream completion,\n" +
+                        "  0: upstream complete,\n" +
                         "  1: to downstream completes exactly once"),
                 new Fails<>(scheduler -> upsteam -> upsteam.ambWith(Flowable.error(new IOException())), "all of\n  ...,\n  1: to downstream had errors [ <java.io.IOException> ]"),
                 new Fails<>(scheduler -> upsteam -> upsteam.delay(10, TimeUnit.SECONDS), "all of\n  ...,\n  1: to downstream completed 0 times"),
                 new HasDescription(
-                    "FlowableTransformer that transforms\n  all of\n    0: upstream completion,\n    1: to downstream completes exactly once")
+                    "FlowableTransformer that transforms\n  all of\n    0: upstream complete,\n    1: to downstream completes exactly once")
             ));
     }
 
@@ -74,13 +74,13 @@ class TransformsFlowableTest
                 new Passes<>(scheduler -> upstream -> upstream.map(i -> i * 2),
                     "all of\n" +
                         "  0: upstream emissions [123] emissions [4],\n" +
-                        "  1: to downstream emits 2 items iterates [\n" +
+                        "  1: to downstream emitted 2 items iterated [\n" +
                         "    0: 246\n" +
                         "    1: 8\n" +
                         "  ],\n" +
                         "  2: upstream emissions [200],\n" +
-                        "  3: to downstream emits 1 items 400,\n" +
-                        "  4: upstream completion,\n" +
+                        "  3: to downstream emitted 1 items 400,\n" +
+                        "  4: upstream complete,\n" +
                         "  5: to downstream completes exactly once"),
                 new Fails<>(scheduler -> upsteam -> upsteam.map(i -> i * 3),
                     "all of\n  ...,\n  1: to downstream emitted 2 items iterated [\n    0: 369\n    1: 12\n  ]"),
@@ -89,7 +89,7 @@ class TransformsFlowableTest
                 new Fails<>(scheduler -> upsteam -> upsteam.delay(10, TimeUnit.SECONDS, scheduler),
                     "all of\n  ...,\n  1: to downstream emitted 0 items iterated [\n    0: missing 246\n    1: missing 8\n  ]"),
                 new HasDescription(
-                    "FlowableTransformer that transforms\n  all of\n    0: upstream all of\n      0: emissions [123]\n      1: emissions [4],\n    1: to downstream emits 2 items iterates [\n      0: 246\n      1: 8\n    ],\n    2: upstream emissions [200],\n    3: to downstream emits 1 items 400,\n    4: upstream completion,\n    5: to downstream completes exactly once"
+                    "FlowableTransformer that transforms\n  all of\n    0: upstream all of\n      0: emissions [123]\n      1: emissions [4],\n    1: to downstream emits 2 items iterates [\n      0: 246\n      1: 8\n    ],\n    2: upstream emissions [200],\n    3: to downstream emits 1 items 400,\n    4: upstream complete,\n    5: to downstream completes exactly once"
                 )
             ));
     }

@@ -71,6 +71,7 @@ public final class Emit<Up> extends QualityComposition<RxSubjectAdapter<? super 
             new Spaced(new Text("emissions"),
                 new Structured("[", ",", "]", new Mapped<>(Value::new, emissions)),
                 new Text("failed with")),
+            new Spaced(new Text("emissions"), new Structured("[", ",", "]", new Mapped<>(Value::new, emissions))),
             rxSubjectAdapter -> new Batch<>(rxSubjectAdapter::onNext).process(emissions)));
     }
 }

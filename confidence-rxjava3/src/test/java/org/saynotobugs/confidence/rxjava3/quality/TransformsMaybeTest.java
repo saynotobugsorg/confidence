@@ -72,14 +72,14 @@ class TransformsMaybeTest
             new AllOf<>(
                 new Passes<>(scheduler -> Maybe::hide,
                     "all of\n" +
-                        "  0: upstream completion,\n" +
+                        "  0: upstream complete,\n" +
                         "  1: to downstream completes exactly once"),
                 new Fails<>(scheduler -> upsteam -> upsteam.ambWith(Maybe.error(new IOException())),
                     "all of\n  ...,\n  1: to downstream had errors [ <java.io.IOException> ]"),
                 new Fails<>(scheduler -> upsteam -> upsteam.delay(10, TimeUnit.SECONDS),
                     "all of\n  ...,\n  1: to downstream completed 0 times"),
                 new HasDescription(
-                    "MaybeTransformer that transforms\n  all of\n    0: upstream completion,\n    1: to downstream completes exactly once")
+                    "MaybeTransformer that transforms\n  all of\n    0: upstream complete,\n    1: to downstream completes exactly once")
             ));
     }
 

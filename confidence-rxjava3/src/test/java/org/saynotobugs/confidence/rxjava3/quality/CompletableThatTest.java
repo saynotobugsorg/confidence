@@ -53,8 +53,8 @@ class CompletableThatTest
             new AllOf<>(
                 new Passes<>(scheduler -> Completable.complete().delay(1001, TimeUnit.MILLISECONDS, scheduler),
                     "all of\n" +
-                        "  0: is alive\n" +
-                        "  1: completes exactly once"),
+                        "  0: after PT1S is alive\n" +
+                        "  1: after PT0.001S completes exactly once"),
                 new Fails<>(scheduler -> Completable.error(IOException::new), "Completable that all of\n  0: after PT1S had errors [ <java.io.IOException> ]"),
                 new Fails<>(scheduler -> Completable.complete(), "Completable that all of\n  0: after PT1S completes exactly once"),
                 new Fails<>(scheduler -> Completable.never(), "Completable that all of\n  ...\n  1: after PT0.001S completed 0 times"),

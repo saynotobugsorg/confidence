@@ -51,7 +51,7 @@ class RxTestObserverTest
                 new MutatesArgument<>(
                     PublishSubject::create,
                     new SoIt<>(new Not<>(new Satisfies<>(PublishSubject::hasObservers, new Text("hasObserver")))),
-                    new When<>(new Successfully<>(new Text("Cancelled"), new Text("Cancelled"), (RxTestObserver<Object> o) -> o.cancel()))
+                    new When<>(new Successfully<>(new Text("Cancelled"), new Text("Cancelled"), new Text("Cancelled"), (RxTestObserver<Object> o) -> o.cancel()))
                 ))
         );
     }

@@ -29,7 +29,7 @@ class SingleThatTest
     {
         assertThat(new SingleThat<>(new Emits<>(new EqualTo<>(123))),
             new AllOf<>(
-                new Passes<>(ignored -> Single.just(123), "emits 1 items 123"),
+                new Passes<>(ignored -> Single.just(123), "emitted 1 items 123"),
                 new Fails<>(ignored -> Single.error(IOException::new), "Single that had errors [ <java.io.IOException> ]"),
                 new Fails<>(ignored -> Single.just(124), "Single that emitted 1 items 124"),
                 new HasDescription("Single that emits 1 items 123")
@@ -58,8 +58,8 @@ class SingleThatTest
             new AllOf<>(
                 new Passes<>((Function<Scheduler, Single<Integer>>) scheduler -> Single.just(123).delay(200, TimeUnit.MILLISECONDS, scheduler),
                     "all of\n" +
-                        "  0: emits nothing\n" +
-                        "  1: emits 1 items 123"),
+                        "  0: after PT0.1S emitted nothing\n" +
+                        "  1: after PT0.1S emitted 1 items 123"),
                 new Fails<>((Function<Scheduler, Single<Integer>>) scheduler -> Single.error(NoSuchElementException::new),
                     "Single that all of\n  ...\n  1: after PT0.1S had errors [ <java.util.NoSuchElementException> ]"),
                 new Fails<>((Function<Scheduler, Single<Integer>>) scheduler -> Single.just(124),
