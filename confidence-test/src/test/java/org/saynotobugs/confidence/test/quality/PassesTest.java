@@ -45,6 +45,22 @@ class PassesTest
                     @Override
                     public Assessment assessmentOf(Integer candidate)
                     {
+                        return new Pass(new Text("incorrect"));
+                    }
+
+
+                    @Override
+                    public org.saynotobugs.confidence.Description description()
+                    {
+                        return new Text("passes");
+                    }
+                },
+                    "passed 1 with description \n  ----\n  incorrect\n  ----"),
+                new Fails<>(new Quality<Integer>()
+                {
+                    @Override
+                    public Assessment assessmentOf(Integer candidate)
+                    {
                         return new Fail(new Text("failed"));
                     }
 

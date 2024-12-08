@@ -13,6 +13,17 @@ import static org.saynotobugs.confidence.Assertion.assertThat;
 class PassTest
 {
     @Test
+    void testDefaultCtor()
+    {
+        assertThat(new Pass(),
+            new AllOf<>(
+                new Satisfies<>(Assessment::isSuccess, new Text("passes")),
+                new Has<>(Assessment::description, new DescribesAs(""))
+            ));
+    }
+
+
+    @Test
     void test()
     {
         assertThat(new Pass(new Text("pass")),
@@ -21,5 +32,4 @@ class PassTest
                 new Has<>(Assessment::description, new DescribesAs("pass"))
             ));
     }
-
 }
