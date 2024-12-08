@@ -85,7 +85,7 @@ public final class NoneOf<T> implements Quality<T>
     @Override
     public Description description()
     {
-        return new Block(new Text("None of"), EMPTY, EMPTY,
+        return new Block(new Text("none of"), EMPTY, EMPTY,
             new Mapped<>(Quality::description, mDelegates));
     }
 }

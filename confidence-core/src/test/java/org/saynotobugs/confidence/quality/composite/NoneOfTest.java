@@ -27,7 +27,7 @@ class NoneOfTest
                 new Fails<>(1, "was\n  1\n  ..."),
                 new Fails<>(2, "was\n  ...\n  2\n  ..."),
                 new Fails<>(3, "was\n  ...\n  3"),
-                new HasDescription("None of\n  1\n  2\n  3")));
+                new HasDescription("none of\n  1\n  2\n  3")));
     }
 
 
@@ -47,6 +47,6 @@ class NoneOfTest
                 new Fails<>(1, "was\n  1\n  ..."),
                 new Fails<>(2, "was\n  ...\n  2\n  ..."),
                 new Fails<>(3, "was\n  ...\n  3"),
-                new HasDescription("None of\n  1\n  2\n  3")));
+                new HasDescription("none of\n  1\n  2\n  3")));
     }
 }

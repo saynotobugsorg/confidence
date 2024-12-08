@@ -36,19 +36,32 @@ class ContainsNoneOfTest
     {
         assertThat(new ContainsNoneOf<>("a", "b", "c"),
             new AllOf<>(
-                new Passes<>(new Seq<String>(), "contained none of { \"a\",\n  \"b\",\n  \"c\" }"),
-                new Passes<>(new Seq<>("1", "2", "3"), "contained none of { \"a\",\n  \"b\",\n  \"c\" }"),
+                new Passes<>(new Seq<String>(), "elements []"),
+                new Passes<>(new Seq<>("1", "2", "3"), "elements [\n" +
+                    "  was\n" +
+                    "    \"1\"\n" +
+                    "    \"1\"\n" +
+                    "    \"1\"\n" +
+                    "  was\n" +
+                    "    \"2\"\n" +
+                    "    \"2\"\n" +
+                    "    \"2\"\n" +
+                    "  was\n" +
+                    "    \"3\"\n" +
+                    "    \"3\"\n" +
+                    "    \"3\"\n" +
+                    "]"),
                 new Fails<>(new Seq<>("1", "a", "3"),
-                    "contained {\n  ...\n  1: \"a\"\n  ...\n}"),
+                    "elements [\n  ...\n  1: was\n    \"a\"\n    ...\n  ...\n]"),
                 new Fails<>(new Seq<>("1", "a", "c", "5"),
-                    "contained {\n  ...\n  1: \"a\"\n  2: \"c\"\n  ...\n}"),
+                    "elements [\n  ...\n  1: was\n    \"a\"\n    ...\n  2: was\n    ...\n    \"c\"\n  ...\n]"),
                 new Fails<>(new Seq<>("c", "b", "a"),
-                    "contained {\n  0: \"c\"\n  1: \"b\"\n  2: \"a\"\n}"),
+                    "elements [\n  0: was\n    ...\n    \"c\"\n  1: was\n    ...\n    \"b\"\n    ...\n  2: was\n    \"a\"\n    ...\n]"),
                 new Fails<>(new Seq<>("a", "a", "a"),
-                    "contained {\n  0: \"a\"\n  1: \"a\"\n  2: \"a\"\n}"),
+                    "elements [\n  0: was\n    \"a\"\n    ...\n  1: was\n    \"a\"\n    ...\n  2: was\n    \"a\"\n    ...\n]"),
                 new Fails<>(new Seq<>("a", "a", "a", "b", "b", "b"),
-                    "contained {\n  0: \"a\"\n  1: \"a\"\n  2: \"a\"\n  3: \"b\"\n  4: \"b\"\n  5: \"b\"\n}"),
-                new HasDescription("contains none of { \"a\",\n  \"b\",\n  \"c\" }")
+                    "elements [\n  0: was\n    \"a\"\n    ...\n  1: was\n    \"a\"\n    ...\n  2: was\n    \"a\"\n    ...\n  3: was\n    ...\n    \"b\"\n    ...\n  4: was\n    ...\n    \"b\"\n    ...\n  5: was\n    ...\n    \"b\"\n    ...\n]"),
+                new HasDescription("each element none of\n  \"a\"\n  \"b\"\n  \"c\"")
             ));
     }
 
@@ -57,19 +70,29 @@ class ContainsNoneOfTest
     {
         assertThat(new ContainsNoneOf<>(new MatchesPattern("[abc]"), new EqualTo<>("b")),
             new AllOf<>(
-                new Passes<Iterable<String>>(new Seq<>(), ""),
-                new Passes<>(new Seq<>("1", "2", "3"), ""),
+                new Passes<Iterable<String>>(new Seq<>(), "elements []"),
+                new Passes<>(new Seq<>("1", "2", "3"), "elements [\n" +
+                    "  was\n" +
+                    "    \"1\" mismatched pattern /[abc]/\n" +
+                    "    \"1\"\n" +
+                    "  was\n" +
+                    "    \"2\" mismatched pattern /[abc]/\n" +
+                    "    \"2\"\n" +
+                    "  was\n" +
+                    "    \"3\" mismatched pattern /[abc]/\n" +
+                    "    \"3\"\n" +
+                    "]"),
                 new Fails<>(new Seq<>("1", "a", "3"),
-                    "contained {\n  ...\n  1: \"a\" {\n    matches pattern /[abc]/\n  }\n  ...\n}"),
+                    "elements [\n  ...\n  1: was\n    \"a\" matched pattern /[abc]/\n    ...\n  ...\n]"),
                 new Fails<>(new Seq<>("1", "a", "c", "5"),
-                    "contained {\n  ...\n  1: \"a\" {\n    matches pattern /[abc]/\n  }\n  2: \"c\" {\n    matches pattern /[abc]/\n  }\n  ...\n}"),
+                    "elements [\n  ...\n  1: was\n    \"a\" matched pattern /[abc]/\n    ...\n  2: was\n    \"c\" matched pattern /[abc]/\n    ...\n  ...\n]"),
                 new Fails<>(new Seq<>("c", "b", "a"),
-                    "contained {\n  0: \"c\" {\n    matches pattern /[abc]/\n  }\n  1: \"b\" {\n    matches pattern /[abc]/\n    \"b\"\n  }\n  2: \"a\" {\n    matches pattern /[abc]/\n  }\n}"),
+                    "elements [\n  0: was\n    \"c\" matched pattern /[abc]/\n    ...\n  1: was\n    \"b\" matched pattern /[abc]/\n    \"b\"\n  2: was\n    \"a\" matched pattern /[abc]/\n    ...\n]"),
                 new Fails<>(new Seq<>("a", "a", "a"),
-                    "contained {\n  0: \"a\" {\n    matches pattern /[abc]/\n  }\n  1: \"a\" {\n    matches pattern /[abc]/\n  }\n  2: \"a\" {\n    matches pattern /[abc]/\n  }\n}"),
+                    "elements [\n  0: was\n    \"a\" matched pattern /[abc]/\n    ...\n  1: was\n    \"a\" matched pattern /[abc]/\n    ...\n  2: was\n    \"a\" matched pattern /[abc]/\n    ...\n]"),
                 new Fails<>(new Seq<>("a", "a", "a", "b", "b", "b"),
-                    "contained {\n  0: \"a\" {\n    matches pattern /[abc]/\n  }\n  1: \"a\" {\n    matches pattern /[abc]/\n  }\n  2: \"a\" {\n    matches pattern /[abc]/\n  }\n  3: \"b\" {\n    matches pattern /[abc]/\n    \"b\"\n  }\n  4: \"b\" {\n    matches pattern /[abc]/\n    \"b\"\n  }\n  5: \"b\" {\n    matches pattern /[abc]/\n    \"b\"\n  }\n}"),
-                new HasDescription("contains none of { matches pattern /[abc]/,\n  \"b\" }")
+                    "elements [\n  0: was\n    \"a\" matched pattern /[abc]/\n    ...\n  1: was\n    \"a\" matched pattern /[abc]/\n    ...\n  2: was\n    \"a\" matched pattern /[abc]/\n    ...\n  3: was\n    \"b\" matched pattern /[abc]/\n    \"b\"\n  4: was\n    \"b\" matched pattern /[abc]/\n    \"b\"\n  5: was\n    \"b\" matched pattern /[abc]/\n    \"b\"\n]"),
+                new HasDescription("each element none of\n  matches pattern /[abc]/\n  \"b\"")
             ));
     }
 
@@ -78,19 +101,29 @@ class ContainsNoneOfTest
     {
         assertThat(new ContainsNoneOf<>(new Seq<>(new MatchesPattern("[abc]"), new EqualTo<>("b"))),
             new AllOf<>(
-                new Passes<Iterable<String>>(new Seq<>(), ""),
-                new Passes<>(new Seq<>("1", "2", "3"), ""),
+                new Passes<Iterable<String>>(new Seq<>(), "elements []"),
+                new Passes<>(new Seq<>("1", "2", "3"), "elements [\n" +
+                    "  was\n" +
+                    "    \"1\" mismatched pattern /[abc]/\n" +
+                    "    \"1\"\n" +
+                    "  was\n" +
+                    "    \"2\" mismatched pattern /[abc]/\n" +
+                    "    \"2\"\n" +
+                    "  was\n" +
+                    "    \"3\" mismatched pattern /[abc]/\n" +
+                    "    \"3\"\n" +
+                    "]"),
                 new Fails<>(new Seq<>("1", "a", "3"),
-                    "contained {\n  ...\n  1: \"a\" {\n    \"a\" matched pattern /[abc]/\n  }\n  ...\n}"),
+                    "elements [\n  ...\n  1: was\n    \"a\" matched pattern /[abc]/\n    ...\n  ...\n]"),
                 new Fails<>(new Seq<>("1", "a", "c", "5"),
-                    "contained {\n  ...\n  1: \"a\" {\n    \"a\" matched pattern /[abc]/\n  }\n  2: \"c\" {\n    \"c\" matched pattern /[abc]/\n  }\n  ...\n}"),
+                    "elements [\n  ...\n  1: was\n    \"a\" matched pattern /[abc]/\n    ...\n  2: was\n    \"c\" matched pattern /[abc]/\n    ...\n  ...\n]"),
                 new Fails<>(new Seq<>("c", "b", "a"),
-                    "contained {\n  0: \"c\" {\n    \"c\" matched pattern /[abc]/\n  }\n  1: \"b\" {\n    \"b\" matched pattern /[abc]/\n    \"b\"\n  }\n  2: \"a\" {\n    \"a\" matched pattern /[abc]/\n  }\n}"),
+                    "elements [\n  0: was\n    \"c\" matched pattern /[abc]/\n    ...\n  1: was\n    \"b\" matched pattern /[abc]/\n    \"b\"\n  2: was\n    \"a\" matched pattern /[abc]/\n    ...\n]"),
                 new Fails<>(new Seq<>("a", "a", "a"),
-                    "contained {\n  0: \"a\" {\n    \"a\" matched pattern /[abc]/\n  }\n  1: \"a\" {\n    \"a\" matched pattern /[abc]/\n  }\n  2: \"a\" {\n    \"a\" matched pattern /[abc]/\n  }\n}"),
+                    "elements [\n  0: was\n    \"a\" matched pattern /[abc]/\n    ...\n  1: was\n    \"a\" matched pattern /[abc]/\n    ...\n  2: was\n    \"a\" matched pattern /[abc]/\n    ...\n]"),
                 new Fails<>(new Seq<>("a", "a", "a", "b", "b", "b"),
-                    "contained {\n  0: \"a\" {\n    \"a\" matched pattern /[abc]/\n  }\n  1: \"a\" {\n    \"a\" matched pattern /[abc]/\n  }\n  2: \"a\" {\n    \"a\" matched pattern /[abc]/\n  }\n  3: \"b\" {\n    \"b\" matched pattern /[abc]/\n    \"b\"\n  }\n  4: \"b\" {\n    \"b\" matched pattern /[abc]/\n    \"b\"\n  }\n  5: \"b\" {\n    \"b\" matched pattern /[abc]/\n    \"b\"\n  }\n}"),
-                new HasDescription("contains none of { matches pattern /[abc]/,\n  \"b\" }")
+                    "elements [\n  0: was\n    \"a\" matched pattern /[abc]/\n    ...\n  1: was\n    \"a\" matched pattern /[abc]/\n    ...\n  2: was\n    \"a\" matched pattern /[abc]/\n    ...\n  3: was\n    \"b\" matched pattern /[abc]/\n    \"b\"\n  4: was\n    \"b\" matched pattern /[abc]/\n    \"b\"\n  5: was\n    \"b\" matched pattern /[abc]/\n    \"b\"\n]"),
+                new HasDescription("each element none of\n  matches pattern /[abc]/\n  \"b\"")
             ));
     }
 }

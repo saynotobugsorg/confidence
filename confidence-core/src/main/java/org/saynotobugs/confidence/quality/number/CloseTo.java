@@ -25,6 +25,8 @@ import org.saynotobugs.confidence.description.Composite;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.description.Value;
+import org.saynotobugs.confidence.description.bifunction.Just;
+import org.saynotobugs.confidence.quality.composite.DescribedAs;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 import org.saynotobugs.confidence.quality.object.Satisfies;
 
@@ -86,21 +88,31 @@ public final class CloseTo extends QualityComposition<Number>
 
     public CloseTo(BigDecimal expectation, BigDecimal ε)
     {
-        super(new Satisfies<>(
-            actual -> expectation.subtract(new BigDecimal(actual.toString())).abs().compareTo(ε) < 0,
-            actual -> new Spaced(
-                new Value(actual),
-                new Text("differs from"),
-                new Value(expectation),
-                new Text("by"),
-                new Composite(
-                    new Value(expectation.subtract(new BigDecimal(actual.toString())).abs()),
-                    new Text(", which exceeds the ε of")),
-                new Value(ε)),
-            new Spaced(
-                new Text("differs from"),
-                new Value(expectation),
-                new Text("by less than"),
-                new Value(ε))));
+        super(
+            new DescribedAs<>(
+                (actual, originalDescription) -> new Spaced(
+                    new Value(actual),
+                    new Text("differed from"),
+                    new Value(expectation),
+                    new Text("by"),
+                    new Composite(
+                        new Value(expectation.subtract(new BigDecimal(actual.toString())).abs()),
+                        new Text(", which was less than")),
+                    new Value(ε)),
+                (actual, originalDescription) -> new Spaced(
+                    new Value(actual),
+                    new Text("differed from"),
+                    new Value(expectation),
+                    new Text("by"),
+                    new Composite(
+                        new Value(expectation.subtract(new BigDecimal(actual.toString())).abs()),
+                        new Text(", which exceeded the ε of")),
+                    new Value(ε)),
+                new Just<>(new Spaced(
+                    new Text("differs from"),
+                    new Value(expectation),
+                    new Text("by less than"),
+                    new Value(ε))),
+                new Satisfies<>(actual -> expectation.subtract(new BigDecimal(actual.toString())).abs().compareTo(ε) < 0)));
     }
 }
