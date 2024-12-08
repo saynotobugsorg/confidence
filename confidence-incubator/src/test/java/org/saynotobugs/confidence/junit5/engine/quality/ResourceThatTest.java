@@ -75,11 +75,11 @@ class ResourceThatTest
                         "    1: had value []\n" +
                         "  1: had parallel use all of\n" +
                         "    0: executions\n" +
-                        "      elements [\n" +
-                        "        had value []\n" +
+                        "      #0 in thread pool-1-thread-1 elements [\n" +
+                        "        0: had value []\n" +
                         "      ]\n" +
                         "    1: elements [\n" +
-                        "      AutoClosable that\n" +
+                        "      0: AutoClosable that\n" +
                         "        had value iterated [\n" +
                         "          0: \"1\"\n" +
                         "          1: \"2\"\n" +
@@ -87,7 +87,7 @@ class ResourceThatTest
                         "        was closed\n" +
                         "    ]\n" +
                         "    2: elements [\n" +
-                        "      had value []\n" +
+                        "      0: had value []\n" +
                         "    ]"),
                 new Fails<>(() -> new Resource<List<String>>()
                 {

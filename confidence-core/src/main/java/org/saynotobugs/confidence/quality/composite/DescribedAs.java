@@ -25,7 +25,6 @@ import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.DescriptionUpdated;
-import org.saynotobugs.confidence.assessment.FailUpdated;
 
 
 @StaticFactories(
@@ -34,33 +33,19 @@ import org.saynotobugs.confidence.assessment.FailUpdated;
     deprecates = @DeprecatedFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality"))
 public final class DescribedAs<T> extends QualityComposition<T>
 {
+    /**
+     * A {@link Quality} like the delegate {@link Quality} but with updated descriptions.
+     * <p>
+     * This constructor applies the same function to all three descriptions.
+     */
     public DescribedAs(
         Function<Description, ? extends Description> descriptionUpdate,
         Quality<T> delegate)
     {
-        this(descriptionUpdate, descriptionUpdate, delegate);
-    }
-
-
-    public DescribedAs(
-        Function<Description, ? extends Description> mismatchUpdate,
-        Function<Description, ? extends Description> expectationUpdate,
-        Quality<T> delegate)
-    {
-        super(
-            actual -> new FailUpdated(mismatchUpdate, delegate.assessmentOf(actual)),
-            expectationUpdate.value(delegate.description()));
-    }
-
-
-    public DescribedAs(
-        BiFunction<? super T, Description, ? extends Description> mismatchUpdate,
-        Function<Description, ? extends Description> expectationUpdate,
-        Quality<T> delegate)
-    {
-        super(
-            actual -> new FailUpdated(description -> mismatchUpdate.value(actual, description), delegate.assessmentOf(actual)),
-            expectationUpdate.value(delegate.description()));
+        this((value, description) -> descriptionUpdate.value(description),
+            (value, description) -> descriptionUpdate.value(description),
+            descriptionUpdate,
+            delegate);
     }
 
 

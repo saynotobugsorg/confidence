@@ -28,14 +28,14 @@ class EachTest
         assertThat(new Each<>(new LessThan<>(3)),
             new AllOf<>(
                 new Passes<>(asList(0, 1, 2), "elements [\n" +
-                    "  0\n" +
-                    "  1\n" +
-                    "  2\n" +
+                    "  0: 0\n" +
+                    "  1: 1\n" +
+                    "  2: 2\n" +
                     "]"),
                 new Passes<>(asList(0, 0, 0), "elements [\n" +
-                    "  0\n" +
-                    "  0\n" +
-                    "  0\n" +
+                    "  0: 0\n" +
+                    "  1: 0\n" +
+                    "  2: 0\n" +
                     "]"),
                 new Passes<List<Integer>>(emptyList(), "elements []"),
                 new Fails<>(asList(1, 4, 2), "elements [\n  ...\n  1: 4\n  ...\n]"),
@@ -50,24 +50,24 @@ class EachTest
         assertThat(new Each<>(new LessThan<>(3), new GreaterThan<>(0)),
             new AllOf<>(
                 new Passes<Iterable<Integer>>(asList(1, 1, 2), "elements [\n" +
-                    "  all of\n" +
+                    "  0: all of\n" +
                     "    0: 1\n" +
                     "    1: 1\n" +
-                    "  all of\n" +
+                    "  1: all of\n" +
                     "    0: 1\n" +
                     "    1: 1\n" +
-                    "  all of\n" +
+                    "  2: all of\n" +
                     "    0: 2\n" +
                     "    1: 2\n" +
                     "]"),
                 new Passes<>(asList(2, 2, 2), "elements [\n" +
-                    "  all of\n" +
+                    "  0: all of\n" +
                     "    0: 2\n" +
                     "    1: 2\n" +
-                    "  all of\n" +
+                    "  1: all of\n" +
                     "    0: 2\n" +
                     "    1: 2\n" +
-                    "  all of\n" +
+                    "  2: all of\n" +
                     "    0: 2\n" +
                     "    1: 2\n" +
                     "]"),

@@ -62,7 +62,7 @@ class ConsumerThatAcceptsTest
     @Test
     void testSuppliedValueWithDescription()
     {
-        assertThat(new ConsumerThatAccepts<>(new Text("Pass"), new Text("Fail"),new Text("Consumes"), () -> "a"),
+        assertThat(new ConsumerThatAccepts<>(new Text("Pass"), new Text("Fail"), new Text("Consumes"), () -> "a"),
             new AllOf<>(
                 new Passes<>(x -> {}, "Pass"),
                 new Fails<>(x -> {throw new RuntimeException();}, "Fail <java.lang.RuntimeException>"),

@@ -77,7 +77,7 @@ class ContainsFileTest
         dir.mkdir();
         assertThat(new ContainsFile("someDir", new Is<>(new ADirectory())),
             new AllOf<>(
-                new Passes<>(tempDir,  new DescribesAs(new MatchesPattern("contained \"someDir\" was directory </.*>"))),
+                new Passes<>(tempDir, new DescribesAs(new MatchesPattern("contained \"someDir\" was directory </.*>"))),
                 new Fails<>(file, "contained \"someDir\" was not a directory"),
                 new Fails<>(dir, "contained \"someDir\" was not a directory"),
                 new Fails<>(new File(tempDir, "nonExistentFile"), "contained \"someDir\" was not a directory"),

@@ -23,6 +23,7 @@ import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.description.Value;
+import org.saynotobugs.confidence.description.bifunction.TextAndOriginal;
 import org.saynotobugs.confidence.quality.composite.DescribedAs;
 import org.saynotobugs.confidence.quality.composite.Has;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
@@ -54,6 +55,8 @@ public final class ContainsText extends QualityComposition<Path>
             new Text("contains"),
             new Text("contained"),
             path -> new String(Files.readAllBytes(path), charset),
-            new DescribedAs<>(orig -> new Spaced(new Value(charset.name()), new Text("text"), orig), delegate)));
+            new DescribedAs<>(
+                new TextAndOriginal<>(new Spaced(new Value(charset.name()), new Text("text"))),
+                delegate)));
     }
 }

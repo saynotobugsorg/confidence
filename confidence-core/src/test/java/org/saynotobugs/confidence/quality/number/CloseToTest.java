@@ -35,7 +35,7 @@ class CloseToTest
             new AllOf<>(
                 new Passes<>(1.0000000000000001, "1.0d differed from 1.0 by 0.0, which was less than 2.220446049250313E-16"),
                 new Passes<>(0.9999999999999999, "0.9999999999999999d differed from 1.0 by 1E-16, which was less than 2.220446049250313E-16"),
-                new Fails<>(1.01001d,     "1.01001d differed from 1.0 by 0.01001, which exceeded the ε of 2.220446049250313E-16"),
+                new Fails<>(1.01001d, "1.01001d differed from 1.0 by 0.01001, which exceeded the ε of 2.220446049250313E-16"),
                 new HasDescription("differs from 1.0 by less than 2.220446049250313E-16")
             ));
     }

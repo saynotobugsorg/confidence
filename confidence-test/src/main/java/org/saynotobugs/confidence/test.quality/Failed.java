@@ -23,10 +23,11 @@ import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.Quality;
+import org.saynotobugs.confidence.assessment.DescriptionUpdated;
 import org.saynotobugs.confidence.assessment.Fail;
-import org.saynotobugs.confidence.assessment.FailPrepended;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
+import org.saynotobugs.confidence.description.bifunction.TextAndOriginal;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 
 
@@ -39,7 +40,9 @@ public final class Failed extends QualityComposition<Assessment>
     {
         super(actual -> actual.isSuccess()
                 ? new Fail(new Text("passed"))
-                : new FailPrepended(new Text("failed with description"), mismatchDescription.assessmentOf(actual.description())),
+                : new DescriptionUpdated(
+                new TextAndOriginal<>("failed with description"),
+                mismatchDescription.assessmentOf(actual.description())),
             new Spaced(new Text("failed with"), mismatchDescription.description()));
     }
 }

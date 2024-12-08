@@ -28,9 +28,10 @@ import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.AllPassed;
-import org.saynotobugs.confidence.assessment.FailPrepended;
+import org.saynotobugs.confidence.assessment.DescriptionUpdated;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
+import org.saynotobugs.confidence.description.bifunction.TextAndOriginal;
 import org.saynotobugs.confidence.quality.composite.AllOf;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 
@@ -64,7 +65,9 @@ public final class Each<T> extends QualityComposition<Iterable<T>>
         super(actual -> new AllPassed(new Text("elements ["), EMPTY, new Text("]"),
                 new Collected<>(ArrayList::new,
                     new Mapped<Pair<Integer, Assessment>, Assessment>(
-                        numberedVerdict -> new FailPrepended(new Text(numberedVerdict.left() + ":"), numberedVerdict.right()),
+                        numberedVerdict -> new DescriptionUpdated(
+                            new TextAndOriginal<>(numberedVerdict.left() + ":"),
+                            numberedVerdict.right()),
                         new Numbered<>(new Mapped<>(delegate::assessmentOf, actual)))).value()),
             new Spaced(new Text("each element"), delegate.description()));
     }

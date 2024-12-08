@@ -25,7 +25,10 @@ import org.saynotobugs.confidence.description.Spaced;
 
 /**
  * A {@link Assessment} that prepends any mismatch {@link Description}.
+ *
+ * @deprecated use {@link DescriptionUpdated} to update pass and fail description.
  */
+@Deprecated
 public final class FailPrepended extends AssessmentComposition
 {
     public FailPrepended(Description prefix, Assessment delegate)

@@ -35,7 +35,7 @@ class SuccessfullyTest
     @Test
     void test()
     {
-        assertThat(new Successfully<Fragile<Object, Exception>>(new Text("passed"), new Text("failed with"),new Text("passes"), Fragile::value),
+        assertThat(new Successfully<Fragile<Object, Exception>>(new Text("passed"), new Text("failed with"), new Text("passes"), Fragile::value),
             new AllOf<>(
                 new Passes<Fragile<Object, Exception>>(() -> "", "passed"),
                 new Fails<>(() -> {throw new RuntimeException();}, "failed with <java.lang.RuntimeException>"),

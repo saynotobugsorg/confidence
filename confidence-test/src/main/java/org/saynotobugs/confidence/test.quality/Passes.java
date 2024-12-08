@@ -27,6 +27,7 @@ import org.saynotobugs.confidence.assessment.PassIf;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.description.Value;
+import org.saynotobugs.confidence.quality.object.Anything;
 
 
 @StaticFactories(
@@ -36,6 +37,11 @@ public final class Passes<T> implements Quality<Quality<? super T>>
 {
     private final T mPassingValue;
     private final Quality<? super Description> mPassDescriptionQuality;
+
+    public Passes(T passingValue)
+    {
+        this(passingValue, new Anything());
+    }
 
 
     public Passes(T passingValue, String passDescription)

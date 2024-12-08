@@ -22,11 +22,12 @@ import org.dmfs.jems2.iterable.Mapped;
 import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Quality;
-import org.saynotobugs.confidence.assessment.FailPrepended;
+import org.saynotobugs.confidence.assessment.DescriptionUpdated;
 import org.saynotobugs.confidence.assessment.PassIf;
 import org.saynotobugs.confidence.description.Block;
 import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.description.Value;
+import org.saynotobugs.confidence.description.bifunction.TextAndOriginal;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 import org.saynotobugs.confidence.quality.iterable.Iterates;
 import org.saynotobugs.confidence.utils.ArrayIterable;
@@ -46,8 +47,8 @@ public final class EqualTo<T> extends QualityComposition<T>
     public EqualTo(T expected)
     {
         super(actual -> expected.getClass().isArray() && actual.getClass().isArray()
-                ? new FailPrepended(
-                new Text("array that"),
+                ? new DescriptionUpdated(
+                new TextAndOriginal<>("array that"),
                 new Iterates<>(new Mapped<>(EqualTo::new, new ArrayIterable(expected))).assessmentOf(new ArrayIterable(actual)))
                 : new PassIf(expected.equals(actual), new Value(actual), new Value(actual)),
             expected.getClass().isArray()

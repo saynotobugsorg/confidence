@@ -24,7 +24,7 @@ class CompletableThatTest
     {
         assertThat(new CompletableThat<>(new Completes<>()),
             new AllOf<>(
-                new Passes<>(ignored -> Completable.complete(), "completes exactly once"),
+                new Passes<>(ignored -> Completable.complete(), "Completable that completes exactly once"),
                 new Fails<>(ignored -> Completable.error(IOException::new), "Completable that had errors [ <java.io.IOException> ]"),
                 new Fails<>(ignored -> Completable.never(), "Completable that completed 0 times"),
                 new HasDescription("Completable that completes exactly once")
@@ -37,7 +37,7 @@ class CompletableThatTest
     {
         assertThat(new CompletableThat<>(new IsAlive<>()),
             new AllOf<>(
-                new Passes<>(ignored -> Completable.never(), "is alive"),
+                new Passes<>(ignored -> Completable.never(), "Completable that is alive"),
                 new Fails<>(ignored -> Completable.error(IOException::new), "Completable that had errors [ <java.io.IOException> ]"),
                 new Fails<>(ignored -> Completable.complete(), "Completable that completes exactly once"),
                 new HasDescription("Completable that is alive")
@@ -52,7 +52,7 @@ class CompletableThatTest
                 new Within<>(Duration.ofMillis(1), new Completes<>())),
             new AllOf<>(
                 new Passes<>(scheduler -> Completable.complete().delay(1001, TimeUnit.MILLISECONDS, scheduler),
-                    "all of\n" +
+                    "Completable that all of\n" +
                         "  0: after PT1S is alive\n" +
                         "  1: after PT0.001S completes exactly once"),
                 new Fails<>(scheduler -> Completable.error(IOException::new), "Completable that all of\n  0: after PT1S had errors [ <java.io.IOException> ]"),

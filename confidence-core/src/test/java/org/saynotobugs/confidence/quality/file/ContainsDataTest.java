@@ -30,7 +30,7 @@ class ContainsDataTest
 
         assertThat(new ContainsData(new byte[] { 1, 2, 3 }),
             new AllOf<>(
-                new Passes<>(passingFile, "iterated [\n  0: 1\n  1: 2\n  2: 3\n]"),
+                new Passes<>(passingFile, "contained data array that iterated [\n  0: 1\n  1: 2\n  2: 3\n]"),
                 new Fails<>(emptyFile, "contained data array that iterated [\n  0: missing 1\n  1: missing 2\n  2: missing 3\n]"),
                 new Fails<>(new File(dir, "nonexistent"), new DescribesAs(new MatchesPattern("threw <java.io.FileNotFoundException: .*> while reading"))),
                 new HasDescription("contains data [\n  1\n  2\n  3\n]")));

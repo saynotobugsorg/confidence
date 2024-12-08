@@ -27,11 +27,12 @@ import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.AllPassed;
+import org.saynotobugs.confidence.assessment.DescriptionUpdated;
 import org.saynotobugs.confidence.assessment.Fail;
-import org.saynotobugs.confidence.assessment.FailPrepended;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.description.Value;
+import org.saynotobugs.confidence.description.bifunction.TextAndOriginal;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -78,7 +79,8 @@ public final class Parallel<T> implements Quality<T>
                     executor.execute(() -> {
                         try
                         {
-                            results.set(i, new FailPrepended(new Text("#" + i + " in thread " + Thread.currentThread().getName()),
+                            results.set(i, new DescriptionUpdated(
+                                new TextAndOriginal<>("#" + i + " in thread " + Thread.currentThread().getName()),
                                 mDelegate.assessmentOf(candidate)));
                         }
                         catch (Exception e)

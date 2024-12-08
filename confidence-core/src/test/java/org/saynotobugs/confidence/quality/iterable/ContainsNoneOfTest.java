@@ -38,15 +38,15 @@ class ContainsNoneOfTest
             new AllOf<>(
                 new Passes<>(new Seq<String>(), "elements []"),
                 new Passes<>(new Seq<>("1", "2", "3"), "elements [\n" +
-                    "  was\n" +
+                    "  0: was\n" +
                     "    \"1\"\n" +
                     "    \"1\"\n" +
                     "    \"1\"\n" +
-                    "  was\n" +
+                    "  1: was\n" +
                     "    \"2\"\n" +
                     "    \"2\"\n" +
                     "    \"2\"\n" +
-                    "  was\n" +
+                    "  2: was\n" +
                     "    \"3\"\n" +
                     "    \"3\"\n" +
                     "    \"3\"\n" +
@@ -72,13 +72,13 @@ class ContainsNoneOfTest
             new AllOf<>(
                 new Passes<Iterable<String>>(new Seq<>(), "elements []"),
                 new Passes<>(new Seq<>("1", "2", "3"), "elements [\n" +
-                    "  was\n" +
+                    "  0: was\n" +
                     "    \"1\" mismatched pattern /[abc]/\n" +
                     "    \"1\"\n" +
-                    "  was\n" +
+                    "  1: was\n" +
                     "    \"2\" mismatched pattern /[abc]/\n" +
                     "    \"2\"\n" +
-                    "  was\n" +
+                    "  2: was\n" +
                     "    \"3\" mismatched pattern /[abc]/\n" +
                     "    \"3\"\n" +
                     "]"),
@@ -103,13 +103,13 @@ class ContainsNoneOfTest
             new AllOf<>(
                 new Passes<Iterable<String>>(new Seq<>(), "elements []"),
                 new Passes<>(new Seq<>("1", "2", "3"), "elements [\n" +
-                    "  was\n" +
+                    "  0: was\n" +
                     "    \"1\" mismatched pattern /[abc]/\n" +
                     "    \"1\"\n" +
-                    "  was\n" +
+                    "  1: was\n" +
                     "    \"2\" mismatched pattern /[abc]/\n" +
                     "    \"2\"\n" +
-                    "  was\n" +
+                    "  2: was\n" +
                     "    \"3\" mismatched pattern /[abc]/\n" +
                     "    \"3\"\n" +
                     "]"),

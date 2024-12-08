@@ -15,7 +15,7 @@ class PassesTest
 {
 
     @Test
-    void test()
+    void testWithDescription()
     {
         assertThat(new Passes<>(1, "1"),
             new AllOf<>(
@@ -73,6 +73,50 @@ class PassesTest
                 },
                     "failed 1 with description \n  ----\n  failed\n  ----"),
                 new HasDescription("passes 1 with desciption \n  ----\n  describes as\n    ----\n    \"1\"\n    ----\n  ----")
+            ));
+    }
+
+    @Test
+    void testWithoutDescription()
+    {
+        assertThat(new Passes<>(1),
+            new AllOf<>(
+                new Passes<Quality<Integer>>(new Quality<Integer>()
+                {
+                    @Override
+                    public Assessment assessmentOf(Integer candidate)
+                    {
+                        return new Pass(new Text("1"));
+                    }
+
+
+                    @Override
+                    public org.saynotobugs.confidence.Description description()
+                    {
+                        return new Text("passes");
+                    }
+                }, "passed 1 with description \n" +
+                    "  ----\n" +
+                    "  <anything>\n" +
+                    "  ----"),
+
+                new Fails<>(new Quality<Integer>()
+                {
+                    @Override
+                    public Assessment assessmentOf(Integer candidate)
+                    {
+                        return new Fail(new Text("failed"));
+                    }
+
+
+                    @Override
+                    public org.saynotobugs.confidence.Description description()
+                    {
+                        return new Text("passes");
+                    }
+                },
+                    "failed 1 with description \n  ----\n  failed\n  ----"),
+                new HasDescription("passes 1 with desciption \n  ----\n  <anything>\n  ----")
             ));
     }
 

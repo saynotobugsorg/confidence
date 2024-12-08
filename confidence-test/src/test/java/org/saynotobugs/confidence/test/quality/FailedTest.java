@@ -18,7 +18,7 @@ class FailedTest
         assertThat(new Failed(new EqualTo<>("<123>")),
             new AllOf<>(
                 // currently, we can't match the matching case due to the recursive description
-                //new Passes<>(new Fail(new Text("mismatched with description \n  ----\n  <123>\n  ----")), ""),
+                //new Passes<>(new Fail(new Text("")), ""),
                 new Fails<>(new Pass(new Text("<123>")), "passed")));
     }
 

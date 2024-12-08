@@ -23,11 +23,12 @@ import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.Quality;
+import org.saynotobugs.confidence.assessment.DescriptionUpdated;
 import org.saynotobugs.confidence.assessment.Fail;
-import org.saynotobugs.confidence.assessment.FailPrepended;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.description.Value;
+import org.saynotobugs.confidence.description.bifunction.TextAndOriginal;
 import org.saynotobugs.confidence.quality.object.EqualTo;
 
 import java.io.DataInputStream;
@@ -60,9 +61,9 @@ public final class ContainsData implements Quality<File>
         {
             byte[] buffer = new byte[(int) candidate.length()];
             reader.readFully(buffer);
-            return new FailPrepended(
-                new Spaced(
-                    new Text("contained data")), mDelegate.assessmentOf(buffer));
+            return new DescriptionUpdated(
+                new TextAndOriginal<>(new Text("contained data")),
+                mDelegate.assessmentOf(buffer));
         }
         catch (IOException exception)
         {
