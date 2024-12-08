@@ -1,10 +1,9 @@
 /*
- * Copyright 2023 dmfs GmbH
- *
+ * Copyright 2024 dmfs GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ * You may obtain a copy of the License at
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -13,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.saynotobugs.confidence.asm.quality;
@@ -43,7 +41,7 @@ class HasDeclaredAnnotationsTest
     {
         assertThat(new ClassThat(new HasDeclaredAnnotations(new Contains<>(new Annotation(TestAnnotation.class)))),
             new AllOf<>(
-                new Passes<Class<?>>(AnnotatedTestClass.class),
+                new Passes<Class<?>>(AnnotatedTestClass.class, "Class that had annotations contained instance of <interface org.saynotobugs.confidence.asm.quality.testclasses.TestAnnotation>"),
                 new Fails<>(TestClassWithoutAnnotation.class, "Class that had annotations [] did not contain instance of <interface org.saynotobugs.confidence.asm.quality.testclasses.TestAnnotation>"),
                 new HasDescription("Class that has annotations contains instance of <interface org.saynotobugs.confidence.asm.quality.testclasses.TestAnnotation>")
             ));
@@ -53,11 +51,13 @@ class HasDeclaredAnnotationsTest
     void testWithDelegate()
     {
         assertThat(new ClassThat(new HasDeclaredAnnotations(new Contains<>(new Annotation(TestAnnotation.class,
-                new Has<>(TestAnnotation::defaultString, "def"))))),
+                new Has<>("defaultString", TestAnnotation::defaultString, "def"))))),
             new AllOf<>(
-                new Passes<Class<?>>(AnnotatedTestClass.class),
-                new Fails<>(TestClassWithoutAnnotation.class, "Class that had annotations [] did not contain all of\n  0: instance of <interface org.saynotobugs.confidence.asm.quality.testclasses.TestAnnotation>\n  1: \"def\""),
-                new HasDescription("Class that has annotations contains all of\n  0: instance of <interface org.saynotobugs.confidence.asm.quality.testclasses.TestAnnotation>\n  1: \"def\"")
+                new Passes<Class<?>>(AnnotatedTestClass.class, "Class that had annotations contained all of\n" +
+                    "  0: instance of <interface org.saynotobugs.confidence.asm.quality.testclasses.TestAnnotation>\n" +
+                    "  1: has defaultString \"def\""),
+                new Fails<>(TestClassWithoutAnnotation.class, "Class that had annotations [] did not contain all of\n  0: instance of <interface org.saynotobugs.confidence.asm.quality.testclasses.TestAnnotation>\n  1: has defaultString \"def\""),
+                new HasDescription("Class that has annotations contains all of\n  0: instance of <interface org.saynotobugs.confidence.asm.quality.testclasses.TestAnnotation>\n  1: has defaultString \"def\"")
             ));
     }
 
@@ -68,7 +68,10 @@ class HasDeclaredAnnotationsTest
         assertThat(new ClassThat(new HasDeclaredAnnotations(new Contains<>(new Annotation(FunctionalInterface.class,
                 new HasToString(FunctionalInterface.class.getCanonicalName()))))),
             new AllOf<>(
-                new Passes<Class<?>>(FunctionalTestClass.class),
+                new Passes<Class<?>>(FunctionalTestClass.class, "" +
+                    "Class that had annotations contained all of\n" +
+                    "  0: instance of <interface java.lang.FunctionalInterface>\n" +
+                    "  1: has toString() \"java.lang.FunctionalInterface\""),
                 new Fails<>(TestClassWithoutAnnotation.class, "Class that had annotations [] did not contain all of\n  0: instance of <interface java.lang.FunctionalInterface>\n  1: has toString() \"java.lang.FunctionalInterface\""),
                 new HasDescription("Class that has annotations contains all of\n  0: instance of <interface java.lang.FunctionalInterface>\n  1: has toString() \"java.lang.FunctionalInterface\"")
             ));

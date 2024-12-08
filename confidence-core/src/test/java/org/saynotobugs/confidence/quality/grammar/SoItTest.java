@@ -1,10 +1,9 @@
 /*
- * Copyright 2022 dmfs GmbH
- *
+ * Copyright 2024 dmfs GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ * You may obtain a copy of the License at
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -13,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.saynotobugs.confidence.quality.grammar;
@@ -38,7 +36,8 @@ class SoItTest
     {
         assertThat(new SoIt<>(new Contains<>("123")),
             new AllOf<>(
-                new Passes<>(singletonList("123"), asList("1", "2", "123", "4")),
+                new Passes<>(singletonList("123"), "so it contained \"123\""),
+                new Passes<>(asList("1", "2", "123", "4"), "so it contained \"123\""),
                 new Fails<>(asList("1", "2", "4"), "but [ \"1\", \"2\", \"4\" ] did not contain \"123\""),
                 new HasDescription("so it contains \"123\"")
             ));

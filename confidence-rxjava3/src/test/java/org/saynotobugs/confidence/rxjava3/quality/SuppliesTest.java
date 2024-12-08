@@ -1,10 +1,9 @@
 /*
- * Copyright 2023 dmfs GmbH
- *
+ * Copyright 2024 dmfs GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ * You may obtain a copy of the License at
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -13,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.saynotobugs.confidence.rxjava3.quality;
@@ -37,7 +35,7 @@ class SuppliesTest
     {
         assertThat(new Supplies<>(123),
             new AllOf<>(
-                new Passes<>(() -> 123),
+                new Passes<>(() -> 123, "supplied 123"),
                 new Fails<>(() -> null, "supplied <null>"),
                 new Fails<>(() -> 1234, "supplied 1234"),
                 new Fails<>(() -> {throw new IOException("fail");}, "threw <java.io.IOException: fail>"),

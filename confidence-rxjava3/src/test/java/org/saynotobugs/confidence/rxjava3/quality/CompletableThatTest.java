@@ -1,3 +1,19 @@
+/*
+ * Copyright 2024 dmfs GmbH
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.saynotobugs.confidence.rxjava3.quality;
 
 import io.reactivex.rxjava3.core.Completable;
@@ -24,7 +40,7 @@ class CompletableThatTest
     {
         assertThat(new CompletableThat<>(new Completes<>()),
             new AllOf<>(
-                new Passes<>(ignored -> Completable.complete()),
+                new Passes<>(ignored -> Completable.complete(), "Completable that completes exactly once"),
                 new Fails<>(ignored -> Completable.error(IOException::new), "Completable that had errors [ <java.io.IOException> ]"),
                 new Fails<>(ignored -> Completable.never(), "Completable that completed 0 times"),
                 new HasDescription("Completable that completes exactly once")
@@ -37,10 +53,9 @@ class CompletableThatTest
     {
         assertThat(new CompletableThat<>(new IsAlive<>()),
             new AllOf<>(
-                new Passes<>(ignored -> Completable.never()),
+                new Passes<>(ignored -> Completable.never(), "Completable that is alive"),
                 new Fails<>(ignored -> Completable.error(IOException::new), "Completable that had errors [ <java.io.IOException> ]"),
-                // TODO fix description test when "not" provides a better fail description
-                new Fails<>(ignored -> Completable.complete()),
+                new Fails<>(ignored -> Completable.complete(), "Completable that completes exactly once"),
                 new HasDescription("Completable that is alive")
             ));
     }
@@ -52,11 +67,13 @@ class CompletableThatTest
         assertThat(new CompletableThat<>(new Within<>(Duration.ofMillis(1000), new IsAlive<>()),
                 new Within<>(Duration.ofMillis(1), new Completes<>())),
             new AllOf<>(
-                new Passes<>(scheduler -> Completable.complete().delay(1001, TimeUnit.MILLISECONDS, scheduler)),
+                new Passes<>(scheduler -> Completable.complete().delay(1001, TimeUnit.MILLISECONDS, scheduler),
+                    "Completable that all of\n" +
+                        "  0: after PT1S is alive\n" +
+                        "  1: after PT0.001S completes exactly once"),
                 new Fails<>(scheduler -> Completable.error(IOException::new), "Completable that all of\n  0: after PT1S had errors [ <java.io.IOException> ]"),
-                // TODO fix description test when "not" provides a better fail description
-                new Fails<>(scheduler -> Completable.complete()),
-                new Fails<>(scheduler -> Completable.never()),
+                new Fails<>(scheduler -> Completable.complete(), "Completable that all of\n  0: after PT1S completes exactly once"),
+                new Fails<>(scheduler -> Completable.never(), "Completable that all of\n  ...\n  1: after PT0.001S completed 0 times"),
                 new HasDescription("Completable that all of\n  0: after PT1S is alive\n  1: after PT0.001S completes exactly once")
             ));
     }

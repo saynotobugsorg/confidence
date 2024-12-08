@@ -1,10 +1,9 @@
 /*
- * Copyright 2022 dmfs GmbH
- *
+ * Copyright 2024 dmfs GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ * You may obtain a copy of the License at
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -13,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.saynotobugs.confidence;
@@ -32,5 +30,10 @@ public interface Assessment
 {
     boolean isSuccess();
 
+    /**
+     * Provides a {@link Description} of this {@link Assessment}. In case of a failure this describes the
+     * {@link Quality}s that didn't pass the assessemnt. In case of success, the result describes the {@link Quality}s
+     * that passed. Often that's the simple past version of the description of the {@link Quality} itself.
+     */
     Description description();
 }

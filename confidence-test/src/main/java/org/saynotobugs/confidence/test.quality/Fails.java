@@ -1,10 +1,9 @@
 /*
- * Copyright 2022 dmfs GmbH
- *
+ * Copyright 2024 dmfs GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ * You may obtain a copy of the License at
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -13,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.saynotobugs.confidence.test.quality;
@@ -67,12 +65,12 @@ public final class Fails<T> implements Quality<Quality<? super T>>
             ? new Fail(
             new Spaced(
                 new Value(mMismatchingValue),
-                new Text("matched"),
+                new Text("passed"),
                 candidate.description()))
             : new FailUpdated(
             orig -> new Spaced(
                 new Value(mMismatchingValue),
-                new Text("mismatched with diff"),
+                new Text("failed with diff"),
                 orig),
             mDiffQuality.assessmentOf(matcherAssessment.description()));
     }
@@ -82,7 +80,7 @@ public final class Fails<T> implements Quality<Quality<? super T>>
     public Description description()
     {
         return new Spaced(
-            new Text("mismatches"),
+            new Text("fails"),
             new Value(mMismatchingValue),
             new Text("with diff"),
             mDiffQuality.description());

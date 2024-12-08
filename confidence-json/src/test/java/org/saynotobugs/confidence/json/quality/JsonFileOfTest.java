@@ -1,10 +1,9 @@
 /*
- * Copyright 2023 dmfs GmbH
- *
+ * Copyright 2024 dmfs GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ * You may obtain a copy of the License at
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -13,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.saynotobugs.confidence.json.quality;
@@ -62,7 +60,9 @@ class JsonFileOfTest
 
         assertThat(new JsonFileOf(new Object(new Anything())),
             new AllOf<>(
-                new Passes<>(jsonFile),
+                new Passes<>(jsonFile, "contained \"UTF-8\" text JSON {\n" +
+                    "  <{\\\"abc\\\":\\\"xyz\\\"}>\n" +
+                    "}"),
                 new Fails<>(nonJsonFile, "contained \"UTF-8\" text JSON not an object"),
                 new Fails<>(nonFile, new DescribesAs(new MatchesPattern("threw <java.nio.file.NoSuchFileException.*"))),
                 new HasDescription("contains \"UTF-8\" text JSON {\n  <anything>\n}")));

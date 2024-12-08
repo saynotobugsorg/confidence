@@ -1,3 +1,19 @@
+/*
+ * Copyright 2024 dmfs GmbH
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.saynotobugs.confidence.quality.entry;
 
 import org.junit.jupiter.api.Test;
@@ -20,9 +36,9 @@ class EntryOfTest
     {
         assertThat(new EntryOf<>(new EqualTo<>(12), new EqualTo<>("abc")),
             new AllOf<>(
-                new Passes<>(entry(12, "abc")),
-                new Fails<>(entry(13, "ab"), "Entry ( 12: \"abc\" )"),
-                new HasDescription("Entry ( 12: \"abc\" )")
+                new Passes<>(entry(12, "abc"), "Entry (12: \"abc\")"),
+                new Fails<>(entry(13, "ab"), "Entry (13: \"ab\")"),
+                new HasDescription("Entry (12: \"abc\")")
             ));
     }
 
@@ -32,9 +48,9 @@ class EntryOfTest
     {
         assertThat(new EntryOf<>(12, "abc"),
             new AllOf<>(
-                new Passes<>(entry(12, "abc")),
-                new Fails<>(entry(13, "ab"), "Entry ( 12: \"abc\" )"),
-                new HasDescription("Entry ( 12: \"abc\" )")
+                new Passes<>(entry(12, "abc"), "Entry (12: \"abc\")"),
+                new Fails<>(entry(13, "ab"), "Entry (13: \"ab\")"),
+                new HasDescription("Entry (12: \"abc\")")
             ));
     }
 
@@ -44,9 +60,9 @@ class EntryOfTest
     {
         assertThat(new EntryOf<>(12, new EqualTo<>("abc")),
             new AllOf<>(
-                new Passes<>(entry(12, "abc")),
-                new Fails<>(entry(13, "ab"), "Entry ( 12: \"abc\" )"),
-                new HasDescription("Entry ( 12: \"abc\" )")
+                new Passes<>(entry(12, "abc"), "Entry (12: \"abc\")"),
+                new Fails<>(entry(13, "ab"), "Entry (13: \"ab\")"),
+                new HasDescription("Entry (12: \"abc\")")
             ));
     }
 
@@ -56,9 +72,9 @@ class EntryOfTest
     {
         assertThat(new EntryOf<>(12),
             new AllOf<>(
-                new Passes<>(entry(12, "abc")),
-                new Fails<>(entry(13, "ab"), "Entry ( 12: <anything> )"),
-                new HasDescription("Entry ( 12: <anything> )")
+                new Passes<>(entry(12, "abc"), "Entry (12: \"abc\")"),
+                new Fails<>(entry(13, "ab"), "Entry (13: \"ab\")"),
+                new HasDescription("Entry (12: <anything>)")
             ));
     }
 

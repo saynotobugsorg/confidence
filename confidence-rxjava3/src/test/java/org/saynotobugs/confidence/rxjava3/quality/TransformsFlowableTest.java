@@ -1,10 +1,9 @@
 /*
- * Copyright 2022 dmfs GmbH
- *
+ * Copyright 2024 dmfs GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ * You may obtain a copy of the License at
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -13,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.saynotobugs.confidence.rxjava3.quality;
@@ -48,11 +46,14 @@ class TransformsFlowableTest
     {
         assertThat(new TransformsFlowable<>(new org.saynotobugs.confidence.rxjava3.transformerteststep.Upstream<>(new Complete()), new Downstream<>(new Completes<>())),
             new AllOf<>(
-                new Passes<>(scheduler -> Flowable::hide),
+                new Passes<>(scheduler -> Flowable::hide,
+                    "all of\n" +
+                        "  0: upstream complete,\n" +
+                        "  1: to downstream completes exactly once"),
                 new Fails<>(scheduler -> upsteam -> upsteam.ambWith(Flowable.error(new IOException())), "all of\n  ...,\n  1: to downstream had errors [ <java.io.IOException> ]"),
                 new Fails<>(scheduler -> upsteam -> upsteam.delay(10, TimeUnit.SECONDS), "all of\n  ...,\n  1: to downstream completed 0 times"),
                 new HasDescription(
-                    "FlowableTransformer that transforms\n  all of\n    0: upstream completion,\n    1: to downstream completes exactly once")
+                    "FlowableTransformer that transforms\n  all of\n    0: upstream complete,\n    1: to downstream completes exactly once")
             ));
     }
 
@@ -68,7 +69,17 @@ class TransformsFlowableTest
                 new org.saynotobugs.confidence.rxjava3.transformerteststep.Upstream<>(new Complete()),
                 new Downstream<>(new Completes<>())),
             new AllOf<>(
-                new Passes<>(scheduler -> upstream -> upstream.map(i -> i * 2)),
+                new Passes<>(scheduler -> upstream -> upstream.map(i -> i * 2),
+                    "all of\n" +
+                        "  0: upstream emissions [123] emissions [4],\n" +
+                        "  1: to downstream emitted 2 items iterated [\n" +
+                        "    0: 246\n" +
+                        "    1: 8\n" +
+                        "  ],\n" +
+                        "  2: upstream emissions [200],\n" +
+                        "  3: to downstream emitted 1 items 400,\n" +
+                        "  4: upstream complete,\n" +
+                        "  5: to downstream completes exactly once"),
                 new Fails<>(scheduler -> upsteam -> upsteam.map(i -> i * 3),
                     "all of\n  ...,\n  1: to downstream emitted 2 items iterated [\n    0: 369\n    1: 12\n  ]"),
                 new Fails<>(scheduler -> upsteam -> upsteam.ambWith(Flowable.error(new IOException())),
@@ -76,7 +87,7 @@ class TransformsFlowableTest
                 new Fails<>(scheduler -> upsteam -> upsteam.delay(10, TimeUnit.SECONDS, scheduler),
                     "all of\n  ...,\n  1: to downstream emitted 0 items iterated [\n    0: missing 246\n    1: missing 8\n  ]"),
                 new HasDescription(
-                    "FlowableTransformer that transforms\n  all of\n    0: upstream all of\n      0: emissions [123]\n      1: emissions [4],\n    1: to downstream emits 2 items iterates [\n      0: 246\n      1: 8\n    ],\n    2: upstream emissions [200],\n    3: to downstream emits 1 items 400,\n    4: upstream completion,\n    5: to downstream completes exactly once"
+                    "FlowableTransformer that transforms\n  all of\n    0: upstream all of\n      0: emissions [123]\n      1: emissions [4],\n    1: to downstream emits 2 items iterates [\n      0: 246\n      1: 8\n    ],\n    2: upstream emissions [200],\n    3: to downstream emits 1 items 400,\n    4: upstream complete,\n    5: to downstream completes exactly once"
                 )
             ));
     }

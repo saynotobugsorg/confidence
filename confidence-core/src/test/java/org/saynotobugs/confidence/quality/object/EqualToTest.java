@@ -1,10 +1,9 @@
 /*
- * Copyright 2022 dmfs GmbH
- *
+ * Copyright 2024 dmfs GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ * You may obtain a copy of the License at
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -13,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.saynotobugs.confidence.quality.object;
@@ -34,7 +32,7 @@ class EqualToTest
     {
         assertThat(new EqualTo<>("123"),
             new AllOf<>(
-                new Passes<Object>("123"),
+                new Passes<Object>("123", "\"123\""),
                 new Fails<>(new String[] { "123" }, "[ \"123\" ]"),
                 new Fails<>("1234", "\"1234\""),
                 new HasDescription("\"123\"")
@@ -47,8 +45,8 @@ class EqualToTest
     {
         assertThat(new EqualTo<>(new String[] { "1", "2", "3" }),
             new AllOf<>(
-                new Passes<>((Object[]) new String[][] { { "1", "2", "3" } }),
-                new Fails<>("123", "\"123\""),
+                new Passes<Object>(new String[] { "1", "2", "3" }, "array that iterated [\n  0: \"1\"\n  1: \"2\"\n  2: \"3\"\n]"),
+                new Fails<Object>("123", "\"123\""),
                 new Fails<>(new String[] { "1", "2" }, "array that iterated [\n  ...\n  2: missing \"3\"\n]"),
                 new HasDescription("[\n  \"1\"\n  \"2\"\n  \"3\"\n]")
             ));

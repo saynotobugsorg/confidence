@@ -1,10 +1,9 @@
 /*
- * Copyright 2022 dmfs GmbH
- *
+ * Copyright 2024 dmfs GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ * You may obtain a copy of the License at
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -13,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.saynotobugs.confidence.quality.iterable;
@@ -28,9 +26,10 @@ import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.AllPassed;
-import org.saynotobugs.confidence.assessment.FailPrepended;
+import org.saynotobugs.confidence.assessment.DescriptionUpdated;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
+import org.saynotobugs.confidence.description.bifunction.TextAndOriginal;
 import org.saynotobugs.confidence.quality.composite.AllOf;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 
@@ -64,7 +63,9 @@ public final class Each<T> extends QualityComposition<Iterable<T>>
         super(actual -> new AllPassed(new Text("elements ["), EMPTY, new Text("]"),
                 new Collected<>(ArrayList::new,
                     new Mapped<Pair<Integer, Assessment>, Assessment>(
-                        numberedVerdict -> new FailPrepended(new Text(numberedVerdict.left() + ":"), numberedVerdict.right()),
+                        numberedVerdict -> new DescriptionUpdated(
+                            new TextAndOriginal<>(numberedVerdict.left() + ":"),
+                            numberedVerdict.right()),
                         new Numbered<>(new Mapped<>(delegate::assessmentOf, actual)))).value()),
             new Spaced(new Text("each element"), delegate.description()));
     }

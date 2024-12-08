@@ -1,10 +1,9 @@
 /*
- * Copyright 2023 dmfs GmbH
- *
+ * Copyright 2024 dmfs GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ * You may obtain a copy of the License at
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -13,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.saynotobugs.confidence.json.quality;
@@ -39,7 +37,7 @@ class StringTest
         assertThat(new String(new HasLength(3)),
             new AllOf<>(
                 new Passes<>(mock("matching String", JsonElementAdapter.class,
-                    with(JsonElementAdapter::asString, returning(new Present<>("123"))))),
+                    with(JsonElementAdapter::asString, returning(new Present<>("123")))), "\"123\" had length 3"),
                 new Fails<>(mock("mismatching String", JsonElementAdapter.class,
                     with(JsonElementAdapter::asString, returning(new Present<>("abcdef")))),
                     "\"abcdef\" had length 6"),
@@ -56,7 +54,7 @@ class StringTest
         assertThat(new String("123"),
             new AllOf<>(
                 new Passes<>(mock("matching String", JsonElementAdapter.class,
-                    with(JsonElementAdapter::asString, returning(new Present<>("123"))))),
+                    with(JsonElementAdapter::asString, returning(new Present<>("123")))), "\"123\""),
                 new Fails<>(mock("mismatching String", JsonElementAdapter.class,
                     with(JsonElementAdapter::asString, returning(new Present<>("abcdef")))),
                     "\"abcdef\""),

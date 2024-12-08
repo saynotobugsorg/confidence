@@ -1,10 +1,9 @@
 /*
- * Copyright 2022 dmfs GmbH
- *
+ * Copyright 2024 dmfs GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ * You may obtain a copy of the License at
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -13,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.saynotobugs.confidence.quality.autoclosable;
@@ -45,7 +43,7 @@ class AutoClosableThatTest
             with(Objects::toString, returning("foo")));
         assertThat(new AutoClosableThat<>(new Is<>(new SameAs<>(autoCloseable))),
             new AllOf<>(
-                new Passes<>(autoCloseable),
+                new Passes<>(autoCloseable, "AutoClosable that\n  was <foo> and\n  was closed"),
                 new HasDescription("AutoClosable that is same instance as <foo> and is closed")
             ));
     }
@@ -59,8 +57,8 @@ class AutoClosableThatTest
             with(Objects::toString, returning("foo")));
         assertThat(new AutoClosableThat<>(new Is<>(new Not<>(new SameAs<>(autoCloseable)))),
             new AllOf<>(
-                new Fails<>(autoCloseable, "AutoClosable that \n  was <foo> ( same instance as <foo> ) and\n  ..."),
-                new HasDescription("AutoClosable that is not ( same instance as <foo> ) and is closed")
+                new Fails<>(autoCloseable, "AutoClosable that\n  was <foo> and\n  ..."),
+                new HasDescription("AutoClosable that is not same instance as <foo> and is closed")
             ));
     }
 
@@ -73,7 +71,7 @@ class AutoClosableThatTest
             with(Objects::toString, returning("foo")));
         assertThat(new AutoClosableThat<>(new Is<>(new SameAs<>(autoCloseable))),
             new AllOf<>(
-                new Fails<>(autoCloseable, "AutoClosable that \n  ... and\n  was closed throwing <java.io.IOException>"),
+                new Fails<>(autoCloseable, "AutoClosable that\n  ... and\n  was closed throwing <java.io.IOException>"),
                 new HasDescription("AutoClosable that is same instance as <foo> and is closed")
             ));
     }
@@ -87,8 +85,8 @@ class AutoClosableThatTest
             with(Objects::toString, returning("foo")));
         assertThat(new AutoClosableThat<>(new Is<>(new Not<>(new SameAs<>(autoCloseable)))),
             new AllOf<>(
-                new Fails<>(autoCloseable, "AutoClosable that \n  was <foo> ( same instance as <foo> ) and\n  was closed throwing <java.io.IOException>"),
-                new HasDescription("AutoClosable that is not ( same instance as <foo> ) and is closed")
+                new Fails<>(autoCloseable, "AutoClosable that\n  was <foo> and\n  was closed throwing <java.io.IOException>"),
+                new HasDescription("AutoClosable that is not same instance as <foo> and is closed")
             ));
     }
 }

@@ -1,3 +1,19 @@
+/*
+ * Copyright 2024 dmfs GmbH
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.saynotobugs.confidence.test.quality;
 
 import org.junit.jupiter.api.Test;
@@ -32,13 +48,16 @@ class FailsTest
                     {
                         return new Text("expects");
                     }
-                }),
+                }, "\n" +
+                    "  ----\n" +
+                    "  xyz\n" +
+                    "  ----"),
                 new Fails<>(new Quality<Integer>()
                 {
                     @Override
                     public Assessment assessmentOf(Integer candidate)
                     {
-                        return new Pass();
+                        return new Pass(new Text("123"));
                     }
 
 
@@ -47,8 +66,8 @@ class FailsTest
                     {
                         return new Text("pass");
                     }
-                }, "123 matched pass"),
-                new HasDescription("mismatches 123 with diff <anything>")
+                }, "123 passed pass"),
+                new HasDescription("fails 123 with diff <anything>")
             ));
     }
 
@@ -72,7 +91,10 @@ class FailsTest
                     {
                         return new Text("expects");
                     }
-                }),
+                }, "described as\n" +
+                    "  ----\n" +
+                    "  \"mismatch\"\n" +
+                    "  ----"),
                 new Fails<>(new Quality<Integer>()
                 {
                     @Override
@@ -87,13 +109,13 @@ class FailsTest
                     {
                         return new Text("pass");
                     }
-                }, "123 mismatched with diff described as\n  ----\n  \"abc\"\n  ----"),
+                }, "123 failed with diff described as\n  ----\n  \"abc\"\n  ----"),
                 new Fails<>(new Quality<Integer>()
                 {
                     @Override
                     public Assessment assessmentOf(Integer candidate)
                     {
-                        return new Pass();
+                        return new Pass(new Text("123"));
                     }
 
 
@@ -102,8 +124,8 @@ class FailsTest
                     {
                         return new Text("pass");
                     }
-                }, "123 matched pass"),
-                new HasDescription("mismatches 123 with diff describes as\n  ----\n  \"mismatch\"\n  ----")
+                }, "123 passed pass"),
+                new HasDescription("fails 123 with diff describes as\n  ----\n  \"mismatch\"\n  ----")
             ));
     }
 }

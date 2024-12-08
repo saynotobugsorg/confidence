@@ -1,10 +1,9 @@
 /*
- * Copyright 2023 dmfs GmbH
- *
+ * Copyright 2024 dmfs GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ * You may obtain a copy of the License at
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -13,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.saynotobugs.confidence.json.quality;
@@ -36,7 +34,7 @@ class HasLengthTest
     {
         assertThat(new HasLength(4),
             new AllOf<>(
-                new Passes<>(mock(JsonArrayAdapter.class, with(JsonArrayAdapter::length, returning(4)))),
+                new Passes<>(mock(JsonArrayAdapter.class, with(JsonArrayAdapter::length, returning(4))), "had length 4"),
                 new Fails<>(mock(JsonArrayAdapter.class, with(JsonArrayAdapter::length, returning(3))),
                     "had length 3"),
                 new HasDescription("has length 4")
@@ -48,8 +46,8 @@ class HasLengthTest
     {
         assertThat(new HasLength(new GreaterThan<>(3)),
             new AllOf<>(
-                new Passes<>(mock(JsonArrayAdapter.class, with(JsonArrayAdapter::length, returning(4))),
-                    mock(JsonArrayAdapter.class, with(JsonArrayAdapter::length, returning(100)))),
+                new Passes<>(mock(JsonArrayAdapter.class, with(JsonArrayAdapter::length, returning(4))), "had length 4"),
+                new Passes<>(mock(JsonArrayAdapter.class, with(JsonArrayAdapter::length, returning(100))), "had length 100"),
                 new Fails<>(mock(JsonArrayAdapter.class, with(JsonArrayAdapter::length, returning(3))),
                     "had length 3"),
                 new Fails<>(mock(JsonArrayAdapter.class, with(JsonArrayAdapter::length, returning(0))),

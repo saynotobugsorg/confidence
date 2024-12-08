@@ -1,3 +1,19 @@
+/*
+ * Copyright 2024 dmfs GmbH
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.saynotobugs.confidence.rxjava3.quality;
 
 import io.reactivex.rxjava3.core.Scheduler;
@@ -29,7 +45,7 @@ class SingleThatTest
     {
         assertThat(new SingleThat<>(new Emits<>(new EqualTo<>(123))),
             new AllOf<>(
-                new Passes<>(ignored -> Single.just(123)),
+                new Passes<>(ignored -> Single.just(123), "Single that emitted 1 items 123"),
                 new Fails<>(ignored -> Single.error(IOException::new), "Single that had errors [ <java.io.IOException> ]"),
                 new Fails<>(ignored -> Single.just(124), "Single that emitted 1 items 124"),
                 new HasDescription("Single that emits 1 items 123")
@@ -41,7 +57,9 @@ class SingleThatTest
     {
         assertThat(new SingleThat<>(new Errors<>(IOException.class)),
             new AllOf<>(
-                new Passes<>(ignored -> Single.error(new IOException())),
+                new Passes<>(ignored -> Single.error(new IOException()), "Single that had errors that iterated [\n" +
+                    "  0: instance of <class java.io.IOException>\n" +
+                    "]"),
                 new Fails<>(ignored -> Single.error(NoSuchElementException::new), "Single that had errors that iterated [\n  0: instance of <class java.util.NoSuchElementException>\n]"),
                 new Fails<>(ignored -> Single.just(124), "Single that had errors that iterated [\n  0: missing instance of <class java.io.IOException>\n]"),
                 new HasDescription("Single that has errors that iterates [\n  0: instance of <class java.io.IOException>\n]")
@@ -54,7 +72,10 @@ class SingleThatTest
         assertThat(new SingleThat<Integer>(new Within(Duration.ofMillis(100), new EmitsNothing()),
                 new Within<>(Duration.ofMillis(100), new Emits<>(123))),
             new AllOf<>(
-                new Passes<>((Function<Scheduler, Single<Integer>>) scheduler -> Single.just(123).delay(200, TimeUnit.MILLISECONDS, scheduler)),
+                new Passes<>((Function<Scheduler, Single<Integer>>) scheduler -> Single.just(123).delay(200, TimeUnit.MILLISECONDS, scheduler),
+                    "Single that all of\n" +
+                        "  0: after PT0.1S emitted nothing\n" +
+                        "  1: after PT0.1S emitted 1 items 123"),
                 new Fails<>((Function<Scheduler, Single<Integer>>) scheduler -> Single.error(NoSuchElementException::new),
                     "Single that all of\n  ...\n  1: after PT0.1S had errors [ <java.util.NoSuchElementException> ]"),
                 new Fails<>((Function<Scheduler, Single<Integer>>) scheduler -> Single.just(124),

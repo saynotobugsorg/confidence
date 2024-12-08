@@ -1,10 +1,9 @@
 /*
- * Copyright 2023 dmfs GmbH
- *
+ * Copyright 2024 dmfs GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ * You may obtain a copy of the License at
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -13,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.saynotobugs.confidence.json.quality;
@@ -33,7 +31,9 @@ class JsonStringOfTest
     {
         assertThat(new JsonStringOf(new Object(new With("foo", new String("bar")))),
             new AllOf<>(
-                new Passes<>("{\"foo\": \"bar\"}"),
+                new Passes<>("{\"foo\": \"bar\"}", "JSON {\n" +
+                    "  \"foo\": \"bar\"\n" +
+                    "}"),
                 new Fails<>("{\"foo\": \"buzz\"}", "JSON {\n  \"foo\": \"buzz\"\n}"),
                 new Fails<>("[\"foo\"]", "JSON not an object"),
                 new Fails<>("\"foo\"", "JSON not an object"),
@@ -50,7 +50,14 @@ class JsonStringOfTest
     {
         assertThat(new JsonStringOf(new Array(new Object(new With("1")), new Object(new With("2")))),
             new AllOf<>(
-                new Passes<>("[{\"1\": 1},{\"2\": 2}]"),
+                new Passes<>("[{\"1\": 1},{\"2\": 2}]", "JSON [\n" +
+                    "  0: {\n" +
+                    "    \"1\": <1>\n" +
+                    "  },\n" +
+                    "  1: {\n" +
+                    "    \"2\": <2>\n" +
+                    "  }\n" +
+                    "]"),
                 new Fails<>("[\"foo\"]", "JSON had length 1"),
                 new Fails<>("{\"foo\": \"buzz\"}", "JSON not an array"),
                 new Fails<>("\"foo\"", "JSON not an array"),
@@ -62,11 +69,11 @@ class JsonStringOfTest
     }
 
     @Test
-    void test2()
+    void testString()
     {
         assertThat(new JsonStringOf(new String("123")),
             new AllOf<>(
-                new Passes<>("\"123\""),
+                new Passes<>("\"123\"", "JSON \"123\""),
                 new Fails<>("\"foo\"", "JSON \"foo\""),
                 new Fails<>("[\"foo\"]", "JSON not a string"),
                 new Fails<>("{\"foo\": \"buzz\"}", "JSON not a string"),

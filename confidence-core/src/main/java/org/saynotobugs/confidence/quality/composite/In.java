@@ -1,10 +1,9 @@
 /*
- * Copyright 2022 dmfs GmbH
- *
+ * Copyright 2024 dmfs GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ * You may obtain a copy of the License at
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -13,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.saynotobugs.confidence.quality.composite;
@@ -24,18 +22,19 @@ import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.AnyPassed;
-import org.saynotobugs.confidence.assessment.FailUpdated;
+import org.saynotobugs.confidence.assessment.DescriptionUpdated;
 import org.saynotobugs.confidence.description.Block;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
-import org.saynotobugs.confidence.description.IterableDescription;
 import org.saynotobugs.confidence.description.Value;
-import org.saynotobugs.confidence.quality.object.Satisfies;
+import org.saynotobugs.confidence.description.bifunction.Just;
+import org.saynotobugs.confidence.description.bifunction.TextAndOriginal;
+import org.saynotobugs.confidence.description.iterable.Numbered;
+import org.saynotobugs.confidence.quality.object.EqualTo;
 
 import java.util.Collection;
 
-import static java.util.Arrays.asList;
-import static org.saynotobugs.confidence.description.LiteralDescription.COMMA;
+import static org.saynotobugs.confidence.description.LiteralDescription.EMPTY;
 
 
 @StaticFactories(
@@ -47,16 +46,13 @@ public final class In<T> extends QualityComposition<T>
     @SafeVarargs
     public In(T... delegates)
     {
-        this(asList(delegates));
+        this(new Mapped<>(EqualTo::new, new Seq<>(delegates)));
     }
 
 
     public In(Collection<? extends T> delegates)
     {
-        super(
-            new Satisfies<>(delegates::contains,
-                actual -> new Spaced(new Value(actual), new Text("not in"), new IterableDescription(delegates)),
-                new Spaced(new Text("in"), new IterableDescription(delegates))));
+        this(new Mapped<>(EqualTo::new, delegates));
     }
 
 
@@ -69,14 +65,18 @@ public final class In<T> extends QualityComposition<T>
 
     public In(Iterable<? extends Quality<? super T>> delegates)
     {
-        super(actual -> new AnyPassed(
-                new Spaced(new Value(actual), new Text("not in {")),
-                COMMA,
-                new Text("}"),
-                new Mapped<>(d -> new FailUpdated(m -> d.description(), d.assessmentOf(actual)), delegates)),
-            new Block(new Text("in {"),
-                COMMA,
-                new Text("}"),
-                new Mapped<>(Quality::description, delegates)));
+        super(actual ->
+                new DescriptionUpdated(
+                    new TextAndOriginal<>(new Spaced(new Value(actual), new Text("in"))),
+                    new TextAndOriginal<>(new Spaced(new Value(actual), new Text("not in"))),
+                    new AnyPassed(EMPTY,
+                        EMPTY,
+                        EMPTY,
+                        new org.saynotobugs.confidence.assessment.iterable.Numbered(
+                            new Mapped<>(
+                                d -> new DescriptionUpdated(new Just<>(d.description()),
+                                    d.assessmentOf(actual)),
+                                delegates)))),
+            new Block(new Text("in"), EMPTY, EMPTY, new Numbered(new Mapped<>(Quality::description, delegates))));
     }
 }

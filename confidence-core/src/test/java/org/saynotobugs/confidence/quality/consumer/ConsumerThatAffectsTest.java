@@ -1,10 +1,9 @@
 /*
- * Copyright 2022 dmfs GmbH
- *
+ * Copyright 2024 dmfs GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ * You may obtain a copy of the License at
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -13,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.saynotobugs.confidence.quality.consumer;
@@ -42,7 +40,7 @@ class ConsumerThatAffectsTest
         assertThat(new ConsumerThatAffects<>(
                 new Spaced(new Text("adds <a> to list")), ArrayList::new, new SoIt<>(new Contains<>("a"))),
             new AllOf<>(
-                new Passes<>(l -> l.add("a")),
+                new Passes<>(l -> l.add("a"), "Consumer that adds <a> to list so it contained \"a\""),
                 new Fails<>(l -> l.add("b"), "Consumer that adds <a> to list but [ \"b\" ] did not contain \"a\""),
                 new HasDescription("Consumer that adds <a> to list so it contains \"a\"")
             ));
@@ -54,7 +52,7 @@ class ConsumerThatAffectsTest
     {
         assertThat(new ConsumerThatAffects<>(ArrayList::new, new SoIt<>(new Contains<>("a"))),
             new AllOf<>(
-                new Passes<>(l -> l.add("a")),
+                new Passes<>(l -> l.add("a"), "Consumer that affects [] so it contained \"a\""),
                 new Fails<>(l -> l.add("b"), "Consumer that affects [] but [ \"b\" ] did not contain \"a\""),
                 new HasDescription("Consumer that affects [] so it contains \"a\"")
             ));

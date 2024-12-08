@@ -1,10 +1,9 @@
 /*
- * Copyright 2023 dmfs GmbH
- *
+ * Copyright 2024 dmfs GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ * You may obtain a copy of the License at
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -13,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.saynotobugs.confidence.junit5.engine.assertion;
@@ -54,7 +52,7 @@ class WithResourceTest
                 mock(Function.class,
                     with(f -> f.value(resourceDummy), returning(mock(Assertion.class,
                         withVoid(Assertion::verify, doingNothing())))))),
-            new Successfully<>(new Text("Verifies"), new Text("Failed"), Assertion::verify)
+            new Successfully<>(new Text("Verified"), new Text("Failed"), new Text("Verifies"), Assertion::verify)
         );
 
         verify(mockResourceHandle).close();
@@ -116,7 +114,7 @@ class WithResourceTest
                 mock(BiFunction.class,
                     with(f -> f.value(resourceDummy1, resourceDummy2), returning(mock(Assertion.class,
                         withVoid(Assertion::verify, doingNothing())))))),
-            new Successfully<>(new Text("Verifies"), new Text("Failed"), Assertion::verify)
+            new Successfully<>(new Text("Verified"), new Text("Failed"), new Text("Verifies"), Assertion::verify)
         );
 
         verify(mockResourceHandle1).close();

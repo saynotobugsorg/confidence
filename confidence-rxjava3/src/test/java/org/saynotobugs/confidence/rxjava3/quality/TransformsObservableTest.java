@@ -1,10 +1,9 @@
 /*
- * Copyright 2022 dmfs GmbH
- *
+ * Copyright 2024 dmfs GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ * You may obtain a copy of the License at
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -13,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.saynotobugs.confidence.rxjava3.quality;
@@ -50,11 +48,14 @@ class TransformsObservableTest
     {
         assertThat(new TransformsObservable<>(new Upstream<>(new Complete()), new Downstream<>(new Completes<>())),
             new AllOf<>(
-                new Passes<>(scheduler -> Observable::hide),
+                new Passes<>(scheduler -> Observable::hide,
+                    "all of\n" +
+                        "  0: upstream complete,\n" +
+                        "  1: to downstream completes exactly once"),
                 new Fails<>(scheduler -> upsteam -> upsteam.ambWith(Observable.error(new IOException())), "all of\n  ...,\n  1: to downstream had errors [ <java.io.IOException> ]"),
                 new Fails<>(scheduler -> upsteam -> upsteam.delay(10, TimeUnit.SECONDS), "all of\n  ...,\n  1: to downstream completed 0 times"),
                 new HasDescription(
-                    "ObservableTransformer that transforms\n  all of\n    0: upstream completion,\n    1: to downstream completes exactly once")
+                    "ObservableTransformer that transforms\n  all of\n    0: upstream complete,\n    1: to downstream completes exactly once")
             ));
     }
 

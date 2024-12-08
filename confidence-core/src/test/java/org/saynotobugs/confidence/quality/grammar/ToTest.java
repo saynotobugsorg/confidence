@@ -1,10 +1,9 @@
 /*
- * Copyright 2023 dmfs GmbH
- *
+ * Copyright 2024 dmfs GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ * You may obtain a copy of the License at
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -13,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.saynotobugs.confidence.quality.grammar;
@@ -35,7 +33,7 @@ class ToTest
     {
         assertThat(new To<>(3),
             new AllOf<>(
-                new Passes<>(3),
+                new Passes<>(3, "to 3"),
                 new Fails<>(4, "to 4"),
                 new HasDescription("to 3")));
     }
@@ -46,7 +44,9 @@ class ToTest
     {
         assertThat(new To<>(new Anything()),
             new AllOf<>(
-                new Passes<>("12", 1, new Object()),
+                new Passes<>("12", "to \"12\""),
+                new Passes<>(1, "to 1"),
+                new Passes<>(new Object(), new Anything()),
                 new HasDescription("to <anything>")));
     }
 

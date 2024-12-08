@@ -1,10 +1,9 @@
 /*
- * Copyright 2022 dmfs GmbH
- *
+ * Copyright 2024 dmfs GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ * You may obtain a copy of the License at
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -13,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.saynotobugs.confidence.quality.consumer;
@@ -36,10 +34,10 @@ class ConsumerThatAcceptsTest
     {
         assertThat(new ConsumerThatAccepts<>("a"),
             new AllOf<>(
-                new Passes<>(x -> {}),
+                new Passes<>(x -> {}, "Consumer that accepted \"a\""),
                 new Fails<>(x -> {
                     throw new RuntimeException();
-                }, "Consumer that accepts \"a\" threw <java.lang.RuntimeException>"),
+                }, "Consumer that accepted \"a\" threw <java.lang.RuntimeException>"),
                 new HasDescription("Consumer that accepts \"a\"")
             ));
     }
@@ -50,10 +48,10 @@ class ConsumerThatAcceptsTest
     {
         assertThat(new ConsumerThatAccepts<>(() -> "a"),
             new AllOf<>(
-                new Passes<>(x -> {}),
+                new Passes<>(x -> {}, "Consumer that accepted \"a\""),
                 new Fails<>(x -> {
                     throw new RuntimeException();
-                }, "Consumer that accepts \"a\" threw <java.lang.RuntimeException>"),
+                }, "Consumer that accepted \"a\" threw <java.lang.RuntimeException>"),
                 new HasDescription("Consumer that accepts \"a\"")
             ));
     }
@@ -62,11 +60,11 @@ class ConsumerThatAcceptsTest
     @Test
     void testSuppliedValueWithDescription()
     {
-        assertThat(new ConsumerThatAccepts<>(new Text("Pass"), new Text("Fail"), () -> "a"),
+        assertThat(new ConsumerThatAccepts<>(new Text("Pass"), new Text("Fail"), new Text("Consumes"), () -> "a"),
             new AllOf<>(
-                new Passes<>(x -> {}),
+                new Passes<>(x -> {}, "Pass"),
                 new Fails<>(x -> {throw new RuntimeException();}, "Fail <java.lang.RuntimeException>"),
-                new HasDescription("Pass")
+                new HasDescription("Consumes")
             ));
     }
 }

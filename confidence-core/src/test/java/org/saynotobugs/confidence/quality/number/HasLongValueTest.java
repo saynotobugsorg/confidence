@@ -1,10 +1,9 @@
 /*
- * Copyright 2023 dmfs GmbH
- *
+ * Copyright 2024 dmfs GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ * You may obtain a copy of the License at
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -13,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.saynotobugs.confidence.quality.number;
@@ -34,7 +32,10 @@ class HasLongValueTest
     {
         assertThat(new HasLongValue(10L),
             new AllOf<>(
-                new Passes<>(10, 10L, 10f, 10d),
+                new Passes<Number>(10, "had long value 10l"),
+                new Passes<>(10L, "had long value 10l"),
+                new Passes<>(10f, "had long value 10l"),
+                new Passes<>(10d, "had long value 10l"),
                 new Fails<>(11, "had long value 11l"),
                 new HasDescription("has long value 10l")
             ));
@@ -45,7 +46,10 @@ class HasLongValueTest
     {
         assertThat(new HasLongValue(new LessThan<>(11L)),
             new AllOf<>(
-                new Passes<>(10, 10L, 10f, 10d),
+                new Passes<Number>(10, "had long value 10l"),
+                new Passes<>(10L, "had long value 10l"),
+                new Passes<>(10f, "had long value 10l"),
+                new Passes<>(10d, "had long value 10l"),
                 new Fails<>(11, "had long value 11l"),
                 new HasDescription("has long value less than 11l")
             ));

@@ -1,10 +1,9 @@
 /*
- * Copyright 2022 dmfs GmbH
- *
+ * Copyright 2024 dmfs GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ * You may obtain a copy of the License at
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -13,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.saynotobugs.confidence.test.quality;
@@ -21,11 +19,13 @@ package org.saynotobugs.confidence.test.quality;
 import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.saynotobugs.confidence.Assessment;
-import org.saynotobugs.confidence.assessment.Fail;
-import org.saynotobugs.confidence.assessment.FailPrepended;
-import org.saynotobugs.confidence.description.Delimited;
+import org.saynotobugs.confidence.Description;
+import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.description.Text;
+import org.saynotobugs.confidence.quality.composite.Both;
+import org.saynotobugs.confidence.quality.composite.Has;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
+import org.saynotobugs.confidence.quality.object.Satisfies;
 
 
 @StaticFactories(
@@ -33,12 +33,15 @@ import org.saynotobugs.confidence.quality.composite.QualityComposition;
     deprecates = @DeprecatedFactories(value = "Test"))
 public final class Passed extends QualityComposition<Assessment>
 {
-
-    public Passed()
+    public Passed(String description)
     {
-        super(actual -> actual.isSuccess()
-                ? new FailPrepended(new Text("passed but described failure"), new DescribesAs("").assessmentOf(actual.description()))
-                : new Fail(new Delimited("failed with", actual.description())),
-            new Text("passed"));
+        this(new DescribesAs(description));
+    }
+
+    public Passed(Quality<? super Description> descriptionQuality)
+    {
+        super(new Both<>(
+            new Satisfies<>(Assessment::isSuccess, any -> new Text("failed"), new Text("passes")),
+            new Has<>("description", Assessment::description, descriptionQuality)));
     }
 }

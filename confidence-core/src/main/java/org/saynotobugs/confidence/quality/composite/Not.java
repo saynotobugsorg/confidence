@@ -1,10 +1,9 @@
 /*
- * Copyright 2022 dmfs GmbH
- *
+ * Copyright 2024 dmfs GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ * You may obtain a copy of the License at
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -13,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.saynotobugs.confidence.quality.composite;
@@ -24,7 +22,6 @@ import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.PassIf;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
-import org.saynotobugs.confidence.description.Value;
 import org.saynotobugs.confidence.quality.object.EqualTo;
 
 
@@ -46,7 +43,8 @@ public final class Not<T> extends QualityComposition<T>
         super(
             actual -> new PassIf(
                 !delegate.assessmentOf(actual).isSuccess(),
-                new Spaced(new Value(actual), new Text("("), delegate.description(), new Text(")"))),
-            new Spaced(new Text("not ("), delegate.description(), new Text(")")));
+                delegate.assessmentOf(actual).description(),
+                delegate.assessmentOf(actual).description()),
+            new Spaced(new Text("not"), delegate.description()));
     }
 }

@@ -1,10 +1,9 @@
 /*
- * Copyright 2023 dmfs GmbH
- *
+ * Copyright 2024 dmfs GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ * You may obtain a copy of the License at
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -13,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.saynotobugs.confidence.rxjava3.procedure;
@@ -41,7 +39,7 @@ class HasSubscribersTest
         singleSubject.test();
         assertThat(new HasSubscribers(),
             new AllOf<>(
-                new Passes<>(new SingleSubjectAdapter<>(singleSubject)),
+                new Passes<>(new SingleSubjectAdapter<>(singleSubject), "has subscribers"),
                 new Fails<>(new SingleSubjectAdapter<>(SingleSubject.create()), "had no subscribers"),
                 new HasDescription("has subscribers")
             ));
@@ -54,7 +52,7 @@ class HasSubscribersTest
         publishSubject.test();
         assertThat(new HasSubscribers(),
             new AllOf<>(
-                new Passes<>(new PublishSubjectAdapter<>(publishSubject)),
+                new Passes<>(new PublishSubjectAdapter<>(publishSubject), "has subscribers"),
                 new Fails<>(new PublishSubjectAdapter<>(PublishSubject.create()), "had no subscribers"),
                 new HasDescription("has subscribers")
             ));
@@ -68,7 +66,7 @@ class HasSubscribersTest
         publishProcessor.test();
         assertThat(new HasSubscribers(),
             new AllOf<>(
-                new Passes<>(new PublishProcessorAdapter<>(publishProcessor)),
+                new Passes<>(new PublishProcessorAdapter<>(publishProcessor), "has subscribers"),
                 new Fails<>(new PublishProcessorAdapter<>(PublishProcessor.create()), "had no subscribers"),
                 new HasDescription("has subscribers")
             ));
@@ -82,7 +80,7 @@ class HasSubscribersTest
         maybeSubject.test();
         assertThat(new HasSubscribers(),
             new AllOf<>(
-                new Passes<>(new MaybeSubjectAdapter<>(maybeSubject)),
+                new Passes<>(new MaybeSubjectAdapter<>(maybeSubject), "has subscribers"),
                 new Fails<>(new MaybeSubjectAdapter<>(MaybeSubject.create()), "had no subscribers"),
                 new HasDescription("has subscribers")
             ));
@@ -96,7 +94,7 @@ class HasSubscribersTest
         completableSubject.test();
         assertThat(new HasSubscribers(),
             new AllOf<>(
-                new Passes<>(new CompletableSubjectAdapter<>(completableSubject)),
+                new Passes<>(new CompletableSubjectAdapter<>(completableSubject), "has subscribers"),
                 new Fails<>(new CompletableSubjectAdapter<>(CompletableSubject.create()), "had no subscribers"),
                 new HasDescription("has subscribers")
             ));

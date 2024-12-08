@@ -1,10 +1,9 @@
 /*
- * Copyright 2022 dmfs GmbH
- *
+ * Copyright 2024 dmfs GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ * You may obtain a copy of the License at
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -13,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.saynotobugs.confidence.quality.object;
@@ -24,7 +22,10 @@ import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.description.Value;
+import org.saynotobugs.confidence.description.bifunction.Just;
+import org.saynotobugs.confidence.description.bifunction.Original;
 import org.saynotobugs.confidence.quality.composite.AllOf;
+import org.saynotobugs.confidence.quality.composite.DescribedAs;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 import org.saynotobugs.confidence.quality.grammar.Is;
 
@@ -46,11 +47,16 @@ public final class StrictlyEqualTo<T> extends QualityComposition<T>
      */
     public StrictlyEqualTo(T expected)
     {
-        super(new AllOf<>(
-            new Is<>(new Satisfies<>(actual -> actual.equals(actual), any -> new Text("not reflexive"), new Text("reflexive"))),
-            new Is<>(new Satisfies<>(actual -> !actual.equals(null), any -> new Text("equal to null"), new Text("not equal to null"))),
-            new Is<>(new Satisfies<>(expected::equals, any -> new Spaced(new Text("not equal to"), new Value(expected)), new Spaced(new Text("equal to"), new Value(expected)))),
-            new Is<>(new Satisfies<>(actual -> actual.equals(expected), any -> new Text("not symmetric"), new Text("symmetric"))),
-            new HashCodeEquals(expected)));
+        super(
+            new DescribedAs<>(
+                new Just<>(new Spaced(new Text("strictly equal to"), new Value(expected))),
+                new Original<>(),
+                new Original<>(),
+                new AllOf<>(
+                    new Is<>(new Satisfies<>(actual -> actual.equals(actual), any -> new Text("not reflexive"), new Text("reflexive"))),
+                    new Is<>(new Satisfies<>(actual -> !actual.equals(null), any -> new Text("equal to null"), new Text("not equal to null"))),
+                    new Is<>(new Satisfies<>(expected::equals, any -> new Spaced(new Text("not equal to"), new Value(expected)), new Spaced(new Text("equal to"), new Value(expected)))),
+                    new Is<>(new Satisfies<>(actual -> actual.equals(expected), any -> new Text("not symmetric"), new Text("symmetric"))),
+                    new HashCodeEquals(expected))));
     }
 }

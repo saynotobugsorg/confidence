@@ -1,10 +1,9 @@
 /*
- * Copyright 2022 dmfs GmbH
- *
+ * Copyright 2024 dmfs GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ * You may obtain a copy of the License at
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -13,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.saynotobugs.confidence.rxjava3.quality;
@@ -55,11 +53,14 @@ class TransformsCompletableTest
     {
         assertThat(new TransformsCompletable<>(new Upstream<>(new Complete()), new Downstream<>(new Completes<>())),
             new AllOf<>(
-                new Passes<>(scheduler -> Completable::hide),
+                new Passes<>(scheduler -> Completable::hide,
+                    "all of\n" +
+                        "  0: upstream complete,\n" +
+                        "  1: to downstream completes exactly once"),
                 new Fails<>(scheduler -> upsteam -> upsteam.andThen(Completable.error(new IOException())), "all of\n  ...,\n  1: to downstream had errors [ <java.io.IOException> ]"),
                 new Fails<>(scheduler -> upsteam -> upsteam.delay(10, TimeUnit.SECONDS, scheduler), "all of\n  ...,\n  1: to downstream completed 0 times"),
                 new HasDescription(
-                    "CompletableTransformer that transforms\n  all of\n    0: upstream completion,\n    1: to downstream completes exactly once")
+                    "CompletableTransformer that transforms\n  all of\n    0: upstream complete,\n    1: to downstream completes exactly once")
             ));
     }
 
@@ -69,13 +70,18 @@ class TransformsCompletableTest
     {
         assertThat(new TransformsCompletable<>(new Upstream<>(new Complete()), new Downstream<>(new Errors<>(IOException.class))),
             new AllOf<>(
-                new Passes<>(scheduler -> upsteam -> upsteam.andThen(Completable.error(new IOException()))),
+                new Passes<>(scheduler -> upsteam -> upsteam.andThen(Completable.error(new IOException())), "" +
+                    "all of\n" +
+                    "  0: upstream complete,\n" +
+                    "  1: to downstream had errors that iterated [\n" +
+                    "    0: instance of <class java.io.IOException>\n" +
+                    "  ]"),
                 new Fails<>(scheduler -> Completable::hide,
                     "all of\n  ...,\n  1: to downstream had errors that iterated [\n    0: missing instance of <class java.io.IOException>\n  ]"),
                 new Fails<>(scheduler -> upsteam -> upsteam.delay(10, TimeUnit.SECONDS, scheduler),
                     "all of\n  ...,\n  1: to downstream had errors that iterated [\n    0: missing instance of <class java.io.IOException>\n  ]"),
                 new HasDescription(
-                    "CompletableTransformer that transforms\n  all of\n    0: upstream completion,\n    1: to downstream has errors that iterates [\n      0: instance of <class java.io.IOException>\n    ]")
+                    "CompletableTransformer that transforms\n  all of\n    0: upstream complete,\n    1: to downstream has errors that iterates [\n      0: instance of <class java.io.IOException>\n    ]")
             ));
     }
 
@@ -85,7 +91,10 @@ class TransformsCompletableTest
     {
         assertThat(new TransformsCompletable<>(new Upstream<>(new Error(new IOException())), new Downstream<>(new Completes<>())),
             new AllOf<>(
-                new Passes<>(scheduler -> upsteam -> upsteam.onErrorComplete()),
+                new Passes<>(scheduler -> upsteam -> upsteam.onErrorComplete(),
+                    "all of\n" +
+                        "  0: upstream error <java.io.IOException>,\n" +
+                        "  1: to downstream completes exactly once"),
                 new Fails<>(scheduler -> Completable::hide, "all of\n  ...,\n  1: to downstream had errors [ <java.io.IOException> ]"),
                 new Fails<>(scheduler -> upsteam -> upsteam.delay(10, TimeUnit.SECONDS, scheduler), "all of\n  ...,\n  1: to downstream completed 0 times"),
                 new HasDescription("CompletableTransformer that transforms\n  all of\n    0: upstream error <java.io.IOException>,\n    1: to downstream completes exactly once")

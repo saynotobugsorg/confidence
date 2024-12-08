@@ -1,10 +1,9 @@
 /*
- * Copyright 2022 dmfs GmbH
- *
+ * Copyright 2024 dmfs GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ * You may obtain a copy of the License at
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -13,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.saynotobugs.confidence.quality.object;
@@ -42,18 +40,21 @@ import org.saynotobugs.confidence.description.Value;
     deprecates = @DeprecatedFactories(value = "Core", packageName = "org.saynotobugs.confidence.quality"))
 public final class Successfully<T> implements Quality<T>
 {
-    private final Description mExpectationDescription;
+    private final Description mPassDescription;
     private final Description mFailDescription;
+    private final Description mExpectationDescription;
     private final FragileProcedure<? super T, Exception> mCall;
 
 
     public Successfully(
-        Description expectationDescription,
+        Description passDescription,
         Description failDescription,
+        Description expectationDescription,
         FragileProcedure<? super T, Exception> call)
     {
-        mExpectationDescription = expectationDescription;
+        mPassDescription = passDescription;
         mFailDescription = failDescription;
+        mExpectationDescription = expectationDescription;
         mCall = call;
     }
 
@@ -64,7 +65,7 @@ public final class Successfully<T> implements Quality<T>
         try
         {
             mCall.process(candidate);
-            return new Pass();
+            return new Pass(mPassDescription);
         }
         catch (Exception e)
         {

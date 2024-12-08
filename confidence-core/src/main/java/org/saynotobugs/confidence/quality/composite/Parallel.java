@@ -1,10 +1,9 @@
 /*
- * Copyright 2022 dmfs GmbH
- *
+ * Copyright 2024 dmfs GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ * You may obtain a copy of the License at
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -13,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.saynotobugs.confidence.quality.composite;
@@ -27,11 +25,12 @@ import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.Quality;
 import org.saynotobugs.confidence.assessment.AllPassed;
+import org.saynotobugs.confidence.assessment.DescriptionUpdated;
 import org.saynotobugs.confidence.assessment.Fail;
-import org.saynotobugs.confidence.assessment.FailPrepended;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.description.Value;
+import org.saynotobugs.confidence.description.bifunction.TextAndOriginal;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -78,7 +77,8 @@ public final class Parallel<T> implements Quality<T>
                     executor.execute(() -> {
                         try
                         {
-                            results.set(i, new FailPrepended(new Text("#" + i + " in thread " + Thread.currentThread().getName()),
+                            results.set(i, new DescriptionUpdated(
+                                new TextAndOriginal<>("#" + i + " in thread " + Thread.currentThread().getName()),
                                 mDelegate.assessmentOf(candidate)));
                         }
                         catch (Exception e)

@@ -1,10 +1,9 @@
 /*
- * Copyright 2022 dmfs GmbH
- *
+ * Copyright 2024 dmfs GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ * You may obtain a copy of the License at
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -13,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.saynotobugs.confidence.rxjava3.rxexpectation;
@@ -42,7 +40,7 @@ public final class Emits<T> extends RxExpectationComposition<T>
      */
     public Emits(T emission)
     {
-        this(1, new Implied<>(new Seq<>(new HasNumberOfElements(1)), new Has<>(i -> i.iterator().next(), emission)));
+        this(1, new Implied<>(new HasNumberOfElements(1), new Has<>(i -> i.iterator().next(), emission)));
     }
 
 
@@ -57,7 +55,7 @@ public final class Emits<T> extends RxExpectationComposition<T>
 
     public Emits(Quality<? super T> emissionQuality)
     {
-        this(1, new Implied<>(new Seq<>(new HasNumberOfElements(1)), new Has<>(i -> i.iterator().next(), emissionQuality)));
+        this(1, new Implied<>(new HasNumberOfElements(1), new Has<>(i -> i.iterator().next(), emissionQuality)));
     }
 
 
@@ -78,7 +76,7 @@ public final class Emits<T> extends RxExpectationComposition<T>
     {
         super(testScheduler ->
             new Implied<>(
-                new Seq<>(new NoErrors<>()),
+                new NoErrors<>(),
                 new org.saynotobugs.confidence.rxjava3.rxexpectation.internal.Emits<>(emissionCount, emissionsQuality)));
     }
 }

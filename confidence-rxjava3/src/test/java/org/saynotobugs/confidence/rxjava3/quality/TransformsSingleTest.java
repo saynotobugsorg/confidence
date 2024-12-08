@@ -1,10 +1,9 @@
 /*
- * Copyright 2022 dmfs GmbH
- *
+ * Copyright 2024 dmfs GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ * You may obtain a copy of the License at
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -13,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.saynotobugs.confidence.rxjava3.quality;
@@ -52,7 +50,12 @@ class TransformsSingleTest
     {
         assertThat(new TransformsSingle<>(new Upstream<>(new Emit<>(123)), new Downstream<>(new CompletesWith<>(123))),
             new AllOf<>(
-                new Passes<>(scheduler -> Single::hide),
+                new Passes<>(scheduler -> Single::hide,
+                    "all of\n" +
+                        "  0: upstream emissions [123],\n" +
+                        "  1: to downstream completed with iterates [\n" +
+                        "    0: 123\n" +
+                        "  ]"),
                 new Fails<>(scheduler -> upsteam -> upsteam.ambWith(Single.error(new IOException())),
                     "all of\n  ...,\n  1: to downstream completed 0 times"),
                 new Fails<>(scheduler -> upsteam -> upsteam.delay(10, TimeUnit.SECONDS),
@@ -68,7 +71,12 @@ class TransformsSingleTest
     {
         assertThat(new TransformsSingle<Integer, Integer>(new Upstream<>(new Emit<>(123)), new Downstream<>(new Errors<>(IOException.class))),
             new AllOf<>(
-                new Passes<>(scheduler -> upsteam -> upsteam.ambWith(Single.error(new IOException()))),
+                new Passes<>(scheduler -> upsteam -> upsteam.ambWith(Single.error(new IOException())),
+                    "all of\n" +
+                        "  0: upstream emissions [123],\n" +
+                        "  1: to downstream had errors that iterated [\n" +
+                        "    0: instance of <class java.io.IOException>\n" +
+                        "  ]"),
                 new Fails<>(scheduler -> Single::hide, "all of\n  ...,\n  1: to downstream had errors that iterated [\n    0: missing instance of <class java.io.IOException>\n  ]"),
                 new Fails<>(scheduler -> upsteam -> upsteam.delay(10, TimeUnit.SECONDS),
                     "all of\n  ...,\n  1: to downstream had errors that iterated [\n    0: missing instance of <class java.io.IOException>\n  ]"),
@@ -83,7 +91,12 @@ class TransformsSingleTest
     {
         assertThat(new TransformsSingle<Integer, Integer>(new Upstream<>(new Error(new IOException())), new Downstream<>(new CompletesWith<>(123))),
             new AllOf<>(
-                new Passes<>(scheduler -> upsteam -> upsteam.onErrorReturnItem(123)),
+                new Passes<>(scheduler -> upsteam -> upsteam.onErrorReturnItem(123),
+                    "all of\n" +
+                        "  0: upstream error <java.io.IOException>,\n" +
+                        "  1: to downstream completed with iterates [\n" +
+                        "    0: 123\n" +
+                        "  ]"),
                 new Fails<>(scheduler -> Single::hide,
                     "all of\n  ...,\n  1: to downstream completed 0 times"),
                 new Fails<>(scheduler -> upsteam -> upsteam.delay(10, TimeUnit.SECONDS),

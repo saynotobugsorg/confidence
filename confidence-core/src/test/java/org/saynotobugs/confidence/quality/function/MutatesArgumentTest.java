@@ -1,10 +1,9 @@
 /*
- * Copyright 2023 dmfs GmbH
- *
+ * Copyright 2024 dmfs GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ * You may obtain a copy of the License at
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -13,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.saynotobugs.confidence.quality.function;
@@ -42,7 +40,7 @@ class MutatesArgumentTest
                 new SoIt<>(new Contains<>("a")),
                 new When<>(new Maps<>("a", new To<>(true)))),
             new AllOf<>(
-                new Passes<>(list -> list::add),
+                new Passes<>(list -> list::add, "mutated argument\n  so it contained \"a\" \n  when mapped \"a\" to true"),
                 new Fails<>(list -> list::remove, "mutated argument\n  but [] did not contain \"a\" \n  when mapped \"a\" to false"),
                 new HasDescription("mutates argument [] so it contains \"a\" when maps \"a\" to true")
             ));
