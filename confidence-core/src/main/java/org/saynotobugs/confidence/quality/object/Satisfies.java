@@ -79,7 +79,10 @@ public final class Satisfies<T> extends QualityComposition<T>
      *         s-&gt;new Delimited(new ValueDescription(s), new TextDescription("was not empty")),
      *         new TextDescription("is empty")));
      * </pre>
+     *
+     * @deprecated use {@link #Satisfies(Predicate, Function, Function, Description)} to also provide a proper pass Description.
      */
+    @Deprecated
     public Satisfies(
         Predicate<? super T> predicate,
         Function<? super T, ? extends Description> mismatchDescriptionFunction,
@@ -87,5 +90,29 @@ public final class Satisfies<T> extends QualityComposition<T>
     {
         super(actual -> new PassIf(predicate.satisfiedBy(actual), () -> matchDescription, () -> mismatchDescriptionFunction.value(actual)),
             matchDescription);
+    }
+
+
+    /**
+     * Creates a {@link Quality} of an instance that satisfies the given {@link Predicate}.
+     * <p>
+     * Example
+     * <pre>
+     * assertThat("",
+     *     satisfies(
+     *         String::isEmpty,
+     *         new ValueAndText&lt;&gt;("was empty"),
+     *         new ValueAndText&lt;&gt;("was not empty"),
+     *         new TextDescription("is empty")));
+     * </pre>
+     */
+    public Satisfies(
+        Predicate<? super T> predicate,
+        Function<? super T, ? extends Description> passDescriptionFunction,
+        Function<? super T, ? extends Description> failDescriptionFunction,
+        Description expectationDescription)
+    {
+        super(actual -> new PassIf(predicate.satisfiedBy(actual), () -> passDescriptionFunction.value(actual), () -> failDescriptionFunction.value(actual)),
+            expectationDescription);
     }
 }

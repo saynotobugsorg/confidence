@@ -62,9 +62,9 @@ public final class EntryOf<K, V> extends QualityComposition<Map.Entry<K, V>>
     public EntryOf(Quality<? super K> key, Quality<? super V> value)
     {
         super(new DescribedAs<>(
-            new TextAndValue<>("Entry", entry -> new Enclosed("(", new Value(entry), ")")),
-            new TextAndValue<>("Entry", entry -> new Enclosed("(", new Value(entry), ")")),
-            new Just<>(new Composite(new Text("Entry ("), key.description(), new Text(": "), value.description(), new Text(")"))),
+            new TextAndValue<>("entry", entry -> new Enclosed("(", new Value(entry), ")")),
+            new TextAndValue<>("entry", entry -> new Enclosed("(", new Value(entry), ")")),
+            new Just<>(new Composite(new Text("entry ("), key.description(), new Text(": "), value.description(), new Text(")"))),
             new AllOf<>(
                 new Has<>("key", Map.Entry::getKey, key),
                 new Has<>("value", Map.Entry::getValue, value)

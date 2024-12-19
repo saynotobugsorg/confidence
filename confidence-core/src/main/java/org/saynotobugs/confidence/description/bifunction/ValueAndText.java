@@ -16,13 +16,14 @@
 
 package org.saynotobugs.confidence.description.bifunction;
 
-import org.dmfs.jems2.bifunction.DelegatingBiFunction;
+import org.dmfs.jems2.BiFunction;
+import org.dmfs.jems2.function.DelegatingFunction;
 import org.saynotobugs.confidence.Description;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.description.Value;
 
-public final class ValueAndText<T> extends DelegatingBiFunction<T, Description, Description>
+public final class ValueAndText<T> extends DelegatingFunction<T, Description> implements BiFunction<T, Description, Description>
 {
     public ValueAndText(String text)
     {
@@ -31,6 +32,12 @@ public final class ValueAndText<T> extends DelegatingBiFunction<T, Description, 
 
     public ValueAndText(Description text)
     {
-        super((value, description) -> new Spaced(new Value(value), text));
+        super(value -> new Spaced(new Value(value), text));
+    }
+
+    @Override
+    public Description value(T t, Description description)
+    {
+        return value(t);
     }
 }
