@@ -41,11 +41,11 @@ class ContainsEntryTest
 
         assertThat(new ContainsEntry<>("k1"),
             new AllOf<>(
-                new Passes<>(map1, "contained Entry (\"k1\": <anything>)"),
-                new Fails<>(new HashMap<String, String>(), "{} did not contain Entry (\"k1\": <anything>)"),
-                new Fails<>(map2, "{ \"k2\": \"v2\" } did not contain Entry (\"k1\": <anything>)"),
+                new Passes<>(map1, "contained entry (\"k1\": \"v1\")"),
+                new Fails<>(new HashMap<String, String>(), "{} did not contain key \"k1\""),
+                new Fails<>(map2, "{ \"k2\": \"v2\" } did not contain key \"k1\""),
                 //  new Fails<>(Map.of("k2", "v2"), new DescribesAs("")),
-                new HasDescription("contains Entry (\"k1\": <anything>)")
+                new HasDescription("contains entry (\"k1\": <anything>)")
             ));
     }
 
@@ -60,11 +60,11 @@ class ContainsEntryTest
 
         assertThat(new ContainsEntry<>(new EqualTo<>("k1")),
             new AllOf<>(
-                new Passes<>(map1, "contained Entry (\"k1\": <anything>)"),
-                new Fails<>(new HashMap<String, String>(), "{} did not contain Entry (\"k1\": <anything>)"),
-                new Fails<>(map2, "{ \"k2\": \"v2\" } did not contain Entry (\"k1\": <anything>)"),
+                new Passes<>(map1, "contained entry (\"k1\": \"v1\")"),
+                new Fails<>(new HashMap<String, String>(), "{} did not contain key \"k1\""),
+                new Fails<>(map2, "{ \"k2\": \"v2\" } did not contain key \"k1\""),
                 //  new Fails<>(Map.of("k2", "v2"), new DescribesAs("")),
-                new HasDescription("contains Entry (\"k1\": <anything>)")
+                new HasDescription("contains entry (\"k1\": <anything>)")
             ));
     }
 
@@ -76,14 +76,17 @@ class ContainsEntryTest
         map1.put("k1", "v1");
         Map<String, String> map2 = new HashMap<>();
         map2.put("k2", "v2");
+        Map<String, String> map3 = new HashMap<>();
+        map3.put("k1", "v2");
 
         assertThat(new ContainsEntry<>("k1", "v1"),
             new AllOf<>(
-                new Passes<>(map1, "contained Entry (\"k1\": \"v1\")"),
-                new Fails<>(new HashMap<String, String>(), "{} did not contain Entry (\"k1\": \"v1\")"),
-                new Fails<>(map2, "{ \"k2\": \"v2\" } did not contain Entry (\"k1\": \"v1\")"),
+                new Passes<>(map1, "contained entry (\"k1\": \"v1\")"),
+                new Fails<>(new HashMap<String, String>(), "{} did not contain key \"k1\""),
+                new Fails<>(map2, "{ \"k2\": \"v2\" } did not contain key \"k1\""),
+                new Fails<>(map3, "{ \"k1\": \"v2\" } contained entry (\"k1\": \"v2\")"),
                 //  new Fails<>(Map.of("k2", "v2"), new DescribesAs("")),
-                new HasDescription("contains Entry (\"k1\": \"v1\")")
+                new HasDescription("contains entry (\"k1\": \"v1\")")
             ));
     }
 
@@ -95,14 +98,17 @@ class ContainsEntryTest
         map1.put("k1", "v1");
         Map<String, String> map2 = new HashMap<>();
         map2.put("k2", "v2");
+        Map<String, String> map3 = new HashMap<>();
+        map3.put("k1", "v2");
 
         assertThat(new ContainsEntry<>("k1", new EqualTo<>("v1")),
             new AllOf<>(
-                new Passes<>(map1, "contained Entry (\"k1\": \"v1\")"),
-                new Fails<>(new HashMap<String, String>(), "{} did not contain Entry (\"k1\": \"v1\")"),
-                new Fails<>(map2, "{ \"k2\": \"v2\" } did not contain Entry (\"k1\": \"v1\")"),
+                new Passes<>(map1, "contained entry (\"k1\": \"v1\")"),
+                new Fails<>(new HashMap<String, String>(), "{} did not contain key \"k1\""),
+                new Fails<>(map2, "{ \"k2\": \"v2\" } did not contain key \"k1\""),
+                new Fails<>(map3, "{ \"k1\": \"v2\" } contained entry (\"k1\": \"v2\")"),
                 //  new Fails<>(Map.of("k2", "v2"), new DescribesAs("")),
-                new HasDescription("contains Entry (\"k1\": \"v1\")")
+                new HasDescription("contains entry (\"k1\": \"v1\")")
             ));
     }
 
@@ -114,14 +120,17 @@ class ContainsEntryTest
         map1.put("k1", "v1");
         Map<String, String> map2 = new HashMap<>();
         map2.put("k2", "v2");
+        Map<String, String> map3 = new HashMap<>();
+        map3.put("k1", "v2");
 
-        assertThat(new ContainsEntry<>(new EqualTo<>("k1")),
+        assertThat(new ContainsEntry<>(new EqualTo<>("k1"), new EqualTo<>("v1")),
             new AllOf<>(
-                new Passes<>(map1, "contained Entry (\"k1\": <anything>)"),
-                new Fails<>(new HashMap<String, String>(), "{} did not contain Entry (\"k1\": <anything>)"),
-                new Fails<>(map2, "{ \"k2\": \"v2\" } did not contain Entry (\"k1\": <anything>)"),
+                new Passes<>(map1, "contained entry (\"k1\": \"v1\")"),
+                new Fails<>(new HashMap<String, String>(), "{} did not contain key \"k1\""),
+                new Fails<>(map2, "{ \"k2\": \"v2\" } did not contain key \"k1\""),
+                new Fails<>(map3, "{ \"k1\": \"v2\" } did not contain entry (\"k1\": \"v1\")"),
                 //  new Fails<>(Map.of("k2", "v2"), new DescribesAs("")),
-                new HasDescription("contains Entry (\"k1\": <anything>)")
+                new HasDescription("contains entry (\"k1\": \"v1\")")
             ));
     }
 
