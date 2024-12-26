@@ -22,10 +22,12 @@ import org.saynotobugs.confidence.asm.quality.testclasses.FunctionalTestClass;
 import org.saynotobugs.confidence.asm.quality.testclasses.TestAnnotation;
 import org.saynotobugs.confidence.asm.quality.testclasses.TestClassWithoutAnnotation;
 import org.saynotobugs.confidence.quality.annotation.Annotation;
+import org.saynotobugs.confidence.quality.charsequence.MatchesPattern;
 import org.saynotobugs.confidence.quality.composite.AllOf;
 import org.saynotobugs.confidence.quality.composite.Has;
 import org.saynotobugs.confidence.quality.iterable.Contains;
 import org.saynotobugs.confidence.quality.object.HasToString;
+import org.saynotobugs.confidence.test.quality.DescribesAs;
 import org.saynotobugs.confidence.test.quality.Fails;
 import org.saynotobugs.confidence.test.quality.HasDescription;
 import org.saynotobugs.confidence.test.quality.Passes;
@@ -41,8 +43,8 @@ class HasDeclaredAnnotationsTest
     {
         assertThat(new ClassThat(new HasDeclaredAnnotations(new Contains<>(new Annotation(TestAnnotation.class)))),
             new AllOf<>(
-                new Passes<Class<?>>(AnnotatedTestClass.class, "Class that had annotations contained instance of <interface org.saynotobugs.confidence.asm.quality.testclasses.TestAnnotation>"),
-                new Fails<>(TestClassWithoutAnnotation.class, "Class that had annotations [] did not contain instance of <interface org.saynotobugs.confidence.asm.quality.testclasses.TestAnnotation>"),
+                new Passes<Class<?>>(AnnotatedTestClass.class, new DescribesAs(new MatchesPattern("Class that had annotations contained instance of <class [^>]+>"))),
+                new Fails<>(TestClassWithoutAnnotation.class, "Class that had annotations did not contain any elements"),
                 new HasDescription("Class that has annotations contains instance of <interface org.saynotobugs.confidence.asm.quality.testclasses.TestAnnotation>")
             ));
     }
@@ -53,10 +55,10 @@ class HasDeclaredAnnotationsTest
         assertThat(new ClassThat(new HasDeclaredAnnotations(new Contains<>(new Annotation(TestAnnotation.class,
                 new Has<>("defaultString", TestAnnotation::defaultString, "def"))))),
             new AllOf<>(
-                new Passes<Class<?>>(AnnotatedTestClass.class, "Class that had annotations contained all of\n" +
-                    "  0: instance of <interface org.saynotobugs.confidence.asm.quality.testclasses.TestAnnotation>\n" +
-                    "  1: has defaultString \"def\""),
-                new Fails<>(TestClassWithoutAnnotation.class, "Class that had annotations [] did not contain all of\n  0: instance of <interface org.saynotobugs.confidence.asm.quality.testclasses.TestAnnotation>\n  1: has defaultString \"def\""),
+                new Passes<Class<?>>(AnnotatedTestClass.class, new DescribesAs(new MatchesPattern("Class that had annotations contained all of\n" +
+                    "  0: instance of <class [^>]+>\n" +
+                    "  1: had defaultString \"def\""))),
+                new Fails<>(TestClassWithoutAnnotation.class, "Class that had annotations did not contain any elements"),
                 new HasDescription("Class that has annotations contains all of\n  0: instance of <interface org.saynotobugs.confidence.asm.quality.testclasses.TestAnnotation>\n  1: has defaultString \"def\"")
             ));
     }
@@ -68,11 +70,12 @@ class HasDeclaredAnnotationsTest
         assertThat(new ClassThat(new HasDeclaredAnnotations(new Contains<>(new Annotation(FunctionalInterface.class,
                 new HasToString(FunctionalInterface.class.getCanonicalName()))))),
             new AllOf<>(
-                new Passes<Class<?>>(FunctionalTestClass.class, "" +
-                    "Class that had annotations contained all of\n" +
-                    "  0: instance of <interface java.lang.FunctionalInterface>\n" +
-                    "  1: has toString() \"java.lang.FunctionalInterface\""),
-                new Fails<>(TestClassWithoutAnnotation.class, "Class that had annotations [] did not contain all of\n  0: instance of <interface java.lang.FunctionalInterface>\n  1: has toString() \"java.lang.FunctionalInterface\""),
+                new Passes<Class<?>>(FunctionalTestClass.class,
+                    new DescribesAs(new MatchesPattern(
+                        "Class that had annotations contained all of\n" +
+                            "  0: instance of <[^>]+>\n" +
+                            "  1: had toString\\(\\) \"java.lang.FunctionalInterface\""))),
+                new Fails<>(TestClassWithoutAnnotation.class, "Class that had annotations did not contain any elements"),
                 new HasDescription("Class that has annotations contains all of\n  0: instance of <interface java.lang.FunctionalInterface>\n  1: has toString() \"java.lang.FunctionalInterface\"")
             ));
     }

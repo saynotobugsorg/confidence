@@ -16,17 +16,24 @@
 
 package org.saynotobugs.confidence.quality.iterable;
 
-import org.dmfs.jems2.optional.First;
+import org.dmfs.jems2.iterable.Mapped;
+import org.dmfs.jems2.single.Backed;
 import org.dmfs.srcless.annotations.staticfactory.DeprecatedFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactories;
 import org.dmfs.srcless.annotations.staticfactory.StaticFactory;
+import org.saynotobugs.confidence.Assessment;
 import org.saynotobugs.confidence.Quality;
-import org.saynotobugs.confidence.assessment.PassIf;
+import org.saynotobugs.confidence.assessment.DescriptionUpdated;
+import org.saynotobugs.confidence.assessment.Fail;
 import org.saynotobugs.confidence.description.Spaced;
 import org.saynotobugs.confidence.description.Text;
 import org.saynotobugs.confidence.description.Value;
+import org.saynotobugs.confidence.description.bifunction.Just;
+import org.saynotobugs.confidence.description.bifunction.TextAndOriginal;
 import org.saynotobugs.confidence.quality.composite.QualityComposition;
 import org.saynotobugs.confidence.quality.object.EqualTo;
+import org.saynotobugs.confidence.utils.Last;
+import org.saynotobugs.confidence.utils.Until;
 
 
 @StaticFactories(
@@ -59,9 +66,12 @@ public final class Contains<T> extends QualityComposition<Iterable<T>>
      */
     public Contains(Quality<? super T> quality)
     {
-        super(actual -> new PassIf(new First<>(element -> quality.assessmentOf(element).isSuccess(), actual).isPresent(),
-                new Spaced(new Text("contained"), quality.description()),
-                new Spaced(new Value(actual), new Text("did not contain"), quality.description())),
+        super(actual ->
+                new Backed<>(new Last<>(new Until<>(Assessment::isSuccess, new Mapped<>(element -> new DescriptionUpdated(
+                    new TextAndOriginal<>("contained"),
+                    new Just<>(new Spaced(new Value(actual), new Text("did not contain"), quality.description())),
+                    quality.assessmentOf(element)), actual))),
+                    () -> new Fail(new Text("did not contain any elements"))).value(),
             new Spaced(new Text("contains"), quality.description()));
     }
 

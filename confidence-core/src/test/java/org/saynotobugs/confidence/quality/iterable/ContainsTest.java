@@ -40,7 +40,7 @@ class ContainsTest
             new AllOf<>(
                 new Passes<>(new Seq<>(123), "contained 123"),
                 new Passes<>(new Seq<>(1, 2, 3, 123), "contained 123"),
-                new Fails<Iterable<Integer>>(emptyIterable(), "[] did not contain 123"),
+                new Fails<Iterable<Integer>>(emptyIterable(), "did not contain any elements"),
                 new Fails<Iterable<Integer>>(new Seq<>(1, 2, 3), "[ 1, 2, 3 ] did not contain 123"),
                 new HasDescription("contains 123")
             ));
@@ -54,7 +54,7 @@ class ContainsTest
             new AllOf<>(
                 new Passes<>(new Seq<>(123), "contained 123"),
                 new Passes<>(new Seq<>(1, 2, 3, 123), "contained 123"),
-                new Fails<Iterable<Integer>>(emptyIterable(), "[] did not contain 123"),
+                new Fails<Iterable<Integer>>(emptyIterable(), "did not contain any elements"),
                 new Fails<Iterable<Integer>>(new Seq<>(1, 2, 3), "[ 1, 2, 3 ] did not contain 123"),
                 new HasDescription("contains 123")
             ));
