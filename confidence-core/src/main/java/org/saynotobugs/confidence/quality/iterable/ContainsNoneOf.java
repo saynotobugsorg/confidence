@@ -74,6 +74,6 @@ public final class ContainsNoneOf<T> extends QualityComposition<Iterable<T>>
      */
     public ContainsNoneOf(Iterable<? extends Quality<? super T>> delegates)
     {
-        super(new Each<>(new NoneOf<T>(delegates)));
+        super(new EachElement<>(new NoneOf<T>(delegates)));
     }
 }

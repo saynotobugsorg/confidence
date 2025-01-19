@@ -161,7 +161,7 @@ General note on matching arrays: arrays (including ones of primitive types) can 
 | `iterableWithSize(...)` | `hasNumberOfElements(...)`             |
 | `hasItem(...)` | `contains(...)`                        |
 | `hasItems(...)` | `containsAllOf(...)`                   |
-| `everyItem(...)` | `each(...)`                            |
+| `everyItem(...)` | `eachElement(...)`                     |
 | `sameInstance(...)`, `theInstance(...)` | `sameAs(...)`                          |
 | `matchesRegex(...)`, `matchesPattern(...)` | `matchesPattern(...)`                  |
 | `array(...)` | `arrayThat(iterates(...))`*            |

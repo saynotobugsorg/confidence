@@ -41,26 +41,23 @@ import static org.saynotobugs.confidence.description.LiteralDescription.EMPTY;
 @StaticFactories(
     value = "Iterable",
     packageName = "org.saynotobugs.confidence.core.quality")
-public final class Each<T> extends QualityComposition<Iterable<T>>
+public final class EachElement<T> extends QualityComposition<Iterable<T>>
 {
 
-    @Deprecated
     @SafeVarargs
-    public Each(Quality<? super T>... delegates)
+    public EachElement(Quality<? super T>... delegates)
     {
         this(new Seq<>(delegates));
     }
 
 
-    @Deprecated
-    public Each(Iterable<? extends Quality<? super T>> delegates)
+    public EachElement(Iterable<? extends Quality<? super T>> delegates)
     {
         this(new AllOf<>(delegates));
     }
 
 
-    @Deprecated
-    public Each(Quality<? super T> delegate)
+    public EachElement(Quality<? super T> delegate)
     {
         super(actual -> new AllPassed(new Text("elements ["), EMPTY, new Text("]"),
                 new Collected<>(ArrayList::new,
